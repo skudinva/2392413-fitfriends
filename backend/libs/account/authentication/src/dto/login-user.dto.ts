@@ -1,4 +1,4 @@
-import { FieldValidate } from '@backend/shared/core';
+import { EntityConstrain } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, Length } from 'class-validator';
 import { AuthenticationValidateMessage } from '../authentication-module/authentication.constant';
@@ -16,8 +16,12 @@ export class LoginUserDto {
     example: '123456',
   })
   @IsString()
-  @Length(FieldValidate.MinPasswordLength, FieldValidate.MaxPasswordLength, {
-    message: AuthenticationValidateMessage.PasswordNotValid,
-  })
+  @Length(
+    EntityConstrain.user.password.minLength,
+    EntityConstrain.user.password.maxLength,
+    {
+      message: AuthenticationValidateMessage.PasswordNotValid,
+    }
+  )
   public password: string;
 }

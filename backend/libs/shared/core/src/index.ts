@@ -1,5 +1,5 @@
 export { Entity } from './lib/base/entity';
-export { FieldValidate, LOCATIONS, SERVE_ROOT } from './lib/const';
+export { EntityConstrain, LOCATIONS, SERVE_ROOT } from './lib/const';
 export { EntityFactory } from './lib/interfaces/entity-factory.interface';
 export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { PaginationResult } from './lib/interfaces/pagination.interface';
@@ -11,6 +11,7 @@ export { TokenPayload } from './lib/interfaces/token-payload.interface';
 export { Token } from './lib/interfaces/token.interface';
 export { AuthUser } from './lib/types/auth-user.interface';
 export { Comment } from './lib/types/comment.interface';
+export { EntityList } from './lib/types/entity-list.enum';
 export { File } from './lib/types/file.interface';
 export { Like } from './lib/types/like.interface';
 export { Location } from './lib/types/location.interface';

@@ -2,6 +2,7 @@ import { NotifyService } from '@backend/account-notify';
 import { jwtConfig } from '@backend/config';
 import { createJWTPayload } from '@backend/helpers';
 import { AuthUser, Token, User } from '@backend/shared/core';
+import { ShopUserEntity, ShopUserRepository } from '@backend/shop-user';
 import {
   ConflictException,
   HttpException,
@@ -39,17 +40,29 @@ export class AuthenticationService {
   ) {}
 
   public async register(dto: CreateUserDto): Promise<ShopUserEntity> {
-    const { email, name, avatar, password } = dto;
+    const {
+      email,
+      name,
+      avatar,
+      gender,
+      birthDate,
+      description,
+      location,
+      backgroundImage,
+      password,
+    } = dto;
 
     const shopUser: AuthUser = {
       email,
       name,
       avatar,
+      gender,
+      birthDate,
+      description,
+      location,
+      backgroundImage,
       registerDate: dayjs().toDate(),
       passwordHash: '',
-      subscriptions: [],
-      subscribersCount: 0,
-      postsCount: 0,
     };
 
     const existUser = await this.shopUserRepository.findByEmail(email);
@@ -128,7 +141,7 @@ export class AuthenticationService {
     return existUser;
   }
 
-  public async updatePassword(dto: UpdateUserDto, id?: string) {
+  public async update(dto: UpdateUserDto, id?: string) {
     if (!id) {
       throw new UnauthorizedException(
         AuthenticationResponseMessage.Unauthorized
@@ -140,8 +153,9 @@ export class AuthenticationService {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
 
-    const userEntity = await existUser.setPassword(dto.password);
-    await this.shopUserRepository.updatePassword(id, userEntity.passwordHash);
-    return userEntity;
+    const updateUser = new ShopUserEntity({ ...existUser, ...dto });
+
+    await this.shopUserRepository.update(updateUser);
+    return existUser;
   }
 }

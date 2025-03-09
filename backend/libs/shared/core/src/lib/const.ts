@@ -1,25 +1,94 @@
+import { EntityList } from './types/entity-list.enum';
+
 export const SERVE_ROOT = 'static';
-export const FieldValidate = {
-  MinUserNameLength: 3,
-  MaxUserNameLength: 50,
-  MinPasswordLength: 6,
-  MaxPasswordLength: 12,
-  MinCommentLength: 10,
-  MaxCommentLength: 300,
-  MinTagLength: 3,
-  MaxTagLength: 10,
-  MaxTagCount: 8,
-  MinPostTextLength: 100,
-  MaxPostTextLength: 1024,
-  MinPostAnnounceLength: 50,
-  MaxPostAnnounceLength: 255,
-  MinPostNameLength: 20,
-  MaxPostNameLength: 50,
-  MinPostQuoteTextLength: 20,
-  MaxPostQuoteTextLength: 300,
-  MaxFileSizeForPost: 1000000,
-  MaxFileSizeForAvatar: 500000,
-  AllowedImageFileType: '.(jpg|jpeg|png)',
+export const EntityConstrain = {
+  [EntityList.User]: {
+    name: {
+      required: true,
+      minLength: 1,
+      maxLength: 15,
+    },
+    email: {
+      required: true,
+    },
+    avatar: {
+      required: false,
+      imageTypes: ['.jpg', '.jpeg', '.png'],
+      maxFileSize: 1024000,
+    },
+    password: {
+      required: true,
+      minLength: 6,
+      maxLength: 12,
+    },
+    sex: {
+      required: true,
+    },
+    birthDate: {
+      required: false,
+    },
+    description: {
+      required: false,
+      minLength: 10,
+      maxLength: 140,
+    },
+    location: {
+      required: true,
+    },
+    backgroundImage: {
+      required: true,
+      mimeTypes: ['.jpg', '.jpeg', '.png'],
+    },
+  },
+  [EntityList.Feedback]: {
+    mark: {
+      required: true,
+      minValue: 1,
+      maxValue: 5,
+    },
+    comment: {
+      required: true,
+      minLength: 100,
+      maxLength: 1024,
+    },
+  },
+  [EntityList.Training]: {
+    name: {
+      required: true,
+      minLength: 1,
+      maxLength: 15,
+    },
+    backgroundImage: {
+      required: true,
+      mimeTypes: ['.jpg', '.jpeg', '.png'],
+    },
+    calories: {
+      required: true,
+      minValue: 1000,
+      maxValue: 5000,
+    },
+    description: {
+      required: true,
+      minLength: 10,
+      maxLength: 140,
+    },
+    video: {
+      required: true,
+      mimeTypes: ['.mov', '.avi', '.mp4'],
+    },
+    trainerName: {
+      required: true,
+      minLength: 1,
+      maxLength: 15,
+    },
+  },
+  [EntityList.Order]: {
+    amount: {
+      required: true,
+      minValue: 1,
+      maxValue: 50,
+    },
+  },
 } as const;
 
 export const LOCATIONS = [

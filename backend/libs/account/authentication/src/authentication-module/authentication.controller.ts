@@ -62,7 +62,7 @@ export class AuthenticationController {
     @Body() dto: UpdateUserDto,
     @Req() { user: payload }: RequestWithTokenPayload
   ) {
-    const user = await this.authService.updatePassword(dto, payload?.sub);
+    const user = await this.authService.update(dto, payload?.sub);
 
     return fillDto(UserRdo, user.toPOJO());
   }
