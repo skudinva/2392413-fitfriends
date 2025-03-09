@@ -25,7 +25,7 @@
       "@backend/blog-notify": ["libs/blog/blog-notify/src/index.ts"],
       "@backend/blog-post": ["libs/blog/blog-post/src/index.ts"],
       "@backend/blog-tag": ["libs/blog/blog-tag/src/index.ts"],
-      "@backend/blog-user": ["libs/account/blog-user/src/index.ts"],
+      "@backend/shop-user": ["libs/account/shop-user/src/index.ts"],
       "@backend/config": ["libs/account/config/src/index.ts"],
       "@backend/data-access": ["libs/shared/data-access/src/index.ts"],
       "@backend/email-subscriber": [
