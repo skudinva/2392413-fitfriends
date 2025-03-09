@@ -1,4 +1,4 @@
-import { AuthUser } from '@backend/shared/core';
+import { AuthUser, Location, UserGender } from '@backend/shared/core';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -17,6 +17,41 @@ export class ShopUserModel extends Document implements AuthUser {
     required: true,
   })
   public name!: string;
+
+  @Prop({
+    required: false,
+  })
+  public avatar?: string;
+
+  @Prop({
+    required: true,
+  })
+  public gender!: UserGender;
+
+  @Prop({
+    required: false,
+  })
+  public birthDate?: Date;
+
+  @Prop({
+    required: false,
+  })
+  public description?: string;
+
+  @Prop({
+    required: true,
+  })
+  public location!: Location;
+
+  @Prop({
+    required: true,
+  })
+  public backgroundImage!: string;
+
+  @Prop({
+    required: true,
+  })
+  public registerDate!: Date;
 
   @Prop({
     required: true,

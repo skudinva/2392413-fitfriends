@@ -13,6 +13,7 @@ export { AuthUser } from './lib/types/auth-user.interface';
 export { Comment } from './lib/types/comment.interface';
 export { File } from './lib/types/file.interface';
 export { Like } from './lib/types/like.interface';
+export { Location } from './lib/types/location.interface';
 export { PostExtraProperty } from './lib/types/post-extra-property.interface';
 export { Post } from './lib/types/post.interface';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
