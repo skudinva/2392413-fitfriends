@@ -21,3 +21,11 @@ export const FieldValidate = {
   MaxFileSizeForAvatar: 500000,
   AllowedImageFileType: '.(jpg|jpeg|png)',
 } as const;
+
+export const LOCATIONS = [
+  'Пионерская',
+  'Петроградская',
+  'Удельная',
+  'Звёздная',
+  'Спортивная',
+] as const;

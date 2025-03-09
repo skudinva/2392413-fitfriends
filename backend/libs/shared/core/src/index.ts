@@ -1,5 +1,5 @@
 export { Entity } from './lib/base/entity';
-export { FieldValidate, SERVE_ROOT } from './lib/const';
+export { FieldValidate, LOCATIONS, SERVE_ROOT } from './lib/const';
 export { EntityFactory } from './lib/interfaces/entity-factory.interface';
 export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { PaginationResult } from './lib/interfaces/pagination.interface';
@@ -19,4 +19,5 @@ export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { StoredFile } from './lib/types/stored-file.interface';
 export { Subscriber } from './lib/types/subscriber.interface';
 export { Tag } from './lib/types/tag.interface';
+export { UserGender } from './lib/types/user-gender.enum';
 export { User } from './lib/types/user.interface';
