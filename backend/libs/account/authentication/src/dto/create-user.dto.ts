@@ -1,12 +1,6 @@
 import { EntityConstrain, Location, UserGender } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEnum,
-  IsISO8601,
-  IsOptional,
-  IsString,
-  Length,
-} from 'class-validator';
+import { IsISO8601, IsOptional, IsString, Length } from 'class-validator';
 import { AuthenticationValidateMessage } from '../authentication-module/authentication.constant';
 import { LoginUserDto } from './login-user.dto';
 
@@ -36,7 +30,7 @@ export class CreateUserDto extends LoginUserDto {
     description: 'User gender',
     enum: UserGender,
   })
-  @IsEnum(UserGender)
+  @IsString()
   gender: UserGender;
 
   @ApiProperty({
@@ -55,7 +49,7 @@ export class CreateUserDto extends LoginUserDto {
     description: 'User Location',
     enum: Location,
   })
-  @IsEnum(Location)
+  @IsString()
   location: Location;
 
   @ApiProperty({

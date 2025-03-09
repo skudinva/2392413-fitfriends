@@ -1,4 +1,3 @@
-import { NotifyModule } from '@backend/account-notify';
 import { AuthenticationModule } from '@backend/authentication';
 import { AccountConfigModule, getMongooseOptions } from '@backend/config';
 import { ShopUserModule } from '@backend/shop-user';
@@ -11,7 +10,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     AuthenticationModule,
     AccountConfigModule,
     MongooseModule.forRootAsync(getMongooseOptions()),
-    NotifyModule,
   ],
   controllers: [],
   providers: [],

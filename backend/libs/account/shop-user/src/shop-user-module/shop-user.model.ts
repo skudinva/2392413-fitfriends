@@ -25,6 +25,7 @@ export class ShopUserModel extends Document implements AuthUser {
 
   @Prop({
     required: true,
+    type: String,
   })
   public gender!: UserGender;
 
@@ -40,6 +41,7 @@ export class ShopUserModel extends Document implements AuthUser {
 
   @Prop({
     required: true,
+    type: String,
   })
   public location!: Location;
 

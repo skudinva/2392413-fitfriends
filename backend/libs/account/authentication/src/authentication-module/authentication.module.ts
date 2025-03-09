@@ -1,4 +1,3 @@
-import { NotifyModule } from '@backend/account-notify';
 import { getJwtOptions } from '@backend/config';
 import { ShopUserModule } from '@backend/shop-user';
 import { Module } from '@nestjs/common';
@@ -17,7 +16,6 @@ import { AuthenticationService } from './authentication.service';
       inject: [ConfigService],
       useFactory: getJwtOptions,
     }),
-    NotifyModule,
     RefreshTokenModule,
   ],
   controllers: [AuthenticationController],

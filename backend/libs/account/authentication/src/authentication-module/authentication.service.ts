@@ -1,4 +1,3 @@
-import { NotifyService } from '@backend/account-notify';
 import { jwtConfig } from '@backend/config';
 import { createJWTPayload } from '@backend/helpers';
 import { AuthUser, Token, User } from '@backend/shared/core';
@@ -35,8 +34,7 @@ export class AuthenticationService {
     private readonly jwtService: JwtService,
     @Inject(jwtConfig.KEY)
     private readonly jwtOptions: ConfigType<typeof jwtConfig>,
-    private readonly refreshTokenService: RefreshTokenService,
-    private readonly notifyService: NotifyService
+    private readonly refreshTokenService: RefreshTokenService
   ) {}
 
   public async register(dto: CreateUserDto): Promise<ShopUserEntity> {
@@ -74,7 +72,7 @@ export class AuthenticationService {
     const userEntity = await new ShopUserEntity(shopUser).setPassword(password);
 
     await this.shopUserRepository.save(userEntity);
-    await this.notifyService.registerSubscriber({ email, name });
+
     return userEntity;
   }
 
