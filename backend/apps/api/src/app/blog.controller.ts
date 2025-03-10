@@ -19,17 +19,15 @@ import {
   UserIdDto,
 } from '@backend/blog-post';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
-import { FieldValidate, SortDirection, SortType } from '@backend/shared/core';
+import { SortDirection, SortType } from '@backend/shared/core';
 import { HttpService } from '@nestjs/axios';
 import {
   Body,
   Controller,
   Delete,
-  FileTypeValidator,
   Get,
   HttpCode,
   HttpStatus,
-  MaxFileSizeValidator,
   Param,
   ParseFilePipe,
   Patch,
@@ -88,12 +86,12 @@ export class BlogController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({
+          /*new MaxFileSizeValidator({
             maxSize: FieldValidate.MaxFileSizeForPost,
           }),
           new FileTypeValidator({
             fileType: FieldValidate.AllowedImageFileType,
-          }),
+          }),*/
         ],
         fileIsRequired: false,
       })
@@ -178,14 +176,14 @@ export class BlogController {
     @Body() dto: UpdatePostFileDto,
     @UploadedFile(
       new ParseFilePipe({
-        validators: [
+        /*  validators: [
           new MaxFileSizeValidator({
             maxSize: FieldValidate.MaxFileSizeForPost,
           }),
           new FileTypeValidator({
             fileType: FieldValidate.AllowedImageFileType,
           }),
-        ],
+        ],*/
         fileIsRequired: false,
       })
     )

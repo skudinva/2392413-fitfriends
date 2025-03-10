@@ -13,7 +13,7 @@ export const EntityConstrain = {
     },
     avatar: {
       required: false,
-      imageTypes: ['.jpg', '.jpeg', '.png'],
+      mimeTypes: '.(jpg|jpeg|png)',
       maxFileSize: 1024000,
     },
     password: {
@@ -37,7 +37,7 @@ export const EntityConstrain = {
     },
     backgroundImage: {
       required: true,
-      mimeTypes: ['.jpg', '.jpeg', '.png'],
+      mimeTypes: '.(jpg|jpeg|png)',
     },
   },
   [EntityList.Feedback]: {
@@ -60,7 +60,7 @@ export const EntityConstrain = {
     },
     backgroundImage: {
       required: true,
-      mimeTypes: ['.jpg', '.jpeg', '.png'],
+      mimeTypes: '.(jpg|jpeg|png)',
     },
     calories: {
       required: true,
@@ -74,7 +74,7 @@ export const EntityConstrain = {
     },
     video: {
       required: true,
-      mimeTypes: ['.mov', '.avi', '.mp4'],
+      mimeTypes: '.(mov|avi|mp4)',
     },
     trainerName: {
       required: true,

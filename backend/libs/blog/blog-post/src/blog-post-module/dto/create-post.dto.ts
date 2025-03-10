@@ -1,15 +1,12 @@
-import { FieldValidate } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { PostState, PostType } from '@prisma/client';
 import { Type } from 'class-transformer';
 import {
-  ArrayMaxSize,
   IsArray,
   IsIn,
   IsMongoId,
   IsOptional,
   IsString,
-  Length,
   ValidateNested,
 } from 'class-validator';
 import { PostExtraPropertyDto } from './post-extra-property.dto';
@@ -35,11 +32,9 @@ export class CreatePostDto {
 
   @IsOptional()
   @IsString({ each: true })
-  @ArrayMaxSize(FieldValidate.MaxTagCount)
+  //@ArrayMaxSize(FieldValidate.MaxTagCount)
   @IsArray()
-  @Length(FieldValidate.MinTagLength, FieldValidate.MaxTagLength, {
-    each: true,
-  })
+  //@Length(FieldValidate.MinTagLength, FieldValidate.MaxTagLength, {each: true,})
   @ApiProperty({
     description: 'List of tags',
     example: ['#sometag1'],

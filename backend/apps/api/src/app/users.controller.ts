@@ -7,7 +7,7 @@ import {
   UpdateUserDto,
   UserRdo,
 } from '@backend/authentication';
-import { FieldValidate, SERVE_ROOT } from '@backend/shared/core';
+import { EntityConstrain, SERVE_ROOT } from '@backend/shared/core';
 import { HttpService } from '@nestjs/axios';
 import {
   Body,
@@ -68,10 +68,10 @@ export class UsersController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({
-            maxSize: FieldValidate.MaxFileSizeForAvatar,
+            maxSize: EntityConstrain.user.avatar.maxFileSize,
           }),
           new FileTypeValidator({
-            fileType: FieldValidate.AllowedImageFileType,
+            fileType: EntityConstrain.user.avatar.mimeTypes,
           }),
         ],
         fileIsRequired: false,

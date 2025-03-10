@@ -4,7 +4,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { toast } from 'react-toastify';
 import { isValidErrorData, Token } from './utils';
 
-const BACKEND_URL = 'http://localhost:4000';
+const BACKEND_URL = 'http://localhost:3000';
 const REQUEST_TIMEOUT = 5000;
 
 export function createAPI(): AxiosInstance {

@@ -1,6 +1,5 @@
-import { FieldValidate } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import { BlogCommentValidateMessage } from '../blog-comment.constant';
 
 export class CreateCommentDto {
@@ -11,7 +10,7 @@ export class CreateCommentDto {
     example: 'Some comment for post',
   })
   @IsString()
-  @Length(FieldValidate.MinCommentLength, FieldValidate.MaxCommentLength)
+  // @Length(FieldValidate.MinCommentLength, FieldValidate.MaxCommentLength)
   public message!: string;
 
   @IsString()
