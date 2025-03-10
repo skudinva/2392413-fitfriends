@@ -10,23 +10,22 @@ type PrivateRouteProps = {
   children: JSX.Element;
 };
 
-const PrivateRoute = ({
+function PrivateRoute({
   children,
   restrictedFor,
   redirectTo,
-}: PrivateRouteProps): JSX.Element => {
+}: PrivateRouteProps): JSX.Element {
   //const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const authorizationStatus = AuthorizationStatus.NoAuth;
 
   //if (authorizationStatus === AuthorizationStatus.Unknown) {
   //  return <div>...Загружается</div>;
   //}
-
   return authorizationStatus !== restrictedFor ? (
     children
   ) : (
     <Navigate to={redirectTo} />
   );
-};
+}
 
 export default PrivateRoute;
