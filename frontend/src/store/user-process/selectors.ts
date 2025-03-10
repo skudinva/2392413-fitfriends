@@ -1,5 +1,5 @@
-import { TokenPayload } from '@backend/shared/core';
 import { AuthorizationStatus, StoreSlice } from '../../const';
+import { TokenPayload } from '../../types/shared';
 import type { State } from '../../types/state';
 
 export const getAuthorizationStatus = ({

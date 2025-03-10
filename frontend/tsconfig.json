@@ -19,13 +19,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "@backend/shared/core": ["../backend/libs/shared/core/src/index.ts"],
-      "@backend/authentication": [
-        "../backend/libs/account/authentication/src/index.ts"
-      ]
-    }
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

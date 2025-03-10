@@ -1,10 +1,14 @@
-import { LoggedUserRdo, LoginUserDto } from '@backend/authentication';
-import { AuthUser, TokenPayload } from '@backend/shared/core';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
 import httpStatus from 'http-status';
 import { ApiRoute, AppRoute } from '../const';
+import {
+  AuthUser,
+  LoggedUserRdo,
+  LoginUserDto,
+  TokenPayload,
+} from '../types/shared';
 import { Token } from '../utils';
 
 type Extra = {

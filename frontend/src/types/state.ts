@@ -1,6 +1,6 @@
-import { TokenPayload } from '@backend/shared/core';
 import { AuthorizationStatus } from '../const';
 import store from '../store';
+import { TokenPayload } from './shared';
 import type { SortName } from './types';
 
 export type SiteData = {
