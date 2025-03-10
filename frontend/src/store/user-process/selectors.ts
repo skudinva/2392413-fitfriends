@@ -1,4 +1,4 @@
-import { User } from '@backend/shared/core';
+import { TokenPayload } from '@backend/shared/core';
 import { AuthorizationStatus, StoreSlice } from '../../const';
 import type { State } from '../../types/state';
 
@@ -11,4 +11,4 @@ export const getIsAuthorized = ({
   USER_PROCESS.authorizationStatus === AuthorizationStatus.Auth;
 export const getUser = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
-}: State): User['email'] => USER_PROCESS.user;
+}: State): TokenPayload => USER_PROCESS.user;

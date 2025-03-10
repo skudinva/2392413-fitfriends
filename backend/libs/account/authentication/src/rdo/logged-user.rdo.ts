@@ -1,21 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { UserRdo } from './user.rdo';
 
-export class LoggedUserRdo {
-  @ApiProperty({
-    description: 'The uniq user ID',
-    example: '134ce8babd-cc30-4805-9b12-d9420398e7c5',
-  })
-  @Expose()
-  public id: string;
-
-  @ApiProperty({
-    description: 'User email',
-    example: 'user@user.local',
-  })
-  @Expose()
-  public email: string;
-
+export class LoggedUserRdo extends PickType(UserRdo, ['id', 'email']) {
   @ApiProperty({
     description: 'Access token',
     example: 'user@user.local',

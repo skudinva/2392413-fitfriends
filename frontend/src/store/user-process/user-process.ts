@@ -8,7 +8,6 @@ const initialState: UserProcess = {
   user: {
     sub: '',
     email: '',
-    name: '',
   },
 };
 
@@ -26,7 +25,6 @@ export const userProcess = createSlice({
         state.user = {
           sub: '',
           email: '',
-          name: '',
         };
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
@@ -38,7 +36,6 @@ export const userProcess = createSlice({
         state.user = {
           sub: '',
           email: '',
-          name: '',
         };
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       });

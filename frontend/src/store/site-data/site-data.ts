@@ -1,25 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { StoreSlice } from '../../const';
 import type { SiteData } from '../../types/state';
-import { StoreSlice, SubmitStatus } from '../../const';
-import { fetchOffers, fetchOffer, fetchPremiumOffers, fetchComments, postComment, postFavorite, deleteFavorite, fetchFavoriteOffers, postOffer, editOffer } from '../action';
 
 const initialState: SiteData = {
-  offers: [],
+  // offers: [],
   isOffersLoading: false,
-  offer: null,
+  // offer: null,
   isOfferLoading: false,
-  favoriteOffers: [],
+  // favoriteOffers: [],
   isFavoriteOffersLoading: false,
-  premiumOffers: [],
+  // premiumOffers: [],
   comments: [],
-  commentStatus: SubmitStatus.Still,
+  // commentStatus: SubmitStatus.Still,
 };
 
 export const siteData = createSlice({
   name: StoreSlice.SiteData,
   initialState,
   reducers: {},
+  /*
   extraReducers(builder) {
     builder
       .addCase(fetchOffers.pending, (state) => {
@@ -57,9 +57,15 @@ export const siteData = createSlice({
       })
       .addCase(editOffer.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
-        state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.favoriteOffers = state.favoriteOffers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.premiumOffers = state.premiumOffers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
+        state.offers = state.offers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
+        state.favoriteOffers = state.favoriteOffers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
+        state.premiumOffers = state.premiumOffers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
       })
       .addCase(fetchPremiumOffers.fulfilled, (state, action) => {
         state.premiumOffers = action.payload;
@@ -79,8 +85,12 @@ export const siteData = createSlice({
       })
       .addCase(postFavorite.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
-        state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.premiumOffers = state.premiumOffers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
+        state.offers = state.offers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
+        state.premiumOffers = state.premiumOffers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
         state.favoriteOffers = state.favoriteOffers.concat(updatedOffer);
 
         if (state.offer && state.offer.id === updatedOffer.id) {
@@ -89,13 +99,19 @@ export const siteData = createSlice({
       })
       .addCase(deleteFavorite.fulfilled, (state, action) => {
         const updatedOffer = action.payload;
-        state.offers = state.offers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.premiumOffers = state.premiumOffers.map((offer) => offer.id === updatedOffer.id ? updatedOffer : offer);
-        state.favoriteOffers = state.favoriteOffers.filter((favoriteOffer) => favoriteOffer.id !== updatedOffer.id);
+        state.offers = state.offers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
+        state.premiumOffers = state.premiumOffers.map((offer) =>
+          offer.id === updatedOffer.id ? updatedOffer : offer
+        );
+        state.favoriteOffers = state.favoriteOffers.filter(
+          (favoriteOffer) => favoriteOffer.id !== updatedOffer.id
+        );
 
         if (state.offer && state.offer.id === updatedOffer.id) {
           state.offer = updatedOffer;
         }
       });
-  }
+  },*/
 });

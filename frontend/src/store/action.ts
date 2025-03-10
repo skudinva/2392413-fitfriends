@@ -176,7 +176,6 @@ export const loginUser = createAsyncThunk<
   return {
     sub: data.id,
     email: data.email,
-    name: data.name,
   };
 });
 
