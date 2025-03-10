@@ -60,6 +60,7 @@ export class ShopUserEntity extends Entity implements StorableEntity<AuthUser> {
       id: this.id,
       email: this.email,
       name: this.name,
+      avatar: this.avatar,
       gender: this.gender,
       birthDate: this.birthDate,
       description: this.description,

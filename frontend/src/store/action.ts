@@ -1,31 +1,10 @@
+import { LoggedUserRdo, LoginUserDto } from '@backend/authentication';
+import { AuthUser, TokenPayload } from '@backend/shared/core';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
-import {
-  adaptCommentsToClient,
-  adaptCommentToClient,
-  adaptOfferDetailToClient,
-  adaptOffersToClient,
-} from '../adapters/adapters-to-client';
-import {
-  adaptNewOfferToServer,
-  adaptSignupToServer,
-} from '../adapters/adapters-to-server';
-import { ApiRoute, AppRoute, HttpCode } from '../const';
-import { OfferListRdo } from '../dto/offer/offer-list-rdo';
-import { OfferRdo } from '../dto/offer/offer-rdo';
-import { ReviewRdo } from '../dto/review/review-rdo';
-import { RegisteredUserRdo } from '../dto/user/registered-user-rdo';
-import { UserRdo } from '../dto/user/user-rdo';
-import type {
-  Comment,
-  CommentAuth,
-  FavoriteAuth,
-  NewOffer,
-  Offer,
-  UserAuth,
-  UserRegister,
-} from '../types/types';
+import httpStatus from 'http-status';
+import { ApiRoute, AppRoute } from '../const';
 import { Token } from '../utils';
 
 type Extra = {
@@ -50,7 +29,7 @@ export const Action = {
   FETCH_USER_STATUS: 'user/fetch-status',
   REGISTER_USER: 'user/register',
 };
-
+/*
 export const fetchOffers = createAsyncThunk<
   Offer[],
   undefined,
@@ -157,22 +136,22 @@ export const fetchComments = createAsyncThunk<
 
   return adaptCommentsToClient(data);
 });
+*/
 
 export const fetchUserStatus = createAsyncThunk<
-  UserAuth['email'],
+  TokenPayload,
   undefined,
   { extra: Extra }
 >(Action.FETCH_USER_STATUS, async (_, { extra }) => {
   const { api } = extra;
 
   try {
-    const { data } = await api.get<UserRdo>(ApiRoute.Login);
-
-    return data.email;
+    const { data } = await api.post<TokenPayload>(ApiRoute.CheckLogin);
+    return data;
   } catch (error) {
     const axiosError = error as AxiosError;
 
-    if (axiosError.response?.status === HttpCode.UNAUTHORIZED) {
+    if (axiosError.response?.status === httpStatus.UNAUTHORIZED) {
       Token.drop();
     }
 
@@ -181,21 +160,24 @@ export const fetchUserStatus = createAsyncThunk<
 });
 
 export const loginUser = createAsyncThunk<
-  UserAuth['email'],
-  UserAuth,
+  TokenPayload,
+  LoginUserDto,
   { extra: Extra }
 >(Action.LOGIN_USER, async ({ email, password }, { extra }) => {
   const { api, history } = extra;
-  const { data } = await api.post<UserRdo & { token: string }>(ApiRoute.Login, {
+  const { data } = await api.post<LoggedUserRdo>(ApiRoute.Login, {
     email,
     password,
   });
-  const { token } = data;
 
-  Token.save(token);
+  Token.save(data.accessToken);
   history.push(AppRoute.Root);
 
-  return email;
+  return {
+    sub: data.id,
+    email: data.email,
+    name: data.name,
+  };
 });
 
 export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
@@ -208,32 +190,15 @@ export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
   }
 );
 
-export const registerUser = createAsyncThunk<
-  void,
-  UserRegister,
-  { extra: Extra }
->(
+export const registerUser = createAsyncThunk<void, FormData, { extra: Extra }>(
   Action.REGISTER_USER,
-  async ({ email, password, name, avatar, type }, { extra }) => {
+  async (newUser, { extra }) => {
     const { api, history } = extra;
-    const body = adaptSignupToServer({
-      email,
-      password,
-      name,
-      type,
-    });
-    const { data } = await api.post<RegisteredUserRdo>(ApiRoute.Register, body);
-    if (avatar) {
-      const payload = new FormData();
-      payload.append('avatar', avatar);
-      await api.post(`users/${data.id}${ApiRoute.Avatar}`, payload, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-    }
+    await api.post<AuthUser>(ApiRoute.Register, newUser);
     history.push(AppRoute.Login);
   }
 );
-
+/*
 export const postComment = createAsyncThunk<
   Comment,
   CommentAuth,
@@ -291,3 +256,4 @@ export const deleteFavorite = createAsyncThunk<
     return Promise.reject(error);
   }
 });
+*/

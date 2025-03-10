@@ -59,6 +59,7 @@ export enum AppRoute {
 export enum ApiRoute {
   Offers = '/offers',
   Login = '/login',
+  CheckLogin = '/check',
   Logout = '/logout',
   Register = '/register',
   Avatar = '/avatar',
@@ -83,4 +84,10 @@ export enum Sorting {
 export enum UserRole {
   User = 'user',
   Trainer = 'trainer',
+}
+
+export enum StoreSlice {
+  SiteData = 'SITE_DATA',
+  SiteProcess = 'SITE_PROCESS',
+  UserProcess = 'USER_PROCESS',
 }
