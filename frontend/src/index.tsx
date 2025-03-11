@@ -3,18 +3,20 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
+import HistoryRouter from './components/history-route/history-route';
+import history from './history';
 import store from './store';
 
-// Функция для рендеринга приложения
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement as Element);
-//<Provider store={store}>
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <HistoryRouter history={history}>
+        <ToastContainer />
+        <App />
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>
 );
