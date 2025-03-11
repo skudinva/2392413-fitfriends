@@ -1,3 +1,5 @@
+import Token from './types/token';
+
 export function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-US', {
     month: 'long',
@@ -21,20 +23,5 @@ export function isValidErrorData(data: unknown): data is { error: string } {
   return typeof data === 'object' && data !== null && 'error' in data;
 }
 
-export class Token {
-  private static _name = 'fit-friends-auth-token';
-
-  static get() {
-    const token = localStorage.getItem(this._name);
-
-    return token ?? '';
-  }
-
-  static save(token: string) {
-    localStorage.setItem(this._name, token);
-  }
-
-  static drop() {
-    localStorage.removeItem(this._name);
-  }
-}
+export const token = new Token('fit-friends-auth-token');
+export const refreshToken = new Token('fit-friends-auth-refresh-token');

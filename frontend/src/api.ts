@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { toast } from 'react-toastify';
-import { isValidErrorData, Token } from './utils';
+import { isValidErrorData, token } from './utils';
 
 const BACKEND_URL = 'http://localhost:3000';
 const REQUEST_TIMEOUT = 5000;
@@ -14,14 +14,12 @@ export function createAPI(): AxiosInstance {
   });
 
   api.interceptors.request.use((config: AxiosRequestConfig) => {
-    const token = Token.get();
-
     if (!config.headers) {
       config.headers = {};
     }
 
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token.get()}`;
     }
 
     return config;

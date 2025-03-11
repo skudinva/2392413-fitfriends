@@ -9,7 +9,7 @@ import {
   LoginUserDto,
   TokenPayload,
 } from '../types/shared';
-import { Token } from '../utils';
+import { token } from '../utils';
 
 type Extra = {
   api: AxiosInstance;
@@ -156,7 +156,7 @@ export const fetchUserStatus = createAsyncThunk<
     const axiosError = error as AxiosError;
 
     if (axiosError.response?.status === httpStatus.UNAUTHORIZED) {
-      Token.drop();
+      token.drop();
     }
 
     return Promise.reject(error);
@@ -174,7 +174,7 @@ export const loginUser = createAsyncThunk<
     password,
   });
 
-  Token.save(data.accessToken);
+  token.save(data.accessToken);
   history.push(AppRoute.Root);
 
   return {
@@ -189,7 +189,7 @@ export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
     const { api } = extra;
     await api.delete(ApiRoute.Logout);
 
-    Token.drop();
+    token.drop();
   }
 );
 
