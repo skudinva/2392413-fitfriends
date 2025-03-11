@@ -47,6 +47,7 @@ export const PAY_TYPES = ['visa', 'mir', 'umoney'] as const;
 
 export enum AppRoute {
   Root = '/',
+  Intro = '/intro',
   Login = '/login',
   Register = '/register',
   Favorites = '/favorites',
