@@ -1,10 +1,21 @@
-import { FormEvent } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { FormEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginUser } from '../../store/action';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { LoginUserDto } from '../../types/shared';
 
 function Login(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Root);
+    }
+  }, [authorizationStatus, navigate]);
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

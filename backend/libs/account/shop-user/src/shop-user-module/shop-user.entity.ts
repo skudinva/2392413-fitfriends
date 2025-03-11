@@ -13,7 +13,7 @@ export class ShopUserEntity extends Entity implements StorableEntity<AuthUser> {
   public name!: string;
   public avatar!: string;
   public gender!: UserGender;
-  public birthDate!: Date;
+  public birthday!: Date;
   public description!: string;
   public location!: Location;
   public backgroundImage!: string;
@@ -34,7 +34,7 @@ export class ShopUserEntity extends Entity implements StorableEntity<AuthUser> {
       name,
       avatar,
       gender,
-      birthDate,
+      birthday,
       description,
       location,
       backgroundImage,
@@ -47,7 +47,7 @@ export class ShopUserEntity extends Entity implements StorableEntity<AuthUser> {
     this.name = name;
     this.avatar = avatar;
     this.gender = gender;
-    this.birthDate = birthDate;
+    this.birthday = birthday;
     this.description = description;
     this.location = location;
     this.backgroundImage = backgroundImage;
@@ -62,7 +62,7 @@ export class ShopUserEntity extends Entity implements StorableEntity<AuthUser> {
       name: this.name,
       avatar: this.avatar,
       gender: this.gender,
-      birthDate: this.birthDate,
+      birthday: this.birthday,
       description: this.description,
       location: this.location,
       backgroundImage: this.backgroundImage,

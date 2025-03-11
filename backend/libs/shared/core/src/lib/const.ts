@@ -24,7 +24,7 @@ export const EntityConstrain = {
     sex: {
       required: true,
     },
-    birthDate: {
+    birthday: {
       required: false,
     },
     description: {

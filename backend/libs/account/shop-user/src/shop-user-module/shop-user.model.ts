@@ -32,7 +32,7 @@ export class ShopUserModel extends Document implements AuthUser {
   @Prop({
     required: false,
   })
-  public birthDate?: Date;
+  public birthday?: Date;
 
   @Prop({
     required: false,

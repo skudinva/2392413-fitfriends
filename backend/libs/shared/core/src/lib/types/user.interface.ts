@@ -7,7 +7,7 @@ export interface User {
   name: string;
   avatar?: string;
   gender: UserGender;
-  birthDate?: Date;
+  birthday?: Date;
   description?: string;
   location: Location;
   backgroundImage: string;

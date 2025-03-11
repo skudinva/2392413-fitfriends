@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
@@ -10,6 +11,9 @@ function Intro(): JSX.Element {
 
   return (
     <div className="intro">
+      <Helmet>
+        <title>Мой Async Helmet App</title>
+      </Helmet>
       <div className="intro__background">
         <picture>
           <source

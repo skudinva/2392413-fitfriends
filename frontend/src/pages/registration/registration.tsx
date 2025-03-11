@@ -1,4 +1,16 @@
+import { FormEvent } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { registerUser } from '../../store/action';
+
 function Registration(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    dispatch(registerUser(formData));
+  };
+
   return (
     <>
       <div className="background-logo">
@@ -26,7 +38,7 @@ function Registration(): JSX.Element {
               <h1 className="popup-form__title">Регистрация</h1>
             </div>
             <div className="popup-form__form">
-              <form method="get">
+              <form method="get" onSubmit={onFormSubmit}>
                 <div className="sign-up">
                   <div className="sign-up__load-photo">
                     <div className="input-load-avatar">
@@ -93,7 +105,11 @@ function Registration(): JSX.Element {
                           </svg>
                         </span>
                       </button>
-                      <ul className="custom-select__list" role="listbox"></ul>
+                      <ul className="custom-select__list" role="listbox">
+                        <li>Вариант 1</li>
+                        <li>Вариант 2</li>
+                        <li>Вариант 3</li>
+                      </ul>
                     </div>
                     <div className="custom-input">
                       <label>

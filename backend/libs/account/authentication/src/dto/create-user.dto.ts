@@ -69,5 +69,5 @@ export class CreateUserDto extends LoginUserDto {
   @IsISO8601()
   @IsOptional()
   @ApiProperty({ description: 'User birthday' })
-  birthDate?: Date;
+  birthday?: Date;
 }

@@ -9,7 +9,7 @@ import {
   LoginUserDto,
   TokenPayload,
 } from '../types/shared';
-import { token } from '../utils';
+import { refreshToken, token } from '../utils';
 
 type Extra = {
   api: AxiosInstance;
@@ -175,6 +175,7 @@ export const loginUser = createAsyncThunk<
   });
 
   token.save(data.accessToken);
+  refreshToken.save(data.refreshToken);
   history.push(AppRoute.Root);
 
   return {
