@@ -1,9 +1,27 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
+import { LOCATIONS } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/action';
+import { LocationName } from '../../types/types';
 
 function Registration(): JSX.Element {
   const dispatch = useAppDispatch();
+
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const onArrowButtonClick = () => {
+    setIsOpened(!isOpened);
+  };
+
+  const [location, setLocation] = useState<LocationName>();
+  const onLocationClick = (evt: React.MouseEvent<HTMLLIElement>) => {
+    setLocation(evt.currentTarget.innerText as LocationName);
+    setIsOpened(false);
+  };
+
+  const [agreementChecked, setAgreementChecked] = useState<boolean>(false);
+  const onAgreementChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setAgreementChecked(evt.currentTarget.checked);
+  };
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -91,14 +109,19 @@ function Registration(): JSX.Element {
                         </span>
                       </label>
                     </div>
-                    <div className="custom-select custom-select--not-selected">
+                    <div
+                      className={`custom-select ${
+                        isOpened ? 'is-open' : 'custom-select--not-selected'
+                      }`}
+                    >
                       <span className="custom-select__label">Ваша локация</span>
                       <button
                         className="custom-select__button"
                         type="button"
                         aria-label="Выберите одну из опций"
+                        onClick={onArrowButtonClick}
                       >
-                        <span className="custom-select__text"></span>
+                        <span className="custom-select__text">{location}</span>
                         <span className="custom-select__icon">
                           <svg width="15" height="6" aria-hidden="true">
                             <use xlinkHref="#arrow-down"></use>
@@ -106,9 +129,17 @@ function Registration(): JSX.Element {
                         </span>
                       </button>
                       <ul className="custom-select__list" role="listbox">
-                        <li>Вариант 1</li>
-                        <li>Вариант 2</li>
-                        <li>Вариант 3</li>
+                        {LOCATIONS.map((locationItem) => (
+                          <li
+                            key={locationItem}
+                            role="option"
+                            className="custom-select__item"
+                            aria-selected={locationItem === location}
+                            onClick={onLocationClick}
+                          >
+                            {locationItem}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                     <div className="custom-input">
@@ -170,7 +201,7 @@ function Registration(): JSX.Element {
                             type="radio"
                             name="role"
                             value="coach"
-                            defaultChecked
+                            disabled
                           />
                           <span className="role-btn__icon">
                             <svg width="12" height="13" aria-hidden="true">
@@ -189,6 +220,7 @@ function Registration(): JSX.Element {
                             type="radio"
                             name="role"
                             value="sportsman"
+                            defaultChecked
                           />
                           <span className="role-btn__icon">
                             <svg width="12" height="13" aria-hidden="true">
@@ -208,7 +240,9 @@ function Registration(): JSX.Element {
                         type="checkbox"
                         value="user-agreement"
                         name="user-agreement"
-                        defaultChecked={false}
+                        required
+                        onChange={onAgreementChange}
+                        defaultChecked={agreementChecked}
                       />
                       <span className="sign-up__checkbox-icon">
                         <svg width="9" height="6" aria-hidden="true">

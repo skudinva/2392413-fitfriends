@@ -83,8 +83,8 @@ export enum Sorting {
 }
 
 export enum UserRole {
-  User = 'user',
-  Trainer = 'trainer',
+  Sportsman = 'sportsman',
+  Coach = 'coach',
 }
 
 export enum StoreSlice {
