@@ -23,6 +23,14 @@ function Registration(): JSX.Element {
     setAgreementChecked(evt.currentTarget.checked);
   };
 
+  const [avatar, setAvatar] = useState<File>();
+  const onAvatarUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) {
+      return;
+    }
+    setAvatar(evt.target.files[0]);
+  };
+
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -65,11 +73,19 @@ function Registration(): JSX.Element {
                           className="visually-hidden"
                           type="file"
                           accept="image/png, image/jpeg"
+                          onChange={onAvatarUpload}
                         />
                         <span className="input-load-avatar__btn">
-                          <svg width="20" height="20" aria-hidden="true">
-                            <use xlinkHref="#icon-import"></use>
-                          </svg>
+                          {avatar ? (
+                            <img
+                              src={URL.createObjectURL(avatar)}
+                              className="input-load-avatar__btn"
+                            />
+                          ) : (
+                            <svg width="20" height="20" aria-hidden="true">
+                              <use xlinkHref="#icon-import"></use>
+                            </svg>
+                          )}
                         </span>
                       </label>
                     </div>
