@@ -45,6 +45,7 @@ export class AuthenticationController {
   }
 
   @ApiResponse({
+    type: UserRdo,
     status: HttpStatus.OK,
     description: AuthenticationResponseMessage.PasswordUpdated,
   })

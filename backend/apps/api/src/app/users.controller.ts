@@ -7,6 +7,7 @@ import {
   UpdateUserDto,
   UserRdo,
 } from '@backend/authentication';
+import { createStaticUrlForFile } from '@backend/helpers';
 import { EntityConstrain, SERVE_ROOT } from '@backend/shared/core';
 import { HttpService } from '@nestjs/axios';
 import {
@@ -116,6 +117,7 @@ export class UsersController {
 
   @Patch('update')
   @ApiResponse({
+    type: UserRdo,
     status: HttpStatus.OK,
     description: AuthenticationResponseMessage.PasswordUpdated,
   })
@@ -130,7 +132,7 @@ export class UsersController {
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
   public async update(@Body() dto: UpdateUserDto, @Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.patch(
+    const { data } = await this.httpService.axiosRef.patch<UserRdo>(
       `${ApplicationServiceURL.Auth}/update`,
       dto,
       {
@@ -138,6 +140,11 @@ export class UsersController {
           Authorization: req.headers['authorization'],
         },
       }
+    );
+
+    data.avatar = createStaticUrlForFile(
+      data.avatar,
+      ApplicationServiceURL.File
     );
 
     return data;
@@ -160,13 +167,18 @@ export class UsersController {
     description: AuthenticationResponseMessage.Unauthorized,
   })
   public async show(@Param('id') id: string, @Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.get(
+    const { data } = await this.httpService.axiosRef.get<UserRdo>(
       `${ApplicationServiceURL.Auth}/${id}`,
       {
         headers: {
           Authorization: req.headers['authorization'],
         },
       }
+    );
+
+    data.avatar = createStaticUrlForFile(
+      data.avatar,
+      ApplicationServiceURL.File
     );
 
     return data;

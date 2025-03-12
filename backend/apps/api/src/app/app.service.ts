@@ -43,6 +43,6 @@ export class AppService {
         headers: formData.getHeaders(),
       }
     );
-    return createUrlForFile(fileMetaData, ApplicationServiceURL.File);
+    return createUrlForFile(fileMetaData);
   }
 }

@@ -66,7 +66,11 @@ export function parseTime(time: string): TimeAndUnit {
   return { value, unit };
 }
 
-export function createUrlForFile(fileMetaData: File, host: string): string {
+export function createUrlForFile(fileMetaData: File): string {
   const subDirectory = fileMetaData.subDirectory.replace('\\', '/');
-  return `${host}/${SERVE_ROOT}/${subDirectory}/${fileMetaData.hashName}`;
+  return `${subDirectory}/${fileMetaData.hashName}`;
+}
+
+export function createStaticUrlForFile(filepath: string, host: string): string {
+  return `${host}/${SERVE_ROOT}/${filepath}`;
 }
