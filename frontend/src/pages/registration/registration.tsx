@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { LOCATIONS } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/action';
+import { UserGender } from '../../types/shared';
 import { LocationName } from '../../types/types';
 
 function Registration(): JSX.Element {
@@ -34,6 +35,8 @@ function Registration(): JSX.Element {
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    formData.append('gender', formData.get('sex')?.toString() || '');
+    formData.append('location', String(location));
     dispatch(registerUser(formData));
   };
 
@@ -173,37 +176,20 @@ function Registration(): JSX.Element {
                     <div className="sign-up__radio">
                       <span className="sign-up__label">Пол</span>
                       <div className="custom-toggle-radio custom-toggle-radio--big">
-                        <div className="custom-toggle-radio__block">
-                          <label>
-                            <input type="radio" name="sex" />
-                            <span className="custom-toggle-radio__icon"></span>
-                            <span className="custom-toggle-radio__label">
-                              Мужской
-                            </span>
-                          </label>
-                        </div>
-                        <div className="custom-toggle-radio__block">
-                          <label>
-                            <input
-                              type="radio"
-                              name="sex"
-                              defaultChecked={false}
-                            />
-                            <span className="custom-toggle-radio__icon"></span>
-                            <span className="custom-toggle-radio__label">
-                              Женский
-                            </span>
-                          </label>
-                        </div>
-                        <div className="custom-toggle-radio__block">
-                          <label>
-                            <input type="radio" name="sex" />
-                            <span className="custom-toggle-radio__icon"></span>
-                            <span className="custom-toggle-radio__label">
-                              Неважно
-                            </span>
-                          </label>
-                        </div>
+                        {Object.values(UserGender).map((sex, index) => (
+                          <div
+                            className="custom-toggle-radio__block"
+                            key={`sex-${index.toString()}`}
+                          >
+                            <label>
+                              <input type="radio" name="sex" value={sex} />
+                              <span className="custom-toggle-radio__icon"></span>
+                              <span className="custom-toggle-radio__label">
+                                {sex}
+                              </span>
+                            </label>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>

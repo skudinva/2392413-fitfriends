@@ -1,9 +1,3 @@
-export enum UserGender {
-  Man = 'мужской',
-  Female = 'женский',
-  NotAvailable = 'неважно',
-}
-
 export enum TrainingGender {
   Man = 'для мужчин',
   Female = 'для женщин',
@@ -62,7 +56,7 @@ export enum ApiRoute {
   Login = '/api/users/login',
   CheckLogin = '/api/users/check',
   Logout = '/logout',
-  Register = '/register',
+  Register = '/api/users/register',
   Avatar = '/avatar',
   Comments = '/comments',
   Favorite = '/favorites',

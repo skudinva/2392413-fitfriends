@@ -80,10 +80,8 @@ export class UsersController {
     avatar?: Express.Multer.File
   ) {
     const newUserDto = plainToInstance(CreateUserDto, {
-      name: dto.name,
+      ...dto,
       avatar: DEFAULT_AVATAR_PATH,
-      email: dto.email,
-      password: dto.password,
     });
 
     if (avatar) {
