@@ -11,6 +11,39 @@ import PrivateRoute from '../private-route/private-route';
 function AppRouter() {
   return (
     <Routes>
+      <Route
+        path={AppRoute.Login}
+        element={
+          <PrivateRoute
+            restrictedFor={AuthorizationStatus.Auth}
+            redirectTo={AppRoute.Root}
+          >
+            <Login />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={AppRoute.Register}
+        element={
+          <PrivateRoute
+            restrictedFor={AuthorizationStatus.Auth}
+            redirectTo={AppRoute.Root}
+          >
+            <Registration />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={AppRoute.Intro}
+        element={
+          <PrivateRoute
+            restrictedFor={AuthorizationStatus.Auth}
+            redirectTo={AppRoute.Root}
+          >
+            <Intro />
+          </PrivateRoute>
+        }
+      />
       <Route element={<Main />}>
         <Route
           index
@@ -20,39 +53,6 @@ function AppRouter() {
               redirectTo={AppRoute.Intro}
             >
               <Product />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Intro}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Root}
-            >
-              <Intro />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Login}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Root}
-            >
-              <Login />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Register}
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.Auth}
-              redirectTo={AppRoute.Root}
-            >
-              <Registration />
             </PrivateRoute>
           }
         />
