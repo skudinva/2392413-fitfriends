@@ -8,6 +8,7 @@ import {
   LoggedUserRdo,
   LoginUserDto,
   TokenPayload,
+  UserRdo,
 } from '../types/shared';
 import { refreshToken, token } from '../utils';
 
@@ -32,7 +33,90 @@ export const Action = {
   LOGOUT_USER: 'user/logout',
   FETCH_USER_STATUS: 'user/fetch-status',
   REGISTER_USER: 'user/register',
+  FETCH_USER_INFO: '/user/fetch-user-info',
 };
+
+export const fetchUserStatus = createAsyncThunk<
+  TokenPayload,
+  undefined,
+  { extra: Extra }
+>(Action.FETCH_USER_STATUS, async (_, { extra }) => {
+  const { api } = extra;
+
+  try {
+    const { data } = await api.post<TokenPayload>(ApiRoute.CheckLogin);
+    return data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response?.status === httpStatus.UNAUTHORIZED) {
+      token.drop();
+    }
+
+    return Promise.reject(error);
+  }
+});
+
+export const loginUser = createAsyncThunk<
+  TokenPayload,
+  LoginUserDto,
+  { extra: Extra }
+>(Action.LOGIN_USER, async ({ email, password }, { extra }) => {
+  const { api, history } = extra;
+  const { data } = await api.post<LoggedUserRdo>(ApiRoute.Login, {
+    email,
+    password,
+  });
+
+  token.save(data.accessToken);
+  refreshToken.save(data.refreshToken);
+  history.push(AppRoute.Root);
+
+  return {
+    sub: data.id,
+    email: data.email,
+  };
+});
+
+export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
+  Action.LOGOUT_USER,
+  async (_, { extra }) => {
+    const { api } = extra;
+    await api.delete(ApiRoute.Logout);
+
+    token.drop();
+  }
+);
+
+export const registerUser = createAsyncThunk<void, FormData, { extra: Extra }>(
+  Action.REGISTER_USER,
+  async (newUser, { extra }) => {
+    const { api, history } = extra;
+    await api.post<AuthUser>(ApiRoute.Register, newUser);
+    history.push(AppRoute.Root);
+  }
+);
+
+export const fetchUserInfo = createAsyncThunk<
+  UserRdo,
+  UserRdo['id'],
+  { extra: Extra }
+>(Action.FETCH_USER_INFO, async (id, { extra }) => {
+  const { api, history } = extra;
+
+  try {
+    const { data } = await api.get<UserRdo>(`${ApiRoute.Users}/${id}`);
+    return data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response?.status === httpStatus.NOT_FOUND) {
+      history.push(AppRoute.NotFound);
+    }
+
+    return Promise.reject(error);
+  }
+});
 /*
 export const fetchOffers = createAsyncThunk<
   Offer[],
@@ -140,69 +224,7 @@ export const fetchComments = createAsyncThunk<
 
   return adaptCommentsToClient(data);
 });
-*/
 
-export const fetchUserStatus = createAsyncThunk<
-  TokenPayload,
-  undefined,
-  { extra: Extra }
->(Action.FETCH_USER_STATUS, async (_, { extra }) => {
-  const { api } = extra;
-
-  try {
-    const { data } = await api.post<TokenPayload>(ApiRoute.CheckLogin);
-    return data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (axiosError.response?.status === httpStatus.UNAUTHORIZED) {
-      token.drop();
-    }
-
-    return Promise.reject(error);
-  }
-});
-
-export const loginUser = createAsyncThunk<
-  TokenPayload,
-  LoginUserDto,
-  { extra: Extra }
->(Action.LOGIN_USER, async ({ email, password }, { extra }) => {
-  const { api, history } = extra;
-  const { data } = await api.post<LoggedUserRdo>(ApiRoute.Login, {
-    email,
-    password,
-  });
-
-  token.save(data.accessToken);
-  refreshToken.save(data.refreshToken);
-  history.push(AppRoute.Root);
-
-  return {
-    sub: data.id,
-    email: data.email,
-  };
-});
-
-export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
-  Action.LOGOUT_USER,
-  async (_, { extra }) => {
-    const { api } = extra;
-    await api.delete(ApiRoute.Logout);
-
-    token.drop();
-  }
-);
-
-export const registerUser = createAsyncThunk<void, FormData, { extra: Extra }>(
-  Action.REGISTER_USER,
-  async (newUser, { extra }) => {
-    const { api, history } = extra;
-    await api.post<AuthUser>(ApiRoute.Register, newUser);
-    history.push(AppRoute.Login);
-  }
-);
-/*
 export const postComment = createAsyncThunk<
   Comment,
   CommentAuth,

@@ -1,6 +1,6 @@
 import { AuthorizationStatus } from '../const';
 import store from '../store';
-import { TokenPayload } from './shared';
+import { TokenPayload, UserRdo } from './shared';
 import type { SortName } from './types';
 
 export type SiteData = {
@@ -23,6 +23,8 @@ export type SiteProcess = {
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   user: TokenPayload;
+  isUserInfoLoading: boolean;
+  userInfo: UserRdo;
 };
 
 export type State = ReturnType<typeof store.getState>;
