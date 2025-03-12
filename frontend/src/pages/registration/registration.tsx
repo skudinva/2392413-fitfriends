@@ -37,6 +37,10 @@ function Registration(): JSX.Element {
     const formData = new FormData(e.currentTarget);
     formData.append('gender', formData.get('sex')?.toString() || '');
     formData.append('location', String(location));
+    if (avatar) {
+      formData.append('avatar', avatar);
+    }
+
     dispatch(registerUser(formData));
   };
 

@@ -10,6 +10,6 @@ export interface User {
   birthday?: Date;
   description?: string;
   location: Location;
-  backgroundImage: string;
+  backgroundImage?: string;
   registerDate: Date;
 }

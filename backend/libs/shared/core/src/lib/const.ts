@@ -36,7 +36,7 @@ export const EntityConstrain = {
       required: true,
     },
     backgroundImage: {
-      required: true,
+      required: false,
       mimeTypes: '.(jpg|jpeg|png)',
     },
   },
