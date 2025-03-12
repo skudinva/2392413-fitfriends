@@ -129,7 +129,7 @@ function Registration(): JSX.Element {
                       </label>
                     </div>
                     <div
-                      className={`custom-select ${
+                      className={`custom-select not-empty ${
                         isOpened ? 'is-open' : 'custom-select--not-selected'
                       }`}
                     >
@@ -147,6 +147,7 @@ function Registration(): JSX.Element {
                           </svg>
                         </span>
                       </button>
+
                       <ul className="custom-select__list" role="listbox">
                         {LOCATIONS.map((locationItem) => (
                           <li
