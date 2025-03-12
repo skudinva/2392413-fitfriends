@@ -1,5 +1,5 @@
 import { AuthorizationStatus, StoreSlice } from '../../const';
-import { TokenPayload } from '../../types/shared';
+import { TokenPayload, UserRdo } from '../../types/shared';
 import type { State } from '../../types/state';
 
 export const getAuthorizationStatus = ({
@@ -11,6 +11,14 @@ export const getIsAuthorized = ({
 }: State): boolean =>
   USER_PROCESS.authorizationStatus === AuthorizationStatus.Auth;
 
-export const getUser = ({
+export const getCurrentUser = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State): TokenPayload => USER_PROCESS.user;
+
+export const getUserInfoLoading = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State): boolean => USER_PROCESS.isUserInfoLoading;
+
+export const getUserInfo = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State): UserRdo => USER_PROCESS.userInfo;
