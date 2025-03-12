@@ -6,6 +6,7 @@ import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import Product from '../../pages/product/product';
 import Registration from '../../pages/registration/registration';
+import PersonalAccount from '../personal-account/personal-account';
 import PrivateRoute from '../private-route/private-route';
 
 function AppRouter() {
@@ -53,6 +54,17 @@ function AppRouter() {
               redirectTo={AppRoute.Intro}
             >
               <Product />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.PersonalAccount}
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={AppRoute.Intro}
+            >
+              <PersonalAccount />
             </PrivateRoute>
           }
         />

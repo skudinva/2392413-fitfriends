@@ -44,6 +44,7 @@ export enum AppRoute {
   Intro = '/intro',
   Login = '/login',
   Register = '/register',
+  PersonalAccount = 'personalAccount',
   Favorites = '/favorites',
   Property = '/offer',
   Add = '/add',

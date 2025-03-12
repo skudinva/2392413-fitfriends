@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
 function Header(): JSX.Element {
   return (
     <header className="header">
@@ -25,15 +28,15 @@ function Header(): JSX.Element {
               </a>
             </li>
             <li className="main-nav__item">
-              <a
+              <Link
                 className="main-nav__link"
-                href="#"
+                to={AppRoute.PersonalAccount}
                 aria-label="Личный кабинет"
               >
                 <svg width="16" height="18" aria-hidden="true">
                   <use xlinkHref="#icon-user"></use>
                 </svg>
-              </a>
+              </Link>
             </li>
             <li className="main-nav__item">
               <a className="main-nav__link" href="#" aria-label="Друзья">
