@@ -35,7 +35,7 @@ export function createAPI(): AxiosInstance {
 
         switch (status) {
           case 401:
-            toast.warn('Вы не авторизованы');
+            //toast.warn('Вы не авторизованы');
             break;
           case 403:
             toast.warn('Доступ запрещен');
