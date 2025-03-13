@@ -98,13 +98,3 @@ export const LOCATIONS = [
   'Звёздная',
   'Спортивная',
 ] as const;
-
-export const TRAINING_TYPES = [
-  'йога',
-  'бег',
-  'бокс',
-  'стрейчинг',
-  'кроссфит',
-  'аэробика',
-  'пилатес',
-] as const;

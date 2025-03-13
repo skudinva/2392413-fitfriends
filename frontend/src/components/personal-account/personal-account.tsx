@@ -1,3 +1,4 @@
+import { TRAINING_TYPE } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getUserInfo } from '../../store/user-process/selectors';
 import PersonalAccountUser from '../personal-account-user/personal-account-user';
@@ -80,6 +81,7 @@ function PersonalAccount(): JSX.Element {
                       type="checkbox"
                       name="ready-for-training"
                       defaultChecked
+                      disabled
                     />
                     <span className="custom-toggle__icon">
                       <svg width="9" height="6" aria-hidden="true">
@@ -97,98 +99,23 @@ function PersonalAccount(): JSX.Element {
                   Специализация
                 </h2>
                 <div className="specialization-checkbox user-info__specialization">
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="yoga"
-                        defaultChecked
-                      />
-                      <span className="btn-checkbox__btn">Йога</span>
-                    </label>
-                  </div>
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="running"
-                      />
-                      <span className="btn-checkbox__btn">Бег</span>
-                    </label>
-                  </div>
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="aerobics"
-                        defaultChecked
-                      />
-                      <span className="btn-checkbox__btn">Аэробика</span>
-                    </label>
-                  </div>
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="boxing"
-                      />
-                      <span className="btn-checkbox__btn">Бокс</span>
-                    </label>
-                  </div>
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="power"
-                      />
-                      <span className="btn-checkbox__btn">Силовые</span>
-                    </label>
-                  </div>
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="pilates"
-                        defaultChecked
-                      />
-                      <span className="btn-checkbox__btn">Пилатес</span>
-                    </label>
-                  </div>
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="stretching"
-                        defaultChecked
-                      />
-                      <span className="btn-checkbox__btn">Стрейчинг</span>
-                    </label>
-                  </div>
-                  <div className="btn-checkbox">
-                    <label>
-                      <input
-                        className="visually-hidden"
-                        type="checkbox"
-                        name="specialization"
-                        defaultValue="crossfit"
-                      />
-                      <span className="btn-checkbox__btn">Кроссфит</span>
-                    </label>
-                  </div>
+                  {TRAINING_TYPE.map((trainingType) => (
+                    <div className="btn-checkbox" key={trainingType}>
+                      <label>
+                        <input
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="specialization"
+                          value={trainingType}
+                          defaultChecked
+                          disabled
+                        />
+                        <span className="btn-checkbox__btn">
+                          {trainingType}
+                        </span>
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="custom-select--readonly custom-select user-info__select">

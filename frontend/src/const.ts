@@ -1,3 +1,7 @@
+import { TrainingType } from './types/shared';
+
+export const TRAINING_TYPE = Object.values(TrainingType);
+
 export enum TrainingGender {
   Man = 'для мужчин',
   Female = 'для женщин',
