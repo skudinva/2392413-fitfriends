@@ -1,12 +1,5 @@
-import {
-  ORDER_TYPES,
-  PAY_TYPES,
-  Sorting,
-  TRAINING_DURATIONS,
-  TRAINING_TYPES,
-} from '../const';
+import { ORDER_TYPES, PAY_TYPES, Sorting, TRAINING_DURATIONS } from '../const';
 
-export type TrainingType = (typeof TRAINING_TYPES)[number];
 export type TrainingDuration = (typeof TRAINING_DURATIONS)[number];
 export type OrderType = (typeof ORDER_TYPES)[number];
 export type PayType = (typeof PAY_TYPES)[number];

@@ -22,8 +22,8 @@ function PersonalAccount(): JSX.Element {
                   />
                   <span className="input-load-avatar__avatar">
                     <img
-                      src={userInfo.avatar}
-                      srcSet={userInfo.avatar && `${userInfo.avatar} 2x`}
+                      src={userInfo?.avatar}
+                      srcSet={userInfo?.avatar && `${userInfo.avatar} 2x`}
                       width="98"
                       height="98"
                       alt="user photo"
@@ -52,7 +52,7 @@ function PersonalAccount(): JSX.Element {
                       <input
                         type="text"
                         name="name"
-                        defaultValue={userInfo.name}
+                        defaultValue={userInfo?.name}
                         disabled
                       />
                     </span>
@@ -65,7 +65,7 @@ function PersonalAccount(): JSX.Element {
                       name="description"
                       placeholder=" "
                       disabled
-                      defaultValue={userInfo.description}
+                      defaultValue={userInfo?.description}
                     />
                   </label>
                 </div>
@@ -194,7 +194,7 @@ function PersonalAccount(): JSX.Element {
               <div className="custom-select--readonly custom-select user-info__select">
                 <span className="custom-select__label">Локация</span>
                 <div className="custom-select__placeholder">
-                  ст. м. {userInfo.location}
+                  ст. м. {userInfo?.location}
                 </div>
                 <button
                   className="custom-select__button"
@@ -214,7 +214,7 @@ function PersonalAccount(): JSX.Element {
               <div className="custom-select--readonly custom-select user-info__select">
                 <span className="custom-select__label">Пол</span>
                 <div className="custom-select__placeholder">
-                  {userInfo.gender}
+                  {userInfo?.gender}
                 </div>
                 <button
                   className="custom-select__button"

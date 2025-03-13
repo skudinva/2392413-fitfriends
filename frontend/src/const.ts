@@ -4,22 +4,6 @@ export enum TrainingGender {
   All = 'для всех',
 }
 
-export enum TrainingLevel {
-  Beginner = 'новичок',
-  Amateur = 'любитель',
-  Professional = 'профессионал',
-}
-
-export const TRAINING_TYPES = [
-  'йога',
-  'бег',
-  'бокс',
-  'стрейчинг',
-  'кроссфит',
-  'аэробика',
-  'пилатес',
-] as const;
-
 export const TRAINING_DURATIONS = [
   '10-30 мин',
   '30-50 мин',
