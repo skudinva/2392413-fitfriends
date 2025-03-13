@@ -14,7 +14,7 @@ export { Comment } from './lib/types/comment.interface';
 export { EntityList } from './lib/types/entity-list.enum';
 export { File } from './lib/types/file.interface';
 export { Like } from './lib/types/like.interface';
-export { Location } from './lib/types/location.interface';
+export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
 export { ILoginUserDto } from './lib/types/login-user-dto.interface';
 export { PostExtraProperty } from './lib/types/post-extra-property.interface';

@@ -1,6 +1,6 @@
 import {
   IUserRdo,
-  Location,
+  LocationName,
   LOCATIONS,
   UserGender,
 } from '@backend/shared/core';
@@ -68,7 +68,7 @@ export class UserRdo implements IUserRdo {
     type: String,
   })
   @Expose()
-  location: Location;
+  location: LocationName;
 
   @ApiProperty({
     description: 'User background image path',

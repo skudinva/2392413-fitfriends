@@ -1,11 +1,10 @@
 import {
   EntityConstrain,
-  Location,
+  LocationName,
   LOCATIONS,
   UserGender,
 } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import {
   IsEnum,
   IsIn,
@@ -64,9 +63,8 @@ export class CreateUserDto extends LoginUserDto {
     example: LOCATIONS[0],
     type: String,
   })
-  @Type(() => Location)
   @IsIn(LOCATIONS)
-  location: Location;
+  location: LocationName;
 
   @ApiProperty({
     description: 'User background image path',

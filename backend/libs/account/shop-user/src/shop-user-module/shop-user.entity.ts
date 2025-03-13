@@ -1,7 +1,7 @@
 import {
   AuthUser,
   Entity,
-  Location,
+  LocationName,
   StorableEntity,
   UserGender,
 } from '@backend/shared/core';
@@ -15,7 +15,7 @@ export class ShopUserEntity extends Entity implements StorableEntity<AuthUser> {
   public gender!: UserGender;
   public birthday!: Date;
   public description!: string;
-  public location!: Location;
+  public location!: LocationName;
   public backgroundImage!: string;
   public registerDate!: Date;
   public passwordHash!: string;

@@ -20,14 +20,6 @@ export const TRAINING_TYPES = [
   'пилатес',
 ] as const;
 
-export const LOCATIONS = [
-  'Пионерская',
-  'Петроградская',
-  'Удельная',
-  'Звёздная',
-  'Спортивная',
-] as const;
-
 export const TRAINING_DURATIONS = [
   '10-30 мин',
   '30-50 мин',

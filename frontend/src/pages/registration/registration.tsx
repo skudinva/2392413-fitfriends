@@ -1,9 +1,7 @@
 import { FormEvent, useState } from 'react';
-import { LOCATIONS } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/action';
-import { UserGender } from '../../types/shared';
-import { LocationName } from '../../types/types';
+import { LocationName, LOCATIONS, UserGender } from '../../types/shared';
 
 function Registration(): JSX.Element {
   const dispatch = useAppDispatch();

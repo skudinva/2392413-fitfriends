@@ -1,4 +1,4 @@
-import { Location } from './location.interface';
+import { LocationName } from './location-name.interface';
 import { UserGender } from './user-gender.enum';
 
 export interface User {
@@ -9,7 +9,7 @@ export interface User {
   gender: UserGender;
   birthday?: Date;
   description?: string;
-  location: Location;
+  location: LocationName;
   backgroundImage?: string;
   registerDate: Date;
 }
