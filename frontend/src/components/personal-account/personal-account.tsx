@@ -23,7 +23,7 @@ function PersonalAccount(): JSX.Element {
                   <span className="input-load-avatar__avatar">
                     <img
                       src={userInfo.avatar}
-                      srcSet={`${userInfo.avatar} 2x`}
+                      srcSet={userInfo.avatar && `${userInfo.avatar} 2x`}
                       width="98"
                       height="98"
                       alt="user photo"
@@ -61,12 +61,12 @@ function PersonalAccount(): JSX.Element {
                 <div className="custom-textarea custom-textarea--readonly user-info__textarea">
                   <label>
                     <span className="custom-textarea__label">Описание</span>
-                    <textarea name="description" placeholder=" " disabled>
-                      Персональный тренер и инструктор групповых программ с
-                      опытом более 4х лет. Специализация: коррекция фигуры и
-                      осанки, снижение веса, восстановление после травм,
-                      пилатес.
-                    </textarea>
+                    <textarea
+                      name="description"
+                      placeholder=" "
+                      disabled
+                      defaultValue={userInfo.description}
+                    />
                   </label>
                 </div>
               </div>
@@ -76,7 +76,11 @@ function PersonalAccount(): JSX.Element {
                 </h2>
                 <div className="custom-toggle custom-toggle--switch user-info__toggle">
                   <label>
-                    <input type="checkbox" name="ready-for-training" checked />
+                    <input
+                      type="checkbox"
+                      name="ready-for-training"
+                      defaultChecked
+                    />
                     <span className="custom-toggle__icon">
                       <svg width="9" height="6" aria-hidden="true">
                         <use xlinkHref="#arrow-check"></use>
@@ -99,8 +103,8 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="yoga"
-                        checked
+                        defaultValue="yoga"
+                        defaultChecked
                       />
                       <span className="btn-checkbox__btn">Йога</span>
                     </label>
@@ -111,7 +115,7 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="running"
+                        defaultValue="running"
                       />
                       <span className="btn-checkbox__btn">Бег</span>
                     </label>
@@ -122,8 +126,8 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="aerobics"
-                        checked
+                        defaultValue="aerobics"
+                        defaultChecked
                       />
                       <span className="btn-checkbox__btn">Аэробика</span>
                     </label>
@@ -134,7 +138,7 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="boxing"
+                        defaultValue="boxing"
                       />
                       <span className="btn-checkbox__btn">Бокс</span>
                     </label>
@@ -145,7 +149,7 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="power"
+                        defaultValue="power"
                       />
                       <span className="btn-checkbox__btn">Силовые</span>
                     </label>
@@ -156,8 +160,8 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="pilates"
-                        checked
+                        defaultValue="pilates"
+                        defaultChecked
                       />
                       <span className="btn-checkbox__btn">Пилатес</span>
                     </label>
@@ -168,8 +172,8 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="stretching"
-                        checked
+                        defaultValue="stretching"
+                        defaultChecked
                       />
                       <span className="btn-checkbox__btn">Стрейчинг</span>
                     </label>
@@ -180,7 +184,7 @@ function PersonalAccount(): JSX.Element {
                         className="visually-hidden"
                         type="checkbox"
                         name="specialization"
-                        value="crossfit"
+                        defaultValue="crossfit"
                       />
                       <span className="btn-checkbox__btn">Кроссфит</span>
                     </label>

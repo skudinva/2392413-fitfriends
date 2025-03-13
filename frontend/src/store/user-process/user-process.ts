@@ -15,13 +15,7 @@ const initialState: UserProcess = {
     email: '',
   },
   isUserInfoLoading: false,
-  userInfo: {
-    id: '',
-    avatar: '',
-    registerDate: '',
-    email: '',
-    name: '',
-  },
+  userInfo: null,
 };
 
 export const userProcess = createSlice({

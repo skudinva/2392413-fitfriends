@@ -24,7 +24,7 @@ export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   user: TokenPayload;
   isUserInfoLoading: boolean;
-  userInfo: UserRdo;
+  userInfo: UserRdo | null;
 };
 
 export type State = ReturnType<typeof store.getState>;
