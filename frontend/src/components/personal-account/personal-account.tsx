@@ -1,10 +1,33 @@
-import { TRAINING_TYPE } from '../../const';
+import { useState } from 'react';
+import { DEFAULT_TRAINING_LEVEL, TRAINING_TYPE } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { getUserInfo } from '../../store/user-process/selectors';
+import {
+  getUserInfo,
+  getUserInfoLoading,
+} from '../../store/user-process/selectors';
+import { LOCATIONS, UserGender } from '../../types/shared';
+import CustomSelect from '../custom-select/custom-select';
 import PersonalAccountUser from '../personal-account-user/personal-account-user';
+import Spinner from '../spinner/spinner';
 
 function PersonalAccount(): JSX.Element {
   const userInfo = useAppSelector(getUserInfo);
+  const userInfoLoading = useAppSelector(getUserInfoLoading);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const onEditButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsEdit(true);
+  };
+
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsEdit(false);
+  };
+
+  if (userInfoLoading) {
+    return <Spinner />;
+  }
 
   return (
     <section className="inner-page">
@@ -33,20 +56,46 @@ function PersonalAccount(): JSX.Element {
                 </label>
               </div>
             </div>
-            <form className="user-info__form" action="#" method="post">
-              <button
-                className="btn-flat btn-flat--underlined user-info__edit-button"
-                type="button"
-                aria-label="Редактировать"
-              >
-                <svg width="12" height="12" aria-hidden="true">
-                  <use xlinkHref="#icon-edit"></use>
-                </svg>
-                <span>Редактировать</span>
-              </button>
+            <form
+              className="user-info__form"
+              action="#"
+              method="post"
+              onSubmit={onFormSubmit}
+            >
+              {isEdit ? (
+                <button
+                  className="btn-flat btn-flat--underlined user-info__save-button"
+                  type="submit"
+                  aria-label="Сохранить"
+                >
+                  <svg width="12" height="12" aria-hidden="true">
+                    <use xlinkHref="#icon-edit"></use>
+                  </svg>
+                  <span>Сохранить</span>
+                </button>
+              ) : (
+                <button
+                  className="btn-flat btn-flat--underlined user-info__edit-button"
+                  type="button"
+                  aria-label="Редактировать"
+                  onClick={onEditButtonClick}
+                >
+                  <svg width="12" height="12" aria-hidden="true">
+                    <use xlinkHref="#icon-edit"></use>
+                  </svg>
+                  <span>Редактировать</span>
+                </button>
+              )}
               <div className="user-info__section">
                 <h2 className="user-info__title">Обо мне</h2>
-                <div className="custom-input custom-input--readonly user-info__input">
+                <div
+                  className={[
+                    'custom-input',
+                    isEdit
+                      ? 'user-info-edit__input'
+                      : 'user-info__input custom-input--readonly',
+                  ].join(' ')}
+                >
                   <label>
                     <span className="custom-input__label">Имя</span>
                     <span className="custom-input__wrapper">
@@ -54,7 +103,7 @@ function PersonalAccount(): JSX.Element {
                         type="text"
                         name="name"
                         defaultValue={userInfo?.name}
-                        disabled
+                        disabled={!isEdit}
                       />
                     </span>
                   </label>
@@ -118,49 +167,26 @@ function PersonalAccount(): JSX.Element {
                   ))}
                 </div>
               </div>
-              <div className="custom-select--readonly custom-select user-info__select">
-                <span className="custom-select__label">Локация</span>
-                <div className="custom-select__placeholder">
-                  ст. м. {userInfo?.location}
-                </div>
-                <button
-                  className="custom-select__button"
-                  type="button"
-                  aria-label="Выберите одну из опций"
-                  disabled
-                >
-                  <span className="custom-select__text"></span>
-                  <span className="custom-select__icon">
-                    <svg width="15" height="6" aria-hidden="true">
-                      <use xlinkHref="#arrow-down"></use>
-                    </svg>
-                  </span>
-                </button>
-                <ul className="custom-select__list" role="listbox"></ul>
-              </div>
-              <div className="custom-select--readonly custom-select user-info__select">
-                <span className="custom-select__label">Пол</span>
-                <div className="custom-select__placeholder">
-                  {userInfo?.gender}
-                </div>
-                <button
-                  className="custom-select__button"
-                  type="button"
-                  aria-label="Выберите одну из опций"
-                  disabled
-                >
-                  <span className="custom-select__text"></span>
-                  <span className="custom-select__icon">
-                    <svg width="15" height="6" aria-hidden="true">
-                      <use xlinkHref="#arrow-down"></use>
-                    </svg>
-                  </span>
-                </button>
-                <ul className="custom-select__list" role="listbox"></ul>
-              </div>
+              <CustomSelect
+                isEdit={isEdit}
+                labelText={'Локация'}
+                selectValues={[...LOCATIONS]}
+                containerClassName="user-info"
+                defaultValue={String(userInfo?.location || '')}
+                placeholderPrefix={!isEdit ? 'ст. м. ' : ''}
+              />
+              <CustomSelect
+                isEdit={isEdit}
+                labelText={'Пол'}
+                selectValues={Object.values(UserGender)}
+                containerClassName="user-info"
+                defaultValue={String(userInfo?.gender || '')}
+              />
               <div className="custom-select--readonly custom-select user-info__select">
                 <span className="custom-select__label">Уровень</span>
-                <div className="custom-select__placeholder">Профессионал</div>
+                <div className="custom-select__placeholder">
+                  {DEFAULT_TRAINING_LEVEL}
+                </div>
                 <button
                   className="custom-select__button"
                   type="button"

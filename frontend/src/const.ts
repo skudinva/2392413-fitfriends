@@ -1,4 +1,4 @@
-import { TrainingType } from './types/shared';
+import { TrainingLevel, TrainingType } from './types/shared';
 
 export const TRAINING_TYPE = Object.values(TrainingType);
 
@@ -69,3 +69,5 @@ export enum StoreSlice {
   SiteProcess = 'SITE_PROCESS',
   UserProcess = 'USER_PROCESS',
 }
+
+export const DEFAULT_TRAINING_LEVEL = TrainingLevel.Beginner;
