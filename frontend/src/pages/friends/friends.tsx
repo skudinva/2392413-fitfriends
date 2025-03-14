@@ -7,7 +7,7 @@ function Friends(): JSX.Element {
       <CustomHelmet pageTitle="Список друзей" />
       <div className="container">
         <div className="friends-list__wrapper">
-          <BackButton baseClassName={'friends-list__back'} />
+          <BackButton baseClassName="friends-list__back" />
           <div className="friends-list__title-wrapper">
             <h1 className="friends-list__title">Мои друзья</h1>
           </div>

@@ -7,7 +7,7 @@ function Purchases(): JSX.Element {
       <CustomHelmet pageTitle="Мои покупки" />
       <div className="container">
         <div className="my-purchases__wrapper">
-          <BackButton baseClassName={'my-purchases__back'} />
+          <BackButton baseClassName="my-purchases__back" />
           <div className="my-purchases__title-wrapper">
             <h1 className="my-purchases__title">Мои покупки</h1>
             <div className="my-purchases__controls">
