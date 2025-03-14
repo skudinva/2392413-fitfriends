@@ -7,6 +7,7 @@ interface CustomSelectProps {
   containerClassName: string;
   defaultValue: string;
   placeholderPrefix?: string;
+  componentName: string;
 }
 
 function CustomSelect({
@@ -16,6 +17,7 @@ function CustomSelect({
   containerClassName,
   defaultValue,
   placeholderPrefix,
+  componentName,
 }: CustomSelectProps): JSX.Element {
   type TypeOfValue = (typeof selectValues)[number];
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -41,6 +43,12 @@ function CustomSelect({
         isOpened ? 'is-open' : '',
       ].join(' ')}
     >
+      <input
+        className="visually-hidden"
+        type="text"
+        defaultValue={selectedValue}
+        name={componentName}
+      />
       <span className="custom-select__label">{labelText}</span>
       <div className="custom-select__placeholder">
         {placeholderPrefix}

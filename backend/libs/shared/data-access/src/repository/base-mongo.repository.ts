@@ -39,6 +39,7 @@ export abstract class BaseMongoRepository<
   }
 
   public async update(entity: T): Promise<void> {
+    console.log('entity', entity);
     const updatedDocument = await this.model
       .findByIdAndUpdate(entity.id, entity.toPOJO(), {
         new: true,

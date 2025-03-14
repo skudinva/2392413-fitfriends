@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { DEFAULT_TRAINING_LEVEL, TRAINING_TYPE } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { updateUser } from '../../store/action';
 import {
   getUserInfo,
   getUserInfoLoading,
 } from '../../store/user-process/selectors';
-import { LOCATIONS, UserGender } from '../../types/shared';
+import {
+  LocationName,
+  LOCATIONS,
+  UpdateUserDto,
+  UserGender,
+} from '../../types/shared';
 import CustomSelect from '../custom-select/custom-select';
 import Spinner from '../spinner/spinner';
 
 function UserInfoForm(): JSX.Element {
+  const dispatch = useAppDispatch();
   const userInfo = useAppSelector(getUserInfo);
   const userInfoLoading = useAppSelector(getUserInfoLoading);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -21,6 +28,15 @@ function UserInfoForm(): JSX.Element {
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const userDto: UpdateUserDto = {
+      gender: String(formData.get('gender')) as UserGender,
+      location: String(formData.get('location')) as LocationName,
+      name: String(formData.get('name')),
+    };
+
+    dispatch(updateUser(userDto));
     setIsEdit(false);
   };
 
@@ -141,6 +157,7 @@ function UserInfoForm(): JSX.Element {
         containerClassName="user-info"
         defaultValue={String(userInfo?.location || '')}
         placeholderPrefix={!isEdit ? 'ст. м. ' : ''}
+        componentName="location"
       />
       <CustomSelect
         isEdit={isEdit}
@@ -148,6 +165,7 @@ function UserInfoForm(): JSX.Element {
         selectValues={Object.values(UserGender)}
         containerClassName="user-info"
         defaultValue={String(userInfo?.gender || '')}
+        componentName="gender"
       />
       <div className="custom-select--readonly custom-select user-info__select">
         <span className="custom-select__label">Уровень</span>

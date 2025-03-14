@@ -8,6 +8,7 @@ import {
   LoggedUserRdo,
   LoginUserDto,
   TokenPayload,
+  UpdateUserDto,
   UserRdo,
 } from '../types/shared';
 import { refreshToken, token } from '../utils';
@@ -96,6 +97,16 @@ export const registerUser = createAsyncThunk<void, FormData, { extra: Extra }>(
     history.push(AppRoute.Root);
   }
 );
+
+export const updateUser = createAsyncThunk<
+  void,
+  UpdateUserDto,
+  { extra: Extra }
+>(Action.REGISTER_USER, async (updateUser, { extra }) => {
+  const { api, history } = extra;
+  await api.patch<AuthUser>(ApiRoute.UserUpdate, updateUser);
+  history.push(AppRoute.Root);
+});
 
 export const fetchUserInfo = createAsyncThunk<
   UserRdo,

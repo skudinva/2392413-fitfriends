@@ -151,7 +151,7 @@ export class AuthenticationService {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
 
-    const updateUser = new ShopUserEntity({ ...existUser, ...dto });
+    const updateUser = new ShopUserEntity({ ...existUser, ...dto, ...{ id } });
 
     await this.shopUserRepository.update(updateUser);
     return existUser;
