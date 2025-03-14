@@ -154,6 +154,6 @@ export class AuthenticationService {
     const updateUser = new ShopUserEntity({ ...existUser, ...dto, ...{ id } });
 
     await this.shopUserRepository.update(updateUser);
-    return existUser;
+    return updateUser;
   }
 }

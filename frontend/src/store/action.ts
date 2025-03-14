@@ -34,6 +34,7 @@ export const Action = {
   LOGOUT_USER: 'user/logout',
   FETCH_USER_STATUS: 'user/fetch-status',
   REGISTER_USER: 'user/register',
+  UPDATE_USER: 'user/update',
   FETCH_USER_INFO: '/user/fetch-user-info',
 };
 
@@ -98,19 +99,9 @@ export const registerUser = createAsyncThunk<void, FormData, { extra: Extra }>(
   }
 );
 
-export const updateUser = createAsyncThunk<
-  void,
-  UpdateUserDto,
-  { extra: Extra }
->(Action.REGISTER_USER, async (updateUser, { extra }) => {
-  const { api, history } = extra;
-  await api.patch<AuthUser>(ApiRoute.UserUpdate, updateUser);
-  history.push(AppRoute.Root);
-});
-
 export const fetchUserInfo = createAsyncThunk<
   UserRdo,
-  UserRdo['id'],
+  string,
   { extra: Extra }
 >(Action.FETCH_USER_INFO, async (id, { extra }) => {
   const { api, history } = extra;
@@ -127,6 +118,16 @@ export const fetchUserInfo = createAsyncThunk<
 
     return Promise.reject(error);
   }
+});
+
+export const updateUser = createAsyncThunk<
+  UserRdo,
+  UpdateUserDto,
+  { extra: Extra }
+>(Action.UPDATE_USER, async (updateDto, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.patch<UserRdo>(ApiRoute.UserUpdate, updateDto);
+  return data;
 });
 /*
 export const fetchOffers = createAsyncThunk<

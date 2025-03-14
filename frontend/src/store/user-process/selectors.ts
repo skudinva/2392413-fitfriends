@@ -20,3 +20,7 @@ export const getUserInfoLoading = ({
 export const getUserInfo = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.userInfo;
+
+export const getIsUserInfoSave = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State) => USER_PROCESS.isUserInfoSave;

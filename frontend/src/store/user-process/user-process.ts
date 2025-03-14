@@ -6,6 +6,7 @@ import {
   fetchUserStatus,
   loginUser,
   logoutUser,
+  updateUser,
 } from '../action';
 
 const initialState: UserProcess = {
@@ -16,6 +17,7 @@ const initialState: UserProcess = {
   },
   isUserInfoLoading: false,
   userInfo: null,
+  isUserInfoSave: false,
 };
 
 export const userProcess = createSlice({
@@ -55,6 +57,16 @@ export const userProcess = createSlice({
       })
       .addCase(fetchUserInfo.rejected, (state) => {
         state.isUserInfoLoading = false;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isUserInfoSave = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.userInfo = action.payload;
+        state.isUserInfoSave = false;
+      })
+      .addCase(updateUser.rejected, (state) => {
+        state.isUserInfoSave = false;
       });
   },
 });

@@ -47,7 +47,7 @@ function UserInfoForm(): JSX.Element {
   return (
     <form
       className="user-info__form"
-      action="#"
+      action="./"
       method="post"
       onSubmit={onFormSubmit}
     >
