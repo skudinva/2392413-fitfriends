@@ -26,6 +26,7 @@ export enum AppRoute {
   Register = '/register',
   PersonalAccount = '/personalAccount',
   Friends = '/friends',
+  Purchases = '/purchases',
   Favorites = '/favorites',
   Property = '/offer',
   Add = '/add',
