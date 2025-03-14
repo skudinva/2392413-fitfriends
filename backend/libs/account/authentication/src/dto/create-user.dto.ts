@@ -32,10 +32,12 @@ export class CreateUserDto extends LoginUserDto {
   public name: string;
 
   @ApiProperty({
-    description: 'User avatar path',
-    example: '/images/user.png',
+    description: 'User avatar',
+
+    type: 'string',
+    format: 'binary',
+    required: true,
   })
-  @IsString()
   public avatar: string;
 
   @ApiProperty({

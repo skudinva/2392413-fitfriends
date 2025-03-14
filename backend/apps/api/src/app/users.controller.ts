@@ -3,7 +3,6 @@ import {
   CreateUserDto,
   LoggedUserRdo,
   LoginUserDto,
-  RegisterUserDto,
   UpdateUserDto,
   UserRdo,
 } from '@backend/authentication';
@@ -64,7 +63,7 @@ export class UsersController {
     description: AuthenticationResponseMessage.UserExist,
   })
   public async create(
-    @Body() dto: RegisterUserDto,
+    @Body() dto: CreateUserDto,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
