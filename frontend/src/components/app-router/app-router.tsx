@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import Friends from '../../pages/friends/friends';
+import Home from '../../pages/home/home';
 import Intro from '../../pages/intro/intro';
 import Login from '../../pages/login/login';
 import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import PersonalAccount from '../../pages/personal-account/personal-account';
-import Product from '../../pages/product/product';
 import Purchases from '../../pages/purchases/purchases';
 import Registration from '../../pages/registration/registration';
 import PrivateRoute from '../private-route/private-route';
@@ -55,7 +55,7 @@ function AppRouter() {
               restrictedFor={AuthorizationStatus.NoAuth}
               redirectTo={AppRoute.Intro}
             >
-              <Product />
+              <Home />
             </PrivateRoute>
           }
         />
