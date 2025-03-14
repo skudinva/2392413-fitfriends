@@ -1,4 +1,5 @@
 import { FormEvent, useEffect } from 'react';
+import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import history from '../../history';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -28,6 +29,7 @@ function Login(): JSX.Element {
 
   return (
     <>
+      <CustomHelmet pageTitle="Войти" />
       <div className="background-logo">
         <svg
           className="background-logo__logo"

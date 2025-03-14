@@ -1,5 +1,7 @@
 import { TrainingLevel, TrainingType } from './types/shared';
 
+export const PROJECT_NAME = 'FitFriends';
+
 export const TRAINING_TYPE = Object.values(TrainingType);
 
 export enum TrainingGender {

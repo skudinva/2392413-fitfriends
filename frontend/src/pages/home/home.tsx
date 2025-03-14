@@ -1,6 +1,9 @@
+import CustomHelmet from '../../components/custom-helmet/custom-helmet';
+
 function Home(): JSX.Element {
   return (
     <>
+      <CustomHelmet />
       <h1 className="visually-hidden">
         FitFriends — Время находить тренировки, спортзалы и друзей спортсменов
       </h1>

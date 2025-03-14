@@ -1,5 +1,5 @@
-import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import { AppRoute } from '../../const';
 import history from '../../history';
 
@@ -10,9 +10,7 @@ function Intro(): JSX.Element {
 
   return (
     <div className="intro">
-      <Helmet>
-        <title>Мой Async Helmet App</title>
-      </Helmet>
+      <CustomHelmet pageTitle="Разводящая" />
       <div className="intro__background">
         <picture>
           <source

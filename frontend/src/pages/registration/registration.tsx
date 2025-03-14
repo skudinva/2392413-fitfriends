@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/action';
 import { LocationName, LOCATIONS, UserGender } from '../../types/shared';
@@ -44,6 +45,7 @@ function Registration(): JSX.Element {
 
   return (
     <>
+      <CustomHelmet pageTitle="Регистрация" />
       <div className="background-logo">
         <svg
           className="background-logo__logo"
