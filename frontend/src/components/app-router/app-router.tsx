@@ -69,7 +69,9 @@ function AppRouter() {
           }
         />
       </Route>
-      <Route path="*" element={<NotFound />} />
+      <Route element={<Main />}>
+        <Route path="*" element={<NotFound />} />
+      </Route>
     </Routes>
   );
 }
