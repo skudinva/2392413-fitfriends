@@ -1,6 +1,6 @@
 function Home(): JSX.Element {
   return (
-    <main>
+    <>
       <h1 className="visually-hidden">
         FitFriends — Время находить тренировки, спортзалы и друзей спортсменов
       </h1>
@@ -841,7 +841,7 @@ function Home(): JSX.Element {
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }
 
