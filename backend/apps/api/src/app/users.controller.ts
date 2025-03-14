@@ -97,25 +97,9 @@ export class UsersController {
     return data;
   }
 
-  @Post('login')
-  @ApiResponse({
-    type: LoggedUserRdo,
-    status: HttpStatus.OK,
-    description: AuthenticationResponseMessage.LoggedSuccess,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: AuthenticationResponseMessage.LoggedError,
-  })
-  public async login(@Body() loginUserDto: LoginUserDto) {
-    const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Auth}/login`,
-      loginUserDto
-    );
-    return data;
-  }
-
   @Patch('update')
+  @UseInterceptors(FileInterceptor('avatar'))
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
@@ -131,10 +115,35 @@ export class UsersController {
   })
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
-  public async update(@Body() dto: UpdateUserDto, @Req() req: Request) {
+  public async update(
+    @Body() dto: UpdateUserDto,
+    @Req() req: Request,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: EntityConstrain.user.avatar.maxFileSize,
+          }),
+          new FileTypeValidator({
+            fileType: EntityConstrain.user.avatar.mimeTypes,
+          }),
+        ],
+        fileIsRequired: false,
+      })
+    )
+    avatar?: Express.Multer.File
+  ) {
+    const updateUserDto = plainToInstance(UpdateUserDto, {
+      ...dto,
+    });
+
+    if (avatar) {
+      updateUserDto.avatar = await this.appService.uploadFile(avatar);
+    }
+
     const { data } = await this.httpService.axiosRef.patch<UserRdo>(
       `${ApplicationServiceURL.Auth}/update`,
-      dto,
+      updateUserDto,
       {
         headers: {
           Authorization: req.headers['authorization'],
@@ -147,6 +156,24 @@ export class UsersController {
       ApplicationServiceURL.File
     );
 
+    return data;
+  }
+
+  @Post('login')
+  @ApiResponse({
+    type: LoggedUserRdo,
+    status: HttpStatus.OK,
+    description: AuthenticationResponseMessage.LoggedSuccess,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: AuthenticationResponseMessage.LoggedError,
+  })
+  public async login(@Body() loginUserDto: LoginUserDto) {
+    const { data } = await this.httpService.axiosRef.post(
+      `${ApplicationServiceURL.Auth}/login`,
+      loginUserDto
+    );
     return data;
   }
 

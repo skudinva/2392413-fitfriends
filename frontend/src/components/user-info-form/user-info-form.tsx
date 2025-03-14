@@ -6,12 +6,7 @@ import {
   getUserInfo,
   getUserInfoLoading,
 } from '../../store/user-process/selectors';
-import {
-  LocationName,
-  LOCATIONS,
-  UpdateUserDto,
-  UserGender,
-} from '../../types/shared';
+import { LOCATIONS, UserGender } from '../../types/shared';
 import CustomSelect from '../custom-select/custom-select';
 import Spinner from '../spinner/spinner';
 
@@ -27,17 +22,22 @@ function UserInfoForm(): JSX.Element {
     setIsEdit(true);
   };
 
+  const [avatar, setAvatar] = useState<File>();
+  const onAvatarUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) {
+      return;
+    }
+    setAvatar(evt.target.files[0]);
+  };
+
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    if (avatar) {
+      formData.append('avatar', avatar);
+    }
 
-    const userDto: UpdateUserDto = {
-      gender: String(formData.get('gender')) as UserGender,
-      location: String(formData.get('location')) as LocationName,
-      name: String(formData.get('name')),
-    };
-
-    dispatch(updateUser(userDto));
+    dispatch(updateUser(formData));
     setIsEdit(false);
   };
 
@@ -53,18 +53,28 @@ function UserInfoForm(): JSX.Element {
             <input
               className="visually-hidden"
               type="file"
-              name="user-photo-1"
+              name="avatar"
               accept="image/png, image/jpeg"
               disabled={!isEdit}
+              onChange={onAvatarUpload}
             />
             <span className="input-load-avatar__avatar">
-              <img
-                src={userInfo?.avatar}
-                srcSet={userInfo?.avatar && `${userInfo.avatar} 2x`}
-                width="98"
-                height="98"
-                alt="user photo"
-              />
+              {avatar ? (
+                <img
+                  src={URL.createObjectURL(avatar)}
+                  width="98"
+                  height="98"
+                  alt="user photo"
+                />
+              ) : (
+                <img
+                  src={userInfo?.avatar}
+                  srcSet={userInfo?.avatar && `${userInfo.avatar} 2x`}
+                  width="98"
+                  height="98"
+                  alt="user photo"
+                />
+              )}
             </span>
           </label>
         </div>

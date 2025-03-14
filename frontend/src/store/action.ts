@@ -8,7 +8,6 @@ import {
   LoggedUserRdo,
   LoginUserDto,
   TokenPayload,
-  UpdateUserDto,
   UserRdo,
 } from '../types/shared';
 import { refreshToken, token } from '../utils';
@@ -99,6 +98,15 @@ export const registerUser = createAsyncThunk<void, FormData, { extra: Extra }>(
   }
 );
 
+export const updateUser = createAsyncThunk<UserRdo, FormData, { extra: Extra }>(
+  Action.UPDATE_USER,
+  async (updateDto, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.patch<UserRdo>(ApiRoute.UserUpdate, updateDto);
+    return data;
+  }
+);
+
 export const fetchUserInfo = createAsyncThunk<
   UserRdo,
   string,
@@ -120,15 +128,6 @@ export const fetchUserInfo = createAsyncThunk<
   }
 });
 
-export const updateUser = createAsyncThunk<
-  UserRdo,
-  UpdateUserDto,
-  { extra: Extra }
->(Action.UPDATE_USER, async (updateDto, { extra }) => {
-  const { api } = extra;
-  const { data } = await api.patch<UserRdo>(ApiRoute.UserUpdate, updateDto);
-  return data;
-});
 /*
 export const fetchOffers = createAsyncThunk<
   Offer[],
