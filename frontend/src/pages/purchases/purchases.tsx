@@ -1,14 +1,11 @@
+import BackButton from '../../components/back-button/back-button';
+
 function Purchases(): JSX.Element {
   return (
     <section className="my-purchases">
       <div className="container">
         <div className="my-purchases__wrapper">
-          <button className="btn-flat my-purchases__back" type="button">
-            <svg width="14" height="10" aria-hidden="true">
-              <use xlinkHref="#arrow-left"></use>
-            </svg>
-            <span>Назад</span>
-          </button>
+          <BackButton baseClassName={'my-purchases__back'} />
           <div className="my-purchases__title-wrapper">
             <h1 className="my-purchases__title">Мои покупки</h1>
             <div className="my-purchases__controls">
