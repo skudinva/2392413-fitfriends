@@ -1,5 +1,5 @@
-import { PaginationResult } from '@backend/shared/core';
-import { TrainingPostService } from '@backend/training-post';
+import { Comment, PaginationResult } from '@backend/shared/core';
+import { TrainingService } from '@backend/training';
 import {
   ConflictException,
   Injectable,
@@ -16,16 +16,16 @@ export class TrainingCommentService {
   constructor(
     private readonly trainingCommentRepository: TrainingCommentRepository,
     private readonly trainingCommentFactory: TrainingCommentFactory,
-    private readonly trainingPostService: TrainingPostService
+    private readonly trainingPostService: TrainingService
   ) {}
 
   public async getComments(
-    trainingId: string,
+    trainingId: Comment['trainingId'],
     query: TrainingCommentQuery
   ): Promise<PaginationResult<ReturnType<TrainingCommentEntity['toPOJO']>>> {
-    const training = await this.trainingPostService.getPost(trainingId, null);
+    const training = await this.trainingPostService.getTraining(trainingId);
     const commentsWithPagination =
-      await this.trainingCommentRepository.findByPostId(training.id, query);
+      await this.trainingCommentRepository.findByTrainingId(training.id, query);
 
     const comments = {
       ...commentsWithPagination,
@@ -38,11 +38,10 @@ export class TrainingCommentService {
   }
 
   public async addComment(
-    trainingId: string,
     dto: CreateCommentDto
   ): Promise<TrainingCommentEntity> {
     const existsComment = this.trainingCommentRepository.findByUserAndPostId(
-      trainingId,
+      dto.trainingId,
       dto.userId
     );
 
@@ -50,17 +49,17 @@ export class TrainingCommentService {
       throw new ConflictException('User already comment this post');
     }
 
-    const newComment = this.trainingCommentFactory.createFromDto(
-      dto,
-      trainingId
-    );
+    const newComment = this.trainingCommentFactory.create(dto);
     await this.trainingCommentRepository.save(newComment);
-    await this.trainingPostService.updateCommentCount(trainingId, 1);
+    //await this.trainingPostService.updateCommentCount(trainingId, 1);
 
     return newComment;
   }
 
-  public async deleteComment(id: string, userId: string): Promise<void> {
+  public async deleteComment(
+    id: Comment['id'],
+    userId: Comment['userId']
+  ): Promise<void> {
     const existComment = await this.trainingCommentRepository.findById(id);
     if (userId !== existComment.userId) {
       throw new ConflictException('You are not allowed to delete this comment');
@@ -68,10 +67,10 @@ export class TrainingCommentService {
 
     try {
       await this.trainingCommentRepository.deleteById(id);
-      await this.trainingPostService.updateCommentCount(
+      /*await this.trainingPostService.updateCommentCount(
         existComment.trainingId,
         -1
-      );
+      );*/
     } catch {
       throw new NotFoundException(`Comment with id ${id} not found`);
     }

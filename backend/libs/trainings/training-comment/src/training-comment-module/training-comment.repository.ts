@@ -38,7 +38,7 @@ export class TrainingCommentRepository extends BasePostgresRepository<
   }
 
   public override async findById(
-    id: string
+    id: Comment['id']
   ): Promise<TrainingCommentEntity | null> {
     const document = await this.client.comment.findFirst({
       where: {
@@ -53,7 +53,7 @@ export class TrainingCommentRepository extends BasePostgresRepository<
     return this.createEntityFromDocument(document);
   }
 
-  public override async deleteById(id: string): Promise<void> {
+  public override async deleteById(id: Comment['id']): Promise<void> {
     await this.client.comment.delete({
       where: {
         id,
@@ -61,8 +61,8 @@ export class TrainingCommentRepository extends BasePostgresRepository<
     });
   }
 
-  public async findByPostId(
-    trainingId: string,
+  public async findByTrainingId(
+    trainingId: Comment['trainingId'],
     query: TrainingCommentQuery
   ): Promise<PaginationResult<TrainingCommentEntity>> {
     const skip =
@@ -90,7 +90,7 @@ export class TrainingCommentRepository extends BasePostgresRepository<
   }
 
   public async findByUserAndPostId(
-    trainingId: string,
+    trainingId: Comment['trainingId'],
     userId: string
   ): Promise<TrainingCommentEntity> {
     const document = await this.client.comment.findFirst({

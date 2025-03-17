@@ -5,10 +5,6 @@ import { TrainingCommentRdo } from './training-comment.rdo';
 export class TrainingCommentWithPaginationRdo {
   @ApiProperty({
     description: 'List of items of selected PgEntity',
-    example: [
-      { text: 'comment1', userId: '669aef3b7eadb26966f3c2cb' },
-      { text: 'comment2', userId: '669aef3b7eadb26966f3c2cb' },
-    ],
   })
   @Expose()
   @Type(() => TrainingCommentRdo)

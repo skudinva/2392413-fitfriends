@@ -1,8 +1,8 @@
 export interface Comment {
-  id?: string;
-  trainingId: string;
+  id?: number;
   userId: string;
-  createdAt: Date;
-  updatedAt: Date;
+  trainingId: number;
+  rating: number;
   message: string;
+  createdAt: Date;
 }

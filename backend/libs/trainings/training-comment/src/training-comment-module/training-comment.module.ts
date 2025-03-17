@@ -1,5 +1,5 @@
+import { TrainingModule } from '@backend/training';
 import { PrismaClientModule } from '@backend/training-models';
-import { TrainingPostModule } from '@backend/training-post';
 import { Module } from '@nestjs/common';
 import { TrainingCommentController } from './training-comment.controller';
 import { TrainingCommentFactory } from './training-comment.factory';
@@ -7,7 +7,7 @@ import { TrainingCommentRepository } from './training-comment.repository';
 import { TrainingCommentService } from './training-comment.service';
 
 @Module({
-  imports: [PrismaClientModule, TrainingPostModule],
+  imports: [PrismaClientModule, TrainingModule],
   controllers: [TrainingCommentController],
   providers: [
     TrainingCommentService,

@@ -1,4 +1,5 @@
 import { fillDto } from '@backend/helpers';
+import { Comment } from '@backend/shared/core';
 import {
   Body,
   Controller,
@@ -35,7 +36,7 @@ export class TrainingCommentController {
   })
   @Get('/:trainingId')
   public async show(
-    @Param('trainingId') trainingId: string,
+    @Param('trainingId') trainingId: Comment['trainingId'],
     @Query() query: TrainingCommentQuery
   ) {
     const comments = await this.trainingCommentService.getComments(
@@ -56,7 +57,7 @@ export class TrainingCommentController {
   })
   @Post('/:trainingId')
   public async create(
-    @Param('trainingId') trainingId: string,
+    @Param('trainingId') trainingId: Comment['trainingId'],
     @Body() dto: CreateCommentDto
   ) {
     const newComment = await this.trainingCommentService.addComment(
@@ -81,8 +82,8 @@ export class TrainingCommentController {
   })
   @Delete('/:commentId/:userId')
   public async delete(
-    @Param('commentId') commentId: string,
-    @Param('userId') userId: string
+    @Param('commentId') commentId: Comment['trainingId'],
+    @Param('userId') userId: Comment['userId']
   ) {
     await this.trainingCommentService.deleteComment(commentId, userId);
   }
