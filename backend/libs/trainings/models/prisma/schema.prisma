@@ -8,81 +8,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum PostType {
-  Video
-  Text
-  Quote
-  Photo
-  Link
-}
-
-enum PostState {
-  Published
-  Draft
-}
-
-model Tag {
-  id        String @id @default(uuid()) @map("id")
-  title     String @unique
-  trainings Post[]
-
-  @@map("tags")
-}
-
-model PostExtraProperty {
-  id          String   @id @default(uuid())
-  trainingId  String   @unique @map("post_id")
-  url         String?
-  describe    String?
-  photo       String?
-  text        String?
-  announce    String?
-  name        String?
-  quoteText   String?  @map("quote_text")
-  quoteAuthor String?  @map("quote_author")
-  training    Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@map("post_extra_property")
-}
-
-model Post {
-  id            String             @id @default(uuid())
-  postType      PostType           @map("post_type")
-  userId        String             @map("user_id")
-  isRepost      Boolean            @map("is_repost")
-  originUserId  String?            @map("origin_user_id")
-  originPostId  String?            @map("origin_post_id")
-  tags          Tag[]
-  state         PostState
-  createdAt     DateTime           @default(now()) @map("created_at")
-  publicDate    DateTime           @map("public_date")
-  likesCount    Int                @default(0) @map("likes_count")
-  commentsCount Int                @default(0) @map("comments_count")
-  extraProperty PostExtraProperty?
-  comments      Comment[]
-  likes         Like[]
+model Training {
+  id          Int       @id @default(autoincrement())
+  title       String
+  image       String
+  level       String
+  type        String
+  duration    String
+  price       Int
+  calories    Int
+  description String
+  gender      String
+  video       String
+  rating      Float
+  trainer     String
+  isSpecial   Boolean   @default(false) @map("is_special")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  comments    Comment[]
 
   @@map("trainings")
 }
 
 model Comment {
-  id         String   @id @default(uuid()) @map("id")
-  trainingId String   @map("post_id")
+  id         Int      @id @default(autoincrement())
   userId     String   @map("user_id")
+  trainingId Int      @map("training_id")
+  rating     Int
   message    String
   createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
   training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([trainingId, userId])
   @@map("comments")
 }
 
-model Like {
-  userId     String   @map("user_id")
-  trainingId String   @map("post_id")
-  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@unique([userId, trainingId])
-  @@map("likes")
+model Order {
+  id          Int      @id @default(autoincrement())
+  type        String
+  trainingId  Int      @map("training_id")
+  price       Int
+  amount      Int
+  totalPrice  Int      @map("total_price")
+  paymentType String   @map("payment_type")
+  createdAt   DateTime @default(now()) @map("created_at")
 }
