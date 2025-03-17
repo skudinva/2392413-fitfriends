@@ -38,10 +38,11 @@ export class TrainingCommentService {
   }
 
   public async addComment(
+    trainingId: Comment['trainingId'],
     dto: CreateCommentDto
   ): Promise<TrainingCommentEntity> {
     const existsComment = this.trainingCommentRepository.findByUserAndPostId(
-      dto.trainingId,
+      trainingId,
       dto.userId
     );
 

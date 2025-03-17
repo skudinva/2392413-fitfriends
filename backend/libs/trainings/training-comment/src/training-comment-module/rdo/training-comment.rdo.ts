@@ -1,7 +1,11 @@
+import { Comment } from '@backend/shared/core';
 import { Expose } from 'class-transformer';
-import { BaseCommentDto } from '../dto/base-comment.dto';
+import { TrainingCommentApiDoc } from '../training-comment.api-doc';
 
-export class TrainingCommentRdo extends BaseCommentDto {
+export class TrainingCommentRdo
+  extends TrainingCommentApiDoc
+  implements Comment
+{
   @Expose()
   public id: number;
 
