@@ -51,4 +51,6 @@ model Order {
   totalPrice  Int      @map("total_price")
   paymentType String   @map("payment_type")
   createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("orders")
 }
