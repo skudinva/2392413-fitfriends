@@ -14,7 +14,7 @@ import { UsersController } from './users.controller';
     }),
   ],
   controllers: [
-    UsersController, //BlogController
+    UsersController, //TrainingController
   ],
   providers: [CheckAuthGuard, CheckAuthForceGuard, AppService],
 })

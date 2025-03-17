@@ -18,13 +18,19 @@
     "paths": {
       "@backend/account-notify": ["libs/account/notify/src/index.ts"],
       "@backend/authentication": ["libs/account/authentication/src/index.ts"],
-      "@backend/blog-comment": ["libs/blog/blog-comment/src/index.ts"],
-      "@backend/blog-config": ["libs/blog/blog-config/src/index.ts"],
-      "@backend/blog-like": ["libs/blog/blog-like/src/index.ts"],
-      "@backend/blog-models": ["libs/blog/models/src/index.ts"],
-      "@backend/blog-notify": ["libs/blog/blog-notify/src/index.ts"],
-      "@backend/blog-post": ["libs/blog/blog-post/src/index.ts"],
-      "@backend/blog-tag": ["libs/blog/blog-tag/src/index.ts"],
+      "@backend/training-comment": [
+        "libs/trainings/training-comment/src/index.ts"
+      ],
+      "@backend/training-config": [
+        "libs/trainings/training-config/src/index.ts"
+      ],
+      "@backend/training-like": ["libs/trainings/training-like/src/index.ts"],
+      "@backend/training-models": ["libs/trainings/models/src/index.ts"],
+      "@backend/training-notify": [
+        "libs/trainings/training-notify/src/index.ts"
+      ],
+      "@backend/training-post": ["libs/trainings/training-post/src/index.ts"],
+      "@backend/training-tag": ["libs/trainings/training-tag/src/index.ts"],
       "@backend/shop-user": ["libs/account/shop-user/src/index.ts"],
       "@backend/config": ["libs/account/config/src/index.ts"],
       "@backend/data-access": ["libs/shared/data-access/src/index.ts"],
@@ -35,7 +41,7 @@
       "@backend/file-vault-config": ["libs/file-vault/config/src/index.ts"],
       "@backend/helpers": ["libs/shared/helpers/src/index.ts"],
       "@backend/interceptors": ["libs/shared/interceptors/src/index.ts"],
-      "@backend/models": ["libs/blog/models/src/index.ts"],
+      "@backend/models": ["libs/trainings/models/src/index.ts"],
       "@backend/notify-config": ["libs/notify/config/src/index.ts"],
       "@backend/pipes": ["libs/shared/pipes/src/index.ts"],
       "@backend/shared/core": ["libs/shared/core/src/index.ts"]

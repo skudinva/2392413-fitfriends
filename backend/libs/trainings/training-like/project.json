@@ -1,0 +1,9 @@
+{
+  "name": "training-like",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/trainings/training-like/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project training-like --web",
+  "targets": {}
+}
