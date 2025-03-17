@@ -1,11 +1,9 @@
 import { PaginationResult } from '@backend/shared/core';
-import { TrainingTagService } from '@backend/training-tag';
 import {
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PostState } from '@prisma/client';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { TrainingPostResponse } from './training-post.constant';
@@ -17,16 +15,11 @@ import { TrainingPostRepository } from './training-post.repository';
 @Injectable()
 export class TrainingPostService {
   constructor(
-    private readonly trainingPostRepository: TrainingPostRepository,
-    private readonly trainingTagService: TrainingTagService
+    private readonly trainingPostRepository: TrainingPostRepository
   ) {}
 
   public async createPost(dto: CreatePostDto): Promise<TrainingPostEntity> {
-    const tags = dto.tags
-      ? await this.trainingTagService.findOrCreate(dto.tags)
-      : [];
-
-    const newPost = TrainingPostFactory.createFromCreatePostDto(dto, tags);
+    const newPost = TrainingPostFactory.createFromCreatePostDto(dto);
     await this.trainingPostRepository.save(newPost);
 
     return newPost;
@@ -46,16 +39,8 @@ export class TrainingPostService {
     }
 
     for (const [key, value] of Object.entries(dto)) {
-      if (
-        value !== undefined &&
-        key !== 'extraProperty' &&
-        key !== 'tags' &&
-        existPost[key] !== value
-      ) {
+      if (value !== undefined && existPost[key] !== value) {
         existPost[key] = value;
-      }
-      if (key === 'tags' && value) {
-        existPost.tags = await this.trainingTagService.findOrCreate(dto.tags);
       }
     }
 
@@ -82,14 +67,6 @@ export class TrainingPostService {
   ): Promise<TrainingPostEntity> {
     const existPost = await this.trainingPostRepository.findById(id);
     if (!existPost) {
-      throw new NotFoundException(TrainingPostResponse.PostNotFound);
-    }
-
-    if (
-      userId !== null &&
-      userId !== existPost.userId &&
-      existPost.state === PostState.Draft
-    ) {
       throw new NotFoundException(TrainingPostResponse.PostNotFound);
     }
 

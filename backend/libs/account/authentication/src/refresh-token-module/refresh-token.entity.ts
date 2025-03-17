@@ -1,7 +1,7 @@
-import { Entity, JwtToken, StorableEntity } from '@backend/shared/core';
+import { MongoEntity, JwtToken, StorableEntity } from '@backend/shared/core';
 
 export class RefreshTokenEntity
-  extends Entity
+  extends MongoEntity
   implements StorableEntity<JwtToken>
 {
   public tokenId: string;

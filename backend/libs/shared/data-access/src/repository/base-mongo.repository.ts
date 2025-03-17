@@ -1,10 +1,14 @@
-import { Entity, EntityFactory, StorableEntity } from '@backend/shared/core';
+import {
+  EntityFactory,
+  MongoEntity,
+  StorableEntity,
+} from '@backend/shared/core';
 import { NotFoundException } from '@nestjs/common';
 import { Document, Model } from 'mongoose';
 import { Repository } from './repository.interface';
 
 export abstract class BaseMongoRepository<
-  T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>,
+  T extends MongoEntity & StorableEntity<ReturnType<T['toPOJO']>>,
   DocumentType extends Document
 > implements Repository<T>
 {
@@ -47,14 +51,14 @@ export abstract class BaseMongoRepository<
       .exec();
 
     if (!updatedDocument) {
-      throw new NotFoundException(`Entity with id ${entity.id} not found`);
+      throw new NotFoundException(`MongoEntity with id ${entity.id} not found`);
     }
   }
 
   public async deleteById(id: T['id']): Promise<void> {
     const deletedDocument = await this.model.findByIdAndDelete(id).exec();
     if (!deletedDocument) {
-      throw new NotFoundException(`Entity with id ${id} not found.`);
+      throw new NotFoundException(`MongoEntity with id ${id} not found.`);
     }
   }
 }

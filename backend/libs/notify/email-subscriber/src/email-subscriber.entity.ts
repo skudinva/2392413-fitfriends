@@ -1,7 +1,7 @@
-import { Entity, StorableEntity, Subscriber } from '@backend/shared/core';
+import { MongoEntity, StorableEntity, Subscriber } from '@backend/shared/core';
 
 export class EmailSubscriberEntity
-  extends Entity
+  extends MongoEntity
   implements StorableEntity<Subscriber>
 {
   public email: string;

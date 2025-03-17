@@ -1,7 +1,7 @@
-import { Comment, Entity, StorableEntity } from '@backend/shared/core';
+import { Comment, PgEntity, StorableEntity } from '@backend/shared/core';
 
 export class TrainingCommentEntity
-  extends Entity
+  extends PgEntity
   implements StorableEntity<Comment>
 {
   public createdAt!: Date;

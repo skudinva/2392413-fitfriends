@@ -1,6 +1,6 @@
 import {
   AuthUser,
-  Entity,
+  MongoEntity,
   LocationName,
   StorableEntity,
   UserGender,
@@ -8,7 +8,10 @@ import {
 import { compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from './shop-user.constant';
 
-export class ShopUserEntity extends Entity implements StorableEntity<AuthUser> {
+export class ShopUserEntity
+  extends MongoEntity
+  implements StorableEntity<AuthUser>
+{
   public email!: string;
   public name!: string;
   public avatar!: string;

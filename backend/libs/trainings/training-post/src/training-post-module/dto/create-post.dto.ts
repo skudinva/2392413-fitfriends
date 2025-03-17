@@ -1,16 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PostState, PostType } from '@prisma/client';
-import { Type } from 'class-transformer';
 import {
   IsArray,
   IsIn,
   IsMongoId,
   IsOptional,
   IsString,
-  ValidateNested,
 } from 'class-validator';
-import { PostExtraPropertyDto } from './post-extra-property.dto';
-import { IsValidPostCombination } from './valid-post-property';
 
 export class CreatePostDto {
   @ApiProperty({
@@ -50,12 +46,4 @@ export class CreatePostDto {
     enumName: 'PostState',
   })
   state!: PostState;
-
-  @ValidateNested()
-  @Type(() => PostExtraPropertyDto)
-  @IsValidPostCombination({
-    message: 'Invalid combination of PostType',
-  })
-  @ApiProperty()
-  extraProperty!: PostExtraPropertyDto;
 }

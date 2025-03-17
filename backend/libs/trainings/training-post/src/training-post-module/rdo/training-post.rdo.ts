@@ -1,7 +1,5 @@
-import { TagRdo } from '@backend/training-tag';
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Type } from 'class-transformer';
-import { PostExtraPropertyRdo } from './post-extra-property.rdo';
+import { Expose } from 'class-transformer';
 
 export class TrainingPostRdo {
   @Expose()
@@ -47,16 +45,6 @@ export class TrainingPostRdo {
   originPostId?: string;
 
   @Expose()
-  @Type(() => TagRdo)
-  @ApiProperty({
-    description: 'List of tags',
-    example: [
-      { title: '#sometag', id: '863f37cc-b7c6-581c-ba07-f0ec0607dc4a' },
-    ],
-  })
-  tags!: TagRdo[];
-
-  @Expose()
   @ApiProperty({
     description: 'Training state',
     example: 'Published',
@@ -90,10 +78,6 @@ export class TrainingPostRdo {
     example: 10,
   })
   commentsCount!: number;
-
-  @Expose()
-  @Type(() => PostExtraPropertyRdo)
-  extraProperty?: PostExtraPropertyRdo;
 
   @Expose()
   comments!: Comment[];

@@ -1,6 +1,5 @@
 export { CreatePostFileDto } from './training-post-module/dto/create-post-file.dto';
 export { CreatePostDto } from './training-post-module/dto/create-post.dto';
-export { PostExtraPropertyDto } from './training-post-module/dto/post-extra-property.dto';
 export { UpdatePostFileDto } from './training-post-module/dto/update-post-file.dto';
 export { UpdatePostDto } from './training-post-module/dto/update-post.dto';
 export { UserIdDto } from './training-post-module/dto/user-id.dto';

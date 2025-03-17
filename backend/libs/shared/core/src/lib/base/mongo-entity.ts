@@ -1,4 +1,4 @@
-export abstract class Entity {
+export abstract class MongoEntity {
   private _id = '';
   public get id(): string {
     return this._id;

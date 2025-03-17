@@ -1,7 +1,5 @@
 import { EntityFactory, Training } from '@backend/shared/core';
-import { TrainingTagEntity } from '@backend/training-tag';
 import { Injectable } from '@nestjs/common';
-import { PostState } from '@prisma/client';
 import dayjs from 'dayjs';
 import { CreatePostDto } from './dto/create-post.dto';
 import { TrainingPostEntity } from './training-post.entity';
@@ -13,15 +11,13 @@ export class TrainingPostFactory implements EntityFactory<TrainingPostEntity> {
   }
 
   public static createFromCreatePostDto(
-    dto: CreatePostDto,
-    tags: TrainingTagEntity[]
+    dto: CreatePostDto
   ): TrainingPostEntity {
     const newPost = new TrainingPostEntity();
     newPost.id = undefined;
     newPost.postType = dto.postType;
     newPost.userId = dto.userId;
     newPost.isRepost = false;
-    newPost.state = PostState.Published;
     newPost.createdAt = dayjs().toDate();
     newPost.publicDate = dayjs().toDate();
     newPost.likesCount = 0;

@@ -1,9 +1,9 @@
-import { Entity, EntityFactory, StorableEntity } from '@backend/shared/core';
+import { EntityFactory, PgEntity, StorableEntity } from '@backend/shared/core';
 import { PrismaClientService } from '@backend/training-models';
 import { Repository } from './repository.interface';
 
 export abstract class BasePostgresRepository<
-  T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>,
+  T extends PgEntity & StorableEntity<ReturnType<T['toPOJO']>>,
   DocumentType = ReturnType<T['toPOJO']>
 > implements Repository<T>
 {

@@ -17,7 +17,7 @@ export class TrainingPostRepository extends BasePostgresRepository<
   }
 
   private async getPostCount(where: Prisma.PostWhereInput): Promise<number> {
-    return this.client.post.count({ where });
+    return this.client.training.count({ where });
   }
 
   private calculatePostsPage(totalCount: number, limit: number): number {
@@ -29,7 +29,7 @@ export class TrainingPostRepository extends BasePostgresRepository<
 
   public override async save(training: TrainingPostEntity): Promise<void> {
     const pojoPost = training.toPOJO();
-    const record = await this.client.post.create({
+    const record = await this.client.training.create({
       data: {
         ...pojoPost,
         tags: {
@@ -78,7 +78,7 @@ export class TrainingPostRepository extends BasePostgresRepository<
   }
 
   public override async deleteById(id: string): Promise<void> {
-    await this.client.post.delete({
+    await this.client.training.delete({
       where: {
         id,
       },
@@ -88,12 +88,8 @@ export class TrainingPostRepository extends BasePostgresRepository<
   public override async findById(
     id: TrainingPostEntity['id']
   ): Promise<TrainingPostEntity | null> {
-    const training = await this.client.post.findUnique({
+    const training = await this.client.training.findUnique({
       where: { id },
-      include: {
-        extraProperty: true,
-        tags: true,
-      },
     });
 
     return this.createEntityFromDocument(training);
@@ -145,15 +141,11 @@ export class TrainingPostRepository extends BasePostgresRepository<
     }
 
     const [records, postCount] = await Promise.all([
-      this.client.post.findMany({
+      this.client.training.findMany({
         where,
         orderBy,
         skip,
         take,
-        include: {
-          extraProperty: true,
-          tags: true,
-        },
       }),
       this.getPostCount(where),
     ]);
@@ -165,23 +157,5 @@ export class TrainingPostRepository extends BasePostgresRepository<
       itemsPerPage: take,
       totalItems: postCount,
     };
-  }
-
-  public async findRepost(
-    originPostId: string,
-    userId: string
-  ): Promise<TrainingPostEntity | null> {
-    const training = await this.client.post.findFirst({
-      where: {
-        originPostId,
-        userId,
-      },
-      include: {
-        extraProperty: true,
-        tags: true,
-      },
-    });
-
-    return this.createEntityFromDocument(training);
   }
 }

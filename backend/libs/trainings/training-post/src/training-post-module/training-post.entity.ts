@@ -1,28 +1,17 @@
-import {
-  Entity,
-  PostExtraProperty,
-  StorableEntity,
-  Training,
-} from '@backend/shared/core';
-import { TrainingTagEntity, TrainingTagFactory } from '@backend/training-tag';
-import { PostState, PostType } from '@prisma/client';
+import { PgEntity, StorableEntity, Training } from '@backend/shared/core';
 
 export class TrainingPostEntity
-  extends Entity
+  extends PgEntity
   implements StorableEntity<Training>
 {
-  public postType!: PostType;
   public userId!: string;
   public isRepost!: boolean;
   public originUserId?: string;
   public originPostId?: string;
-  public tags!: TrainingTagEntity[];
-  public state!: PostState;
   public createdAt!: Date;
   public publicDate!: Date;
   public likesCount!: number;
   public commentsCount!: number;
-  public extraProperty?: PostExtraProperty;
 
   constructor(training?: Training) {
     super();
@@ -54,19 +43,11 @@ export class TrainingPostEntity
     this.isRepost = isRepost;
     this.originUserId = originUserId ?? undefined;
     this.originPostId = originPostId ?? undefined;
-    this.tags = [];
-    this.state = state;
     this.createdAt = createdAt;
     this.publicDate = publicDate;
     this.likesCount = likesCount;
     this.commentsCount = commentsCount;
     this.extraProperty = extraProperty ?? undefined;
-
-    const trainingTagFactory = new TrainingTagFactory();
-    for (const tag of tags) {
-      const trainingTagEntity = trainingTagFactory.create(tag);
-      this.tags.push(trainingTagEntity);
-    }
   }
 
   toPOJO(): Training {
