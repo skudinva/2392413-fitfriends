@@ -42,7 +42,7 @@
       "@backend/training-notify": [
         "libs/trainings/training-notify/src/index.ts"
       ],
-      "@backend/training-post": ["libs/trainings/training-post/src/index.ts"]
+      "@backend/training": ["libs/trainings/training/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

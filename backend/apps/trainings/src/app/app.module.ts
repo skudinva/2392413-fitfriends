@@ -1,10 +1,10 @@
+import { TrainingModule } from '@backend/training';
 import { TrainingCommentModule } from '@backend/training-comment';
 import { TrainingConfigModule } from '@backend/training-config';
-import { TrainingPostModule } from '@backend/training-post';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [TrainingPostModule, TrainingCommentModule, TrainingConfigModule],
+  imports: [TrainingModule, TrainingCommentModule, TrainingConfigModule],
   controllers: [],
   providers: [],
 })

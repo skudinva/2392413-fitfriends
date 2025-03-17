@@ -1,7 +1,7 @@
 import { createUrlForFile } from '@backend/helpers';
 import { File } from '@backend/shared/core';
 import { UserInfoRdo } from '@backend/shop-user';
-import { TrainingPostRdo } from '@backend/training-post';
+import { TrainingRdo } from '@backend/training';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import FormData from 'form-data';
@@ -12,7 +12,7 @@ import { ApplicationServiceURL } from './app.config';
 export class AppService {
   constructor(private readonly httpService: HttpService) {}
 
-  public async appendUserInfo(trainings: TrainingPostRdo[]): Promise<void> {
+  public async appendUserInfo(trainings: TrainingRdo[]): Promise<void> {
     const uniqueUserIds = new Set<string>();
     const usersInfo = new Map<string, UserInfoRdo>();
 

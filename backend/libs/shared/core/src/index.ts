@@ -1,6 +1,11 @@
 export { MongoEntity } from './lib/base/mongo-entity';
 export { PgEntity } from './lib/base/pg-entity';
-export { EntityConstrain, LOCATIONS, SERVE_ROOT } from './lib/const';
+export {
+  EntityConstrain,
+  LOCATIONS,
+  SERVE_ROOT,
+  TRAINING_DURATIONS,
+} from './lib/const';
 export { EntityFactory } from './lib/interfaces/entity-factory.interface';
 export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { PaginationResult } from './lib/interfaces/pagination.interface';
@@ -20,6 +25,9 @@ export { ILoginUserDto } from './lib/types/login-user-dto.interface';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { StoredFile } from './lib/types/stored-file.interface';
 export { Subscriber } from './lib/types/subscriber.interface';
+export { TrainingDuration } from './lib/types/training-duration.interface';
+export { TrainingLevel } from './lib/types/training-level.enum';
+export { TrainingType } from './lib/types/training-type.enum';
 export { Training } from './lib/types/training.interface';
 export { UserGender } from './lib/types/user-gender.enum';
 export { IUserRdo } from './lib/types/user-rdo.interface';

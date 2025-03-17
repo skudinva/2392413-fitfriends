@@ -5,21 +5,21 @@ import {
 import { InjectUserIdInterceptor } from '@backend/interceptors';
 import { SortDirection, SortType } from '@backend/shared/core';
 import {
+  CreatePostDto,
+  CreatePostFileDto,
+  TrainingRdo,
+  TrainingResponse,
+  TrainingWithPaginationRdo,
+  UpdatePostDto,
+  UpdatePostFileDto,
+  UserIdDto,
+} from '@backend/training';
+import {
   CreateCommentDto,
   TrainingCommentRdo,
   TrainingCommentResponse,
   TrainingCommentWithPaginationRdo,
 } from '@backend/training-comment';
-import {
-  CreatePostDto,
-  CreatePostFileDto,
-  TrainingPostRdo,
-  TrainingPostResponse,
-  TrainingPostWithPaginationRdo,
-  UpdatePostDto,
-  UpdatePostFileDto,
-  UserIdDto,
-} from '@backend/training-post';
 import { HttpService } from '@nestjs/axios';
 import {
   Body,
@@ -71,13 +71,13 @@ export class TrainingController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiResponse({
-    type: TrainingPostRdo,
+    type: TrainingRdo,
     status: HttpStatus.CREATED,
-    description: TrainingPostResponse.PostFound,
+    description: TrainingResponse.PostFound,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingPostResponse.PostNotFound,
+    description: TrainingResponse.PostNotFound,
   })
   @Post('/')
   @ApiTags(ApiSection.Training)
@@ -124,9 +124,9 @@ export class TrainingController {
   @ApiBearerAuth('accessToken')
   @UseInterceptors(InjectUserIdInterceptor)
   @ApiResponse({
-    type: TrainingPostRdo,
+    type: TrainingRdo,
     status: HttpStatus.CREATED,
-    description: TrainingPostResponse.PostCreated,
+    description: TrainingResponse.PostCreated,
   })
   @ApiTags(ApiSection.Training)
   public async createRepost(
@@ -148,21 +148,21 @@ export class TrainingController {
 
   @Patch('/:id')
   @ApiResponse({
-    type: TrainingPostRdo,
+    type: TrainingRdo,
     status: HttpStatus.OK,
-    description: TrainingPostResponse.PostUpdated,
+    description: TrainingResponse.PostUpdated,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: TrainingPostResponse.Unauthorized,
+    description: TrainingResponse.Unauthorized,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingPostResponse.PostNotFound,
+    description: TrainingResponse.PostNotFound,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: TrainingPostResponse.AccessDeny,
+    description: TrainingResponse.AccessDeny,
   })
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
@@ -209,19 +209,19 @@ export class TrainingController {
   @Delete('/:id')
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
-    description: TrainingPostResponse.PostDeleted,
+    description: TrainingResponse.PostDeleted,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: TrainingPostResponse.Unauthorized,
+    description: TrainingResponse.Unauthorized,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingPostResponse.PostNotFound,
+    description: TrainingResponse.PostNotFound,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: TrainingPostResponse.AccessDeny,
+    description: TrainingResponse.AccessDeny,
   })
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(CheckAuthGuard)
@@ -244,9 +244,9 @@ export class TrainingController {
   }
 
   @ApiResponse({
-    type: TrainingPostWithPaginationRdo,
+    type: TrainingWithPaginationRdo,
     status: HttpStatus.OK,
-    description: TrainingPostResponse.PostsFound,
+    description: TrainingResponse.PostsFound,
   })
   @ApiQuery({
     name: 'tags',
@@ -302,7 +302,7 @@ export class TrainingController {
     const query = url.parse(requestUrl).query;
 
     const { data } =
-      await this.httpService.axiosRef.get<TrainingPostWithPaginationRdo>(
+      await this.httpService.axiosRef.get<TrainingWithPaginationRdo>(
         `${ApplicationServiceURL.Training}?${query}`
       );
     await this.appService.appendUserInfo(data.entities);
@@ -310,13 +310,13 @@ export class TrainingController {
   }
 
   @ApiResponse({
-    type: TrainingPostRdo,
+    type: TrainingRdo,
     status: HttpStatus.OK,
-    description: TrainingPostResponse.PostFound,
+    description: TrainingResponse.PostFound,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingPostResponse.PostNotFound,
+    description: TrainingResponse.PostNotFound,
   })
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthForceGuard)
@@ -327,7 +327,7 @@ export class TrainingController {
     @Req() req: RequestWithTokenPayload
   ) {
     const userId = req.user?.sub;
-    const { data } = await this.httpService.axiosRef.get<TrainingPostRdo>(
+    const { data } = await this.httpService.axiosRef.get<TrainingRdo>(
       `${ApplicationServiceURL.Training}/${id}/${userId}`
     );
     await this.appService.appendUserInfo([data]);
@@ -342,15 +342,15 @@ export class TrainingController {
   @UseInterceptors(InjectUserIdInterceptor)
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
-    description: TrainingPostResponse.Like,
+    description: TrainingResponse.Like,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: TrainingPostResponse.Unauthorized,
+    description: TrainingResponse.Unauthorized,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: TrainingPostResponse.LikeAlreadyExists,
+    description: TrainingResponse.LikeAlreadyExists,
   })
   @ApiTags(ApiSection.Like)
   public async addLike(
@@ -372,15 +372,15 @@ export class TrainingController {
   @UseInterceptors(InjectUserIdInterceptor)
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
-    description: TrainingPostResponse.UnLike,
+    description: TrainingResponse.UnLike,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: TrainingPostResponse.Unauthorized,
+    description: TrainingResponse.Unauthorized,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingPostResponse.LikeNotExists,
+    description: TrainingResponse.LikeNotExists,
   })
   @ApiTags(ApiSection.Like)
   public async deleteLike(

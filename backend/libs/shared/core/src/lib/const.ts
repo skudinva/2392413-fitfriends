@@ -53,12 +53,12 @@ export const EntityConstrain = {
     },
   },
   [EntityList.Training]: {
-    name: {
+    title: {
       required: true,
       minLength: 1,
       maxLength: 15,
     },
-    backgroundImage: {
+    image: {
       required: true,
       mimeTypes: '.(jpg|jpeg|png)',
     },
@@ -97,4 +97,11 @@ export const LOCATIONS = [
   'Удельная',
   'Звёздная',
   'Спортивная',
+] as const;
+
+export const TRAINING_DURATIONS = [
+  '10-30 мин',
+  '30-50 мин',
+  '50-80 мин',
+  '80-100 мин',
 ] as const;
