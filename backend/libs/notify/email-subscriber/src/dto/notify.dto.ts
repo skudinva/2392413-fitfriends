@@ -10,5 +10,5 @@ export class NotifyDto {
   @IsMongoId()
   public userId: string;
 
-  public posts: Post[];
+  public trainings: Training[];
 }

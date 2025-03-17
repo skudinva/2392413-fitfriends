@@ -12,12 +12,12 @@ import { ApplicationServiceURL } from './app.config';
 export class AppService {
   constructor(private readonly httpService: HttpService) {}
 
-  public async appendUserInfo(posts: TrainingPostRdo[]): Promise<void> {
+  public async appendUserInfo(trainings: TrainingPostRdo[]): Promise<void> {
     const uniqueUserIds = new Set<string>();
     const usersInfo = new Map<string, UserInfoRdo>();
 
-    posts.forEach((post) => {
-      uniqueUserIds.add(post.userId);
+    trainings.forEach((training) => {
+      uniqueUserIds.add(training.userId);
     });
 
     for (const userId of uniqueUserIds) {
@@ -28,8 +28,8 @@ export class AppService {
       usersInfo.set(data.id, data);
     }
 
-    posts.forEach((post) => {
-      post['userInfo'] = usersInfo.get(post.userId);
+    trainings.forEach((training) => {
+      post['userInfo'] = usersInfo.get(training.userId);
     });
   }
 

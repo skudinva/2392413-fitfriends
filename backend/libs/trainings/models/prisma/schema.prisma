@@ -22,25 +22,25 @@ enum PostState {
 }
 
 model Tag {
-  id    String @id @default(uuid()) @map("id")
-  title String @unique
-  posts Post[]
+  id        String @id @default(uuid()) @map("id")
+  title     String @unique
+  trainings Post[]
 
   @@map("tags")
 }
 
 model PostExtraProperty {
-  id          String  @id @default(uuid())
-  postId      String  @unique @map("post_id")
+  id          String   @id @default(uuid())
+  trainingId  String   @unique @map("post_id")
   url         String?
   describe    String?
   photo       String?
   text        String?
   announce    String?
   name        String?
-  quoteText   String? @map("quote_text")
-  quoteAuthor String? @map("quote_author")
-  post        Post    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quoteText   String?  @map("quote_text")
+  quoteAuthor String?  @map("quote_author")
+  training    Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("post_extra_property")
 }
@@ -62,27 +62,27 @@ model Post {
   comments      Comment[]
   likes         Like[]
 
-  @@map("posts")
+  @@map("trainings")
 }
 
 model Comment {
-  id        String   @id @default(uuid()) @map("id")
-  postId    String   @map("post_id")
-  userId    String   @map("user_id")
-  message   String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id         String   @id @default(uuid()) @map("id")
+  trainingId String   @map("post_id")
+  userId     String   @map("user_id")
+  message    String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@unique([postId, userId])
+  @@unique([trainingId, userId])
   @@map("comments")
 }
 
 model Like {
-  userId String @map("user_id")
-  postId String @map("post_id")
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     String   @map("user_id")
+  trainingId String   @map("post_id")
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@unique([userId, postId])
+  @@unique([userId, trainingId])
   @@map("likes")
 }

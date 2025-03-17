@@ -72,7 +72,7 @@ export class TrainingPostQuery {
   postUserId: string;
 
   @ApiProperty({
-    description: 'Post type',
+    description: 'Training type',
     example: 'Video',
     enum: PostType,
     enumName: 'PostType',

@@ -2,7 +2,7 @@ import { PostState, PostType } from '@prisma/client';
 import { PostExtraProperty } from './post-extra-property.interface';
 import { Tag } from './tag.interface';
 
-export interface Post {
+export interface Training {
   id?: string;
   postType: PostType;
   userId: string;

@@ -29,10 +29,13 @@ export class EmailSubscriberController {
     queue: 'fitfriends.notify.send',
   })
   public async sendNewPostNotify(dto: NotifyDto) {
-    const { posts } = dto;
+    const { trainings } = dto;
     const subscribers = await this.subscriberService.getAllSubscribers();
     subscribers.map(async (subscriber) => {
-      await this.mailService.sendPostsToSubscriber(posts, subscriber.toPOJO());
+      await this.mailService.sendPostsToSubscriber(
+        trainings,
+        subscriber.toPOJO()
+      );
     });
   }
 }

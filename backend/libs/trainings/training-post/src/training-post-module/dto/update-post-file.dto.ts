@@ -16,5 +16,5 @@ export class UpdatePostFileDto {
   @ValidateNested()
   @Type(() => UpdatePostDto)
   @ApiProperty()
-  post: UpdatePostDto;
+  training: UpdatePostDto;
 }

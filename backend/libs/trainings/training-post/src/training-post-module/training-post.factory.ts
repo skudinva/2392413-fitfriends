@@ -1,4 +1,4 @@
-import { EntityFactory, Post } from '@backend/shared/core';
+import { EntityFactory, Training } from '@backend/shared/core';
 import { TrainingTagEntity } from '@backend/training-tag';
 import { Injectable } from '@nestjs/common';
 import { PostState } from '@prisma/client';
@@ -8,7 +8,7 @@ import { TrainingPostEntity } from './training-post.entity';
 
 @Injectable()
 export class TrainingPostFactory implements EntityFactory<TrainingPostEntity> {
-  create(entityPlainData: Post): TrainingPostEntity {
+  create(entityPlainData: Training): TrainingPostEntity {
     return new TrainingPostEntity(entityPlainData);
   }
 
@@ -35,7 +35,7 @@ export class TrainingPostFactory implements EntityFactory<TrainingPostEntity> {
   }
 
   public static createRepost(
-    originalPost: Post,
+    originalPost: Training,
     userId: string
   ): TrainingPostEntity {
     const newPost = new TrainingPostEntity(originalPost);

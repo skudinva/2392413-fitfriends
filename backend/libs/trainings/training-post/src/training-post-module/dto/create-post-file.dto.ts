@@ -16,5 +16,5 @@ export class CreatePostFileDto {
   @ValidateNested()
   @Type(() => CreatePostDto)
   @ApiProperty()
-  post: CreatePostDto;
+  training: CreatePostDto;
 }

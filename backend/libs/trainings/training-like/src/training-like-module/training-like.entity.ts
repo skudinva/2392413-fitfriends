@@ -2,7 +2,7 @@ import { Entity, Like, StorableEntity } from '@backend/shared/core';
 
 export class TrainingLikeEntity extends Entity implements StorableEntity<Like> {
   public userId!: string;
-  public postId!: string;
+  public trainingId!: string;
 
   constructor(like?: Like) {
     super();
@@ -12,16 +12,16 @@ export class TrainingLikeEntity extends Entity implements StorableEntity<Like> {
     if (!like) {
       return;
     }
-    const { userId, postId } = like;
+    const { userId, trainingId } = like;
 
     this.userId = userId;
-    this.postId = postId;
+    this.trainingId = trainingId;
   }
 
   toPOJO(): Like {
     return {
       userId: this.userId,
-      postId: this.postId,
+      trainingId: this.trainingId,
     };
   }
 }

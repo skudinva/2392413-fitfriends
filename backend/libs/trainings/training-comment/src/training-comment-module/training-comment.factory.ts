@@ -13,12 +13,12 @@ export class TrainingCommentFactory
 
   public createFromDto(
     dto: CreateCommentDto,
-    postId: string
+    trainingId: string
   ): TrainingCommentEntity {
     const currentDate = new Date();
     return new TrainingCommentEntity({
       ...dto,
-      postId,
+      trainingId,
       createdAt: currentDate,
       updatedAt: currentDate,
     });

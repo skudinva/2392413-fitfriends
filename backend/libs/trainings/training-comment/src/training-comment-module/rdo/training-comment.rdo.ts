@@ -14,7 +14,7 @@ export class TrainingCommentRdo {
     description: 'ID post',
     example: '45463002-e83e-5024-8fce-974ba5b6e5af',
   })
-  public postId!: string;
+  public trainingId!: string;
 
   @Expose()
   @ApiProperty({

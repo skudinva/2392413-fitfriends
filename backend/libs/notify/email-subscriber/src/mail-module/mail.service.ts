@@ -1,5 +1,5 @@
 import { NotifyConfig } from '@backend/notify-config';
-import { Post, Subscriber } from '@backend/shared/core';
+import { Training, Subscriber } from '@backend/shared/core';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
@@ -28,15 +28,18 @@ export class MailService {
     });
   }
 
-  public async sendPostsToSubscriber(posts: Post[], subscriber: Subscriber) {
+  public async sendPostsToSubscriber(
+    trainings: Training[],
+    subscriber: Subscriber
+  ) {
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: subscriber.email,
       subject: EMAIL_NEW_POSTS_SUBJECT,
-      template: './send-posts',
+      template: './send-trainings',
       context: {
         subscriber,
-        posts,
+        trainings,
       },
     });
   }

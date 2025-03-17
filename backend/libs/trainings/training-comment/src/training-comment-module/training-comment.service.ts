@@ -20,12 +20,12 @@ export class TrainingCommentService {
   ) {}
 
   public async getComments(
-    postId: string,
+    trainingId: string,
     query: TrainingCommentQuery
   ): Promise<PaginationResult<ReturnType<TrainingCommentEntity['toPOJO']>>> {
-    const post = await this.trainingPostService.getPost(postId, null);
+    const training = await this.trainingPostService.getPost(trainingId, null);
     const commentsWithPagination =
-      await this.trainingCommentRepository.findByPostId(post.id, query);
+      await this.trainingCommentRepository.findByPostId(training.id, query);
 
     const comments = {
       ...commentsWithPagination,
@@ -38,11 +38,11 @@ export class TrainingCommentService {
   }
 
   public async addComment(
-    postId: string,
+    trainingId: string,
     dto: CreateCommentDto
   ): Promise<TrainingCommentEntity> {
     const existsComment = this.trainingCommentRepository.findByUserAndPostId(
-      postId,
+      trainingId,
       dto.userId
     );
 
@@ -50,9 +50,12 @@ export class TrainingCommentService {
       throw new ConflictException('User already comment this post');
     }
 
-    const newComment = this.trainingCommentFactory.createFromDto(dto, postId);
+    const newComment = this.trainingCommentFactory.createFromDto(
+      dto,
+      trainingId
+    );
     await this.trainingCommentRepository.save(newComment);
-    await this.trainingPostService.updateCommentCount(postId, 1);
+    await this.trainingPostService.updateCommentCount(trainingId, 1);
 
     return newComment;
   }
@@ -66,7 +69,7 @@ export class TrainingCommentService {
     try {
       await this.trainingCommentRepository.deleteById(id);
       await this.trainingPostService.updateCommentCount(
-        existComment.postId,
+        existComment.trainingId,
         -1
       );
     } catch {

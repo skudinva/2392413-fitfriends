@@ -6,7 +6,7 @@ export class TrainingCommentEntity
 {
   public createdAt!: Date;
   public updatedAt!: Date;
-  public postId!: string;
+  public trainingId!: string;
   public message!: string;
   public userId!: string;
 
@@ -24,7 +24,7 @@ export class TrainingCommentEntity
     this.createdAt = comment.createdAt;
     this.updatedAt = comment.updatedAt;
     this.message = comment.message;
-    this.postId = comment.postId ?? undefined;
+    this.trainingId = comment.trainingId ?? undefined;
     this.userId = comment.userId;
   }
 
@@ -34,7 +34,7 @@ export class TrainingCommentEntity
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       message: this.message,
-      postId: this.postId,
+      trainingId: this.trainingId,
       userId: this.userId,
     };
   }

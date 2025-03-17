@@ -1,5 +1,5 @@
 import { BasePostgresRepository } from '@backend/data-access';
-import { PaginationResult, Post } from '@backend/shared/core';
+import { PaginationResult, Training } from '@backend/shared/core';
 import { PrismaClientService } from '@backend/training-models';
 import { Injectable } from '@nestjs/common';
 import { PostState, Prisma } from '@prisma/client';
@@ -10,7 +10,7 @@ import { TrainingPostQuery } from './training-post.query';
 @Injectable()
 export class TrainingPostRepository extends BasePostgresRepository<
   TrainingPostEntity,
-  Post
+  Training
 > {
   constructor(entityFactory: TrainingPostFactory, client: PrismaClientService) {
     super(entityFactory, client);
@@ -27,8 +27,8 @@ export class TrainingPostRepository extends BasePostgresRepository<
     return Math.ceil(totalCount / limit);
   }
 
-  public override async save(post: TrainingPostEntity): Promise<void> {
-    const pojoPost = post.toPOJO();
+  public override async save(training: TrainingPostEntity): Promise<void> {
+    const pojoPost = training.toPOJO();
     const record = await this.client.post.create({
       data: {
         ...pojoPost,
@@ -42,13 +42,13 @@ export class TrainingPostRepository extends BasePostgresRepository<
       },
     });
 
-    post.id = record.id;
+    training.id = record.id;
   }
 
-  override async update(post: TrainingPostEntity): Promise<void> {
-    const pojoPost = post.toPOJO();
-    await this.client.post.update({
-      where: { id: post.id },
+  override async update(training: TrainingPostEntity): Promise<void> {
+    const pojoPost = training.toPOJO();
+    await this.client.training.update({
+      where: { id: training.id },
       data: {
         postType: pojoPost.postType,
         isRepost: pojoPost.isRepost,
@@ -65,7 +65,7 @@ export class TrainingPostRepository extends BasePostgresRepository<
           update: {
             data: { ...pojoPost.extraProperty },
             where: {
-              postId: post.id,
+              trainingId: training.id,
             },
           },
         },
@@ -88,7 +88,7 @@ export class TrainingPostRepository extends BasePostgresRepository<
   public override async findById(
     id: TrainingPostEntity['id']
   ): Promise<TrainingPostEntity | null> {
-    const post = await this.client.post.findUnique({
+    const training = await this.client.post.findUnique({
       where: { id },
       include: {
         extraProperty: true,
@@ -96,7 +96,7 @@ export class TrainingPostRepository extends BasePostgresRepository<
       },
     });
 
-    return this.createEntityFromDocument(post);
+    return this.createEntityFromDocument(training);
   }
 
   public async find(
@@ -171,7 +171,7 @@ export class TrainingPostRepository extends BasePostgresRepository<
     originPostId: string,
     userId: string
   ): Promise<TrainingPostEntity | null> {
-    const post = await this.client.post.findFirst({
+    const training = await this.client.post.findFirst({
       where: {
         originPostId,
         userId,
@@ -182,6 +182,6 @@ export class TrainingPostRepository extends BasePostgresRepository<
       },
     });
 
-    return this.createEntityFromDocument(post);
+    return this.createEntityFromDocument(training);
   }
 }

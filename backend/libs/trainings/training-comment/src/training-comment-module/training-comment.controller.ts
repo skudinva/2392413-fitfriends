@@ -33,13 +33,13 @@ export class TrainingCommentController {
     status: HttpStatus.NOT_FOUND,
     description: TrainingCommentResponse.PostNotFound,
   })
-  @Get('/:postId')
+  @Get('/:trainingId')
   public async show(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Query() query: TrainingCommentQuery
   ) {
     const comments = await this.trainingCommentService.getComments(
-      postId,
+      trainingId,
       query
     );
     return fillDto(TrainingCommentWithPaginationRdo, comments);
@@ -54,13 +54,13 @@ export class TrainingCommentController {
     status: HttpStatus.NOT_FOUND,
     description: TrainingCommentResponse.PostNotFound,
   })
-  @Post('/:postId')
+  @Post('/:trainingId')
   public async create(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() dto: CreateCommentDto
   ) {
     const newComment = await this.trainingCommentService.addComment(
-      postId,
+      trainingId,
       dto
     );
     return fillDto(TrainingCommentRdo, newComment.toPOJO());

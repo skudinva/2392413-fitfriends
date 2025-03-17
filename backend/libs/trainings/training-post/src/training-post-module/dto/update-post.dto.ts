@@ -16,7 +16,7 @@ export class UpdatePostDto {
   @IsIn(Object.values(PostType))
   @IsOptional()
   @ApiProperty({
-    description: 'Post type',
+    description: 'Training type',
     example: 'Video',
     enum: PostType,
     enumName: 'PostType',
@@ -41,7 +41,7 @@ export class UpdatePostDto {
   @IsIn(Object.values(PostState))
   @IsOptional()
   @ApiProperty({
-    description: 'Post state',
+    description: 'Training state',
     example: 'Published',
     enum: PostState,
     enumName: 'PostState',

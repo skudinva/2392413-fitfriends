@@ -1,6 +1,6 @@
 export interface Comment {
   id?: string;
-  postId: string;
+  trainingId: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;

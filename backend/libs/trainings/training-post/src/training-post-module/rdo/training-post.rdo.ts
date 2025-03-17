@@ -6,14 +6,14 @@ import { PostExtraPropertyRdo } from './post-extra-property.rdo';
 export class TrainingPostRdo {
   @Expose()
   @ApiProperty({
-    description: 'postId',
+    description: 'trainingId',
     example: '0a7cbc9e-9754-4187-ad0f-5b99d4b0814b',
   })
   public id!: string;
 
   @Expose()
   @ApiProperty({
-    description: 'post type',
+    description: 'training type',
     example: 'Video',
   })
   postType!: string;
@@ -41,7 +41,7 @@ export class TrainingPostRdo {
 
   @Expose()
   @ApiProperty({
-    description: 'Source post Id',
+    description: 'Source training Id',
     example: '0a7cbc9e-9754-4187-ad0f-5b99d4b0814b',
   })
   originPostId?: string;
@@ -58,21 +58,21 @@ export class TrainingPostRdo {
 
   @Expose()
   @ApiProperty({
-    description: 'Post state',
+    description: 'Training state',
     example: 'Published',
   })
   state!: string;
 
   @Expose()
   @ApiProperty({
-    description: 'Date of post create',
+    description: 'Date of training create',
     example: '2024-11-24T10:42:10+07:00',
   })
   createdAt!: string;
 
   @Expose()
   @ApiProperty({
-    description: 'Date of post publication',
+    description: 'Date of training publication',
     example: '2024-11-24T10:42:10+07:00',
   })
   publicDate!: string;

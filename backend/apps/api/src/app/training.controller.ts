@@ -5,17 +5,17 @@ import {
 import { InjectUserIdInterceptor } from '@backend/interceptors';
 import { SortDirection, SortType } from '@backend/shared/core';
 import {
+  CreateCommentDto,
   TrainingCommentRdo,
   TrainingCommentResponse,
   TrainingCommentWithPaginationRdo,
-  CreateCommentDto,
 } from '@backend/training-comment';
 import {
+  CreatePostDto,
+  CreatePostFileDto,
   TrainingPostRdo,
   TrainingPostResponse,
   TrainingPostWithPaginationRdo,
-  CreatePostDto,
-  CreatePostFileDto,
   UpdatePostDto,
   UpdatePostFileDto,
   UserIdDto,
@@ -80,7 +80,7 @@ export class TrainingController {
     description: TrainingPostResponse.PostNotFound,
   })
   @Post('/')
-  @ApiTags(ApiSection.Post)
+  @ApiTags(ApiSection.Training)
   public async createPost(
     @Body() dto: CreatePostFileDto,
     @UploadedFile(
@@ -100,7 +100,7 @@ export class TrainingController {
   ) {
     const postDto = plainToInstance(
       CreatePostDto,
-      JSON.parse(String(dto.post))
+      JSON.parse(String(dto.training))
     );
 
     if (file) {
@@ -119,7 +119,7 @@ export class TrainingController {
     return data;
   }
 
-  @Post('/repost/:postId')
+  @Post('/repost/:trainingId')
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
   @UseInterceptors(InjectUserIdInterceptor)
@@ -128,13 +128,13 @@ export class TrainingController {
     status: HttpStatus.CREATED,
     description: TrainingPostResponse.PostCreated,
   })
-  @ApiTags(ApiSection.Post)
+  @ApiTags(ApiSection.Training)
   public async createRepost(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() dto: UserIdDto
   ) {
     const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Training}/repost/${postId}`,
+      `${ApplicationServiceURL.Training}/repost/${trainingId}`,
       dto
     );
 
@@ -170,7 +170,7 @@ export class TrainingController {
   @UseInterceptors(InjectUserIdInterceptor)
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
-  @ApiTags(ApiSection.Post)
+  @ApiTags(ApiSection.Training)
   public async updatePost(
     @Param('id') id: string,
     @Body() dto: UpdatePostFileDto,
@@ -191,7 +191,7 @@ export class TrainingController {
   ) {
     const postDto = plainToInstance(
       UpdatePostDto,
-      JSON.parse(String(dto.post))
+      JSON.parse(String(dto.training))
     );
 
     if (file) {
@@ -226,7 +226,7 @@ export class TrainingController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
-  @ApiTags(ApiSection.Post)
+  @ApiTags(ApiSection.Training)
   public async deletePost(
     @Param('id') id: string,
     @Req() req: RequestWithTokenPayload
@@ -290,12 +290,12 @@ export class TrainingController {
     name: 'postType',
     required: false,
     enum: PostType,
-    description: 'Post type',
+    description: 'Training type',
   })
   @Get('/')
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthForceGuard)
-  @ApiTags(ApiSection.Post)
+  @ApiTags(ApiSection.Training)
   public async getPosts(@Req() req: RequestWithTokenPayloadUrl) {
     const userId = req.user?.sub;
     const requestUrl = userId ? `${req.url}&userId=${userId}` : req.url;
@@ -321,7 +321,7 @@ export class TrainingController {
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthForceGuard)
   @Get('/:id')
-  @ApiTags(ApiSection.Post)
+  @ApiTags(ApiSection.Training)
   public async getPost(
     @Param('id') id: string,
     @Req() req: RequestWithTokenPayload
@@ -335,7 +335,7 @@ export class TrainingController {
     return data;
   }
 
-  @Post('/like/:postId')
+  @Post('/like/:trainingId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
@@ -354,18 +354,18 @@ export class TrainingController {
   })
   @ApiTags(ApiSection.Like)
   public async addLike(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() dto: UserIdDto
   ) {
     const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Training}/like/${postId}`,
+      `${ApplicationServiceURL.Training}/like/${trainingId}`,
       dto
     );
 
     return data;
   }
 
-  @Post('/unlike/:postId')
+  @Post('/unlike/:trainingId')
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -384,11 +384,11 @@ export class TrainingController {
   })
   @ApiTags(ApiSection.Like)
   public async deleteLike(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() dto: UserIdDto
   ) {
     const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Training}/unlike/${postId}`,
+      `${ApplicationServiceURL.Training}/unlike/${trainingId}`,
       dto
     );
 
@@ -417,17 +417,22 @@ export class TrainingController {
     description: 'Page number',
     example: 1,
   })
-  @Get('/comments/:postId')
+  @Get('/comments/:trainingId')
   @ApiTags(ApiSection.Comment)
-  public async show(@Param('postId') postId: string, @Req() req: Request) {
+  public async show(
+    @Param('trainingId') trainingId: string,
+    @Req() req: Request
+  ) {
     const { data } = await this.httpService.axiosRef.get(
-      `${ApplicationServiceURL.Comments}/${postId}?${url.parse(req.url).query}`
+      `${ApplicationServiceURL.Comments}/${trainingId}?${
+        url.parse(req.url).query
+      }`
     );
 
     return data;
   }
 
-  @Post('/comments/:postId')
+  @Post('/comments/:trainingId')
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
   @UseInterceptors(InjectUserIdInterceptor)
@@ -442,11 +447,11 @@ export class TrainingController {
   })
   @ApiTags(ApiSection.Comment)
   public async create(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() dto: CreateCommentDto
   ) {
     const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Comments}/${postId}`,
+      `${ApplicationServiceURL.Comments}/${trainingId}`,
       dto
     );
 
@@ -487,7 +492,7 @@ export class TrainingController {
   @UseInterceptors(InjectUserIdInterceptor)
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth('accessToken')
-  @ApiTags(ApiSection.Post)
+  @ApiTags(ApiSection.Training)
   public async sendNewPostNotify(@Body() dto: UserIdDto) {
     await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Training}/sendNewPostNotify`,

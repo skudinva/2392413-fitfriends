@@ -1,4 +1,4 @@
-import { Post, PostExtraProperty } from '@backend/shared/core';
+import { Training, PostExtraProperty } from '@backend/shared/core';
 import { PostType } from '@prisma/client';
 import {
   registerDecorator,
@@ -6,7 +6,7 @@ import {
   ValidationOptions,
 } from 'class-validator';
 
-type DependentsPostProperties = Pick<Post, 'postType' | 'extraProperty'>;
+type DependentsPostProperties = Pick<Training, 'postType' | 'extraProperty'>;
 
 const validPostTypeProperties: Map<PostType, (keyof PostExtraProperty)[]> =
   new Map([

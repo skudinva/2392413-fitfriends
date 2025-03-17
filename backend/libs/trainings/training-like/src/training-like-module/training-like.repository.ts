@@ -13,11 +13,11 @@ export class TrainingLikeRepository extends BasePostgresRepository<
   constructor(likeFactory: TrainingLikeFactory, client: PrismaClientService) {
     super(likeFactory, client);
   }
-  public async isLikeExists({ userId, postId }: Like): Promise<boolean> {
+  public async isLikeExists({ userId, trainingId }: Like): Promise<boolean> {
     const like = await this.client.like.findFirst({
       where: {
         userId,
-        postId,
+        trainingId,
       },
     });
 
@@ -32,11 +32,11 @@ export class TrainingLikeRepository extends BasePostgresRepository<
     });
   }
 
-  public async deleteByIds({ userId, postId }: Like): Promise<void> {
+  public async deleteByIds({ userId, trainingId }: Like): Promise<void> {
     await this.client.like.delete({
       where: {
         userId_postId: {
-          postId,
+          trainingId,
           userId,
         },
       },

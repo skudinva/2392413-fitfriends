@@ -1,5 +1,5 @@
 import { rabbitConfig } from '@backend/config';
-import { Post, RabbitRouting } from '@backend/shared/core';
+import { Training, RabbitRouting } from '@backend/shared/core';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
@@ -13,11 +13,11 @@ export class TrainingNotifyService {
     private readonly rabbitOptions: ConfigType<typeof rabbitConfig>
   ) {}
 
-  public async sendNewPostNotify(posts: Post[], userId: string) {
+  public async sendNewPostNotify(trainings: Training[], userId: string) {
     return this.rabbitClient.publish<TrainingNotifyDto>(
       this.rabbitOptions.exchange,
       RabbitRouting.SendNewPostNotify,
-      { userId, posts }
+      { userId, trainings }
     );
   }
 }

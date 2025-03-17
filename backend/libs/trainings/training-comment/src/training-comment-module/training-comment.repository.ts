@@ -62,13 +62,13 @@ export class TrainingCommentRepository extends BasePostgresRepository<
   }
 
   public async findByPostId(
-    postId: string,
+    trainingId: string,
     query: TrainingCommentQuery
   ): Promise<PaginationResult<TrainingCommentEntity>> {
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
-    const where: Prisma.CommentWhereInput = { postId };
+    const where: Prisma.CommentWhereInput = { trainingId };
     const orderBy: Prisma.CommentOrderByWithRelationInput = {};
 
     if (query?.sortDirection) {
@@ -90,11 +90,11 @@ export class TrainingCommentRepository extends BasePostgresRepository<
   }
 
   public async findByUserAndPostId(
-    postId: string,
+    trainingId: string,
     userId: string
   ): Promise<TrainingCommentEntity> {
     const document = await this.client.comment.findFirst({
-      where: { postId, userId },
+      where: { trainingId, userId },
     });
 
     if (document) {

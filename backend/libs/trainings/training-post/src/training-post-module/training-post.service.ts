@@ -40,7 +40,7 @@ export class TrainingPostService {
 
     for (const [key] of Object.entries(existPost.extraProperty)) {
       existPost.extraProperty[key] =
-        key === 'id' || key === 'postId'
+        key === 'id' || key === 'trainingId'
           ? existPost[key]
           : dto.extraProperty[key] ?? null;
     }
@@ -64,12 +64,12 @@ export class TrainingPostService {
   }
 
   public async deletePost(id: string, userId: string): Promise<void> {
-    const post = await this.getPost(id, null);
-    if (!post) {
+    const training = await this.getPost(id, null);
+    if (!training) {
       return;
     }
 
-    if (userId !== post.userId) {
+    if (userId !== training.userId) {
       throw new ConflictException('You are not allowed to delete post');
     }
 
@@ -103,19 +103,19 @@ export class TrainingPostService {
   }
 
   public async createRepost(
-    postId: string,
+    trainingId: string,
     userId: string
   ): Promise<TrainingPostEntity> {
-    const existsPost = await this.getPost(postId, userId);
+    const existsPost = await this.getPost(trainingId, userId);
 
     const existRepost = await this.trainingPostRepository.findRepost(
-      postId,
+      trainingId,
       userId
     );
 
     if (existRepost) {
       throw new ConflictException(
-        `You already make repost of postId ${postId}`
+        `You already make repost of trainingId ${trainingId}`
       );
     }
 
@@ -129,19 +129,19 @@ export class TrainingPostService {
   }
 
   public async updateCommentCount(
-    postId: string,
+    trainingId: string,
     diffValue: number
   ): Promise<void> {
-    const existPost = await this.getPost(postId, null);
+    const existPost = await this.getPost(trainingId, null);
     existPost.commentsCount += diffValue;
     await this.trainingPostRepository.update(existPost);
   }
 
   public async updateLikeCount(
-    postId: string,
+    trainingId: string,
     diffValue: number
   ): Promise<void> {
-    const existPost = await this.getPost(postId, null);
+    const existPost = await this.getPost(trainingId, null);
     existPost.likesCount += diffValue;
     await this.trainingPostRepository.update(existPost);
   }

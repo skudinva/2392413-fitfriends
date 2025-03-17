@@ -1,4 +1,4 @@
 export interface Like {
   userId: string;
-  postId: string;
+  trainingId: string;
 }

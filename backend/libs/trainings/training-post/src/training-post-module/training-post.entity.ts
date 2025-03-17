@@ -1,13 +1,16 @@
 import {
   Entity,
-  Post,
   PostExtraProperty,
   StorableEntity,
+  Training,
 } from '@backend/shared/core';
 import { TrainingTagEntity, TrainingTagFactory } from '@backend/training-tag';
 import { PostState, PostType } from '@prisma/client';
 
-export class TrainingPostEntity extends Entity implements StorableEntity<Post> {
+export class TrainingPostEntity
+  extends Entity
+  implements StorableEntity<Training>
+{
   public postType!: PostType;
   public userId!: string;
   public isRepost!: boolean;
@@ -21,12 +24,12 @@ export class TrainingPostEntity extends Entity implements StorableEntity<Post> {
   public commentsCount!: number;
   public extraProperty?: PostExtraProperty;
 
-  constructor(post?: Post) {
+  constructor(training?: Training) {
     super();
-    this.populate(post);
+    this.populate(training);
   }
-  public populate(post?: Post): void {
-    if (!post) {
+  public populate(training?: Training): void {
+    if (!training) {
       return;
     }
     const {
@@ -43,7 +46,7 @@ export class TrainingPostEntity extends Entity implements StorableEntity<Post> {
       likesCount,
       commentsCount,
       extraProperty,
-    } = post;
+    } = training;
 
     this.id = id ?? undefined;
     this.postType = postType;
@@ -66,7 +69,7 @@ export class TrainingPostEntity extends Entity implements StorableEntity<Post> {
     }
   }
 
-  toPOJO(): Post {
+  toPOJO(): Training {
     return {
       id: this.id,
       postType: this.postType,

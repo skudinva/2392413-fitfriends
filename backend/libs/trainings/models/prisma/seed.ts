@@ -75,29 +75,29 @@ function getPosts() {
 async function seedDb(prismaClient: PrismaClient) {
   const mockPosts = getPosts();
 
-  for (const post of mockPosts) {
-    await prismaClient.post.upsert({
-      where: { id: post.id },
+  for (const training of mockPosts) {
+    await prismaClient.training.upsert({
+      where: { id: training.id },
       update: {},
       create: {
-        id: post.id,
-        postType: post.postType,
-        userId: post.userId,
-        isRepost: post.isRepost,
-        originUserId: post.originUserId,
-        originPostId: post.originPostId,
-        state: post.state,
+        id: training.id,
+        postType: training.postType,
+        userId: training.userId,
+        isRepost: training.isRepost,
+        originUserId: training.originUserId,
+        originPostId: training.originPostId,
+        state: training.state,
         likesCount: 0,
-        commentsCount: post.comments.length,
-        publicDate: post.publicDate,
-        tags: post.tags,
-        comments: post.comments.length
+        commentsCount: training.comments.length,
+        publicDate: training.publicDate,
+        tags: training.tags,
+        comments: training.comments.length
           ? {
-              create: post.comments,
+              create: training.comments,
             }
           : undefined,
         extraProperty: {
-          create: post.extraProperty,
+          create: training.extraProperty,
         },
       },
     });

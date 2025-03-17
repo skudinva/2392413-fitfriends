@@ -24,7 +24,7 @@ import { TrainingPostResponse } from './training-post.constant';
 import { TrainingPostQuery } from './training-post.query';
 import { TrainingPostService } from './training-post.service';
 
-@Controller('posts')
+@Controller('trainings')
 export class TrainingPostController {
   constructor(
     private readonly trainingPostService: TrainingPostService,
@@ -44,8 +44,8 @@ export class TrainingPostController {
   })
   @ApiTags('training post')
   public async show(@Param('id') id: string, @Param('userId') userId: string) {
-    const post = await this.trainingPostService.getPost(id, userId);
-    return fillDto(TrainingPostRdo, post.toPOJO());
+    const training = await this.trainingPostService.getPost(id, userId);
+    return fillDto(TrainingPostRdo, training.toPOJO());
   }
 
   @Get('/')
@@ -59,7 +59,9 @@ export class TrainingPostController {
     const postsWithPagination = await this.trainingPostService.getPosts(query);
     const result = {
       ...postsWithPagination,
-      entities: postsWithPagination.entities.map((post) => post.toPOJO()),
+      entities: postsWithPagination.entities.map((training) =>
+        training.toPOJO()
+      ),
     };
     return fillDto(TrainingPostWithPaginationRdo, result);
   }
@@ -81,13 +83,16 @@ export class TrainingPostController {
     status: HttpStatus.CREATED,
     description: TrainingPostResponse.PostCreated,
   })
-  @Post('/repost/:postId')
+  @Post('/repost/:trainingId')
   @ApiTags('training post')
   public async createRepost(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() { userId }: UserIdDto
   ) {
-    const newPost = await this.trainingPostService.createRepost(postId, userId);
+    const newPost = await this.trainingPostService.createRepost(
+      trainingId,
+      userId
+    );
 
     return fillDto(TrainingPostRdo, newPost.toPOJO());
   }
@@ -108,14 +113,14 @@ export class TrainingPostController {
     status: HttpStatus.CONFLICT,
     description: TrainingPostResponse.AccessDeny,
   })
-  @Delete('/:postId/:userId')
+  @Delete('/:trainingId/:userId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiTags('training post')
   public async destroy(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Param('userId') userId: string
   ) {
-    await this.trainingPostService.deletePost(postId, userId);
+    await this.trainingPostService.deletePost(trainingId, userId);
   }
 
   @ApiResponse({
@@ -154,15 +159,15 @@ export class TrainingPostController {
     status: HttpStatus.CONFLICT,
     description: TrainingPostResponse.LikeAlreadyExists,
   })
-  @Post('like/:postId')
+  @Post('like/:trainingId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiTags('training like')
   public async addLike(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() { userId }: UserIdDto
   ) {
-    await this.trainingLikeService.like({ postId, userId });
-    await this.trainingPostService.updateCommentCount(postId, 1);
+    await this.trainingLikeService.like({ trainingId, userId });
+    await this.trainingPostService.updateCommentCount(trainingId, 1);
   }
 
   @ApiResponse({
@@ -177,15 +182,15 @@ export class TrainingPostController {
     status: HttpStatus.NOT_FOUND,
     description: TrainingPostResponse.LikeNotExists,
   })
-  @Post('unlike/:postId')
+  @Post('unlike/:trainingId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiTags('training like')
   public async deleteLike(
-    @Param('postId') postId: string,
+    @Param('trainingId') trainingId: string,
     @Body() { userId }: UserIdDto
   ) {
-    await this.trainingLikeService.unlike({ postId, userId });
-    await this.trainingPostService.updateCommentCount(postId, -1);
+    await this.trainingLikeService.unlike({ trainingId, userId });
+    await this.trainingPostService.updateCommentCount(trainingId, -1);
   }
 
   @Post('sendNewPostNotify')
@@ -199,7 +204,7 @@ export class TrainingPostController {
     const { entities } = await this.trainingPostService.getPosts(query);
 
     this.notifyService.sendNewPostNotify(
-      entities.map((post) => post.toPOJO()),
+      entities.map((training) => training.toPOJO()),
       dto.userId
     );
   }

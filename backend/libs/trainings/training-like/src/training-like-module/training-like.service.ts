@@ -17,7 +17,7 @@ export class TrainingLikeService {
     const isLikeExists = await this.trainingLikeRepository.isLikeExists(like);
     if (isLikeExists) {
       throw new ConflictException(
-        `Like already exist with postId ${like.postId} `
+        `Like already exist with trainingId ${like.trainingId} `
       );
     }
 
@@ -29,7 +29,7 @@ export class TrainingLikeService {
     const isLikeExists = await this.trainingLikeRepository.isLikeExists(like);
     if (!isLikeExists) {
       throw new NotFoundException(
-        `Like with postId ${like.postId} not found for user.`
+        `Like with trainingId ${like.trainingId} not found for user.`
       );
     }
 
