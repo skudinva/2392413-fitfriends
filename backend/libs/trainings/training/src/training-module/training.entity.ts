@@ -1,0 +1,75 @@
+import {
+  PgEntity,
+  StorableEntity,
+  Training,
+  TrainingDuration,
+  TrainingLevel,
+  TrainingType,
+  UserGender,
+} from '@backend/shared/core';
+
+export class TrainingEntity
+  extends PgEntity
+  implements StorableEntity<Training>
+{
+  public title!: string;
+  public image!: string;
+  public level!: string; //TrainingLevel;
+  public type!: string; //TrainingType;
+  public duration!: string; //TrainingDuration;
+  public price!: number;
+  public calories!: number;
+  public description!: string;
+  public gender!: string; //UserGender;
+  public video!: string;
+  public rating!: number;
+  public trainer!: string;
+  public isSpecial!: boolean;
+  public createdAt!: Date;
+
+  constructor(training?: Training) {
+    super();
+    this.populate(training);
+  }
+  public populate(training?: Training): void {
+    if (!training) {
+      return;
+    }
+
+    this.id = training.id;
+    this.title = training.title;
+    this.image = training.image;
+    this.level = training.level;
+    this.type = training.type;
+    this.duration = training.duration;
+    this.price = training.price;
+    this.calories = training.calories;
+    this.description = training.description;
+    this.gender = training.gender;
+    this.video = training.video;
+    this.rating = training.rating;
+    this.trainer = training.trainer;
+    this.isSpecial = training.isSpecial;
+    this.createdAt = training.createdAt;
+  }
+
+  toPOJO(): Training {
+    return {
+      id: this.id,
+      title: this.title,
+      image: this.image,
+      level: this.level as TrainingLevel,
+      type: this.type as TrainingType,
+      duration: this.duration as TrainingDuration,
+      price: this.price,
+      calories: this.calories,
+      description: this.description,
+      gender: this.gender as UserGender,
+      video: this.video,
+      rating: this.rating,
+      trainer: this.trainer,
+      isSpecial: this.isSpecial,
+      createdAt: this.createdAt,
+    };
+  }
+}

@@ -1,0 +1,12 @@
+export { CreateTrainingFileDto } from './training-module/dto/create-training-file.dto';
+export { CreateTrainingDto } from './training-module/dto/create-training.dto';
+export { UpdateTrainingFileDto } from './training-module/dto/update-trainiing-file.dto';
+export { UpdateTrainingDto } from './training-module/dto/update-training.dto';
+export { UserIdDto } from './training-module/dto/user-id.dto';
+export { TrainingWithPaginationRdo } from './training-module/rdo/training-with-pagination.rdo';
+export { TrainingRdo } from './training-module/rdo/training.rdo';
+export { TrainingResponse } from './training-module/training.constant';
+export { TrainingEntity } from './training-module/training.entity';
+export { TrainingModule } from './training-module/training.module';
+export { TrainingRepository } from './training-module/training.repository';
+export { TrainingService } from './training-module/training.service';
