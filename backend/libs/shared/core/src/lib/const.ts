@@ -1,4 +1,6 @@
 import { EntityList } from './types/entity-list.enum';
+import { TrainingLevel } from './types/training-level.enum';
+import { UserGender } from './types/user-gender.enum';
 
 export const SERVE_ROOT = 'static';
 export const EntityConstrain = {
@@ -105,3 +107,14 @@ export const TRAINING_DURATIONS = [
   '50-80 мин',
   '80-100 мин',
 ] as const;
+
+export const FixedQuestionValue = {
+  [UserGender.Man]: {
+    calories: 3300,
+    trainingLevel: TrainingLevel.Beginner,
+  },
+  [UserGender.Female]: {
+    calories: 2300,
+    trainingLevel: TrainingLevel.Beginner,
+  },
+};
