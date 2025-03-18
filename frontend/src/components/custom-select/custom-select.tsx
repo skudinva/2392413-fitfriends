@@ -49,7 +49,9 @@ function CustomSelect({
         defaultValue={selectedValue}
         name={componentName}
       />
-      <span className="custom-select__label">{labelText}</span>
+      <span className="custom-select__label" style={{ opacity: 1 }}>
+        {labelText}
+      </span>
       <div className="custom-select__placeholder">
         {placeholderPrefix}
         {selectedValue}
