@@ -15,7 +15,6 @@ import { TrainingCommentRepository } from './training-comment.repository';
 export class TrainingCommentService {
   constructor(
     private readonly trainingCommentRepository: TrainingCommentRepository,
-    private readonly trainingCommentFactory: TrainingCommentFactory,
     private readonly trainingPostService: TrainingService
   ) {}
 
@@ -41,16 +40,17 @@ export class TrainingCommentService {
     trainingId: Comment['trainingId'],
     dto: CreateCommentDto
   ): Promise<TrainingCommentEntity> {
-    const existsComment = this.trainingCommentRepository.findByUserAndPostId(
-      trainingId,
-      dto.userId
-    );
+    const existsComment =
+      await this.trainingCommentRepository.findByUserAndPostId(
+        trainingId,
+        dto.userId
+      );
 
     if (existsComment) {
       throw new ConflictException('User already comment this post');
     }
 
-    const newComment = this.trainingCommentFactory.create(dto);
+    const newComment = TrainingCommentFactory.composeFromCreateCommentDto(dto);
     await this.trainingCommentRepository.save(newComment);
     //await this.trainingPostService.updateCommentCount(trainingId, 1);
 

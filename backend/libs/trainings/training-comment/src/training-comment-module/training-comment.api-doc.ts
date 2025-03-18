@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class TrainingCommentApiDoc implements Comment {
   @ApiProperty({
     description: 'ID comment',
-    example: '6cd1ef70-c62b-5714-8a1d-4a5548f3942d',
+    example: '1',
   })
   id: number;
 
@@ -15,8 +15,8 @@ export class TrainingCommentApiDoc implements Comment {
   public userId!: string;
 
   @ApiProperty({
-    description: 'ID post',
-    example: '45463002-e83e-5024-8fce-974ba5b6e5af',
+    description: 'ID of training',
+    example: '1',
   })
   public trainingId!: number;
 

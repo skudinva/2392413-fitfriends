@@ -1,4 +1,5 @@
 import { Comment, EntityConstrain } from '@backend/shared/core';
+import { OmitType } from '@nestjs/swagger';
 import {
   IsMongoId,
   IsNotEmpty,
@@ -11,7 +12,10 @@ import {
 import { TrainingCommentApiDoc } from '../training-comment.api-doc';
 import { TrainingCommentValidateMessage } from '../training-comment.constant';
 
-export class BaseCommentDto extends TrainingCommentApiDoc implements Comment {
+export class BaseCommentDto
+  extends OmitType(TrainingCommentApiDoc, ['createdAt'])
+  implements Omit<Comment, 'createdAt'>
+{
   @IsNumber()
   public id: number;
 
