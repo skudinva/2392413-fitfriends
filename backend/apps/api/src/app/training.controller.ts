@@ -294,7 +294,7 @@ export class TrainingController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingCommentResponse.PostNotFound,
+    description: TrainingCommentResponse.TrainingNotFound,
   })
   @ApiQuery({
     name: 'sortDirection',
@@ -336,7 +336,7 @@ export class TrainingController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingCommentResponse.PostNotFound,
+    description: TrainingCommentResponse.TrainingNotFound,
   })
   @ApiTags(ApiSection.Comment)
   public async createComment(

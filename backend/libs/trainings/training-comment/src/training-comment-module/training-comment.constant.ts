@@ -13,7 +13,7 @@ export const TrainingCommentResponse = {
   CommentsFound: 'Successfully found comments of the post',
   CommentCreated: 'Successfully create comment',
   CommentDeleted: 'Successfully delete comment',
-  PostNotFound: 'Training not found',
+  TrainingNotFound: 'Training not found',
   CommentNotFound: 'Comment not found',
   NotAllowed: 'You are not allowed to delete this comment',
 } as const;
