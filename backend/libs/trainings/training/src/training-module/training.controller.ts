@@ -1,5 +1,5 @@
 import { fillDto } from '@backend/helpers';
-import { SortDirection, SortType, Training } from '@backend/shared/core';
+import { SortDirection, SortType } from '@backend/shared/core';
 import { TrainingNotifyService } from '@backend/training-notify';
 import {
   Body,
@@ -41,7 +41,7 @@ export class TrainingController {
     description: TrainingResponse.TrainingNotFound,
   })
   @ApiTags('training post')
-  public async show(@Param('id') id: Training['id']) {
+  public async show(@Param('id') id: number) {
     const training = await this.trainingPostService.getTraining(id);
     return fillDto(TrainingRdo, training.toPOJO());
   }
@@ -97,7 +97,7 @@ export class TrainingController {
   @Delete('/:trainingId/:userId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiTags('training post')
-  public async destroy(@Param('trainingId') trainingId: Training['id']) {
+  public async destroy(@Param('trainingId') trainingId: number) {
     await this.trainingPostService.deleteTraining(trainingId);
   }
 
@@ -120,10 +120,7 @@ export class TrainingController {
   })
   @Patch('/:id')
   @ApiTags('training post')
-  public async update(
-    @Param('id') id: Training['id'],
-    @Body() dto: UpdateTrainingDto
-  ) {
+  public async update(@Param('id') id: number, @Body() dto: UpdateTrainingDto) {
     const updatedPost = await this.trainingPostService.updateTraining(id, dto);
     return fillDto(TrainingRdo, updatedPost.toPOJO());
   }

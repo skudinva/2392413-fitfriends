@@ -3,13 +3,7 @@ import {
   RequestWithTokenPayloadUrl,
 } from '@backend/authentication';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
-import {
-  Comment,
-  EntityConstrain,
-  SortDirection,
-  SortType,
-  Training,
-} from '@backend/shared/core';
+import { EntityConstrain, SortDirection, SortType } from '@backend/shared/core';
 import {
   CreateTrainingDto,
   TrainingRdo,
@@ -142,7 +136,7 @@ export class TrainingController {
   @ApiConsumes('multipart/form-data')
   @ApiTags(ApiSection.Training)
   public async updateTraining(
-    @Param('id') id: Training['id'],
+    @Param('id') id: number,
     @Body() dto: UpdateTrainingDto,
     @UploadedFile(
       new ParseFilePipe({
@@ -192,7 +186,7 @@ export class TrainingController {
   @ApiBearerAuth('accessToken')
   @ApiTags(ApiSection.Training)
   public async deleteTraining(
-    @Param('id') id: Training['id'],
+    @Param('id') id: number,
     @Req() req: RequestWithTokenPayload
   ) {
     const userId = req.user.sub;
@@ -281,7 +275,7 @@ export class TrainingController {
   @Get('/:id')
   @ApiTags(ApiSection.Training)
   public async getTraining(
-    @Param('id') id: Training['id'],
+    @Param('id') id: number,
     @Req() req: RequestWithTokenPayload
   ) {
     const userId = req.user?.sub;
@@ -318,7 +312,7 @@ export class TrainingController {
   @Get('/comments/:trainingId')
   @ApiTags(ApiSection.Comment)
   public async getComments(
-    @Param('trainingId') trainingId: Comment['trainingId'],
+    @Param('trainingId') trainingId: number,
     @Req() req: Request
   ) {
     const { data } =
@@ -346,7 +340,7 @@ export class TrainingController {
   })
   @ApiTags(ApiSection.Comment)
   public async createComment(
-    @Param('trainingId') trainingId: Comment['trainingId'],
+    @Param('trainingId') trainingId: number,
     @Body() dto: CreateCommentDto
   ) {
     const { data } = await this.httpService.axiosRef.post<TrainingCommentRdo>(
@@ -375,7 +369,7 @@ export class TrainingController {
   })
   @ApiTags(ApiSection.Comment)
   public async deleteComment(
-    @Param('commentId') commentId: Comment['id'],
+    @Param('commentId') commentId: number,
     @Req() req: RequestWithTokenPayload
   ) {
     const userId = req.user.sub;
