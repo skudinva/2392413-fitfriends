@@ -1,5 +1,4 @@
 import { fillDto } from '@backend/helpers';
-import { Comment } from '@backend/shared/core';
 import {
   Body,
   Controller,
@@ -32,11 +31,11 @@ export class TrainingCommentController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingCommentResponse.PostNotFound,
+    description: TrainingCommentResponse.TrainingNotFound,
   })
   @Get('/:trainingId')
   public async show(
-    @Param('trainingId') trainingId: Comment['trainingId'],
+    @Param('trainingId') trainingId: number,
     @Query() query: TrainingCommentQuery
   ) {
     const comments = await this.trainingCommentService.getComments(
@@ -53,11 +52,11 @@ export class TrainingCommentController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingCommentResponse.PostNotFound,
+    description: TrainingCommentResponse.TrainingNotFound,
   })
   @Post('/:trainingId')
   public async create(
-    @Param('trainingId') trainingId: Comment['trainingId'],
+    @Param('trainingId') trainingId: number,
     @Body() dto: CreateCommentDto
   ) {
     const newComment = await this.trainingCommentService.addComment(
@@ -82,8 +81,8 @@ export class TrainingCommentController {
   })
   @Delete('/:commentId/:userId')
   public async delete(
-    @Param('commentId') commentId: Comment['trainingId'],
-    @Param('userId') userId: Comment['userId']
+    @Param('commentId') commentId: number,
+    @Param('userId') userId: string
   ) {
     await this.trainingCommentService.deleteComment(commentId, userId);
   }
