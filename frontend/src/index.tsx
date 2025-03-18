@@ -7,7 +7,7 @@ import App from './components/app/app';
 import HistoryRouter from './components/history-route/history-route';
 import history from './history';
 import store from './store';
-import { fetchUserStatus } from './store/action';
+import { fetchUserStatus } from './store/user-action';
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement as Element);

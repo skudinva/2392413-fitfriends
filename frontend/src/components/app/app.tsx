@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchUserInfo } from '../../store/action';
+import { fetchUserInfo } from '../../store/user-action';
 import {
   getAuthorizationStatus,
   getCurrentUser,

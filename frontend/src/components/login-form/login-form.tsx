@@ -2,7 +2,7 @@ import { FormEvent, useEffect } from 'react';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import history from '../../history';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loginUser } from '../../store/action';
+import { loginUser } from '../../store/user-action';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { LoginUserDto } from '../../types/shared';
 

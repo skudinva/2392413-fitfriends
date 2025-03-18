@@ -7,7 +7,7 @@ import {
   loginUser,
   logoutUser,
   updateUser,
-} from '../action';
+} from '../user-action';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,

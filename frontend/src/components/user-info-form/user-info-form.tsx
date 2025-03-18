@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TRAINING_TYPE } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { updateUser } from '../../store/action';
+import { updateUser } from '../../store/user-action';
 import {
   getUserInfo,
   getUserInfoLoading,

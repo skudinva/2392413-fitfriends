@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
-import { registerUser } from '../../store/action';
+import { registerUser } from '../../store/user-action';
 import { LocationName, LOCATIONS, UserGender } from '../../types/shared';
 
 function RegisterForm(): JSX.Element {
