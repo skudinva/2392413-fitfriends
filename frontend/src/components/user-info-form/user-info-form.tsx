@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DEFAULT_TRAINING_LEVEL, TRAINING_TYPE } from '../../const';
+import { TRAINING_TYPE } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUser } from '../../store/action';
 import {
@@ -224,7 +224,7 @@ function UserInfoForm(): JSX.Element {
         <div className="custom-select--readonly custom-select user-info__select">
           <span className="custom-select__label">Уровень</span>
           <div className="custom-select__placeholder">
-            {DEFAULT_TRAINING_LEVEL}
+            {userInfo?.trainingLevel || ''}
           </div>
           <button
             className="custom-select__button"

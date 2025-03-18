@@ -1,4 +1,4 @@
-import { TrainingLevel, TrainingType } from './types/shared';
+import { TrainingType } from './types/shared';
 
 export const PROJECT_NAME = 'FitFriends';
 
@@ -66,5 +66,3 @@ export enum StoreSlice {
   SiteProcess = 'SITE_PROCESS',
   UserProcess = 'USER_PROCESS',
 }
-
-export const DEFAULT_TRAINING_LEVEL = TrainingLevel.Beginner;
