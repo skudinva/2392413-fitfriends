@@ -1,105 +1,112 @@
-import { PostState, PostType, PrismaClient } from '@prisma/client';
+import { PrismaClient, Training } from '@prisma/client';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  EntityConstrain,
+  TRAINING_DURATIONS,
+  TrainingLevel,
+  TrainingType,
+  UserGender,
+} from '../../../shared/core/src';
 
-const FIRST_POST_UUID = '6d308040-96a2-4162-bea6-2338e9976540';
-const SECOND_POST_UUID = 'ab04593b-da99-4fe3-8b4b-e06d82e2efdd';
+function getRandomEnumValue<E>(enumObject: E): E[keyof E] {
+  const values = Object.values(enumObject) as E[keyof E][];
+  const randomIndex = Math.floor(Math.random() * values.length);
+  return values[randomIndex];
+}
 
-const FIRST_USER_ID = '658170cbb954e9f5b905ccf4';
-const SECOND_USER_ID = '6581762309c030b503e30512';
+function generateRandomDate(start: Date, end: Date) {
+  const startTime = start.getTime();
+  const endTime = end.getTime();
+  const randomTime =
+    Math.floor(Math.random() * (endTime - startTime + 1)) + startTime;
 
-function getPosts() {
-  return [
-    {
-      id: FIRST_POST_UUID,
-      postType: PostType.Text,
-      userId: FIRST_USER_ID,
-      isRepost: false,
-      originUserId: null,
-      originPostId: null,
-      state: PostState.Draft,
-      likesCount: 0,
-      commentsCount: 0,
-      publicDate: new Date().toISOString(),
-      tags: {
-        connectOrCreate: [
-          {
-            create: { title: '#someTag1' },
-            where: { title: '#someTag1' },
-          },
-        ],
-      },
-      extraProperty: {
-        name: 'Тестовый name',
-        announce: 'Тестовый announce',
-        text: 'Тестовый text',
-      },
-      comments: [],
-    },
-    {
-      id: SECOND_POST_UUID,
-      postType: PostType.Photo,
-      userId: SECOND_USER_ID,
-      isRepost: false,
-      originUserId: null,
-      originPostId: null,
-      state: PostState.Draft,
-      likesCount: 0,
-      commentsCount: 0,
-      publicDate: new Date().toISOString(),
-      tags: {
-        connectOrCreate: [
-          {
-            create: { title: '#someTag2' },
-            where: { title: '#someTag2' },
-          },
-        ],
-      },
-      extraProperty: {
-        photo:
-          'https://assets.htmlacademy.ru/previews/797/20231226_7720a938-150.png',
-      },
-      comments: [
-        {
-          message: 'Это действительно отличная книга!',
-          userId: FIRST_USER_ID,
-        },
-        {
-          message:
-            'Надо будет обязательно перечитать. Слишком много информации.',
-          userId: SECOND_USER_ID,
-        },
-      ],
-    },
-  ];
+  return new Date(randomTime);
+}
+
+function getRandomValue(min: number, max: number, numAfterDigit = 0) {
+  return +(Math.random() * (max - min) + min).toFixed(numAfterDigit);
+}
+
+function getRandomItem<T>(items: T[]): T {
+  return items[getRandomValue(0, items.length - 1)];
+}
+
+const mockTrainingTitle = [
+  'Взрыв',
+  'Стальной пресс',
+  'Бег',
+  'Титан',
+  'Атлант',
+  'Энергия+',
+  'Драйв',
+  'Чемпион',
+  'Сила',
+  'Турбо',
+  'Прорыв',
+  'Титан-X',
+  'Спарта',
+  'Феникс',
+  'Олимп',
+];
+
+const mockTrainerName = [
+  'ВикторСилаев',
+  'АннаГромова',
+  'ДмитрийШторм',
+  'МарияПобеда',
+  'ОлегЛидер',
+  'СергейАтлет',
+  'ТатьянаСталь',
+  'ПавелЧемпион',
+  'ЕленаДрайв',
+  'МаксимТитан',
+];
+
+const mockTrainingDescribe = [
+  'Интенсивная кардио-сессия для сжигания жира',
+  'Упражнения на гибкость и баланс в парной работе',
+  'Силовая тренировка с собственным весом для начинающих',
+  'Комплексная тренировка на все группы мышц',
+  'Функциональные упражнения для развития выносливости',
+  'Быстрая 20-минутная тренировка для поддержания формы',
+  'Тренировка на развитие скорости и координации',
+  'Комбинированная тренировка: сила + кардио',
+  'Упражнения с гантелями для наращивания мышечной массы',
+  'Тренировка на развитие тактического мышления и командных навыков',
+];
+
+function getTraining(id: number): Training {
+  return {
+    id: id + 1,
+    title: getRandomItem(mockTrainingTitle),
+    image: `img/content/training-${getRandomValue(1, 4, 0)}.png`,
+    level: getRandomEnumValue(TrainingLevel),
+    type: getRandomEnumValue(TrainingType),
+    duration: getRandomItem([...TRAINING_DURATIONS]),
+    price: getRandomValue(0, 2000, 0),
+    calories: getRandomValue(
+      EntityConstrain.training.calories.minValue,
+      EntityConstrain.training.calories.maxValue,
+      0
+    ),
+    description: getRandomItem(mockTrainingDescribe),
+    gender: getRandomEnumValue(UserGender),
+    video: `video/content/training-${getRandomValue(1, 4, 0)}.mp4`,
+    rating: getRandomValue(1, 5, 0),
+    trainer: getRandomItem(mockTrainerName),
+    isSpecial: getRandomItem([true, false]),
+    createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
+  };
 }
 
 async function seedDb(prismaClient: PrismaClient) {
-  const mockPosts = getPosts();
+  const mockTrainings = Array.from({ length: 100 }, (_v, k) => getTraining(k));
 
-  for (const training of mockPosts) {
+  for (const training of mockTrainings) {
     await prismaClient.training.upsert({
       where: { id: training.id },
       update: {},
-      create: {
-        id: training.id,
-        postType: training.postType,
-        userId: training.userId,
-        isRepost: training.isRepost,
-        originUserId: training.originUserId,
-        originPostId: training.originPostId,
-        state: training.state,
-        likesCount: 0,
-        commentsCount: training.comments.length,
-        publicDate: training.publicDate,
-        tags: training.tags,
-        comments: training.comments.length
-          ? {
-              create: training.comments,
-            }
-          : undefined,
-        extraProperty: {
-          create: training.extraProperty,
-        },
-      },
+      create: training,
     });
   }
 
