@@ -1,26 +1,11 @@
 import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/user-action';
-import {
-  EntityConstrain,
-  LocationName,
-  LOCATIONS,
-  UserGender,
-} from '../../types/shared';
+import { EntityConstrain, LOCATIONS, UserGender } from '../../types/shared';
+import CustomSelect from '../custom-select/custom-select';
 
 function RegisterForm(): JSX.Element {
   const dispatch = useAppDispatch();
-
-  const [isOpened, setIsOpened] = useState<boolean>(false);
-  const onArrowButtonClick = () => {
-    setIsOpened(!isOpened);
-  };
-
-  const [location, setLocation] = useState<LocationName>();
-  const onLocationClick = (evt: React.MouseEvent<HTMLLIElement>) => {
-    setLocation(evt.currentTarget.innerText as LocationName);
-    setIsOpened(false);
-  };
 
   const [agreementChecked, setAgreementChecked] = useState<boolean>(false);
   const onAgreementChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +24,6 @@ function RegisterForm(): JSX.Element {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     formData.append('gender', formData.get('sex')?.toString() || '');
-    formData.append('location', String(location));
     if (avatar) {
       formData.append('avatar', avatar);
     }
@@ -119,40 +103,15 @@ function RegisterForm(): JSX.Element {
               </span>
             </label>
           </div>
-          <div
-            className={`custom-select not-empty ${
-              isOpened ? 'is-open' : 'custom-select--not-selected'
-            }`}
-          >
-            <span className="custom-select__label">Ваша локация</span>
-            <button
-              className="custom-select__button"
-              type="button"
-              aria-label="Выберите одну из опций"
-              onClick={onArrowButtonClick}
-            >
-              <span className="custom-select__text">{location}</span>
-              <span className="custom-select__icon">
-                <svg width="15" height="6" aria-hidden="true">
-                  <use xlinkHref="#arrow-down"></use>
-                </svg>
-              </span>
-            </button>
-
-            <ul className="custom-select__list" role="listbox">
-              {LOCATIONS.map((locationItem) => (
-                <li
-                  key={locationItem}
-                  role="option"
-                  className="custom-select__item"
-                  aria-selected={locationItem === location}
-                  onClick={onLocationClick}
-                >
-                  {locationItem}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <CustomSelect
+            isEdit
+            labelText="Ваша локация"
+            selectValues={[...LOCATIONS]}
+            containerClassName="user-info"
+            defaultValue=""
+            placeholderPrefix=""
+            componentName="location"
+          />
           <div className="custom-input">
             <label>
               <span className="custom-input__label">Пароль</span>
