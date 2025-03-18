@@ -2,6 +2,7 @@ import {
   RequestWithTokenPayload,
   RequestWithTokenPayloadUrl,
 } from '@backend/authentication';
+import { createStaticUrlForFile } from '@backend/helpers';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
 import { EntityConstrain, SortDirection, SortType } from '@backend/shared/core';
 import {
@@ -107,6 +108,8 @@ export class TrainingController {
       trainingDto
     );
 
+    data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
+
     return data;
   }
 
@@ -160,6 +163,8 @@ export class TrainingController {
       `${ApplicationServiceURL.Training}/${id}`,
       trainingDto
     );
+
+    data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
 
     return data;
   }
@@ -257,6 +262,14 @@ export class TrainingController {
       await this.httpService.axiosRef.get<TrainingWithPaginationRdo>(
         `${ApplicationServiceURL.Training}?${query}`
       );
+
+    data.entities.map((training) => {
+      training.video = createStaticUrlForFile(
+        training.video,
+        ApplicationServiceURL.File
+      );
+    });
+
     //await this.appService.appendUserInfo(data.entities);
     return data;
   }
@@ -283,6 +296,7 @@ export class TrainingController {
       `${ApplicationServiceURL.Training}/${id}/${userId}`
     );
     //await this.appService.appendUserInfo([data]);
+    data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
 
     return data;
   }
