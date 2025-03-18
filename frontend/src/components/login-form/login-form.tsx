@@ -33,7 +33,13 @@ function LoginForm(): JSX.Element {
           <label>
             <span className="custom-input__label">E-mail</span>
             <span className="custom-input__wrapper">
-              <input type="email" name="email" />
+              <input
+                type="email"
+                name="email"
+                autoComplete="off"
+                data-testid="mail"
+                required
+              />
             </span>
           </label>
         </div>
@@ -41,7 +47,12 @@ function LoginForm(): JSX.Element {
           <label>
             <span className="custom-input__label">Пароль</span>
             <span className="custom-input__wrapper">
-              <input type="password" name="password" />
+              <input
+                type="password"
+                name="password"
+                autoComplete="off"
+                required
+              />
             </span>
           </label>
         </div>

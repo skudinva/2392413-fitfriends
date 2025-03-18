@@ -1,7 +1,12 @@
 import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/user-action';
-import { LocationName, LOCATIONS, UserGender } from '../../types/shared';
+import {
+  EntityConstrain,
+  LocationName,
+  LOCATIONS,
+  UserGender,
+} from '../../types/shared';
 
 function RegisterForm(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -51,6 +56,7 @@ function RegisterForm(): JSX.Element {
               <input
                 className="visually-hidden"
                 type="file"
+                required
                 accept="image/png, image/jpeg"
                 onChange={onAvatarUpload}
               />
@@ -80,7 +86,14 @@ function RegisterForm(): JSX.Element {
             <label>
               <span className="custom-input__label">Имя</span>
               <span className="custom-input__wrapper">
-                <input type="text" name="name" />
+                <input
+                  type="text"
+                  name="name"
+                  minLength={EntityConstrain.user.name.minLength}
+                  maxLength={EntityConstrain.user.name.maxLength}
+                  title="Только буквы русского/английского алфавита"
+                  required
+                />
               </span>
             </label>
           </div>
@@ -88,7 +101,13 @@ function RegisterForm(): JSX.Element {
             <label>
               <span className="custom-input__label">E-mail</span>
               <span className="custom-input__wrapper">
-                <input type="email" name="email" />
+                <input
+                  type="email"
+                  name="email"
+                  autoComplete="off"
+                  data-testid="mail"
+                  required
+                />
               </span>
             </label>
           </div>
@@ -138,7 +157,14 @@ function RegisterForm(): JSX.Element {
             <label>
               <span className="custom-input__label">Пароль</span>
               <span className="custom-input__wrapper">
-                <input type="password" name="password" autoComplete="off" />
+                <input
+                  type="password"
+                  name="password"
+                  autoComplete="off"
+                  required
+                  minLength={EntityConstrain.user.password.minLength}
+                  maxLength={EntityConstrain.user.password.maxLength}
+                />
               </span>
             </label>
           </div>
@@ -151,7 +177,7 @@ function RegisterForm(): JSX.Element {
                   key={`sex-${index.toString()}`}
                 >
                   <label>
-                    <input type="radio" name="sex" value={sex} />
+                    <input type="radio" name="sex" value={sex} required />
                     <span className="custom-toggle-radio__icon"></span>
                     <span className="custom-toggle-radio__label">{sex}</span>
                   </label>
