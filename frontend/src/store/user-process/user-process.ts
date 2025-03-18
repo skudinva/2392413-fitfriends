@@ -41,6 +41,10 @@ export const userProcess = createSlice({
         state.user = action.payload;
         state.authorizationStatus = AuthorizationStatus.Auth;
       })
+      .addCase(loginUser.rejected, (state) => {
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
+        state.user = { email: '', sub: '' };
+      })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = {
           sub: '',

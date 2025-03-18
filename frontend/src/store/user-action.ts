@@ -53,6 +53,7 @@ export const loginUser = createAsyncThunk<
   { extra: Extra }
 >(UserAction.LOGIN_USER, async ({ email, password }, { extra }) => {
   const { api, history } = extra;
+
   const { data } = await api.post<LoggedUserRdo>(ApiRoute.Login, {
     email,
     password,
@@ -62,10 +63,14 @@ export const loginUser = createAsyncThunk<
   refreshToken.save(data.refreshToken);
   history.push(AppRoute.Root);
 
-  return {
-    sub: data.id,
-    email: data.email,
-  };
+  if (data.id && data.email) {
+    return {
+      sub: data.id,
+      email: data.email,
+    };
+  }
+
+  return Promise.reject('Incorrect login or password');
 });
 
 export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
