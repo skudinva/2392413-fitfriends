@@ -2,6 +2,7 @@ import {
   IUserRdo,
   LocationName,
   LOCATIONS,
+  TrainingLevel,
   UserGender,
 } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
@@ -73,8 +74,23 @@ export class UserRdo implements IUserRdo {
   @ApiProperty({
     description: 'User background image path',
     example: '/images/bgImage.png',
-    required: false,
   })
   @Expose()
   backgroundImage?: string;
+
+  @ApiProperty({
+    description: 'User calories',
+    example: 2300,
+  })
+  @Expose()
+  calories: number;
+
+  @ApiProperty({
+    description: 'User trainingLevel',
+    example: TrainingLevel.Beginner,
+    enum: TrainingLevel,
+    enumName: 'TrainingLevel',
+  })
+  @Expose()
+  trainingLevel: TrainingLevel;
 }

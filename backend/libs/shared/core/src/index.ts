@@ -1,6 +1,7 @@
 export { MongoEntity } from './lib/base/mongo-entity';
 export { PgEntity } from './lib/base/pg-entity';
 export {
+  DefaultFixedQuestionValue,
   EntityConstrain,
   LOCATIONS,
   SERVE_ROOT,
@@ -20,6 +21,7 @@ export { TrainingCommentWithPagination } from './lib/types/comment-with-paginati
 export { Comment } from './lib/types/comment.interface';
 export { EntityList } from './lib/types/entity-list.enum';
 export { File } from './lib/types/file.interface';
+export { FixedQuestionValue } from './lib/types/fixed-question-value.interface';
 export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
 export { ILoginUserDto } from './lib/types/login-user-dto.interface';

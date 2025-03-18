@@ -1,4 +1,5 @@
 import { EntityList } from './types/entity-list.enum';
+import { FixedQuestionValue } from './types/fixed-question-value.interface';
 import { TrainingLevel } from './types/training-level.enum';
 import { UserGender } from './types/user-gender.enum';
 
@@ -108,7 +109,9 @@ export const TRAINING_DURATIONS = [
   '80-100 мин',
 ] as const;
 
-export const FixedQuestionValue = {
+export const DefaultFixedQuestionValue: {
+  [key in UserGender]: FixedQuestionValue;
+} = {
   [UserGender.Man]: {
     calories: 3300,
     trainingLevel: TrainingLevel.Beginner,
@@ -117,4 +120,8 @@ export const FixedQuestionValue = {
     calories: 2300,
     trainingLevel: TrainingLevel.Beginner,
   },
-};
+  [UserGender.NotAvailable]: {
+    calories: 3300,
+    trainingLevel: TrainingLevel.Beginner,
+  },
+} as const;

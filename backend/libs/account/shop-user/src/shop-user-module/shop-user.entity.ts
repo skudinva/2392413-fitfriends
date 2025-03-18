@@ -1,7 +1,9 @@
 import {
   AuthUser,
-  MongoEntity,
+  DefaultFixedQuestionValue,
+  FixedQuestionValue,
   LocationName,
+  MongoEntity,
   StorableEntity,
   UserGender,
 } from '@backend/shared/core';
@@ -58,7 +60,9 @@ export class ShopUserEntity
     this.passwordHash = passwordHash;
   }
 
-  toPOJO(): AuthUser {
+  toPOJO(): AuthUser & FixedQuestionValue {
+    const fixedValue = DefaultFixedQuestionValue[this.gender];
+
     return {
       id: this.id,
       email: this.email,
@@ -71,6 +75,8 @@ export class ShopUserEntity
       backgroundImage: this.backgroundImage,
       registerDate: this.registerDate,
       passwordHash: this.passwordHash,
+      calories: fixedValue.calories,
+      trainingLevel: fixedValue.trainingLevel,
     };
   }
 
