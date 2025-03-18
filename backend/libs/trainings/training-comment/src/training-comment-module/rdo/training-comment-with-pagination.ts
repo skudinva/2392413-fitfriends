@@ -1,11 +1,11 @@
+import { TrainingCommentWithPagination } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { TrainingCommentRdo } from './training-comment.rdo';
 
-export class TrainingCommentWithPaginationRdo {
-  @ApiProperty({
-    description: 'List of items of selected PgEntity',
-  })
+export class TrainingCommentWithPaginationRdo
+  implements TrainingCommentWithPagination
+{
   @Expose()
   @Type(() => TrainingCommentRdo)
   public entities: TrainingCommentRdo[];

@@ -74,7 +74,7 @@ export const EntityConstrain = {
     },
     video: {
       required: true,
-      mimeTypes: '.(mov|avi|mp4)',
+      mimeTypes: '.(mov|avi|mp4|quicktime)',
     },
     trainerName: {
       required: true,

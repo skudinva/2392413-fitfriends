@@ -1,13 +1,11 @@
+import { TrainingWithPagination } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 import { TrainingRdo } from './training.rdo';
 
-export class TrainingWithPaginationRdo {
+export class TrainingWithPaginationRdo implements TrainingWithPagination {
   @Expose()
-  @ApiProperty({
-    description: 'List of entity',
-  })
   @Type(() => TrainingRdo)
   @ValidateNested({ always: true })
   public entities!: TrainingRdo[];

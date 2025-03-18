@@ -1,6 +1,4 @@
-export { CreateTrainingFileDto } from './training-module/dto/create-training-file.dto';
 export { CreateTrainingDto } from './training-module/dto/create-training.dto';
-export { UpdateTrainingFileDto } from './training-module/dto/update-trainiing-file.dto';
 export { UpdateTrainingDto } from './training-module/dto/update-training.dto';
 export { UserIdDto } from './training-module/dto/user-id.dto';
 export { TrainingWithPaginationRdo } from './training-module/rdo/training-with-pagination.rdo';

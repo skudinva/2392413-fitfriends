@@ -29,7 +29,7 @@ export class CreateUserDto extends LoginUserDto {
       message: AuthenticationValidateMessage.NameNotValid,
     }
   )
-  public name: string;
+  name: string;
 
   @ApiProperty({
     description: 'User avatar',
@@ -38,7 +38,7 @@ export class CreateUserDto extends LoginUserDto {
     format: 'binary',
     required: true,
   })
-  public avatar: string;
+  avatar: string;
 
   @ApiProperty({
     description: 'User gender',
@@ -49,21 +49,23 @@ export class CreateUserDto extends LoginUserDto {
   gender: UserGender;
 
   @ApiProperty({
-    description: 'User avatar path',
-    example: '/images/user.png',
+    description: 'User description',
+    example: '',
+    required: false,
   })
   @IsString()
-  @IsOptional()
   @Length(
     EntityConstrain.user.description.minLength,
     EntityConstrain.user.description.maxLength
   )
+  @IsOptional()
   description?: string;
 
   @ApiProperty({
     description: 'User Location',
     example: LOCATIONS[0],
-    type: String,
+    enum: LOCATIONS,
+    enumName: 'LOCATIONS',
   })
   @IsIn(LOCATIONS)
   location: LocationName;
@@ -79,6 +81,10 @@ export class CreateUserDto extends LoginUserDto {
 
   @IsISO8601()
   @IsOptional()
-  @ApiProperty({ description: 'User birthday', example: '1981-10-11' })
+  @ApiProperty({
+    description: 'User birthday',
+    example: '1981-10-11',
+    required: false,
+  })
   birthday?: Date;
 }

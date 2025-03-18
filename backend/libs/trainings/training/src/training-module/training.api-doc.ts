@@ -25,7 +25,7 @@ export class TrainingApiDoc implements Training {
 
   @ApiProperty({
     description: 'Training image',
-    example: '',
+    example: 'image01.png',
     required: true,
   })
   image: string;
@@ -49,7 +49,8 @@ export class TrainingApiDoc implements Training {
   @ApiProperty({
     description: 'Training duration',
     required: true,
-    type: String,
+    enum: TRAINING_DURATIONS,
+    enumName: 'TRAINING_DURATIONS',
     example: TRAINING_DURATIONS[0],
   })
   duration: TrainingDuration;
@@ -58,12 +59,13 @@ export class TrainingApiDoc implements Training {
     description: 'Training price',
     example: '500',
     required: true,
+    minimum: 0,
   })
   price: number;
 
   @ApiProperty({
     description: 'Training calories',
-    example: '200',
+    example: '1000',
     required: true,
   })
   calories: number;
@@ -88,6 +90,8 @@ export class TrainingApiDoc implements Training {
   @ApiProperty({
     description: 'Training video',
     required: true,
+    type: 'string',
+    format: 'binary',
   })
   video: string;
 
@@ -100,6 +104,7 @@ export class TrainingApiDoc implements Training {
   @ApiProperty({
     description: 'Trainer name',
     required: true,
+    example: 'Vova',
   })
   trainer: string;
 

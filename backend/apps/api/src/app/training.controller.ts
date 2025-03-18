@@ -3,16 +3,19 @@ import {
   RequestWithTokenPayloadUrl,
 } from '@backend/authentication';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
-import { SortDirection, SortType } from '@backend/shared/core';
 import {
-  CreatePostDto,
-  CreatePostFileDto,
+  Comment,
+  EntityConstrain,
+  SortDirection,
+  SortType,
+  Training,
+} from '@backend/shared/core';
+import {
+  CreateTrainingDto,
   TrainingRdo,
   TrainingResponse,
   TrainingWithPaginationRdo,
-  UpdatePostDto,
-  UpdatePostFileDto,
-  UserIdDto,
+  UpdateTrainingDto,
 } from '@backend/training';
 import {
   CreateCommentDto,
@@ -25,6 +28,7 @@ import {
   Body,
   Controller,
   Delete,
+  FileTypeValidator,
   Get,
   HttpCode,
   HttpStatus,
@@ -46,7 +50,6 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { PostType } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
 import 'multer';
 import * as url from 'node:url';
@@ -68,79 +71,46 @@ export class TrainingController {
   @ApiBearerAuth('accessToken')
   @UseInterceptors(UseInterceptors)
   @UseInterceptors(InjectUserIdInterceptor)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('video'))
   @ApiConsumes('multipart/form-data')
   @ApiResponse({
     type: TrainingRdo,
     status: HttpStatus.CREATED,
-    description: TrainingResponse.PostFound,
+    description: TrainingResponse.TrainingFound,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingResponse.PostNotFound,
+    description: TrainingResponse.TrainingNotFound,
   })
   @Post('/')
   @ApiTags(ApiSection.Training)
-  public async createPost(
-    @Body() dto: CreatePostFileDto,
+  public async createTraining(
+    @Body() dto: CreateTrainingDto,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          /*new MaxFileSizeValidator({
-            maxSize: FieldValidate.MaxFileSizeForPost,
-          }),
           new FileTypeValidator({
-            fileType: FieldValidate.AllowedImageFileType,
-          }),*/
+            fileType: EntityConstrain.training.video.mimeTypes,
+          }),
         ],
-        fileIsRequired: false,
+        fileIsRequired: true,
       })
     )
     file?: Express.Multer.File
   ) {
-    const postDto = plainToInstance(
-      CreatePostDto,
-      JSON.parse(String(dto.training))
+    const trainingDto = plainToInstance(
+      CreateTrainingDto,
+      { ...dto },
+      { enableImplicitConversion: true }
     );
 
     if (file) {
-      postDto.extraProperty.photo = await this.appService.uploadFile(file);
+      trainingDto.video = await this.appService.uploadFile(file);
     }
 
-    const { data } = await this.httpService.axiosRef.post(
+    const { data } = await this.httpService.axiosRef.post<TrainingRdo>(
       `${ApplicationServiceURL.Training}/`,
-      postDto
-    );
-
-    await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Users}/incPostsCount`,
-      { userId: postDto.userId }
-    );
-    return data;
-  }
-
-  @Post('/repost/:trainingId')
-  @UseGuards(CheckAuthGuard)
-  @ApiBearerAuth('accessToken')
-  @UseInterceptors(InjectUserIdInterceptor)
-  @ApiResponse({
-    type: TrainingRdo,
-    status: HttpStatus.CREATED,
-    description: TrainingResponse.PostCreated,
-  })
-  @ApiTags(ApiSection.Training)
-  public async createRepost(
-    @Param('trainingId') trainingId: string,
-    @Body() dto: UserIdDto
-  ) {
-    const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Training}/repost/${trainingId}`,
-      dto
-    );
-
-    await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Users}/incPostsCount`,
-      { userId: dto.userId }
+      trainingDto
     );
 
     return data;
@@ -150,7 +120,7 @@ export class TrainingController {
   @ApiResponse({
     type: TrainingRdo,
     status: HttpStatus.OK,
-    description: TrainingResponse.PostUpdated,
+    description: TrainingResponse.TrainingUpdated,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
@@ -158,7 +128,7 @@ export class TrainingController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingResponse.PostNotFound,
+    description: TrainingResponse.TrainingNotFound,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
@@ -171,36 +141,30 @@ export class TrainingController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiTags(ApiSection.Training)
-  public async updatePost(
-    @Param('id') id: string,
-    @Body() dto: UpdatePostFileDto,
+  public async updateTraining(
+    @Param('id') id: Training['id'],
+    @Body() dto: UpdateTrainingDto,
     @UploadedFile(
       new ParseFilePipe({
-        /*  validators: [
-          new MaxFileSizeValidator({
-            maxSize: FieldValidate.MaxFileSizeForPost,
-          }),
+        validators: [
           new FileTypeValidator({
-            fileType: FieldValidate.AllowedImageFileType,
+            fileType: EntityConstrain.training.video.mimeTypes,
           }),
-        ],*/
-        fileIsRequired: false,
+        ],
+        fileIsRequired: true,
       })
     )
     file?: Express.Multer.File
   ) {
-    const postDto = plainToInstance(
-      UpdatePostDto,
-      JSON.parse(String(dto.training))
-    );
+    const trainingDto = plainToInstance(UpdateTrainingDto, dto);
 
     if (file) {
-      postDto.extraProperty.photo = await this.appService.uploadFile(file);
+      trainingDto.video = await this.appService.uploadFile(file);
     }
 
-    const { data } = await this.httpService.axiosRef.patch(
+    const { data } = await this.httpService.axiosRef.patch<TrainingRdo>(
       `${ApplicationServiceURL.Training}/${id}`,
-      postDto
+      trainingDto
     );
 
     return data;
@@ -209,7 +173,7 @@ export class TrainingController {
   @Delete('/:id')
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
-    description: TrainingResponse.PostDeleted,
+    description: TrainingResponse.TrainingDeleted,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
@@ -217,7 +181,7 @@ export class TrainingController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingResponse.PostNotFound,
+    description: TrainingResponse.TrainingNotFound,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
@@ -227,26 +191,20 @@ export class TrainingController {
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
   @ApiTags(ApiSection.Training)
-  public async deletePost(
-    @Param('id') id: string,
+  public async deleteTraining(
+    @Param('id') id: Training['id'],
     @Req() req: RequestWithTokenPayload
   ) {
     const userId = req.user.sub;
-    const { data } = await this.httpService.axiosRef.delete(
+    await this.httpService.axiosRef.delete(
       `${ApplicationServiceURL.Training}/${id}/${userId}`
     );
-
-    await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Users}/decPostsCount`,
-      { userId }
-    );
-    return data;
   }
 
   @ApiResponse({
     type: TrainingWithPaginationRdo,
     status: HttpStatus.OK,
-    description: TrainingResponse.PostsFound,
+    description: TrainingResponse.TrainingsFound,
   })
   @ApiQuery({
     name: 'tags',
@@ -286,17 +244,17 @@ export class TrainingController {
     example: '677cd8d75ff92067f1de5911',
     description: 'Author id of the post',
   })
-  @ApiQuery({
+  /*@ApiQuery({
     name: 'postType',
     required: false,
     enum: PostType,
     description: 'Training type',
-  })
+  })*/
   @Get('/')
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthForceGuard)
   @ApiTags(ApiSection.Training)
-  public async getPosts(@Req() req: RequestWithTokenPayloadUrl) {
+  public async getTrainings(@Req() req: RequestWithTokenPayloadUrl) {
     const userId = req.user?.sub;
     const requestUrl = userId ? `${req.url}&userId=${userId}` : req.url;
     const query = url.parse(requestUrl).query;
@@ -305,92 +263,32 @@ export class TrainingController {
       await this.httpService.axiosRef.get<TrainingWithPaginationRdo>(
         `${ApplicationServiceURL.Training}?${query}`
       );
-    await this.appService.appendUserInfo(data.entities);
+    //await this.appService.appendUserInfo(data.entities);
     return data;
   }
 
   @ApiResponse({
     type: TrainingRdo,
     status: HttpStatus.OK,
-    description: TrainingResponse.PostFound,
+    description: TrainingResponse.TrainingFound,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: TrainingResponse.PostNotFound,
+    description: TrainingResponse.TrainingNotFound,
   })
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthForceGuard)
   @Get('/:id')
   @ApiTags(ApiSection.Training)
-  public async getPost(
-    @Param('id') id: string,
+  public async getTraining(
+    @Param('id') id: Training['id'],
     @Req() req: RequestWithTokenPayload
   ) {
     const userId = req.user?.sub;
     const { data } = await this.httpService.axiosRef.get<TrainingRdo>(
       `${ApplicationServiceURL.Training}/${id}/${userId}`
     );
-    await this.appService.appendUserInfo([data]);
-
-    return data;
-  }
-
-  @Post('/like/:trainingId')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @UseGuards(CheckAuthGuard)
-  @ApiBearerAuth('accessToken')
-  @UseInterceptors(InjectUserIdInterceptor)
-  @ApiResponse({
-    status: HttpStatus.NO_CONTENT,
-    description: TrainingResponse.Like,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: TrainingResponse.Unauthorized,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: TrainingResponse.LikeAlreadyExists,
-  })
-  @ApiTags(ApiSection.Like)
-  public async addLike(
-    @Param('trainingId') trainingId: string,
-    @Body() dto: UserIdDto
-  ) {
-    const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Training}/like/${trainingId}`,
-      dto
-    );
-
-    return data;
-  }
-
-  @Post('/unlike/:trainingId')
-  @UseGuards(CheckAuthGuard)
-  @ApiBearerAuth('accessToken')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @UseInterceptors(InjectUserIdInterceptor)
-  @ApiResponse({
-    status: HttpStatus.NO_CONTENT,
-    description: TrainingResponse.UnLike,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: TrainingResponse.Unauthorized,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: TrainingResponse.LikeNotExists,
-  })
-  @ApiTags(ApiSection.Like)
-  public async deleteLike(
-    @Param('trainingId') trainingId: string,
-    @Body() dto: UserIdDto
-  ) {
-    const { data } = await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Training}/unlike/${trainingId}`,
-      dto
-    );
+    //await this.appService.appendUserInfo([data]);
 
     return data;
   }
@@ -419,15 +317,16 @@ export class TrainingController {
   })
   @Get('/comments/:trainingId')
   @ApiTags(ApiSection.Comment)
-  public async show(
-    @Param('trainingId') trainingId: string,
+  public async getComments(
+    @Param('trainingId') trainingId: Comment['trainingId'],
     @Req() req: Request
   ) {
-    const { data } = await this.httpService.axiosRef.get(
-      `${ApplicationServiceURL.Comments}/${trainingId}?${
-        url.parse(req.url).query
-      }`
-    );
+    const { data } =
+      await this.httpService.axiosRef.get<TrainingCommentWithPaginationRdo>(
+        `${ApplicationServiceURL.Comments}/${trainingId}?${
+          url.parse(req.url).query
+        }`
+      );
 
     return data;
   }
@@ -446,11 +345,11 @@ export class TrainingController {
     description: TrainingCommentResponse.PostNotFound,
   })
   @ApiTags(ApiSection.Comment)
-  public async create(
-    @Param('trainingId') trainingId: string,
+  public async createComment(
+    @Param('trainingId') trainingId: Comment['trainingId'],
     @Body() dto: CreateCommentDto
   ) {
-    const { data } = await this.httpService.axiosRef.post(
+    const { data } = await this.httpService.axiosRef.post<TrainingCommentRdo>(
       `${ApplicationServiceURL.Comments}/${trainingId}`,
       dto
     );
@@ -475,19 +374,17 @@ export class TrainingController {
     description: TrainingCommentResponse.NotAllowed,
   })
   @ApiTags(ApiSection.Comment)
-  public async delete(
-    @Param('commentId') commentId: string,
+  public async deleteComment(
+    @Param('commentId') commentId: Comment['id'],
     @Req() req: RequestWithTokenPayload
   ) {
     const userId = req.user.sub;
-    const { data } = await this.httpService.axiosRef.delete(
+    await this.httpService.axiosRef.delete(
       `${ApplicationServiceURL.Comments}/${commentId}/${userId}`
     );
-
-    return data;
   }
 
-  @Post('/sendNewPostNotify')
+  /*  @Post('/sendNewPostNotify')
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -498,5 +395,5 @@ export class TrainingController {
       `${ApplicationServiceURL.Training}/sendNewPostNotify`,
       dto
     );
-  }
+  }*/
 }
