@@ -169,10 +169,11 @@ export class UsersController {
     description: AuthenticationResponseMessage.LoggedError,
   })
   public async login(@Body() loginUserDto: LoginUserDto) {
-    const { data } = await this.httpService.axiosRef.post(
+    const { data } = await this.httpService.axiosRef.post<LoggedUserRdo>(
       `${ApplicationServiceURL.Auth}/login`,
       loginUserDto
     );
+
     return data;
   }
 

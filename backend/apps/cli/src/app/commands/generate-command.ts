@@ -19,7 +19,7 @@ export class GenerateCommand implements Command {
       const newUser = new ShopUserEntity({
         email: mockUser.email,
         name: mockUser.name,
-        avatar: `/img/content/avatars/users/photo-${getRandomValue(
+        avatar: `img/content/avatars/users/photo-${getRandomValue(
           1,
           5,
           0
