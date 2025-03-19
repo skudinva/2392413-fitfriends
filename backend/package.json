@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "cli:generate": "node dist/apps/cli/main.js --generate 20 mongodb://admin:123456@localhost:27017/fitfriends-users?authSource=admin"
   },
   "private": true,
   "dependencies": {

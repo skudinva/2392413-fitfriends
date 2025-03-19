@@ -7,38 +7,21 @@ import {
   TrainingType,
   UserGender,
 } from '../../../shared/core/src';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
-  mockTrainerNames,
+  generateRandomDate,
+  getRandomEnumValue,
+  getRandomItem,
+  getRandomValue,
+} from '../../../shared/helpers/src/lib/randomize';
+
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
   mockTrainingComments,
   mockTrainingDescribes,
   mockTrainingTitles,
-  mockUserIds,
-} from './seed.constants';
-
-function getRandomEnumValue<E extends { [key: string]: unknown }>(
-  enumObject: E
-): E[keyof E] {
-  const values = Object.values(enumObject) as E[keyof E][];
-  const randomIndex = Math.floor(Math.random() * values.length);
-  return values[randomIndex];
-}
-
-function generateRandomDate(start: Date, end: Date) {
-  const startTime = start.getTime();
-  const endTime = end.getTime();
-  const randomTime =
-    Math.floor(Math.random() * (endTime - startTime + 1)) + startTime;
-
-  return new Date(randomTime);
-}
-
-function getRandomValue(min: number, max: number, numAfterDigit = 0) {
-  return +(Math.random() * (max - min) + min).toFixed(numAfterDigit);
-}
-
-function getRandomItem<T>(items: T[]): T {
-  return items[getRandomValue(0, items.length - 1)];
-}
+  mockUsers,
+} from '../../../shared/helpers/src/lib/mock';
 
 function getTraining(): Prisma.TrainingUncheckedCreateInput {
   return {
@@ -57,7 +40,7 @@ function getTraining(): Prisma.TrainingUncheckedCreateInput {
     gender: getRandomEnumValue(UserGender),
     video: `video/content/training-${getRandomValue(1, 4, 0)}.mp4`,
     rating: getRandomValue(1, 5, 0),
-    trainer: getRandomItem(mockTrainerNames),
+    trainer: getRandomItem(mockUsers).name,
     isSpecial: getRandomItem([true, false]),
     createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
   };
@@ -84,7 +67,7 @@ async function seedDb(prismaClient: PrismaClient) {
 
   for (const training of trainings) {
     const newTraining = await prismaClient.training.create({ data: training });
-    const userIds = [...mockUserIds];
+    const userIds = mockUsers.map((user) => user.id);
     const comments = Array.from({ length: 5 }, () =>
       getComment(newTraining.id, userIds)
     );

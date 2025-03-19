@@ -16,19 +16,6 @@ export const mockTrainingTitles = [
   'Олимп',
 ];
 
-export const mockTrainerNames = [
-  'ВикторСилаев',
-  'АннаГромова',
-  'ДмитрийШторм',
-  'МарияПобеда',
-  'ОлегЛидер',
-  'СергейАтлет',
-  'ТатьянаСталь',
-  'ПавелЧемпион',
-  'ЕленаДрайв',
-  'МаксимТитан',
-];
-
 export const mockTrainingDescribes = [
   'Интенсивная кардио-сессия для сжигания жира',
   'Упражнения на гибкость и баланс в парной работе',
@@ -65,15 +52,55 @@ export const mockTrainingComments = [
   'Профессионалы своего дела! Всегда подскажут, помогут, поддержат. Рекомендую всем!',
 ];
 
-export const mockUserIds = [
-  '67c979b3b06344d425b6da14',
-  '67c979b3b06344d425b6da15',
-  '67c979b3b06344d425b6da16',
-  '67c979b3b06344d425b6da17',
-  '67c979b3b06344d425b6da18',
-  '67c979b3b06344d425b6da19',
-  '67c979b3b06344d425b6da1a',
-  '67c979b3b06344d425b6da1b',
-  '67c979b3b06344d425b6da1c',
-  '67c979b3b06344d425b6da1d',
+export const mockUsers = [
+  {
+    id: '63f4567890abcdef12345678',
+    name: 'ВикторСилаев',
+    email: 'johndoe123@gmail.com',
+  },
+  {
+    id: '63f4567890abcdef12345679',
+    name: 'АннаГромова',
+    email: 'emily.smith45@yandex.ru',
+  },
+  {
+    id: '63f4567890abcdef1234567a',
+    name: 'ДмитрийШторм',
+    email: 'alex_2023@mail.ru',
+  },
+  {
+    id: '63f4567890abcdef1234567b',
+    name: 'ДмитрийКозлов',
+    email: 'dimaK_2023@mail.ru',
+  },
+  {
+    id: '63f4567890abcdef1234567c',
+    name: 'ОльгаВасильева',
+    email: 'creative.mind99@outlook.com',
+  },
+  {
+    id: '63f4567890abcdef1234567d',
+    name: 'МарияПобеда',
+    email: 'kate_art567@list.ru',
+  },
+  {
+    id: '63f4567890abcdef1234567e',
+    name: 'МаксимТитан',
+    email: 'max.power88@bk.ru',
+  },
+  {
+    id: '63f4567890abcdef1234567f',
+    name: 'СергейПавлов',
+    email: 'green.valley17@yahoo.com',
+  },
+  {
+    id: '63f4567890abcdef12345680',
+    name: 'ИринаСоколова',
+    email: 'happy.moments@internet.ru',
+  },
+  {
+    id: '63f4567890abcdef12345681',
+    name: 'ВикторОрлов',
+    email: 'tech.guru42@inbox.ru',
+  },
 ];
