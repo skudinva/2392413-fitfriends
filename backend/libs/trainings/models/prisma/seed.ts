@@ -1,4 +1,4 @@
-import { PrismaClient, Training } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   EntityConstrain,
@@ -7,6 +7,13 @@ import {
   TrainingType,
   UserGender,
 } from '../../../shared/core/src';
+import {
+  mockMongoIds,
+  mockTrainerNames,
+  mockTrainingComments,
+  mockTrainingDescribes,
+  mockTrainingTitles,
+} from './seed.constants';
 
 function getRandomEnumValue<E>(enumObject: E): E[keyof E] {
   const values = Object.values(enumObject) as E[keyof E][];
@@ -31,54 +38,10 @@ function getRandomItem<T>(items: T[]): T {
   return items[getRandomValue(0, items.length - 1)];
 }
 
-const mockTrainingTitle = [
-  'Взрыв',
-  'Стальной пресс',
-  'Бег',
-  'Титан',
-  'Атлант',
-  'Энергия+',
-  'Драйв',
-  'Чемпион',
-  'Сила',
-  'Турбо',
-  'Прорыв',
-  'Титан-X',
-  'Спарта',
-  'Феникс',
-  'Олимп',
-];
-
-const mockTrainerName = [
-  'ВикторСилаев',
-  'АннаГромова',
-  'ДмитрийШторм',
-  'МарияПобеда',
-  'ОлегЛидер',
-  'СергейАтлет',
-  'ТатьянаСталь',
-  'ПавелЧемпион',
-  'ЕленаДрайв',
-  'МаксимТитан',
-];
-
-const mockTrainingDescribe = [
-  'Интенсивная кардио-сессия для сжигания жира',
-  'Упражнения на гибкость и баланс в парной работе',
-  'Силовая тренировка с собственным весом для начинающих',
-  'Комплексная тренировка на все группы мышц',
-  'Функциональные упражнения для развития выносливости',
-  'Быстрая 20-минутная тренировка для поддержания формы',
-  'Тренировка на развитие скорости и координации',
-  'Комбинированная тренировка: сила + кардио',
-  'Упражнения с гантелями для наращивания мышечной массы',
-  'Тренировка на развитие тактического мышления и командных навыков',
-];
-
-function getTraining(id: number): Training {
+function getTraining(): Prisma.TrainingUncheckedCreateInput {
   return {
-    id: id + 1,
-    title: getRandomItem(mockTrainingTitle),
+    //  id: id + 1,
+    title: getRandomItem(mockTrainingTitles),
     image: `img/content/training-${getRandomValue(1, 4, 0)}.png`,
     level: getRandomEnumValue(TrainingLevel),
     type: getRandomEnumValue(TrainingType),
@@ -89,25 +52,45 @@ function getTraining(id: number): Training {
       EntityConstrain.training.calories.maxValue,
       0
     ),
-    description: getRandomItem(mockTrainingDescribe),
+    description: getRandomItem(mockTrainingDescribes),
     gender: getRandomEnumValue(UserGender),
     video: `video/content/training-${getRandomValue(1, 4, 0)}.mp4`,
     rating: getRandomValue(1, 5, 0),
-    trainer: getRandomItem(mockTrainerName),
+    trainer: getRandomItem(mockTrainerNames),
     isSpecial: getRandomItem([true, false]),
     createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
   };
 }
 
-async function seedDb(prismaClient: PrismaClient) {
-  const mockTrainings = Array.from({ length: 100 }, (_v, k) => getTraining(k));
+function getComment(
+  trainingId: number,
+  userIds: string[]
+): Prisma.CommentUncheckedCreateInput {
+  const mongoIdIndex = getRandomValue(0, userIds.length - 1, 0);
+  const userId = userIds[mongoIdIndex];
+  userIds.splice(mongoIdIndex, 1);
+  return {
+    userId,
+    trainingId,
+    rating: getRandomValue(1, 5, 0),
+    message: getRandomItem(mockTrainingComments),
+    createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
+  };
+}
 
-  for (const training of mockTrainings) {
-    await prismaClient.training.upsert({
-      where: { id: training.id },
-      update: {},
-      create: training,
-    });
+async function seedDb(prismaClient: PrismaClient) {
+  const trainings = Array.from({ length: 100 }, () => getTraining());
+
+  for (const training of trainings) {
+    const newTraining = await prismaClient.training.create({ data: training });
+    const userIds = [...mockMongoIds];
+    const comments = Array.from({ length: 5 }, () =>
+      getComment(newTraining.id, userIds)
+    );
+
+    for (const comment of comments) {
+      await prismaClient.comment.create({ data: comment });
+    }
   }
 
   console.info('🤘️ Database was filled');
