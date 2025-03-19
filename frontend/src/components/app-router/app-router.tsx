@@ -9,6 +9,7 @@ import NotFound from '../../pages/not-found/not-found';
 import PersonalAccount from '../../pages/personal-account/personal-account';
 import Purchases from '../../pages/purchases/purchases';
 import Registration from '../../pages/registration/registration';
+import Trainings from '../../pages/trainings/trainings';
 import PrivateRoute from '../private-route/private-route';
 
 function AppRouter() {
@@ -67,6 +68,17 @@ function AppRouter() {
               redirectTo={AppRoute.Intro}
             >
               <PersonalAccount />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.Trainings}/:id`}
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={AppRoute.Intro}
+            >
+              <Trainings />
             </PrivateRoute>
           }
         />

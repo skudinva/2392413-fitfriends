@@ -1,6 +1,15 @@
+import { StoreSlice } from '../../const';
+import { State } from '../../types/state';
+
+export const getIsTrainingLoading = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isTrainingLoading;
+
+export const getTraining = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
+  SITE_DATA.training;
+
 /*
-export const getIsOffersLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isOffersLoading;
-export const getOffers = ({ [StoreSlice.SiteData]: SITE_DATA}: State): Offer[] => SITE_DATA.offers;
+
 
 export const getIsFavoriteOffersLoading = ({ [StoreSlice.SiteData]: SITE_DATA }: State): boolean => SITE_DATA.isFavoriteOffersLoading;
 export const getFavoriteOffers = ({ [StoreSlice.SiteData]: SITE_DATA}: State): Offer[] => SITE_DATA.favoriteOffers;

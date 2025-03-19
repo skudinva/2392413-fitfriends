@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchTrainings } from '../../store/training-action';
 import { fetchUserInfo } from '../../store/user-action';
 import {
   getAuthorizationStatus,
@@ -17,6 +18,7 @@ function App() {
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchUserInfo(currentUser.sub));
+      dispatch(fetchTrainings());
     }
   }, [authorizationStatus, currentUser, dispatch]);
 

@@ -1,17 +1,17 @@
 import { AuthorizationStatus } from '../const';
 import store from '../store';
-import { TokenPayload, UserRdo } from './shared';
+import { TokenPayload, TrainingWithPagination, UserRdo } from './shared';
 import type { SortName } from './types';
 
 export type SiteData = {
-  // offers: Offer[];
-  isOffersLoading: boolean;
+  training: TrainingWithPagination | null;
+  isTrainingLoading: boolean;
   //offer: Offer | null;
-  isOfferLoading: boolean;
+  //isOfferLoading: boolean;
   //favoriteOffers: Offer[];
-  isFavoriteOffersLoading: boolean;
+  //isFavoriteOffersLoading: boolean;
   //premiumOffers: Offer[];
-  comments: Comment[];
+  //comments: Comment[];
   //commentStatus: SubmitStatus;
 };
 

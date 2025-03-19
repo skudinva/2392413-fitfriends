@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import { StoreSlice } from '../../const';
 import type { SiteData } from '../../types/state';
+import { fetchTrainings } from '../training-action';
 
 const initialState: SiteData = {
-  // offers: [],
-  isOffersLoading: false,
+  training: null,
+  isTrainingLoading: false,
   // offer: null,
-  isOfferLoading: false,
+  //isOfferLoading: false,
   // favoriteOffers: [],
-  isFavoriteOffersLoading: false,
+  //isFavoriteOffersLoading: false,
   // premiumOffers: [],
-  comments: [],
+  //comments: [],
   // commentStatus: SubmitStatus.Still,
 };
 
@@ -19,17 +19,31 @@ export const siteData = createSlice({
   name: StoreSlice.SiteData,
   initialState,
   reducers: {},
-  /*
   extraReducers(builder) {
     builder
-      .addCase(fetchOffers.pending, (state) => {
+      .addCase(fetchTrainings.pending, (state) => {
+        state.isTrainingLoading = true;
+      })
+      .addCase(fetchTrainings.fulfilled, (state, action) => {
+        state.training = action.payload;
+        state.isTrainingLoading = false;
+      })
+      .addCase(fetchTrainings.rejected, (state) => {
+        state.isTrainingLoading = false;
+      });
+  },
+});
+/*
+  extraReducers(builder) {
+    builder
+      .addCase(fetchTrainings.pending, (state) => {
         state.isOffersLoading = true;
       })
-      .addCase(fetchOffers.fulfilled, (state, action) => {
+      .addCase(fetchTrainings.fulfilled, (state, action) => {
         state.offers = action.payload;
         state.isOffersLoading = false;
       })
-      .addCase(fetchOffers.rejected, (state) => {
+      .addCase(fetchTrainings.rejected, (state) => {
         state.isOffersLoading = false;
       })
       .addCase(fetchFavoriteOffers.pending, (state) => {
@@ -114,4 +128,3 @@ export const siteData = createSlice({
         }
       });
   },*/
-});
