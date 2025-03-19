@@ -8,6 +8,13 @@ export const getIsTrainingLoading = ({
 export const getTraining = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
   SITE_DATA.training;
 
+export const getIsTrainingCardLoading = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isTrainingCardLoading;
+
+export const getTrainingCard = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
+  SITE_DATA.trainingCard;
+
 /*
 
 

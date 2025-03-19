@@ -11,7 +11,10 @@ function MainNav(): JSX.Element {
         <li className="main-nav__item">
           <Link
             className={`main-nav__link ${
-              pathname === AppRoute.Root ? 'is-active' : ''
+              pathname === AppRoute.Root ||
+              pathname.startsWith(AppRoute.Trainings)
+                ? 'is-active'
+                : ''
             }`}
             to={AppRoute.Root}
             aria-label="На главную"

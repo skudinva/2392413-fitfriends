@@ -1,18 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StoreSlice } from '../../const';
 import type { SiteData } from '../../types/state';
-import { fetchTrainings } from '../training-action';
+import { fetchTraining, fetchTrainings } from '../training-action';
 
 const initialState: SiteData = {
   training: null,
   isTrainingLoading: false,
-  // offer: null,
-  //isOfferLoading: false,
-  // favoriteOffers: [],
-  //isFavoriteOffersLoading: false,
-  // premiumOffers: [],
-  //comments: [],
-  // commentStatus: SubmitStatus.Still,
+  trainingCard: null,
+  isTrainingCardLoading: false,
 };
 
 export const siteData = createSlice({
@@ -30,6 +25,16 @@ export const siteData = createSlice({
       })
       .addCase(fetchTrainings.rejected, (state) => {
         state.isTrainingLoading = false;
+      })
+      .addCase(fetchTraining.pending, (state) => {
+        state.isTrainingCardLoading = true;
+      })
+      .addCase(fetchTraining.fulfilled, (state, action) => {
+        state.trainingCard = action.payload;
+        state.isTrainingCardLoading = false;
+      })
+      .addCase(fetchTraining.rejected, (state) => {
+        state.isTrainingCardLoading = false;
       });
   },
 });

@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
-import { ApiRoute } from '../const';
-import { TrainingWithPagination } from '../types/shared';
+import httpStatus from 'http-status';
+import { ApiRoute, AppRoute } from '../const';
+import { Training, TrainingWithPagination } from '../types/shared';
 
 type Extra = {
   api: AxiosInstance;
@@ -28,6 +29,28 @@ export const fetchTrainings = createAsyncThunk<
   return data;
 });
 
+export const fetchTraining = createAsyncThunk<
+  Training,
+  Training['id'],
+  { extra: Extra }
+>(Action.FETCH_TRAINING, async (id, { extra }) => {
+  const { api, history } = extra;
+
+  try {
+    const { data } = await api.get<Training>(`${ApiRoute.Trainings}/${id}`);
+
+    return data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response?.status === httpStatus.NOT_FOUND) {
+      history.push(AppRoute.NotFound);
+    }
+
+    return Promise.reject(error);
+  }
+});
+
 /*
 
 
@@ -40,28 +63,6 @@ export const fetchFavoriteTrainings = createAsyncThunk<
   const { data } = await api.get<TrainingListRdo[]>(ApiRoute.Favorite);
 
   return adaptTrainingsToClient(data);
-});
-
-export const fetchTraining = createAsyncThunk<
-  Training,
-  Training['id'],
-  { extra: Extra }
->(Action.FETCH_TRAINING, async (id, { extra }) => {
-  const { api, history } = extra;
-
-  try {
-    const { data } = await api.get<TrainingRdo>(`${ApiRoute.Trainings}/${id}`);
-
-    return adaptTrainingDetailToClient(data);
-  } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (axiosError.response?.status === HttpCode.NOT_FOUND) {
-      history.push(AppRoute.NotFound);
-    }
-
-    return Promise.reject(error);
-  }
 });
 
 export const postTraining = createAsyncThunk<Training, NewTraining, { extra: Extra }>(

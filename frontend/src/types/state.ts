@@ -1,12 +1,19 @@
 import { AuthorizationStatus } from '../const';
 import store from '../store';
-import { TokenPayload, TrainingWithPagination, UserRdo } from './shared';
+import {
+  TokenPayload,
+  Training,
+  TrainingWithPagination,
+  UserRdo,
+} from './shared';
 import type { SortName } from './types';
 
 export type SiteData = {
   training: TrainingWithPagination | null;
   isTrainingLoading: boolean;
-  //offer: Offer | null;
+  trainingCard: Training | null;
+  isTrainingCardLoading: boolean;
+
   //isOfferLoading: boolean;
   //favoriteOffers: Offer[];
   //isFavoriteOffersLoading: boolean;

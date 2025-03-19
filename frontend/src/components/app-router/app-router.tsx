@@ -9,6 +9,7 @@ import NotFound from '../../pages/not-found/not-found';
 import PersonalAccount from '../../pages/personal-account/personal-account';
 import Purchases from '../../pages/purchases/purchases';
 import Registration from '../../pages/registration/registration';
+import TrainingCard from '../../pages/training-card/training-card';
 import Trainings from '../../pages/trainings/trainings';
 import PrivateRoute from '../private-route/private-route';
 
@@ -72,13 +73,24 @@ function AppRouter() {
           }
         />
         <Route
-          path={`${AppRoute.Trainings}/:id`}
+          path={AppRoute.Trainings}
           element={
             <PrivateRoute
               restrictedFor={AuthorizationStatus.NoAuth}
               redirectTo={AppRoute.Intro}
             >
               <Trainings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.Trainings}/:id`}
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={AppRoute.Intro}
+            >
+              <TrainingCard />
             </PrivateRoute>
           }
         />
