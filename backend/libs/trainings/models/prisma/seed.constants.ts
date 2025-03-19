@@ -65,7 +65,7 @@ export const mockTrainingComments = [
   'Профессионалы своего дела! Всегда подскажут, помогут, поддержат. Рекомендую всем!',
 ];
 
-export const mockMongoIds = [
+export const mockUserIds = [
   '67c979b3b06344d425b6da14',
   '67c979b3b06344d425b6da15',
   '67c979b3b06344d425b6da16',

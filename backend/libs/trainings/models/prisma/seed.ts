@@ -8,14 +8,16 @@ import {
   UserGender,
 } from '../../../shared/core/src';
 import {
-  mockMongoIds,
   mockTrainerNames,
   mockTrainingComments,
   mockTrainingDescribes,
   mockTrainingTitles,
+  mockUserIds,
 } from './seed.constants';
 
-function getRandomEnumValue<E>(enumObject: E): E[keyof E] {
+function getRandomEnumValue<E extends { [key: string]: unknown }>(
+  enumObject: E
+): E[keyof E] {
   const values = Object.values(enumObject) as E[keyof E][];
   const randomIndex = Math.floor(Math.random() * values.length);
   return values[randomIndex];
@@ -40,7 +42,6 @@ function getRandomItem<T>(items: T[]): T {
 
 function getTraining(): Prisma.TrainingUncheckedCreateInput {
   return {
-    //  id: id + 1,
     title: getRandomItem(mockTrainingTitles),
     image: `img/content/training-${getRandomValue(1, 4, 0)}.png`,
     level: getRandomEnumValue(TrainingLevel),
@@ -83,7 +84,7 @@ async function seedDb(prismaClient: PrismaClient) {
 
   for (const training of trainings) {
     const newTraining = await prismaClient.training.create({ data: training });
-    const userIds = [...mockMongoIds];
+    const userIds = [...mockUserIds];
     const comments = Array.from({ length: 5 }, () =>
       getComment(newTraining.id, userIds)
     );
