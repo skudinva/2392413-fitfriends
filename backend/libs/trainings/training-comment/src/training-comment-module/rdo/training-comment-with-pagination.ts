@@ -6,6 +6,10 @@ import { TrainingCommentRdo } from './training-comment.rdo';
 export class TrainingCommentWithPaginationRdo
   implements TrainingCommentWithPagination
 {
+  @ApiProperty({
+    description: 'comments',
+    type: TrainingCommentRdo,
+  })
   @Expose()
   @Type(() => TrainingCommentRdo)
   public entities: TrainingCommentRdo[];

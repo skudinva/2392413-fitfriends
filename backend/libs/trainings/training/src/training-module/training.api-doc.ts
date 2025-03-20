@@ -6,6 +6,7 @@ import {
   TrainingType,
   UserGender,
 } from '@backend/shared/core';
+import { UserRdo } from '@backend/shop-user';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TrainingApiDoc implements Training {
@@ -102,11 +103,11 @@ export class TrainingApiDoc implements Training {
   rating: number;
 
   @ApiProperty({
-    description: 'Trainer name',
+    description: 'userId',
     required: true,
-    example: 'Vova',
+    example: '63f4567890abcdef1234567d',
   })
-  trainer: string;
+  userId: string;
 
   @ApiProperty({
     description: 'Flag special training',
@@ -119,4 +120,10 @@ export class TrainingApiDoc implements Training {
     required: true,
   })
   createdAt: Date;
+
+  @ApiProperty({
+    description: 'User info',
+    required: false,
+  })
+  userInfo: UserRdo;
 }

@@ -26,7 +26,7 @@ export class TrainingFactory implements EntityFactory<TrainingEntity> {
     newTraining.description = dto.description;
     newTraining.gender = dto.gender;
     newTraining.video = dto.video;
-    newTraining.trainer = dto.trainer;
+    newTraining.userId = dto.userId;
     newTraining.isSpecial = dto.isSpecial;
     newTraining.createdAt = dayjs().toDate();
     newTraining.rating = 0;

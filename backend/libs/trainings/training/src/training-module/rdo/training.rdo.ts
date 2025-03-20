@@ -5,6 +5,7 @@ import {
   TrainingType,
   UserGender,
 } from '@backend/shared/core';
+import { UserRdo } from '@backend/shop-user';
 import { Expose } from 'class-transformer';
 import { TrainingApiDoc } from '../training.api-doc';
 
@@ -46,11 +47,14 @@ export class TrainingRdo extends TrainingApiDoc implements Training {
   rating: number;
 
   @Expose()
-  trainer: string;
+  userId: string;
 
   @Expose()
   isSpecial: boolean;
 
   @Expose()
   createdAt: Date;
+
+  @Expose()
+  userInfo: UserRdo;
 }

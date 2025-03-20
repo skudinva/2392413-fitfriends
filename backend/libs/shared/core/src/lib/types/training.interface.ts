@@ -16,7 +16,7 @@ export interface Training {
   gender: UserGender;
   video: string;
   rating: number;
-  trainer: string;
+  userId: string;
   isSpecial: boolean;
   createdAt: Date;
 }

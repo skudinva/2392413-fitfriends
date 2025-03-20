@@ -23,7 +23,7 @@ export class TrainingEntity
   public gender!: string; //UserGender;
   public video!: string;
   public rating!: number;
-  public trainer!: string;
+  public userId!: string;
   public isSpecial!: boolean;
   public createdAt!: Date;
 
@@ -48,7 +48,7 @@ export class TrainingEntity
     this.gender = training.gender;
     this.video = training.video;
     this.rating = training.rating;
-    this.trainer = training.trainer;
+    this.userId = training.userId;
     this.isSpecial = training.isSpecial;
     this.createdAt = training.createdAt;
   }
@@ -67,7 +67,7 @@ export class TrainingEntity
       gender: this.gender as UserGender,
       video: this.video,
       rating: this.rating,
-      trainer: this.trainer,
+      userId: this.userId,
       isSpecial: this.isSpecial,
       createdAt: this.createdAt,
     };

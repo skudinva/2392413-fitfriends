@@ -270,7 +270,7 @@ export class TrainingController {
       );
     });
 
-    //await this.appService.appendUserInfo(data.entities);
+    await this.appService.appendUserInfo(data.entities);
     return data;
   }
 
@@ -295,9 +295,9 @@ export class TrainingController {
     const { data } = await this.httpService.axiosRef.get<TrainingRdo>(
       `${ApplicationServiceURL.Training}/${id}/${userId}`
     );
-    //await this.appService.appendUserInfo([data]);
-    data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
 
+    data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
+    await this.appService.appendUserInfo([data]);
     return data;
   }
 
@@ -335,7 +335,7 @@ export class TrainingController {
           url.parse(req.url).query
         }`
       );
-
+    await this.appService.appendUserInfo(data.entities);
     return data;
   }
 
@@ -361,7 +361,7 @@ export class TrainingController {
       `${ApplicationServiceURL.Comments}/${trainingId}`,
       dto
     );
-
+    await this.appService.appendUserInfo([data]);
     return data;
   }
 

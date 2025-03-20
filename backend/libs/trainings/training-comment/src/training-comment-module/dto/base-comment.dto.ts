@@ -13,7 +13,7 @@ import { TrainingCommentApiDoc } from '../training-comment.api-doc';
 import { TrainingCommentValidateMessage } from '../training-comment.constant';
 
 export class BaseCommentDto
-  extends OmitType(TrainingCommentApiDoc, ['createdAt'])
+  extends OmitType(TrainingCommentApiDoc, ['createdAt', 'userInfo'])
   implements Omit<Comment, 'createdAt'>
 {
   @IsNumber()

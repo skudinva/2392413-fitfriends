@@ -8,6 +8,10 @@ export class TrainingWithPaginationRdo implements TrainingWithPagination {
   @Expose()
   @Type(() => TrainingRdo)
   @ValidateNested({ always: true })
+  @ApiProperty({
+    description: 'trainings',
+    type: TrainingRdo,
+  })
   public entities!: TrainingRdo[];
 
   @Expose()

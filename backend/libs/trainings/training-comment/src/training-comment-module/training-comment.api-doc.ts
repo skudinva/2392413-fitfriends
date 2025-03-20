@@ -1,4 +1,5 @@
 import { Comment } from '@backend/shared/core';
+import { UserRdo } from '@backend/shop-user';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TrainingCommentApiDoc implements Comment {
@@ -37,4 +38,10 @@ export class TrainingCommentApiDoc implements Comment {
     example: '2024-02-15T13:43:22+07:00',
   })
   public createdAt!: Date;
+
+  @ApiProperty({
+    description: 'User info',
+    required: false,
+  })
+  userInfo: UserRdo;
 }

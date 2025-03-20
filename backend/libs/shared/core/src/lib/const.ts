@@ -79,11 +79,6 @@ export const EntityConstrain = {
       required: true,
       mimeTypes: '.(mov|avi|mp4|quicktime)',
     },
-    trainerName: {
-      required: true,
-      minLength: 1,
-      maxLength: 15,
-    },
   },
   [EntityList.Order]: {
     amount: {

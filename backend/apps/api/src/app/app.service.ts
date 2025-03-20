@@ -1,5 +1,6 @@
 import { createUrlForFile } from '@backend/helpers';
 import { File } from '@backend/shared/core';
+import { UserRdo } from '@backend/shop-user';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import FormData from 'form-data';
@@ -10,26 +11,29 @@ import { ApplicationServiceURL } from './app.config';
 export class AppService {
   constructor(private readonly httpService: HttpService) {}
 
-  /*public async appendUserInfo(trainings: TrainingRdo[]): Promise<void> {
+  public async appendUserInfo<T extends { userId: string; userInfo: UserRdo }>(
+    records: T[]
+  ): Promise<void> {
     const uniqueUserIds = new Set<string>();
-    const usersInfo = new Map<string, UserInfoRdo>();
+    const usersInfo = new Map<string, UserRdo>();
 
-    trainings.forEach((training) => {
-      uniqueUserIds.add(training.userId);
+    records.forEach((record) => {
+      uniqueUserIds.add(record.userId);
     });
 
-    for (const userId of uniqueUserIds) {
-      const { data } = await this.httpService.axiosRef.get<UserInfoRdo>(
-        `${ApplicationServiceURL.Users}/${userId}`
-      );
+    const userInfos = await Promise.all(
+      Array.from(uniqueUserIds).map((userId) =>
+        this.httpService.axiosRef.get<UserRdo>(
+          `${ApplicationServiceURL.Users}/${userId}`
+        )
+      )
+    );
+    userInfos.forEach(({ data }) => usersInfo.set(data.id, data));
 
-      usersInfo.set(data.id, data);
-    }
-
-    trainings.forEach((training) => {
-      post['userInfo'] = usersInfo.get(training.userId);
+    records.forEach((record) => {
+      record.userInfo = usersInfo.get(record.userId);
     });
-  }*/
+  }
 
   public async uploadFile(file: Express.Multer.File) {
     const formData = new FormData();

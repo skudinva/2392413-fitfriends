@@ -12,6 +12,7 @@ import {
   IsBoolean,
   IsEnum,
   IsIn,
+  IsMongoId,
   IsNumber,
   IsString,
   Length,
@@ -21,7 +22,7 @@ import {
 import { TrainingApiDoc } from '../training.api-doc';
 
 export class BaseTrainingDto
-  extends OmitType(TrainingApiDoc, ['createdAt', 'rating'])
+  extends OmitType(TrainingApiDoc, ['createdAt', 'rating', 'userInfo'])
   implements Omit<Training, 'createdAt' | 'rating'>
 {
   @IsNumber()
@@ -69,11 +70,8 @@ export class BaseTrainingDto
   video: string;
 
   @IsString()
-  @Length(
-    EntityConstrain.training.trainerName.minLength,
-    EntityConstrain.training.trainerName.maxLength
-  )
-  trainer: string;
+  @IsMongoId()
+  userId: string;
 
   @IsBoolean()
   isSpecial: boolean;
