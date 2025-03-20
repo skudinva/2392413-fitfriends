@@ -15,7 +15,7 @@ function TrainingCard(): JSX.Element {
   const dispatch = useAppDispatch();
   const trainingCard = useAppSelector(getTrainingCard);
   const isTrainingCardLoading = useAppSelector(getIsTrainingCardLoading);
-  const { id: trainingId } = useParams();
+  const { trainingId } = useParams();
 
   useEffect(() => {
     dispatch(fetchTraining(Number(trainingId)));

@@ -2,6 +2,7 @@ import { AuthorizationStatus } from '../const';
 import store from '../store';
 import {
   TokenPayload,
+  TrainingCommentWithPagination,
   TrainingWithPagination,
   TrainingWithUserInfo,
   UserRdo,
@@ -13,6 +14,8 @@ export type SiteData = {
   isTrainingLoading: boolean;
   trainingCard: TrainingWithUserInfo | null;
   isTrainingCardLoading: boolean;
+  trainingComment: TrainingCommentWithPagination | null;
+  isTrainingCommentLoading: boolean;
 
   //isOfferLoading: boolean;
   //favoriteOffers: Offer[];

@@ -5,6 +5,7 @@ export {
   EntityConstrain,
   LOCATIONS,
 } from '../../../backend/libs/shared/core/src/lib/const';
+export type { TrainingCommentWithPagination } from '../../../backend/libs/shared/core/src/lib/types/comment-with-pagination.interface';
 export type { TrainingCommentWithUserInfo } from '../../../backend/libs/shared/core/src/lib/types/comment-with-user-info.interface';
 export type { LocationName } from '../../../backend/libs/shared/core/src/lib/types/location-name.interface';
 export type { ILoggedUserRdo as LoggedUserRdo } from '../../../backend/libs/shared/core/src/lib/types/logged-user-rdo.interface';

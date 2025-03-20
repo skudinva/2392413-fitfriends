@@ -38,10 +38,7 @@ export enum ApiRoute {
   UserUpdate = '/api/users/update',
   Users = '/api/users',
   Trainings = '/api/trainings',
-  Avatar = '/avatar',
-  Comments = '/comments',
-  Favorite = '/favorites',
-  Premium = '/premium',
+  Comments = '/api/trainings/comments',
 }
 
 export enum AuthorizationStatus {

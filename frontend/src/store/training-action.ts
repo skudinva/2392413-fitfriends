@@ -3,7 +3,12 @@ import { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
 import httpStatus from 'http-status';
 import { ApiRoute, AppRoute } from '../const';
-import { TrainingWithPagination, TrainingWithUserInfo } from '../types/shared';
+import {
+  TrainingCommentWithPagination,
+  TrainingCommentWithUserInfo,
+  TrainingWithPagination,
+  TrainingWithUserInfo,
+} from '../types/shared';
 
 type Extra = {
   api: AxiosInstance;
@@ -16,6 +21,7 @@ export const Action = {
   POST_TRAINING: 'training/post-training',
   EDIT_TRAINING: 'training/edit-training',
   DELETE_TRAINING: 'training/delete-training',
+  FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
 };
 
 export const fetchTrainings = createAsyncThunk<
@@ -39,6 +45,30 @@ export const fetchTraining = createAsyncThunk<
   try {
     const { data } = await api.get<TrainingWithUserInfo>(
       `${ApiRoute.Trainings}/${id}`
+    );
+
+    return data;
+  } catch (error) {
+    const axiosError = error as AxiosError;
+
+    if (axiosError.response?.status === httpStatus.NOT_FOUND) {
+      history.push(AppRoute.NotFound);
+    }
+
+    return Promise.reject(error);
+  }
+});
+
+export const fetchComment = createAsyncThunk<
+  TrainingCommentWithPagination,
+  TrainingCommentWithUserInfo['id'],
+  { extra: Extra }
+>(Action.FETCH_TRAINING_COMMENTS, async (id, { extra }) => {
+  const { api, history } = extra;
+
+  try {
+    const { data } = await api.get<TrainingCommentWithPagination>(
+      `${ApiRoute.Comments}/${id}`
     );
 
     return data;

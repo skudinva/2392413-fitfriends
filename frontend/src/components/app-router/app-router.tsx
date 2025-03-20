@@ -84,7 +84,7 @@ function AppRouter() {
           }
         />
         <Route
-          path={`${AppRoute.Trainings}/:id`}
+          path={`${AppRoute.Trainings}/:trainingId`}
           element={
             <PrivateRoute
               restrictedFor={AuthorizationStatus.NoAuth}
