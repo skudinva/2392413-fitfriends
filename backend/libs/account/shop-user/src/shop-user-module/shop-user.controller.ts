@@ -3,6 +3,7 @@ import { MongoIdValidationPipe } from '@backend/pipes';
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserInfoRdo } from './rdo/user-info.rdo';
+import { UserRdo } from './rdo/user.rdo';
 import { ShopUserService } from './shop-user.service';
 
 @Controller('user')
@@ -20,6 +21,6 @@ export class ShopUserController {
   @Get(':id')
   public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.userService.getUserInfo(id);
-    return fillDto(UserInfoRdo, existUser.toPOJO());
+    return fillDto(UserRdo, existUser.toPOJO());
   }
 }

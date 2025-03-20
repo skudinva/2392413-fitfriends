@@ -57,11 +57,6 @@ export enum Sorting {
   TopRated = 'Top rated first',
 }
 
-export enum UserRole {
-  Sportsman = 'sportsman',
-  Coach = 'coach',
-}
-
 export enum StoreSlice {
   SiteData = 'SITE_DATA',
   SiteProcess = 'SITE_PROCESS',

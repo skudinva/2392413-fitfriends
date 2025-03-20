@@ -4,10 +4,10 @@ import {
   LoggedUserRdo,
   LoginUserDto,
   UpdateUserDto,
-  UserRdo,
 } from '@backend/authentication';
 import { createStaticUrlForFile } from '@backend/helpers';
 import { EntityConstrain, SERVE_ROOT } from '@backend/shared/core';
+import { UserRdo } from '@backend/shop-user';
 import { HttpService } from '@nestjs/axios';
 import {
   Body,

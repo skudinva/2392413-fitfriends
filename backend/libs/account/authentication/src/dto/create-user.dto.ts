@@ -3,6 +3,7 @@ import {
   LocationName,
   LOCATIONS,
   UserGender,
+  UserRole,
 } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import {
@@ -87,4 +88,12 @@ export class CreateUserDto extends LoginUserDto {
     required: false,
   })
   birthday?: Date;
+
+  @ApiProperty({
+    description: 'User role',
+    enum: UserRole,
+    type: UserRole,
+  })
+  @IsEnum(UserRole)
+  role?: UserRole;
 }

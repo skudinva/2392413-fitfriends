@@ -1,4 +1,9 @@
-import { AuthUser, LocationName, UserGender } from '@backend/shared/core';
+import {
+  AuthUser,
+  LocationName,
+  UserGender,
+  UserRole,
+} from '@backend/shared/core';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -59,6 +64,12 @@ export class ShopUserModel extends Document implements AuthUser {
     required: true,
   })
   public passwordHash!: string;
+
+  @Prop({
+    required: true,
+    type: String,
+  })
+  public role!: UserRole;
 }
 
 export const ShopUserSchema = SchemaFactory.createForClass(ShopUserModel);

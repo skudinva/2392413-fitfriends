@@ -6,6 +6,7 @@ import {
   MongoEntity,
   StorableEntity,
   UserGender,
+  UserRole,
 } from '@backend/shared/core';
 import { compare, genSalt, hash } from 'bcrypt';
 import { SALT_ROUNDS } from './shop-user.constant';
@@ -24,6 +25,7 @@ export class ShopUserEntity
   public backgroundImage!: string;
   public registerDate!: Date;
   public passwordHash!: string;
+  public role!: UserRole;
 
   constructor(user?: AuthUser) {
     super();
@@ -45,6 +47,7 @@ export class ShopUserEntity
       backgroundImage,
       registerDate,
       passwordHash,
+      role,
     } = user;
 
     this.id = id ?? '';
@@ -58,6 +61,7 @@ export class ShopUserEntity
     this.backgroundImage = backgroundImage;
     this.registerDate = registerDate;
     this.passwordHash = passwordHash;
+    this.role = role;
   }
 
   toPOJO(): AuthUser & FixedQuestionValue {
@@ -75,6 +79,7 @@ export class ShopUserEntity
       backgroundImage: this.backgroundImage,
       registerDate: this.registerDate,
       passwordHash: this.passwordHash,
+      role: this.role,
       calories: fixedValue.calories,
       trainingLevel: fixedValue.trainingLevel,
     };

@@ -1,3 +1,5 @@
+import { UserRole } from '@backend/shared/core';
+
 export const mockTrainingTitles = [
   'Взрыв',
   'Стальной пресс',
@@ -57,50 +59,60 @@ export const mockUsers = [
     id: '63f4567890abcdef12345678',
     name: 'ВикторСилаев',
     email: 'johndoe123@gmail.com',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef12345679',
     name: 'АннаГромова',
     email: 'emily.smith45@yandex.ru',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef1234567a',
     name: 'ДмитрийШторм',
     email: 'alex_2023@mail.ru',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef1234567b',
     name: 'ДмитрийКозлов',
     email: 'dimaK_2023@mail.ru',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef1234567c',
     name: 'ОльгаВасильева',
     email: 'creative.mind99@outlook.com',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef1234567d',
     name: 'МарияПобеда',
     email: 'kate_art567@list.ru',
+    role: UserRole.Coach,
   },
   {
     id: '63f4567890abcdef1234567e',
     name: 'МаксимТитан',
     email: 'max.power88@bk.ru',
+    role: UserRole.Coach,
   },
   {
     id: '63f4567890abcdef1234567f',
     name: 'СергейПавлов',
     email: 'green.valley17@yahoo.com',
+    role: UserRole.Coach,
   },
   {
     id: '63f4567890abcdef12345680',
     name: 'ИринаСоколова',
     email: 'happy.moments@internet.ru',
+    role: UserRole.Coach,
   },
   {
     id: '63f4567890abcdef12345681',
     name: 'ВикторОрлов',
     email: 'tech.guru42@inbox.ru',
+    role: UserRole.Coach,
   },
 ];

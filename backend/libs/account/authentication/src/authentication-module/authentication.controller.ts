@@ -1,5 +1,6 @@
 import { fillDto } from '@backend/helpers';
 import { MongoIdValidationPipe } from '@backend/pipes';
+import { UserRdo } from '@backend/shop-user';
 import {
   Body,
   Controller,
@@ -19,7 +20,6 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { LoggedUserRdo } from '../rdo/logged-user.rdo';
-import { UserRdo } from '../rdo/user.rdo';
 import { AuthenticationResponseMessage } from './authentication.constant';
 import { AuthenticationService } from './authentication.service';
 import { RequestWithTokenPayload } from './request-with-token-payload.interface';
@@ -59,7 +59,7 @@ export class AuthenticationController {
   })
   @UseGuards(JwtAuthGuard)
   @Patch('update')
-  public async changePassword(
+  public async update(
     @Body() dto: UpdateUserDto,
     @Req() { user: payload }: RequestWithTokenPayload
   ) {

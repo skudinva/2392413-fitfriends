@@ -48,6 +48,7 @@ export class AuthenticationService {
       location,
       backgroundImage,
       password,
+      role,
     } = dto;
 
     const shopUser: AuthUser = {
@@ -61,6 +62,7 @@ export class AuthenticationService {
       backgroundImage,
       registerDate: dayjs().toDate(),
       passwordHash: '',
+      role,
     };
 
     const existUser = await this.shopUserRepository.findByEmail(email);

@@ -31,6 +31,7 @@ export class GenerateCommand implements Command {
         backgroundImage: '',
         registerDate: generateRandomDate(new Date(2024, 0, 1), new Date()),
         passwordHash: '',
+        role: mockUser.role,
       });
       await newUser.setPassword('123456');
       userModel.create(newUser.toPOJO());

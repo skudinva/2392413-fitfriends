@@ -4,6 +4,7 @@ import {
   LOCATIONS,
   TrainingLevel,
   UserGender,
+  UserRole,
 } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
@@ -93,4 +94,13 @@ export class UserRdo implements IUserRdo {
   })
   @Expose()
   trainingLevel: TrainingLevel;
+
+  @ApiProperty({
+    description: 'User role',
+    example: UserRole.Sportsman,
+    enum: UserRole,
+    enumName: 'UserRole',
+  })
+  @Expose()
+  role: UserRole;
 }

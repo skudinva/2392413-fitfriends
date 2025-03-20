@@ -8,4 +8,3 @@ export { CreateUserDto } from './dto/create-user.dto';
 export { LoginUserDto } from './dto/login-user.dto';
 export { UpdateUserDto } from './dto/update-user.dto';
 export { LoggedUserRdo } from './rdo/logged-user.rdo';
-export { UserRdo } from './rdo/user.rdo';
