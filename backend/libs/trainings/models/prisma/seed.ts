@@ -40,7 +40,7 @@ function getTraining(): Prisma.TrainingUncheckedCreateInput {
     gender: getRandomEnumValue(UserGender),
     video: `video/content/training-${getRandomValue(1, 4, 0)}.mp4`,
     rating: getRandomValue(1, 5, 0),
-    trainer: getRandomItem(mockUsers).name,
+    userId: getRandomItem(mockUsers).id,
     isSpecial: getRandomItem([true, false]),
     createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
   };

@@ -21,10 +21,11 @@ model Training {
   gender      String
   video       String
   rating      Float
-  trainer     String
+  userId      String    @map("user_id")
   isSpecial   Boolean   @default(false) @map("is_special")
   createdAt   DateTime  @default(now()) @map("created_at")
   comments    Comment[]
+  orders      Order[]
 
   @@map("trainings")
 }
@@ -46,11 +47,13 @@ model Order {
   id          Int      @id @default(autoincrement())
   type        String
   trainingId  Int      @map("training_id")
+  userId      String   @map("user_id")
   price       Int
   amount      Int
   totalPrice  Int      @map("total_price")
   paymentType String   @map("payment_type")
   createdAt   DateTime @default(now()) @map("created_at")
+  training    Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("orders")
 }

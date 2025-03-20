@@ -1,4 +1,5 @@
-import { UserRole } from '@backend/shared/core';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { UserRole } from '../../../core/src/lib/types/user-role.enum';
 
 export const mockTrainingTitles = [
   'Взрыв',
