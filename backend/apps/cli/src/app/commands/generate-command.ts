@@ -17,6 +17,7 @@ export class GenerateCommand implements Command {
     const locations = [...LOCATIONS];
     for (const mockUser of mockUsers) {
       const newUser = new ShopUserEntity({
+        id: mockUser.id,
         email: mockUser.email,
         name: mockUser.name,
         avatar: `img/content/avatars/users/photo-${getRandomValue(
@@ -34,7 +35,7 @@ export class GenerateCommand implements Command {
         role: mockUser.role,
       });
       await newUser.setPassword('123456');
-      userModel.create(newUser.toPOJO());
+      await userModel.create(newUser);
     }
 
     console.info(`🤘️ User database was added of ${mockUsers.length} user`);
