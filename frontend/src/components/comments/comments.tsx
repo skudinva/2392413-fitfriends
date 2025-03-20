@@ -16,7 +16,9 @@ function Comments(): JSX.Element {
   const { trainingId } = useParams();
 
   useEffect(() => {
-    dispatch(fetchComment(Number(trainingId)));
+    if (trainingId) {
+      dispatch(fetchComment(+trainingId));
+    }
   }, [dispatch, trainingId]);
 
   if (isCommentLoading) {

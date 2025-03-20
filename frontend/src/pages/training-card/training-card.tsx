@@ -9,6 +9,7 @@ import {
   getTrainingCard,
 } from '../../store/site-data/selectors';
 import { fetchTraining } from '../../store/training-action';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { UserGender } from '../../types/shared';
 
 function TrainingCard(): JSX.Element {
@@ -16,10 +17,13 @@ function TrainingCard(): JSX.Element {
   const trainingCard = useAppSelector(getTrainingCard);
   const isTrainingCardLoading = useAppSelector(getIsTrainingCardLoading);
   const { trainingId } = useParams();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
-    dispatch(fetchTraining(Number(trainingId)));
-  }, [dispatch, trainingId]);
+    if (trainingId) {
+      dispatch(fetchTraining(+trainingId));
+    }
+  }, [dispatch, trainingId, authorizationStatus]);
 
   if (isTrainingCardLoading) {
     return <Spinner />;

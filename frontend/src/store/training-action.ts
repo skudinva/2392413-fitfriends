@@ -15,7 +15,7 @@ type Extra = {
   history: History;
 };
 
-export const Action = {
+export const TrainingAction = {
   FETCH_TRAININGS: 'trainings/fetch',
   FETCH_TRAINING: 'training/fetch',
   POST_TRAINING: 'training/post-training',
@@ -28,7 +28,7 @@ export const fetchTrainings = createAsyncThunk<
   TrainingWithPagination,
   undefined,
   { extra: Extra }
->(Action.FETCH_TRAININGS, async (_, { extra }) => {
+>(TrainingAction.FETCH_TRAININGS, async (_, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingWithPagination>(ApiRoute.Trainings);
 
@@ -39,7 +39,7 @@ export const fetchTraining = createAsyncThunk<
   TrainingWithUserInfo,
   TrainingWithUserInfo['id'],
   { extra: Extra }
->(Action.FETCH_TRAINING, async (id, { extra }) => {
+>(TrainingAction.FETCH_TRAINING, async (id, { extra }) => {
   const { api, history } = extra;
 
   try {
@@ -63,7 +63,7 @@ export const fetchComment = createAsyncThunk<
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo['id'],
   { extra: Extra }
->(Action.FETCH_TRAINING_COMMENTS, async (id, { extra }) => {
+>(TrainingAction.FETCH_TRAINING_COMMENTS, async (id, { extra }) => {
   const { api, history } = extra;
 
   try {
