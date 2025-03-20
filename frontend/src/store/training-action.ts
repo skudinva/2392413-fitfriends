@@ -3,7 +3,7 @@ import { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
 import httpStatus from 'http-status';
 import { ApiRoute, AppRoute } from '../const';
-import { Training, TrainingWithPagination } from '../types/shared';
+import { TrainingWithPagination, TrainingWithUserInfo } from '../types/shared';
 
 type Extra = {
   api: AxiosInstance;
@@ -30,14 +30,16 @@ export const fetchTrainings = createAsyncThunk<
 });
 
 export const fetchTraining = createAsyncThunk<
-  Training,
-  Training['id'],
+  TrainingWithUserInfo,
+  TrainingWithUserInfo['id'],
   { extra: Extra }
 >(Action.FETCH_TRAINING, async (id, { extra }) => {
   const { api, history } = extra;
 
   try {
-    const { data } = await api.get<Training>(`${ApiRoute.Trainings}/${id}`);
+    const { data } = await api.get<TrainingWithUserInfo>(
+      `${ApiRoute.Trainings}/${id}`
+    );
 
     return data;
   } catch (error) {

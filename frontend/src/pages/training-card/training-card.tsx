@@ -40,23 +40,19 @@ function TrainingCard(): JSX.Element {
                   <div className="training-info__coach">
                     <div className="training-info__photo">
                       <picture>
-                        <source
-                          type="image/webp"
-                          srcSet="img/content/avatars/coaches/photo-1.webp, img/content/avatars/coaches/photo-1@2x.webp 2x"
-                        />
                         <img
-                          src="img/content/avatars/coaches/photo-1.png"
-                          srcSet="img/content/avatars/coaches/photo-1@2x.png 2x"
+                          src={trainingCard?.userInfo.avatar}
                           width="64"
                           height="64"
                           alt="Изображение тренера"
                         />
                       </picture>
                     </div>
+
                     <div className="training-info__coach-info">
                       <span className="training-info__label">Тренер</span>
                       <span className="training-info__name">
-                        {trainingCard?.trainer}
+                        {trainingCard?.userInfo.name}
                       </span>
                     </div>
                   </div>

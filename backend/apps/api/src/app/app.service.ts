@@ -1,4 +1,4 @@
-import { createUrlForFile } from '@backend/helpers';
+import { createStaticUrlForFile, createUrlForFile } from '@backend/helpers';
 import { File } from '@backend/shared/core';
 import { UserRdo } from '@backend/shop-user';
 import { HttpService } from '@nestjs/axios';
@@ -28,7 +28,13 @@ export class AppService {
         )
       )
     );
-    userInfos.forEach(({ data }) => usersInfo.set(data.id, data));
+    userInfos.forEach(({ data }) => {
+      data.avatar = createStaticUrlForFile(
+        data.avatar,
+        ApplicationServiceURL.File
+      );
+      return usersInfo.set(data.id, data);
+    });
 
     records.forEach((record) => {
       record.userInfo = usersInfo.get(record.userId);

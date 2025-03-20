@@ -2,8 +2,8 @@ import { AuthorizationStatus } from '../const';
 import store from '../store';
 import {
   TokenPayload,
-  Training,
   TrainingWithPagination,
+  TrainingWithUserInfo,
   UserRdo,
 } from './shared';
 import type { SortName } from './types';
@@ -11,7 +11,7 @@ import type { SortName } from './types';
 export type SiteData = {
   training: TrainingWithPagination | null;
   isTrainingLoading: boolean;
-  trainingCard: Training | null;
+  trainingCard: TrainingWithUserInfo | null;
   isTrainingCardLoading: boolean;
 
   //isOfferLoading: boolean;

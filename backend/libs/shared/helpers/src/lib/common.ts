@@ -73,7 +73,7 @@ export function createUrlForFile(fileMetaData: File): string {
 
 export function createStaticUrlForFile(filepath: string, host: string): string {
   if (filepath.startsWith('img/')) {
-    return filepath;
+    return `/${filepath}`;
   }
 
   return `${host}/${SERVE_ROOT}/${filepath}`;
