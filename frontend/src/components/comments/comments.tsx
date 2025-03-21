@@ -1,25 +1,14 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import {
   getIsTrainingCommentLoading,
   getTrainingComment,
 } from '../../store/site-data/selectors';
-import { fetchComment } from '../../store/training-action';
 import BackButton from '../back-button/back-button';
 import Spinner from '../spinner/spinner';
 
 function Comments(): JSX.Element {
-  const dispatch = useAppDispatch();
   const comment = useAppSelector(getTrainingComment);
   const isCommentLoading = useAppSelector(getIsTrainingCommentLoading);
-  const { trainingId } = useParams();
-
-  useEffect(() => {
-    if (trainingId) {
-      dispatch(fetchComment(+trainingId));
-    }
-  }, [dispatch, trainingId]);
 
   if (isCommentLoading) {
     return <Spinner />;
