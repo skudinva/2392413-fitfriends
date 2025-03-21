@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getIsSuccessAddTrainingComment } from '../../store/site-data/selectors';
@@ -14,9 +14,43 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
     getIsSuccessAddTrainingComment
   );
   const { trainingId } = useParams();
-  const rating = useRef<HTMLInputElement>(null);
   const description = useRef<HTMLTextAreaElement>(null);
   const [trySaveComment, setTrySaveComment] = useState(false);
+  const [rating, setRating] = useState<string>('');
+  const [descriptionError, setDescriptionError] = useState<string>('');
+  const [ratingError, setRatingError] = useState<string>('');
+  const [isInit, setIsInit] = useState(false);
+
+  const validateRating = useCallback(() => {
+    if (!rating) {
+      setRatingError('Обязательное поле');
+    } else {
+      setRatingError('');
+    }
+  }, [rating]);
+
+  const onRatingInput = (evt: ChangeEvent<HTMLInputElement>) => {
+    const newRating = evt.target.value;
+    setRating(newRating);
+    validateRating();
+  };
+
+  const onDescriptionInput = () => {
+    if (!description.current) {
+      return;
+    }
+    if (!description.current.value) {
+      setDescriptionError('Обязательное поле');
+    } else if ((description.current.value ?? '').length < 5) {
+      setDescriptionError(
+        'Минимальная длина 100 символ. Максимальная длина 1024 символов'
+      );
+    } else {
+      setDescriptionError('');
+    }
+  };
+
+  const validateDescription = onDescriptionInput;
 
   const onButtonClick = () => {
     if (!trainingId) {
@@ -29,21 +63,36 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
       createComment({
         userId: '',
         trainingId: +trainingId,
-        rating: Number(rating.current?.value),
+        rating: Number(rating),
         message: description.current?.value ?? '',
       })
     );
   };
 
   useEffect(() => {
-    if (!trySaveComment) {
+    if (!isInit) {
+      validateDescription();
+      validateRating();
+    }
+
+    setIsInit(true);
+  }, [
+    descriptionError,
+    isInit,
+    ratingError,
+    validateDescription,
+    validateRating,
+  ]);
+
+  useEffect(() => {
+    if (!trySaveComment || !isInit) {
       return;
     }
 
     if (isSuccessAddTrainingComment) {
       handleClose();
     }
-  }, [handleClose, isSuccessAddTrainingComment, trySaveComment]);
+  }, [handleClose, isInit, isSuccessAddTrainingComment, trySaveComment]);
 
   return (
     <div className="popup-form popup-form--feedback">
@@ -72,11 +121,11 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
                     <label>
                       <input
                         type="radio"
-                        name="оценка тренировки"
+                        name="rating"
                         aria-label={`оценка ${index + 1}.`}
-                        value={index + 1}
+                        defaultValue={index + 1}
                         required
-                        ref={rating}
+                        onInput={onRatingInput}
                       />
                       <span className="popup__rate-number">{index + 1}</span>
                     </label>
@@ -89,20 +138,35 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
                 Поделитесь своими впечатлениями о тренировке
               </h3>
               <div className="popup__feedback-textarea">
-                <div className="custom-textarea">
+                <div
+                  className={`custom-textarea ${
+                    (descriptionError ?? '') && 'custom-input--error'
+                  }`}
+                >
                   <label>
                     <textarea
                       name="description"
                       placeholder=""
                       required
                       ref={description}
+                      onInput={onDescriptionInput}
                     />
+                    {descriptionError && (
+                      <span className="custom-textarea__error">
+                        {descriptionError}
+                      </span>
+                    )}
                   </label>
                 </div>
               </div>
             </div>
             <div className="popup__button">
-              <button className="btn" type="button" onClick={onButtonClick}>
+              <button
+                className="btn"
+                type="button"
+                onClick={onButtonClick}
+                disabled={descriptionError.length > 0 || ratingError.length > 0}
+              >
                 Продолжить
               </button>
             </div>
