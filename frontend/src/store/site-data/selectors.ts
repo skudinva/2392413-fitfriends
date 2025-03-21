@@ -22,3 +22,7 @@ export const getIsTrainingCommentLoading = ({
 export const getTrainingComment = ({
   [StoreSlice.SiteData]: SITE_DATA,
 }: State) => SITE_DATA.trainingComment;
+
+export const getIsSuccessAddTrainingComment = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isSuccessAddTrainingComment;

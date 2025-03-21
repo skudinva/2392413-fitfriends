@@ -16,6 +16,8 @@ export type SiteData = {
   isTrainingCardLoading: boolean;
   trainingComment: TrainingCommentWithPagination | null;
   isTrainingCommentLoading: boolean;
+  isSuccessAddTrainingComment: boolean;
+  //hasErrorTrainingComment: boolean;
 
   //isOfferLoading: boolean;
   //favoriteOffers: Offer[];

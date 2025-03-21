@@ -4,6 +4,7 @@ import type { History } from 'history';
 import httpStatus from 'http-status';
 import { ApiRoute, AppRoute } from '../const';
 import {
+  CreateCommentDto,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
   TrainingWithPagination,
@@ -22,6 +23,7 @@ export const TrainingAction = {
   EDIT_TRAINING: 'training/edit-training',
   DELETE_TRAINING: 'training/delete-training',
   FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
+  POST_TRAINING_COMMENT: 'training/comment/post',
 };
 
 export const fetchTrainings = createAsyncThunk<
@@ -79,6 +81,23 @@ export const fetchComment = createAsyncThunk<
       history.push(AppRoute.NotFound);
     }
 
+    return Promise.reject(error);
+  }
+});
+
+export const createComment = createAsyncThunk<
+  TrainingCommentWithUserInfo,
+  CreateCommentDto,
+  { extra: Extra }
+>(TrainingAction.POST_TRAINING_COMMENT, async (dto, { extra }) => {
+  const { api } = extra;
+  try {
+    const { data } = await api.post<TrainingCommentWithUserInfo>(
+      `${ApiRoute.Comments}/${dto.trainingId}`,
+      dto
+    );
+    return data;
+  } catch (error) {
     return Promise.reject(error);
   }
 });

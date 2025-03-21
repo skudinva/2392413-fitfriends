@@ -20,6 +20,7 @@ export { AuthUser } from './lib/types/auth-user.interface';
 export { TrainingCommentWithPagination } from './lib/types/comment-with-pagination.interface';
 export { TrainingCommentWithUserInfo } from './lib/types/comment-with-user-info.interface';
 export { Comment } from './lib/types/comment.interface';
+export { ICreateCommentDto } from './lib/types/create-comment-dto.interface';
 export { EntityList } from './lib/types/entity-list.enum';
 export { File } from './lib/types/file.interface';
 export { FixedQuestionValue } from './lib/types/fixed-question-value.interface';

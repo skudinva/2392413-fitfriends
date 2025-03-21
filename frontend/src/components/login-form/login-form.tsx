@@ -7,8 +7,8 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { LoginUserDto } from '../../types/shared';
 
 function LoginForm(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {

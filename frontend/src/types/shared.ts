@@ -7,6 +7,7 @@ export {
 } from '../../../backend/libs/shared/core/src/lib/const';
 export type { TrainingCommentWithPagination } from '../../../backend/libs/shared/core/src/lib/types/comment-with-pagination.interface';
 export type { TrainingCommentWithUserInfo } from '../../../backend/libs/shared/core/src/lib/types/comment-with-user-info.interface';
+export type { ICreateCommentDto as CreateCommentDto } from '../../../backend/libs/shared/core/src/lib/types/create-comment-dto.interface';
 export type { LocationName } from '../../../backend/libs/shared/core/src/lib/types/location-name.interface';
 export type { ILoggedUserRdo as LoggedUserRdo } from '../../../backend/libs/shared/core/src/lib/types/logged-user-rdo.interface';
 export type { ILoginUserDto as LoginUserDto } from '../../../backend/libs/shared/core/src/lib/types/login-user-dto.interface';
