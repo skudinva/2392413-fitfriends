@@ -1,29 +1,16 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import Comments from '../../components/comments/comments';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import Spinner from '../../components/spinner/spinner';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import {
   getIsTrainingCardLoading,
   getTrainingCard,
 } from '../../store/site-data/selectors';
-import { fetchTraining } from '../../store/training-action';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { UserGender } from '../../types/shared';
 
 function TrainingCard(): JSX.Element {
-  const dispatch = useAppDispatch();
   const trainingCard = useAppSelector(getTrainingCard);
   const isTrainingCardLoading = useAppSelector(getIsTrainingCardLoading);
-  const { trainingId } = useParams();
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-
-  useEffect(() => {
-    if (trainingId) {
-      dispatch(fetchTraining(+trainingId));
-    }
-  }, [dispatch, trainingId, authorizationStatus]);
 
   if (isTrainingCardLoading) {
     return <Spinner />;

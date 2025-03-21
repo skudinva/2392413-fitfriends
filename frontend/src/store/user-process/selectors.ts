@@ -13,6 +13,10 @@ export const getCurrentUser = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.user;
 
+export const getCurrentUserId = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State) => USER_PROCESS.user.sub;
+
 export const getUserInfoLoading = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.isUserInfoLoading;

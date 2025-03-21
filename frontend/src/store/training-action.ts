@@ -29,6 +29,8 @@ export const fetchTrainings = createAsyncThunk<
   undefined,
   { extra: Extra }
 >(TrainingAction.FETCH_TRAININGS, async (_, { extra }) => {
+  console.log('fetchTrainings');
+
   const { api } = extra;
   const { data } = await api.get<TrainingWithPagination>(ApiRoute.Trainings);
 
@@ -40,6 +42,7 @@ export const fetchTraining = createAsyncThunk<
   TrainingWithUserInfo['id'],
   { extra: Extra }
 >(TrainingAction.FETCH_TRAINING, async (id, { extra }) => {
+  console.log('fetchTraining');
   const { api, history } = extra;
 
   try {
@@ -64,6 +67,7 @@ export const fetchComment = createAsyncThunk<
   TrainingCommentWithUserInfo['id'],
   { extra: Extra }
 >(TrainingAction.FETCH_TRAINING_COMMENTS, async (id, { extra }) => {
+  console.log('fetchComment');
   const { api, history } = extra;
 
   try {
