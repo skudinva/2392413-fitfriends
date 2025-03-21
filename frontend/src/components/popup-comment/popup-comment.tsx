@@ -15,7 +15,6 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
   );
   const { trainingId } = useParams();
   const description = useRef<HTMLTextAreaElement>(null);
-  const [trySaveComment, setTrySaveComment] = useState(false);
   const [rating, setRating] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
   const [ratingError, setRatingError] = useState<string>('');
@@ -57,8 +56,6 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
       return;
     }
 
-    setTrySaveComment(true);
-
     dispatch(
       createComment({
         userId: '',
@@ -85,14 +82,14 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
   ]);
 
   useEffect(() => {
-    if (!trySaveComment || !isInit) {
+    if (!isInit) {
       return;
     }
 
     if (isSuccessAddTrainingComment) {
       handleClose();
     }
-  }, [handleClose, isInit, isSuccessAddTrainingComment, trySaveComment]);
+  }, [handleClose, isInit, isSuccessAddTrainingComment]);
 
   return (
     <div className="popup-form popup-form--feedback">
@@ -140,7 +137,7 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
               <div className="popup__feedback-textarea">
                 <div
                   className={`custom-textarea ${
-                    (descriptionError ?? '') && 'custom-input--error'
+                    descriptionError && 'custom-input--error'
                   }`}
                 >
                   <label>
