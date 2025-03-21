@@ -52,7 +52,7 @@ export const loginUser = createAsyncThunk<
   LoginUserDto,
   { extra: Extra }
 >(UserAction.LOGIN_USER, async ({ email, password }, { extra }) => {
-  const { api, history } = extra;
+  const { api } = extra;
 
   const { data } = await api.post<LoggedUserRdo>(ApiRoute.Login, {
     email,
@@ -61,7 +61,6 @@ export const loginUser = createAsyncThunk<
 
   token.save(data.accessToken);
   refreshToken.save(data.refreshToken);
-  history.push(AppRoute.Root);
 
   if (data.id && data.email) {
     return {
@@ -85,10 +84,14 @@ export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
 
 export const registerUser = createAsyncThunk<void, FormData, { extra: Extra }>(
   UserAction.REGISTER_USER,
-  async (newUser, { extra }) => {
-    const { api, history } = extra;
+  async (newUser, { extra, dispatch }) => {
+    const { api } = extra;
     await api.post<AuthUser>(ApiRoute.Register, newUser);
-    history.push(AppRoute.Root);
+    const loginDto: LoginUserDto = {
+      email: newUser.get('email')?.toString() || '',
+      password: newUser.get('password')?.toString() || '',
+    };
+    dispatch(loginUser(loginDto));
   }
 );
 
