@@ -23,72 +23,22 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
           <div className="popup__content popup__content--feedback">
             <h3 className="popup__feedback-title">Оцените тренировку</h3>
             <ul className="popup__rate-list">
-              <li className="popup__rate-item">
-                <div className="popup__rate-item-wrap">
-                  <label>
-                    <input
-                      type="radio"
-                      name="оценка тренировки"
-                      aria-label="оценка 1."
-                      value="1"
-                    />
-                    <span className="popup__rate-number">1</span>
-                  </label>
-                </div>
-              </li>
-              <li className="popup__rate-item">
-                <div className="popup__rate-item-wrap">
-                  <label>
-                    <input
-                      type="radio"
-                      name="оценка тренировки"
-                      aria-label="оценка 2."
-                      value="2"
-                    />
-                    <span className="popup__rate-number">2</span>
-                  </label>
-                </div>
-              </li>
-              <li className="popup__rate-item">
-                <div className="popup__rate-item-wrap">
-                  <label>
-                    <input
-                      type="radio"
-                      name="оценка тренировки"
-                      aria-label="оценка 3."
-                      value="3"
-                    />
-                    <span className="popup__rate-number">3</span>
-                  </label>
-                </div>
-              </li>
-              <li className="popup__rate-item">
-                <div className="popup__rate-item-wrap">
-                  <label>
-                    <input
-                      type="radio"
-                      name="оценка тренировки"
-                      aria-label="оценка 4."
-                      value="4"
-                    />
-                    <span className="popup__rate-number">4</span>
-                  </label>
-                </div>
-              </li>
-              <li className="popup__rate-item">
-                <div className="popup__rate-item-wrap">
-                  <label>
-                    <input
-                      type="radio"
-                      name="оценка тренировки"
-                      aria-label="оценка 5."
-                      value="5"
-                      defaultChecked
-                    />
-                    <span className="popup__rate-number">5</span>
-                  </label>
-                </div>
-              </li>
+              {Array.from({ length: 5 }).map((_, rating) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <li className="popup__rate-item" key={`rating-${rating + 1}`}>
+                  <div className="popup__rate-item-wrap">
+                    <label>
+                      <input
+                        type="radio"
+                        name="оценка тренировки"
+                        aria-label={`оценка ${rating + 1}.`}
+                        value={rating + 1}
+                      />
+                      <span className="popup__rate-number">{rating + 1}</span>
+                    </label>
+                  </div>
+                </li>
+              ))}
             </ul>
             <div className="popup__feedback">
               <h3 className="popup__feedback-title popup__feedback-title--text">
@@ -97,7 +47,7 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
               <div className="popup__feedback-textarea">
                 <div className="custom-textarea">
                   <label>
-                    <textarea name="description" placeholder=" "></textarea>
+                    <textarea name="description" placeholder=""></textarea>
                   </label>
                 </div>
               </div>
