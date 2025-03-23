@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getIsSuccessAddTrainingComment } from '../../store/site-data/selectors';
 import { createComment } from '../../store/training-action';
+import { EntityConstrain } from '../../types/shared';
 
 interface PopupCommentProps {
   handleClose: () => void;
@@ -35,12 +36,17 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
   };
 
   const onDescriptionInput = () => {
+    const { maxLength, minLength } = EntityConstrain.feedback.comment;
+
     if (!description.current) {
       return;
     }
     if (!description.current.value) {
       setDescriptionError('Обязательное поле');
-    } else if ((description.current.value ?? '').length < 5) {
+    } else if (
+      (description.current.value ?? '').length > maxLength ||
+      (description.current.value ?? '').length < minLength
+    ) {
       setDescriptionError(
         'Минимальная длина 100 символ. Максимальная длина 1024 символов'
       );
