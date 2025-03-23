@@ -1,6 +1,4 @@
 import { fillDto } from '@backend/helpers';
-import { SortDirection, SortType } from '@backend/shared/core';
-import { TrainingNotifyService } from '@backend/training-notify';
 import {
   Body,
   Controller,
@@ -16,7 +14,6 @@ import {
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UpdateTrainingDto } from './dto/update-training.dto';
-import { UserIdDto } from './dto/user-id.dto';
 import { TrainingWithPaginationRdo } from './rdo/training-with-pagination.rdo';
 import { TrainingRdo } from './rdo/training.rdo';
 import { TrainingResponse } from './training.constant';
@@ -26,8 +23,7 @@ import { TrainingService } from './training.service';
 @Controller('trainings')
 export class TrainingController {
   constructor(
-    private readonly trainingPostService: TrainingService,
-    private readonly notifyService: TrainingNotifyService
+    private readonly trainingPostService: TrainingService //private readonly notifyService: TrainingNotifyService
   ) {}
 
   @Get('/:id/:userId')
@@ -125,7 +121,7 @@ export class TrainingController {
     return fillDto(TrainingRdo, updatedPost.toPOJO());
   }
 
-  @Post('sendNewPostNotify')
+  /*@Post('sendNewPostNotify')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiTags('training post')
   public async sendNewPostNotify(@Body() dto: UserIdDto) {
@@ -139,5 +135,5 @@ export class TrainingController {
       entities.map((training) => training.toPOJO()),
       dto.userId
     );
-  }
+  }*/
 }
