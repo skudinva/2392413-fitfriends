@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { TRAINING_TYPE } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateUser } from '../../store/user-action';
@@ -23,11 +23,25 @@ function UserInfoForm(): JSX.Element {
   };
 
   const [avatar, setAvatar] = useState<File>();
+
   const onAvatarUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files) {
       return;
     }
     setAvatar(evt.target.files[0]);
+  };
+
+  const avatarRef = useRef<HTMLInputElement | null>(null);
+  const avatarImgRef = useRef<HTMLImageElement | null>(null);
+  const onAvatarDelete = () => {
+    setAvatar(undefined);
+    if (avatarRef.current) {
+      avatarRef.current.value = '';
+    }
+
+    if (avatarImgRef.current) {
+      avatarImgRef.current.src = '';
+    }
   };
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,6 +69,7 @@ function UserInfoForm(): JSX.Element {
               type="file"
               name="avatar"
               accept="image/png, image/jpeg"
+              ref={avatarRef}
               disabled={!isEdit}
               onChange={onAvatarUpload}
             />
@@ -65,14 +80,16 @@ function UserInfoForm(): JSX.Element {
                   width="98"
                   height="98"
                   alt="user photo"
+                  ref={avatarImgRef}
                 />
               ) : (
                 <img
                   src={userInfo?.avatar}
-                  srcSet={userInfo?.avatar && `${userInfo.avatar} 2x`}
+                  //srcSet={userInfo?.avatar && `${userInfo.avatar} 2x`}
                   width="98"
                   height="98"
                   alt="user photo"
+                  ref={avatarImgRef}
                 />
               )}
             </span>
@@ -91,6 +108,7 @@ function UserInfoForm(): JSX.Element {
             <button
               className="user-info-edit__control-btn"
               aria-label="удалить"
+              onClick={onAvatarDelete}
             >
               <svg width="14" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-trash"></use>
