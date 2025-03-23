@@ -81,7 +81,6 @@ export class TrainingRepository extends BasePostgresRepository<
     const take = query?.limit;
     const where: Prisma.TrainingWhereInput = {};
     const orderBy: Prisma.TrainingOrderByWithRelationInput = {};
-    const userId = query.userId ?? null;
 
     if (query?.sortBy) {
       orderBy[query.sortBy] = query.sortDirection;
