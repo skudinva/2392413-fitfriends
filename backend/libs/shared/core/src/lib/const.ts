@@ -38,10 +38,6 @@ export const EntityConstrain = {
     location: {
       required: true,
     },
-    backgroundImage: {
-      required: false,
-      mimeTypes: '.(jpg|jpeg|png)',
-    },
   },
   [EntityList.Feedback]: {
     mark: {

@@ -71,15 +71,6 @@ export class CreateUserDto extends LoginUserDto {
   @IsIn(LOCATIONS)
   location: LocationName;
 
-  @ApiProperty({
-    description: 'User background image path',
-    example: '/images/bgImage.png',
-    required: false,
-  })
-  @IsOptional()
-  @IsString()
-  backgroundImage?: string;
-
   @IsISO8601()
   @IsOptional()
   @ApiProperty({

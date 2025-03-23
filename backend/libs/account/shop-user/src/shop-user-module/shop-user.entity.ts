@@ -22,7 +22,6 @@ export class ShopUserEntity
   public birthday!: Date;
   public description!: string;
   public location!: LocationName;
-  public backgroundImage!: string;
   public registerDate!: Date;
   public passwordHash!: string;
   public role!: UserRole;
@@ -44,7 +43,6 @@ export class ShopUserEntity
       birthday,
       description,
       location,
-      backgroundImage,
       registerDate,
       passwordHash,
       role,
@@ -58,7 +56,6 @@ export class ShopUserEntity
     this.birthday = birthday;
     this.description = description;
     this.location = location;
-    this.backgroundImage = backgroundImage;
     this.registerDate = registerDate;
     this.passwordHash = passwordHash;
     this.role = role;
@@ -76,7 +73,6 @@ export class ShopUserEntity
       birthday: this.birthday,
       description: this.description,
       location: this.location,
-      backgroundImage: this.backgroundImage,
       registerDate: this.registerDate,
       passwordHash: this.passwordHash,
       role: this.role,

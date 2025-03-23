@@ -73,13 +73,6 @@ export class UserRdo implements IUserRdo {
   location: LocationName;
 
   @ApiProperty({
-    description: 'User background image path',
-    example: '/images/bgImage.png',
-  })
-  @Expose()
-  backgroundImage?: string;
-
-  @ApiProperty({
     description: 'User calories',
     example: 2300,
   })

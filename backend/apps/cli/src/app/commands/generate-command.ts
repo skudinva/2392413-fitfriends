@@ -29,7 +29,6 @@ export class GenerateCommand implements Command {
         birthday: generateRandomDate(new Date(1980, 0, 1), new Date()),
         description: '',
         location: getRandomItem(locations),
-        backgroundImage: '',
         registerDate: generateRandomDate(new Date(2024, 0, 1), new Date()),
         passwordHash: '',
         role: mockUser.role,

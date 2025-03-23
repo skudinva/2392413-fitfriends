@@ -11,7 +11,6 @@ export interface User {
   birthday?: Date;
   description?: string;
   location: LocationName;
-  backgroundImage?: string;
   registerDate: Date;
   role: UserRole;
 }

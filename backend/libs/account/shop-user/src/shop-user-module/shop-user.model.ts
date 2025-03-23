@@ -51,11 +51,6 @@ export class ShopUserModel extends Document implements AuthUser {
   public location!: LocationName;
 
   @Prop({
-    required: false,
-  })
-  public backgroundImage!: string;
-
-  @Prop({
     required: true,
   })
   public registerDate!: Date;

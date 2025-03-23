@@ -46,7 +46,6 @@ export class AuthenticationService {
       birthday,
       description,
       location,
-      backgroundImage,
       password,
       role,
     } = dto;
@@ -59,7 +58,6 @@ export class AuthenticationService {
       birthday,
       description,
       location,
-      backgroundImage,
       registerDate: dayjs().toDate(),
       passwordHash: '',
       role,
