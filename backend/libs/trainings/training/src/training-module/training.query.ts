@@ -1,13 +1,7 @@
 import { SortDirection, SortType } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsArray,
-  IsIn,
-  IsMongoId,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsIn, IsOptional } from 'class-validator';
 import {
   DEFAULT_PAGE_COUNT,
   DEFAULT_SORT_DIRECTION,
@@ -17,14 +11,6 @@ import {
 
 export class TrainingQuery {
   public limit: number = DEFAULT_TRAINING_COUNT_LIMIT;
-
-  @IsArray()
-  @IsOptional()
-  @ApiProperty({
-    description: 'Tags',
-    required: false,
-  })
-  public tags?: string[];
 
   @IsIn(Object.values(SortDirection))
   @IsOptional()
@@ -51,32 +37,4 @@ export class TrainingQuery {
     example: 1,
   })
   public page: number = DEFAULT_PAGE_COUNT;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({
-    description: 'search',
-    required: false,
-  })
-  public search?: string;
-
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  @ApiProperty({
-    required: false,
-    description: 'Author id of the post',
-    example: '677cd8d75ff92067f1de5911',
-  })
-  postUserId: string;
-
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  @ApiProperty({
-    required: false,
-    description: 'id of login user',
-    example: '677cd8d75ff92067f1de5911',
-  })
-  userId?: string;
 }

@@ -206,12 +206,6 @@ export class TrainingController {
     description: TrainingResponse.TrainingsFound,
   })
   @ApiQuery({
-    name: 'tags',
-    required: false,
-    type: [String],
-    description: 'Tags',
-  })
-  @ApiQuery({
     name: 'sortDirection',
     required: true,
     enum: SortDirection,
@@ -230,25 +224,6 @@ export class TrainingController {
     example: 1,
     description: 'Page number',
   })
-  @ApiQuery({
-    name: 'search',
-    required: false,
-    type: String,
-    description: 'Search term',
-  })
-  @ApiQuery({
-    name: 'postUserId',
-    required: false,
-    type: String,
-    example: '677cd8d75ff92067f1de5911',
-    description: 'Author id of the post',
-  })
-  /*@ApiQuery({
-    name: 'postType',
-    required: false,
-    enum: PostType,
-    description: 'Training type',
-  })*/
   @Get('/')
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthForceGuard)
