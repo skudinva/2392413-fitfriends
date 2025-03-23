@@ -41,11 +41,14 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
     if (!description.current) {
       return;
     }
-    if (!description.current.value) {
+
+    const { value } = description.current;
+
+    if (!value) {
       setDescriptionError('Обязательное поле');
     } else if (
-      (description.current.value ?? '').length > maxLength ||
-      (description.current.value ?? '').length < minLength
+      (value ?? '').length > maxLength ||
+      (value ?? '').length < minLength
     ) {
       setDescriptionError(
         'Минимальная длина 100 символ. Максимальная длина 1024 символов'
