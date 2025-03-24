@@ -127,3 +127,136 @@ Authorization: Bearer {{refreshToken}}
 GET http://localhost:3000/api/users/{{userId}} HTTP/1.1
 Authorization: Bearer {{authToken}}
 
+#########################################################
+# Create a new training
+POST http://localhost:3000/api/trainings/ HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarybHAr4Z67FmILPJkv
+
+
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="title"
+
+Boxing
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="image"
+
+image01.png
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="level"
+
+любитель
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="type"
+
+бокс
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="duration"
+
+10-30 мин
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="price"
+
+500
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="calories"
+
+1000
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="description"
+
+Тренировка на фитболе — отличном тренажере для развития чувства баланса и равновесия, улучшения координации.
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="gender"
+
+мужской
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="userId"
+
+0
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="isSpecial"
+
+false
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="video"; filename="659f3fd2f1cf11efb1b1dea6d10405cc_1.mp4"
+Content-Type: image/mp4
+
+< ./mocks/avatar-angelina.mp4
+------WebKitFormBoundarybHAr4Z67FmILPJkv--
+
+###
+# Update training
+PATCH http://localhost:3000/api/trainings/1104 HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarybHAr4Z67FmILPJkv
+
+
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="id"
+
+1104
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="title"
+
+Boxing
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="image"
+
+image01.png
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="level"
+
+любитель
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="type"
+
+бокс
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="duration"
+
+10-30 мин
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="price"
+
+500
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="calories"
+
+1000
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="description"
+
+Тренировка на фитболе — отличном тренажере для развития чувства баланса и равновесия, улучшения координации.
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="gender"
+
+мужской
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="userId"
+
+0
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="isSpecial"
+
+false
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="video"; filename="659f3fd2f1cf11efb1b1dea6d10405cc_1.mp4"
+Content-Type: image/mp4
+
+< ./mocks/avatar-angelina.mp4
+------WebKitFormBoundarybHAr4Z67FmILPJkv--
+###
+
+GET http://localhost:3000/api/trainings HTTP/1.1
+Authorization: Bearer {{authToken}}
+
+###
+# Delete training
+DELETE http://localhost:3000/api/trainings/1104 HTTP/1.1
+Authorization: Bearer {{authToken}}
+
+###
+# Get training
+GET http://localhost:3000/api/trainings/1104 HTTP/1.1
+Authorization: Bearer {{authToken}}

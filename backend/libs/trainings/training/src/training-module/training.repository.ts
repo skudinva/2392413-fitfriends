@@ -64,6 +64,10 @@ export class TrainingRepository extends BasePostgresRepository<
       where: { id },
     });
 
+    if (!training) {
+      return null;
+    }
+
     return this.createEntityFromDocument({
       ...training,
       level: training.level as TrainingLevel,
