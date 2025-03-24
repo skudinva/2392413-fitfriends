@@ -6,3 +6,4 @@ export { TrainingCommentEntity } from './training-comment-module/training-commen
 export { TrainingCommentFactory } from './training-comment-module/training-comment.factory';
 export { TrainingCommentModule } from './training-comment-module/training-comment.module';
 export { TrainingCommentRepository } from './training-comment-module/training-comment.repository';
+export { TrainingCommentService } from './training-comment-module/training-comment.service';

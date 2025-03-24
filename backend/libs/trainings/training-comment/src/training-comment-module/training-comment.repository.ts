@@ -89,6 +89,19 @@ export class TrainingCommentRepository extends BasePostgresRepository<
     };
   }
 
+  public async calculateAverageRating(
+    trainingId: Comment['trainingId']
+  ): Promise<TrainingCommentEntity['rating']> {
+    const averageRating = await this.client.comment.aggregate({
+      where: { trainingId },
+      _avg: {
+        rating: true,
+      },
+    });
+
+    return Math.round(averageRating._avg.rating);
+  }
+
   public async findByUserAndPostId(
     trainingId: Comment['trainingId'],
     userId: string

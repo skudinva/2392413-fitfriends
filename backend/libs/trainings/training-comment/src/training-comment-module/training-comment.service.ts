@@ -60,7 +60,9 @@ export class TrainingCommentService {
 
     const newComment = TrainingCommentFactory.composeFromCreateCommentDto(dto);
     await this.trainingCommentRepository.save(newComment);
-    //await this.trainingService.updateCommentCount(trainingId, 1);
+    const averageRation =
+      await this.trainingCommentRepository.calculateAverageRating(trainingId);
+    await this.trainingService.updateAverageRating(trainingId, averageRation);
 
     return newComment;
   }
@@ -76,10 +78,14 @@ export class TrainingCommentService {
 
     try {
       await this.trainingCommentRepository.deleteById(id);
-      /*await this.trainingService.updateCommentCount(
+      const averageRation =
+        await this.trainingCommentRepository.calculateAverageRating(
+          existComment.trainingId
+        );
+      await this.trainingService.updateAverageRating(
         existComment.trainingId,
-        -1
-      );*/
+        averageRation
+      );
     } catch {
       throw new NotFoundException(`Comment with id ${id} not found`);
     }

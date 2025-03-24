@@ -98,7 +98,8 @@ export class TrainingApiDoc implements Training {
 
   @ApiProperty({
     description: 'Training rating',
-    required: true,
+    required: false,
+    default: 0,
   })
   rating: number;
 
@@ -120,6 +121,13 @@ export class TrainingApiDoc implements Training {
     required: true,
   })
   createdAt: Date;
+
+  @ApiProperty({
+    description: 'Training average rating',
+    required: false,
+    default: 0,
+  })
+  averageRating: number;
 
   @ApiProperty({
     description: 'User info',

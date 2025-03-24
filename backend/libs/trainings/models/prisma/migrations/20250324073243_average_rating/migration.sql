@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "trainings" ADD COLUMN     "average_rating" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ALTER COLUMN "rating" SET DEFAULT 0;

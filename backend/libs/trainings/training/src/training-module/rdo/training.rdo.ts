@@ -56,5 +56,8 @@ export class TrainingRdo extends TrainingApiDoc implements Training {
   createdAt: Date;
 
   @Expose()
+  averageRating: number;
+
+  @Expose()
   userInfo: UserRdo;
 }

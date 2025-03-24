@@ -59,13 +59,15 @@ export class TrainingService {
     return this.trainingRepository.find(query);
   }
 
-  /*  public async updateCommentCount(
-    trainingId: string,
-    diffValue: number
+  public async updateAverageRating(
+    trainingId: Training['id'],
+    averageRating: Training['averageRating']
   ): Promise<void> {
-    const existTraining = await this.getTraining(trainingId, null);
-    existTraining.commentsCount += diffValue;
+    const existTraining = await this.getTraining(trainingId);
+    if (!existTraining) {
+      return;
+    }
+    existTraining.averageRating = averageRating;
     await this.trainingRepository.update(existTraining);
   }
-  */
 }

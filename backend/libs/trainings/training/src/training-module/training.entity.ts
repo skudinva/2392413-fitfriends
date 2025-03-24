@@ -26,6 +26,7 @@ export class TrainingEntity
   public userId!: string;
   public isSpecial!: boolean;
   public createdAt!: Date;
+  public averageRating!: number;
 
   constructor(training?: Training) {
     super();
@@ -51,6 +52,7 @@ export class TrainingEntity
     this.userId = training.userId;
     this.isSpecial = training.isSpecial;
     this.createdAt = training.createdAt;
+    this.averageRating = training.averageRating;
   }
 
   toPOJO(): Training {
@@ -70,6 +72,7 @@ export class TrainingEntity
       userId: this.userId,
       isSpecial: this.isSpecial,
       createdAt: this.createdAt,
+      averageRating: this.averageRating,
     };
   }
 }
