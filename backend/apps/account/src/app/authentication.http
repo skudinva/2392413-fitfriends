@@ -128,9 +128,6 @@ GET http://localhost:3001/api/auth/{{userId}} HTTP/1.1
 Authorization: Bearer {{authToken}}
 
 ###
-
-
-###
 # Get user info
 GET http://localhost:3001/api/user/{{userId}} HTTP/1.1
 
