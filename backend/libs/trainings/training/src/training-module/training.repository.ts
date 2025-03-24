@@ -23,13 +23,13 @@ export class TrainingRepository extends BasePostgresRepository<
     super(entityFactory, client);
   }
 
-  private async getPostCount(
+  private async getTrainingCount(
     where: Prisma.TrainingWhereInput
   ): Promise<number> {
     return this.client.training.count({ where });
   }
 
-  private calculatePostsPage(totalCount: number, limit: number): number {
+  private calculateTrainingsPage(totalCount: number, limit: number): number {
     if (limit === 0) {
       return 0;
     }
@@ -37,19 +37,19 @@ export class TrainingRepository extends BasePostgresRepository<
   }
 
   public override async save(training: TrainingEntity): Promise<void> {
-    const pojoPost = training.toPOJO();
+    const pojoTraining = training.toPOJO();
     const record = await this.client.training.create({
-      data: { ...pojoPost },
+      data: { ...pojoTraining },
     });
 
     training.id = record.id;
   }
 
   override async update(training: TrainingEntity): Promise<void> {
-    const pojoPost = training.toPOJO();
+    const pojoTraining = training.toPOJO();
     await this.client.training.update({
       where: { id: training.id },
-      data: { ...pojoPost },
+      data: { ...pojoTraining },
     });
   }
 
@@ -90,14 +90,14 @@ export class TrainingRepository extends BasePostgresRepository<
       orderBy[query.sortBy] = query.sortDirection;
     }
 
-    const [records, postCount] = await Promise.all([
+    const [records, trainingCount] = await Promise.all([
       this.client.training.findMany({
         where,
         orderBy,
         skip,
         take,
       }),
-      this.getPostCount(where),
+      this.getTrainingCount(where),
     ]);
 
     return {
@@ -111,9 +111,9 @@ export class TrainingRepository extends BasePostgresRepository<
         })
       ),
       currentPage: query?.page,
-      totalPages: this.calculatePostsPage(postCount, take),
+      totalPages: this.calculateTrainingsPage(trainingCount, take),
       itemsPerPage: take,
-      totalItems: postCount,
+      totalItems: trainingCount,
     };
   }
 }
