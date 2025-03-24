@@ -1,0 +1,129 @@
+# Create a new user
+POST http://localhost:3000/api/users/register HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarybHAr4Z67FmILPJkv
+
+
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="name"
+
+Vladimir
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="email"
+
+vladimir@ya.ru
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="birthday"
+
+1981-11-10
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="location"
+
+Петроградская
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="password"
+
+123456
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="sex"
+
+мужской
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="role"
+
+sportsman
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="user-agreement"
+
+user-agreement
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="gender"
+
+мужской
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="avatar"; filename="659f3fd2f1cf11efb1b1dea6d10405cc_1.jpeg"
+Content-Type: image/jpeg
+
+< ./mocks/avatar-angelina.jpg
+------WebKitFormBoundarybHAr4Z67FmILPJkv--
+
+###
+# Update user
+PATCH http://localhost:3000/api/users/update HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarybHAr4Z67FmILPJkv
+
+
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="name"
+
+Vladimir
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="email"
+
+vladimir@ya.ru
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="birthday"
+
+1981-11-10
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="location"
+
+Петроградская
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="password"
+
+123456
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="sex"
+
+мужской
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="role"
+
+sportsman
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="user-agreement"
+
+user-agreement
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="gender"
+
+мужской
+------WebKitFormBoundarybHAr4Z67FmILPJkv
+Content-Disposition: form-data; name="avatar"; filename="659f3fd2f1cf11efb1b1dea6d10405cc_1.jpeg"
+Content-Type: image/jpeg
+
+< ./mocks/avatar-angelina.jpg
+------WebKitFormBoundarybHAr4Z67FmILPJkv--
+
+###
+
+# Login user by email and password
+# @name login
+POST http://localhost:3000/api/users/login HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "email": "vladimir@ya.ru",
+  "password": "123456"
+}
+
+###
+@authToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
+@userId = {{login.response.body.id}}
+
+POST http://localhost:3000/api/users/check HTTP/1.1
+Authorization: Bearer {{authToken}}
+###
+
+# Get new JWT pair
+POST http://localhost:3000/api/users/refresh HTTP/1.1
+Authorization: Bearer {{refreshToken}}
+
+###
+# Get user info
+GET http://localhost:3000/api/users/{{userId}} HTTP/1.1
+Authorization: Bearer {{authToken}}
+
