@@ -1,6 +1,5 @@
 name: fitfriends
 include:
   - backend/apps/file-vault/docker-compose.dev.yml
-  - backend/apps/notify/docker-compose.dev.yml
   - backend/apps/account/docker-compose.dev.yml
   - backend/apps/trainings/docker-compose.dev.yml
