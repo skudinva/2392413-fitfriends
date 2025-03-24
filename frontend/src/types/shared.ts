@@ -14,6 +14,7 @@ export type { LocationName } from '../../../backend/libs/shared/core/src/lib/typ
 export type { ILoggedUserRdo as LoggedUserRdo } from '../../../backend/libs/shared/core/src/lib/types/logged-user-rdo.interface';
 export type { ILoginUserDto as LoginUserDto } from '../../../backend/libs/shared/core/src/lib/types/login-user-dto.interface';
 export { TrainingLevel } from '../../../backend/libs/shared/core/src/lib/types/training-level.enum';
+export type { ITrainingQuery as TrainingQuery } from '../../../backend/libs/shared/core/src/lib/types/training-query.interface';
 export type { TrainingWithPagination } from '../../../backend/libs/shared/core/src/lib/types/training-with-pagination.interface';
 export type { TrainingWithUserInfo } from '../../../backend/libs/shared/core/src/lib/types/training-with-user-info.interface';
 export type { Training } from '../../../backend/libs/shared/core/src/lib/types/training.interface';

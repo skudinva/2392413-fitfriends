@@ -31,7 +31,7 @@ function Main(): JSX.Element {
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchUserInfo(userId));
-      dispatch(fetchTrainings());
+      dispatch(fetchTrainings({}));
       dispatch(fetchPopularTrainings());
     }
   }, [dispatch, authorizationStatus, userId]);

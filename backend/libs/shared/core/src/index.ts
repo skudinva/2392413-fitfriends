@@ -32,6 +32,7 @@ export { StoredFile } from './lib/types/stored-file.interface';
 export { Subscriber } from './lib/types/subscriber.interface';
 export { TrainingDuration } from './lib/types/training-duration.interface';
 export { TrainingLevel } from './lib/types/training-level.enum';
+export { ITrainingQuery } from './lib/types/training-query.interface';
 export { TrainingType } from './lib/types/training-type.enum';
 export { TrainingWithPagination } from './lib/types/training-with-pagination.interface';
 export { TrainingWithUserInfo } from './lib/types/training-with-user-info.interface';

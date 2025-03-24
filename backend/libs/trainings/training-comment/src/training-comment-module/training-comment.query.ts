@@ -3,7 +3,7 @@ import { Transform } from 'class-transformer';
 import { IsIn, IsOptional } from 'class-validator';
 
 import {
-  DEFAULT_PAGE_COUNT,
+  DEFAULT_PAGE,
   DEFAULT_SORT_DIRECTION,
   MAX_COMMENTS_COUNT,
 } from './training-comment.constant';
@@ -15,7 +15,7 @@ export class TrainingCommentQuery {
   @IsOptional()
   public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
 
-  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_PAGE_COUNT)
+  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_PAGE)
   @IsOptional()
-  public page: number = DEFAULT_PAGE_COUNT;
+  public page: number = DEFAULT_PAGE;
 }

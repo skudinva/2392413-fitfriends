@@ -9,6 +9,7 @@ import {
   SortType,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
+  TrainingQuery,
   TrainingWithPagination,
   TrainingWithUserInfo,
 } from '../types/shared';
@@ -31,11 +32,22 @@ export const TrainingAction = {
 
 export const fetchTrainings = createAsyncThunk<
   TrainingWithPagination,
-  undefined,
+  TrainingQuery,
   { extra: Extra }
->(TrainingAction.FETCH_TRAININGS, async (_, { extra }) => {
+>(TrainingAction.FETCH_TRAININGS, async (query, { extra }) => {
   const { api } = extra;
-  const { data } = await api.get<TrainingWithPagination>(ApiRoute.Trainings);
+  const { limit, sortBy, page, sortDirection } = query;
+
+  const queryString = [
+    `page=${page ?? ''}`,
+    `limit=${limit ?? ''}`,
+    `sortBy=${sortBy ?? ''}`,
+    `sortDirection=${sortDirection ?? ''}`,
+  ].join('&');
+
+  const { data } = await api.get<TrainingWithPagination>(
+    `${ApiRoute.Trainings}?${queryString}`
+  );
 
   return data;
 });

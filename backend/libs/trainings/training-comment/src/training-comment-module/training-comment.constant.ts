@@ -2,7 +2,7 @@ import { SortDirection } from '@backend/shared/core';
 
 export const MAX_COMMENTS_COUNT = 50;
 export const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
-export const DEFAULT_PAGE_COUNT = 1;
+export const DEFAULT_PAGE = 1;
 
 export const TrainingCommentValidateMessage = {
   MessageIsEmpty: 'The message is empty',
