@@ -1,4 +1,4 @@
-name: guitar-shop
+name: fitfriends
 include:
   - backend/apps/file-vault/docker-compose.dev.yml
   - backend/apps/notify/docker-compose.dev.yml
