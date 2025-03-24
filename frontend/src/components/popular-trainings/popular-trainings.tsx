@@ -5,14 +5,14 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import Spinner from '../../components/spinner/spinner';
 import { useAppSelector } from '../../hooks';
 import {
-  getIsTrainingLoading,
-  getTraining,
+  getIsPopularTrainingLoading,
+  getPopularTraining,
 } from '../../store/site-data/selectors';
 import PopularTrainingCard from '../popular-training-card/popular-training-card';
 
 function PopularTrainings(): JSX.Element {
-  const trainingLoading = useAppSelector(getIsTrainingLoading);
-  const training = useAppSelector(getTraining);
+  const trainingLoading = useAppSelector(getIsPopularTrainingLoading);
+  const training = useAppSelector(getPopularTraining);
 
   const sliderRef = useRef<SwiperRef>(null);
 

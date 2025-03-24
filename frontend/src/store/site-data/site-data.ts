@@ -4,6 +4,7 @@ import type { SiteData } from '../../types/state';
 import {
   createComment,
   fetchComment,
+  fetchPopularTrainings,
   fetchTraining,
   fetchTrainings,
 } from '../training-action';
@@ -16,6 +17,8 @@ const initialState: SiteData = {
   trainingComment: null,
   isTrainingCommentLoading: false,
   isSuccessAddTrainingComment: false,
+  popularTraining: null,
+  isPopularTrainingLoading: false,
 };
 
 export const siteData = createSlice({
@@ -33,6 +36,16 @@ export const siteData = createSlice({
       })
       .addCase(fetchTrainings.rejected, (state) => {
         state.isTrainingLoading = false;
+      })
+      .addCase(fetchPopularTrainings.pending, (state) => {
+        state.isPopularTrainingLoading = true;
+      })
+      .addCase(fetchPopularTrainings.fulfilled, (state, action) => {
+        state.popularTraining = action.payload;
+        state.isPopularTrainingLoading = false;
+      })
+      .addCase(fetchPopularTrainings.rejected, (state) => {
+        state.isPopularTrainingLoading = false;
       })
       .addCase(fetchTraining.pending, (state) => {
         state.isTrainingCardLoading = true;

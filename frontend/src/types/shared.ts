@@ -5,6 +5,8 @@ export {
   EntityConstrain,
   LOCATIONS,
 } from '../../../backend/libs/shared/core/src/lib/const';
+export { SortDirection } from '../../../backend/libs/shared/core/src/lib/interfaces/sort-direction.interface';
+export { SortType } from '../../../backend/libs/shared/core/src/lib/interfaces/sort-type.interface';
 export type { TrainingCommentWithPagination } from '../../../backend/libs/shared/core/src/lib/types/comment-with-pagination.interface';
 export type { TrainingCommentWithUserInfo } from '../../../backend/libs/shared/core/src/lib/types/comment-with-user-info.interface';
 export type { ICreateCommentDto as CreateCommentDto } from '../../../backend/libs/shared/core/src/lib/types/create-comment-dto.interface';

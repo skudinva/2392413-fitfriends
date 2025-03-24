@@ -5,6 +5,8 @@ import httpStatus from 'http-status';
 import { ApiRoute, AppRoute } from '../const';
 import {
   CreateCommentDto,
+  SortDirection,
+  SortType,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
   TrainingWithPagination,
@@ -18,6 +20,7 @@ type Extra = {
 
 export const TrainingAction = {
   FETCH_TRAININGS: 'trainings/fetch',
+  FETCH_POPULAR_TRAINING: 'popular-trainings/fetch',
   FETCH_TRAINING: 'training/fetch',
   POST_TRAINING: 'training/post-training',
   EDIT_TRAINING: 'training/edit-training',
@@ -33,6 +36,19 @@ export const fetchTrainings = createAsyncThunk<
 >(TrainingAction.FETCH_TRAININGS, async (_, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingWithPagination>(ApiRoute.Trainings);
+
+  return data;
+});
+
+export const fetchPopularTrainings = createAsyncThunk<
+  TrainingWithPagination,
+  undefined,
+  { extra: Extra }
+>(TrainingAction.FETCH_POPULAR_TRAINING, async (_, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<TrainingWithPagination>(
+    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.AVERAGE_RATING}&sortDirection=${SortDirection.Desc}`
+  );
 
   return data;
 });

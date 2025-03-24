@@ -17,14 +17,8 @@ export type SiteData = {
   trainingComment: TrainingCommentWithPagination | null;
   isTrainingCommentLoading: boolean;
   isSuccessAddTrainingComment: boolean;
-  //hasErrorTrainingComment: boolean;
-
-  //isOfferLoading: boolean;
-  //favoriteOffers: Offer[];
-  //isFavoriteOffersLoading: boolean;
-  //premiumOffers: Offer[];
-  //comments: Comment[];
-  //commentStatus: SubmitStatus;
+  popularTraining: TrainingWithPagination | null;
+  isPopularTrainingLoading: boolean;
 };
 
 export type SiteProcess = {

@@ -8,6 +8,14 @@ export const getIsTrainingLoading = ({
 export const getTraining = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
   SITE_DATA.training;
 
+export const getIsPopularTrainingLoading = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isPopularTrainingLoading;
+
+export const getPopularTraining = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.popularTraining;
+
 export const getIsTrainingCardLoading = ({
   [StoreSlice.SiteData]: SITE_DATA,
 }: State) => SITE_DATA.isTrainingCardLoading;
