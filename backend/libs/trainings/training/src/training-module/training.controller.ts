@@ -23,7 +23,7 @@ import { TrainingService } from './training.service';
 @Controller('trainings')
 export class TrainingController {
   constructor(
-    private readonly trainingPostService: TrainingService //private readonly notifyService: TrainingNotifyService
+    private readonly trainingService: TrainingService //private readonly notifyService: TrainingNotifyService
   ) {}
 
   @Get('/:id/:userId')
@@ -38,7 +38,7 @@ export class TrainingController {
   })
   @ApiTags('training post')
   public async show(@Param('id') id: number) {
-    const training = await this.trainingPostService.getTraining(id);
+    const training = await this.trainingService.getTraining(id);
     return fillDto(TrainingRdo, training.toPOJO());
   }
 
@@ -50,9 +50,7 @@ export class TrainingController {
   })
   @ApiTags('training post')
   public async index(@Query() query: TrainingQuery) {
-    const postsWithPagination = await this.trainingPostService.getTrainings(
-      query
-    );
+    const postsWithPagination = await this.trainingService.getTrainings(query);
     const result = {
       ...postsWithPagination,
       entities: postsWithPagination.entities.map((training) =>
@@ -70,7 +68,7 @@ export class TrainingController {
   @Post('/')
   @ApiTags('training post')
   public async create(@Body() dto: CreateTrainingDto) {
-    const newPost = await this.trainingPostService.createTraining(dto);
+    const newPost = await this.trainingService.createTraining(dto);
     return fillDto(TrainingRdo, newPost.toPOJO());
   }
 
@@ -94,7 +92,7 @@ export class TrainingController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiTags('training post')
   public async destroy(@Param('trainingId') trainingId: number) {
-    await this.trainingPostService.deleteTraining(trainingId);
+    await this.trainingService.deleteTraining(trainingId);
   }
 
   @ApiResponse({
@@ -117,7 +115,7 @@ export class TrainingController {
   @Patch('/:id')
   @ApiTags('training post')
   public async update(@Param('id') id: number, @Body() dto: UpdateTrainingDto) {
-    const updatedPost = await this.trainingPostService.updateTraining(id, dto);
+    const updatedPost = await this.trainingService.updateTraining(id, dto);
     return fillDto(TrainingRdo, updatedPost.toPOJO());
   }
 
@@ -129,7 +127,7 @@ export class TrainingController {
     query.userId = dto.userId;
     query.sortBy = SortType.DATE;
     query.sortDirection = SortDirection.Desc;
-    const { entities } = await this.trainingPostService.getTrainings(query);
+    const { entities } = await this.trainingService.getTrainings(query);
 
     this.notifyService.sendNewPostNotify(
       entities.map((training) => training.toPOJO()),

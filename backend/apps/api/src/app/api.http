@@ -260,3 +260,28 @@ Authorization: Bearer {{authToken}}
 # Get training
 GET http://localhost:3000/api/trainings/1104 HTTP/1.1
 Authorization: Bearer {{authToken}}
+
+###
+# Get comments
+GET http://localhost:3000/api/trainings/comments/1104 HTTP/1.1
+Authorization: Bearer {{authToken}}
+
+###
+# Post comments
+POST http://localhost:3000/api/trainings/comments/1105 HTTP/1.1
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "userId": "0",
+  "trainingId": 1105,
+  "rating": 5,
+  "message": "Просто супер! Тренер Марина - настоящий профессионал, всегда поддержит и направит. После её занятий чувствую себя обновлённой!"
+}
+
+###
+# Delete comment
+DELETE http://localhost:3000/api/trainings/comments/2286 HTTP/1.1
+Authorization: Bearer {{authToken}}
+
+###

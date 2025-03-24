@@ -15,14 +15,17 @@ import { TrainingCommentRepository } from './training-comment.repository';
 export class TrainingCommentService {
   constructor(
     private readonly trainingCommentRepository: TrainingCommentRepository,
-    private readonly trainingPostService: TrainingService
+    private readonly trainingService: TrainingService
   ) {}
 
   public async getComments(
     trainingId: Comment['trainingId'],
     query: TrainingCommentQuery
   ): Promise<PaginationResult<ReturnType<TrainingCommentEntity['toPOJO']>>> {
-    const training = await this.trainingPostService.getTraining(trainingId);
+    const training = await this.trainingService.getTraining(trainingId);
+    if (!training) {
+      return;
+    }
     const commentsWithPagination =
       await this.trainingCommentRepository.findByTrainingId(training.id, query);
 
@@ -40,6 +43,11 @@ export class TrainingCommentService {
     trainingId: Comment['trainingId'],
     dto: CreateCommentDto
   ): Promise<TrainingCommentEntity> {
+    const existsTraining = await this.trainingService.getTraining(trainingId);
+    if (!existsTraining) {
+      return;
+    }
+
     const existsComment =
       await this.trainingCommentRepository.findByUserAndPostId(
         trainingId,
@@ -52,7 +60,7 @@ export class TrainingCommentService {
 
     const newComment = TrainingCommentFactory.composeFromCreateCommentDto(dto);
     await this.trainingCommentRepository.save(newComment);
-    //await this.trainingPostService.updateCommentCount(trainingId, 1);
+    //await this.trainingService.updateCommentCount(trainingId, 1);
 
     return newComment;
   }
@@ -68,7 +76,7 @@ export class TrainingCommentService {
 
     try {
       await this.trainingCommentRepository.deleteById(id);
-      /*await this.trainingPostService.updateCommentCount(
+      /*await this.trainingService.updateCommentCount(
         existComment.trainingId,
         -1
       );*/
