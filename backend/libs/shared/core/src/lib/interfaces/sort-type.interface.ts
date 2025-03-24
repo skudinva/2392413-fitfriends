@@ -1,5 +1,4 @@
 export enum SortType {
   DATE = 'createdAt',
-  COMMENTS = 'commentsCount',
-  LIKES = 'likesCount',
+  AVERAGE_RATING = 'averageRating',
 }
