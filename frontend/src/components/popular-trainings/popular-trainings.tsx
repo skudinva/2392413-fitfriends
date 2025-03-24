@@ -3,6 +3,8 @@ import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import Spinner from '../../components/spinner/spinner';
+import { AppRoute } from '../../const';
+import history from '../../history';
 import { useAppSelector } from '../../hooks';
 import {
   getIsPopularTrainingLoading,
@@ -33,6 +35,7 @@ function PopularTrainings(): JSX.Element {
               <button
                 className="btn-flat popular-trainings__button"
                 type="button"
+                onClick={() => history.push(AppRoute.Trainings)}
               >
                 <span>Смотреть все</span>
                 <svg width="14" height="10" aria-hidden="true">

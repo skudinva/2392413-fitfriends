@@ -1,21 +1,17 @@
+import BackButton from '../../components/back-button/back-button';
+import CustomHelmet from '../../components/custom-helmet/custom-helmet';
+
 function Trainings(): JSX.Element {
   return (
     <section className="inner-page">
+      <CustomHelmet pageTitle="Мои тренировки" />
       <div className="container">
         <div className="inner-page__wrapper">
           <h1 className="visually-hidden">Каталог тренировок</h1>
           <div className="gym-catalog-form">
             <h2 className="visually-hidden">Мои тренировки Фильтр</h2>
             <div className="gym-catalog-form__wrapper">
-              <button
-                className="btn-flat btn-flat--underlined gym-catalog-form__btnback"
-                type="button"
-              >
-                <svg width="14" height="10" aria-hidden="true">
-                  <use xlinkHref="#arrow-left"></use>
-                </svg>
-                <span>Назад</span>
-              </button>
+              <BackButton baseClassName="btn-flat--underlined gym-catalog-form__btnback" />
               <h3 className="gym-catalog-form__title">Фильтры</h3>
               <form className="gym-catalog-form__form">
                 <div className="gym-catalog-form__block gym-catalog-form__block--price">
