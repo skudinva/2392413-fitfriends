@@ -1,4 +1,3 @@
-import 'swiper/css';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import LookForCompany from '../../components/look-for-company/look-for-company';
 import PopularTrainings from '../../components/popular-trainings/popular-trainings';

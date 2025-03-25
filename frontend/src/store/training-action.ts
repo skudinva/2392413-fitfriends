@@ -36,17 +36,27 @@ export const fetchTrainings = createAsyncThunk<
   { extra: Extra }
 >(TrainingAction.FETCH_TRAININGS, async (query, { extra }) => {
   const { api } = extra;
-  const { limit, sortBy, page, sortDirection } = query;
 
-  const queryString = [
-    `page=${page ?? ''}`,
-    `limit=${limit ?? ''}`,
-    `sortBy=${sortBy ?? ''}`,
-    `sortDirection=${sortDirection ?? ''}`,
-  ].join('&');
+  const composeParam = (
+    name: string,
+    value: string | number | undefined | null | unknown
+  ) => {
+    if (typeof value === 'string' || typeof value === 'number') {
+      return `${name}=${value}`;
+    }
+    return '';
+  };
+
+  const queryStrings: string[] = [];
+  Object.entries(query).forEach(([key, value]) => {
+    const param = composeParam(key, value);
+    if (param) {
+      queryStrings.push(param);
+    }
+  });
 
   const { data } = await api.get<TrainingWithPagination>(
-    `${ApiRoute.Trainings}?${queryString}`
+    `${ApiRoute.Trainings}?${queryStrings.join('&')}`
   );
 
   return data;

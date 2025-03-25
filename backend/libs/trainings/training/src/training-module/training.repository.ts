@@ -84,7 +84,48 @@ export class TrainingRepository extends BasePostgresRepository<
       query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.TrainingWhereInput = {};
+    const andConditions: Prisma.TrainingWhereInput[] = [];
     const orderBy: Prisma.TrainingOrderByWithRelationInput = {};
+
+    if (query.minPrice === query.maxPrice) {
+      andConditions.push({ price: { equals: query.maxPrice } });
+    } else {
+      if (query?.minPrice !== undefined && query?.minPrice !== null) {
+        andConditions.push({ price: { gte: query.minPrice } });
+      }
+
+      if (query?.maxPrice !== undefined && query?.maxPrice !== null) {
+        andConditions.push({ price: { lte: query.maxPrice } });
+      }
+    }
+
+    if (query.minCalories === query.maxCalories) {
+      andConditions.push({ calories: { equals: query.maxCalories } });
+    } else {
+      if (query?.minCalories !== undefined && query?.minCalories !== null) {
+        andConditions.push({ calories: { gte: query.minCalories } });
+      }
+
+      if (query?.maxCalories !== undefined && query?.maxCalories !== null) {
+        andConditions.push({ calories: { lte: query.maxCalories } });
+      }
+    }
+
+    if (query.minRating === query.maxRating) {
+      andConditions.push({ rating: { equals: query.maxRating } });
+    } else {
+      if (query?.minRating !== undefined && query?.minRating !== null) {
+        andConditions.push({ rating: { gte: query.minRating } });
+      }
+
+      if (query?.maxRating !== undefined && query?.maxRating !== null) {
+        andConditions.push({ rating: { lte: query.maxRating } });
+      }
+    }
+
+    if (andConditions.length) {
+      where.AND = [...andConditions];
+    }
 
     if (query?.sortBy) {
       orderBy[query.sortBy] = query.sortDirection;

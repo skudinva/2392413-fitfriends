@@ -6,4 +6,10 @@ export interface ITrainingQuery {
   sortDirection?: SortDirection;
   sortBy?: SortType;
   page?: number;
+  minPrice: number;
+  maxPrice: number;
+  minCalories: number;
+  maxCalories: number;
+  minRating: number;
+  maxRating: number;
 }

@@ -1,125 +1,187 @@
-import { FormEvent, useEffect, useState } from 'react';
+import MultiRangeSlider from 'multi-range-slider-react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { fetchTrainings } from '../../store/training-action';
-import { SortDirection, SortType, TrainingQuery } from '../../types/shared';
+import {
+  EntityConstrain,
+  SortDirection,
+  SortType,
+  TrainingQuery,
+} from '../../types/shared';
 
 function GymCatalogForm(): JSX.Element {
   const dispatch = useAppDispatch();
+  const MAX_PRICE = 10000;
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
 
-  const [query, setQuery] = useState<TrainingQuery | object>({});
+  const [sortDirection, SetSortDirection] = useState<SortDirection>(
+    SortDirection.Asc
+  );
+  const [sortBy, SetSortBy] = useState<SortType>(SortType.PRICE);
 
-  const onFilterChange = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
+  const [minCalories, setMinCalories] = useState<number>(
+    EntityConstrain.training.calories.minValue
+  );
+  const [maxCalories, setMaxCalories] = useState<number>(
+    EntityConstrain.training.calories.maxValue
+  );
 
-    if (evt.target instanceof HTMLInputElement) {
-      const { value, name } = evt.target;
-      console.log({ value, name });
-      if (value === 'cheep') {
-        setQuery({
-          ...query,
-          sortDirection: SortDirection.Asc,
-          sortBy: SortType.PRICE,
-        });
-      } else if (value === 'expensive') {
-        setQuery({
-          ...query,
-          sortDirection: SortDirection.Desc,
-          sortBy: SortType.PRICE,
-        });
-      }
-    }
-  };
+  const [minRating, SetMinRating] = useState<number>(0);
+  const [maxRating, SetMaxRating] = useState<number>(
+    EntityConstrain.feedback.mark.maxValue
+  );
+
+  const minPriceInput = useRef<HTMLInputElement>(null);
+  const maxPriceInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    const query: TrainingQuery = {
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      minCalories: minCalories,
+      maxCalories: maxCalories,
+      minRating: minRating,
+      maxRating: maxRating,
+      sortDirection: sortDirection,
+      sortBy: sortBy,
+    };
     dispatch(fetchTrainings(query));
-  }, [dispatch, query]);
+  }, [
+    dispatch,
+    maxCalories,
+    maxPrice,
+    minCalories,
+    minPrice,
+    minRating,
+    maxRating,
+    sortBy,
+    sortDirection,
+  ]);
 
   return (
-    <form className="gym-catalog-form__form" onInput={onFilterChange}>
+    <form className="gym-catalog-form__form">
       <div className="gym-catalog-form__block gym-catalog-form__block--price">
         <h4 className="gym-catalog-form__block-title">Цена, ₽</h4>
         <div className="filter-price">
           <div className="filter-price__input-text filter-price__input-text--min">
             <input
               type="number"
-              id="text-min"
-              name="text-min"
-              defaultValue="0"
+              id="minPrice"
+              name="minPrice"
+              value={minPrice}
+              ref={minPriceInput}
+              onInput={(evt) => {
+                setMinPrice(Number(evt.currentTarget.value));
+              }}
             />
-            <label htmlFor="text-min">от</label>
+            <label htmlFor="minPrice">от</label>
           </div>
           <div className="filter-price__input-text filter-price__input-text--max">
             <input
               type="number"
-              id="text-max"
-              name="text-max"
-              defaultValue="3200"
+              id="maxPrice"
+              name="maxPrice"
+              value={maxPrice}
+              ref={maxPriceInput}
+              onInput={(evt) => {
+                setMaxPrice(Number(evt.currentTarget.value));
+              }}
             />
-            <label htmlFor="text-max">до</label>
+            <label htmlFor="maxPrice">до</label>
           </div>
         </div>
         <div className="filter-range">
-          <div className="filter-range__scale">
-            <div className="filter-range__bar">
-              <span className="visually-hidden">Полоса прокрутки</span>
-            </div>
-          </div>
-          <div className="filter-range__control">
-            <button className="filter-range__min-toggle">
-              <span className="visually-hidden">Минимальное значение</span>
-            </button>
-            <button className="filter-range__max-toggle">
-              <span className="visually-hidden">Максимальное значение</span>
-            </button>
-          </div>
+          <MultiRangeSlider
+            min={0}
+            max={MAX_PRICE}
+            step={100}
+            style={{ border: 'none', boxShadow: 'none', padding: '15px 10px' }}
+            ruler="false"
+            barLeftColor="black"
+            barInnerColor="black"
+            barRightColor="black"
+            thumbLeftColor="black"
+            thumbRightColor="black"
+            minValue={minPrice}
+            maxValue={maxPrice}
+            onInput={(evt) => {
+              setMinPrice(evt.minValue);
+              setMaxPrice(evt.maxValue);
+            }}
+          />
         </div>
       </div>
       <div className="gym-catalog-form__block gym-catalog-form__block--calories">
         <h4 className="gym-catalog-form__block-title">Калории</h4>
         <div className="filter-calories">
           <div className="filter-calories__input-text filter-calories__input-text--min">
-            <input type="number" id="text-min-cal" name="text-min-cal" />
+            <input
+              type="number"
+              id="text-min-cal"
+              name="text-min-cal"
+              value={minCalories}
+              onInput={(evt) => {
+                setMinCalories(Number(evt.currentTarget.value));
+              }}
+            />
             <label htmlFor="text-min-cal">от</label>
           </div>
           <div className="filter-calories__input-text filter-calories__input-text--max">
-            <input type="number" id="text-max-cal" name="text-max-cal" />
+            <input
+              type="number"
+              id="text-max-cal"
+              name="text-max-cal"
+              value={maxCalories}
+              onInput={(evt) => {
+                setMaxCalories(Number(evt.currentTarget.value));
+              }}
+            />
             <label htmlFor="text-max-cal">до</label>
           </div>
         </div>
         <div className="filter-range">
-          <div className="filter-range__scale">
-            <div className="filter-range__bar">
-              <span className="visually-hidden">Полоса прокрутки</span>
-            </div>
-          </div>
-          <div className="filter-range__control">
-            <button className="filter-range__min-toggle">
-              <span className="visually-hidden">Минимальное значение</span>
-            </button>
-            <button className="filter-range__max-toggle">
-              <span className="visually-hidden">Максимальное значение</span>
-            </button>
-          </div>
+          <MultiRangeSlider
+            min={EntityConstrain.training.calories.minValue}
+            max={EntityConstrain.training.calories.maxValue}
+            step={100}
+            style={{ border: 'none', boxShadow: 'none', padding: '15px 10px' }}
+            ruler="false"
+            barLeftColor="black"
+            barInnerColor="black"
+            barRightColor="black"
+            thumbLeftColor="black"
+            thumbRightColor="black"
+            minValue={minCalories}
+            maxValue={maxCalories}
+            onInput={(evt) => {
+              setMinCalories(evt.minValue);
+              setMaxCalories(evt.maxValue);
+            }}
+          />
         </div>
       </div>
       <div className="gym-catalog-form__block gym-catalog-form__block--rating">
         <h4 className="gym-catalog-form__block-title">Рейтинг</h4>
         <div className="filter-raiting">
-          <div className="filter-raiting__scale">
-            <div className="filter-raiting__bar">
-              <span className="visually-hidden">Полоса прокрутки</span>
-            </div>
-          </div>
-          <div className="filter-raiting__control">
-            <button className="filter-raiting__min-toggle">
-              <span className="visually-hidden">Минимальное значение</span>
-            </button>
-            <span>1</span>
-            <button className="filter-raiting__max-toggle">
-              <span className="visually-hidden">Максимальное значение</span>
-            </button>
-            <span>5</span>
-          </div>
+          <MultiRangeSlider
+            min={0}
+            max={EntityConstrain.feedback.mark.maxValue}
+            step={1}
+            style={{ border: 'none', boxShadow: 'none', padding: '15px 10px' }}
+            ruler="false"
+            barLeftColor="black"
+            barInnerColor="black"
+            barRightColor="black"
+            thumbLeftColor="black"
+            thumbRightColor="black"
+            minValue={minRating}
+            maxValue={maxRating}
+            onInput={(evt) => {
+              SetMinRating(evt.minValue);
+              SetMaxRating(evt.maxValue);
+            }}
+          />
         </div>
       </div>
       <div className="gym-catalog-form__block gym-catalog-form__block--type">
@@ -247,15 +309,51 @@ function GymCatalogForm(): JSX.Element {
         </h4>
         <div className="btn-radio-sort gym-catalog-form__radio">
           <label>
-            <input type="radio" name="sort" value="cheep" defaultChecked />
+            <input
+              type="radio"
+              name="sort"
+              defaultChecked
+              onInput={() => {
+                SetSortDirection(SortDirection.Asc);
+                SetSortBy(SortType.PRICE);
+                if (minPriceInput.current) {
+                  setMinPrice(Number(minPriceInput.current.value));
+                }
+                if (maxPriceInput.current) {
+                  setMaxPrice(Number(maxPriceInput.current.value));
+                }
+              }}
+            />
             <span className="btn-radio-sort__label">Дешевле</span>
           </label>
           <label>
-            <input type="radio" name="sort" value="expensive" />
+            <input
+              type="radio"
+              name="sort"
+              value="expensive"
+              onInput={() => {
+                SetSortDirection(SortDirection.Desc);
+                SetSortBy(SortType.PRICE);
+                if (minPriceInput.current) {
+                  setMinPrice(Number(minPriceInput.current.value));
+                }
+                if (maxPriceInput.current) {
+                  setMaxPrice(Number(maxPriceInput.current.value));
+                }
+              }}
+            />
             <span className="btn-radio-sort__label">Дороже</span>
           </label>
           <label>
-            <input type="radio" name="sort" />
+            <input
+              type="radio"
+              name="sort"
+              value="free"
+              onInput={() => {
+                setMinPrice(0);
+                setMaxPrice(0);
+              }}
+            />
             <span className="btn-radio-sort__label">Бесплатные</span>
           </label>
         </div>

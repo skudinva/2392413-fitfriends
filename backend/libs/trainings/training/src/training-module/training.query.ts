@@ -48,4 +48,58 @@ export class TrainingQuery implements ITrainingQuery {
     default: DEFAULT_PAGE,
   })
   public page: number = DEFAULT_PAGE;
+
+  @Transform(({ value }) => parseInt(value, 10) || 0)
+  @ApiProperty({
+    description: 'minPrice',
+    required: true,
+    example: 100,
+    default: 0,
+  })
+  minPrice: number;
+
+  @Transform(({ value }) => parseInt(value, 10) || 0)
+  @ApiProperty({
+    description: 'maxPrice',
+    required: true,
+    example: 10000,
+    default: 10000,
+  })
+  maxPrice: number;
+
+  @Transform(({ value }) => parseInt(value, 10) || 0)
+  @ApiProperty({
+    description: 'minCalories',
+    required: true,
+    example: 100,
+    default: 0,
+  })
+  minCalories: number;
+
+  @Transform(({ value }) => parseInt(value, 10) || 0)
+  @ApiProperty({
+    description: 'maxCalories',
+    required: true,
+    example: 10000,
+    default: 10000,
+  })
+  maxCalories: number;
+
+  @Transform(({ value }) => parseInt(value, 10) || 0)
+  @ApiProperty({
+    description: 'minRating',
+    required: true,
+    example: 0,
+    default: 0,
+  })
+  minRating: number;
+
+  @Transform(({ value }) => parseInt(value, 10) || 0)
+  @ApiProperty({
+    description: 'maxRating',
+    required: true,
+    example: 5,
+    default: 5,
+  })
+  maxRating: number;
 }

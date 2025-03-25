@@ -1,5 +1,3 @@
-import 'swiper/css';
-
 function LookForCompany(): JSX.Element {
   return (
     <div className="container">

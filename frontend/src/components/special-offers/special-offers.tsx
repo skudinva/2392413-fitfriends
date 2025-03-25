@@ -1,5 +1,3 @@
-import 'swiper/css';
-
 function SpecialOffers(): JSX.Element {
   return (
     <div className="container">
