@@ -37,25 +37,16 @@ export const fetchTrainings = createAsyncThunk<
 >(TrainingAction.FETCH_TRAININGS, async (query, { extra }) => {
   const { api } = extra;
 
-  const composeParam = (
-    name: string,
-    value: string | number | undefined | null | unknown
-  ) => {
-    if (typeof value === 'object' && Array.isArray(value) && value.length) {
-      return `${name}=${value.join(`&${name}=`)}`;
-    } else if (typeof value === 'string' || typeof value === 'number') {
-      return `${name}=${value}`;
-    }
-    return '';
-  };
-
   const queryStrings: string[] = [];
   Object.entries(query).forEach(([key, value]) => {
-    // console.log(key, value, typeof value);
-
-    const param = composeParam(key, value);
-    if (param) {
-      queryStrings.push(param);
+    if (value !== undefined) {
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          queryStrings.push(`${key}=${String(item)}`);
+        });
+      } else {
+        queryStrings.push(`${key}=${String(value)}`);
+      }
     }
   });
 
