@@ -279,8 +279,6 @@ function GymCatalogForm(): JSX.Element {
               value="free"
               onInput={() => {
                 setIsFree(true);
-                // setMinPrice(0);
-                // setMaxPrice(0);
               }}
             />
             <span className="btn-radio-sort__label">Бесплатные</span>
