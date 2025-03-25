@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   fetchComment,
   fetchPopularTrainings,
+  fetchSpecialTrainings,
   fetchTraining,
-  fetchTrainings,
 } from '../../store/training-action';
 import { fetchUserInfo } from '../../store/user-action';
 import {
@@ -31,7 +31,7 @@ function Main(): JSX.Element {
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchUserInfo(userId));
-      dispatch(fetchTrainings({}));
+      dispatch(fetchSpecialTrainings());
       dispatch(fetchPopularTrainings());
     }
   }, [dispatch, authorizationStatus, userId]);

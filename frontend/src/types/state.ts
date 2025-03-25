@@ -10,6 +10,8 @@ import {
 import type { SortName } from './types';
 
 export type SiteData = {
+  specialTraining: TrainingWithPagination | null;
+  isSpecialTrainingLoading: boolean;
   training: TrainingWithPagination | null;
   isTrainingLoading: boolean;
   trainingCard: TrainingWithUserInfo | null;

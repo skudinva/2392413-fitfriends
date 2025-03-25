@@ -5,11 +5,14 @@ import {
   createComment,
   fetchComment,
   fetchPopularTrainings,
+  fetchSpecialTrainings,
   fetchTraining,
   fetchTrainings,
 } from '../training-action';
 
 const initialState: SiteData = {
+  specialTraining: null,
+  isSpecialTrainingLoading: false,
   training: null,
   isTrainingLoading: false,
   trainingCard: null,
@@ -27,6 +30,16 @@ export const siteData = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchSpecialTrainings.pending, (state) => {
+        state.isSpecialTrainingLoading = true;
+      })
+      .addCase(fetchSpecialTrainings.fulfilled, (state, action) => {
+        state.specialTraining = action.payload;
+        state.isSpecialTrainingLoading = false;
+      })
+      .addCase(fetchSpecialTrainings.rejected, (state) => {
+        state.isSpecialTrainingLoading = false;
+      })
       .addCase(fetchTrainings.pending, (state) => {
         state.isTrainingLoading = true;
       })

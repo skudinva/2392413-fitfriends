@@ -6,13 +6,13 @@ import SpecialForYouCard from '../../components/special-for-you-card/special-for
 import Spinner from '../../components/spinner/spinner';
 import { useAppSelector } from '../../hooks';
 import {
-  getIsTrainingLoading,
-  getTraining,
+  getIsSpecialTrainingLoading,
+  getSpecialTraining,
 } from '../../store/site-data/selectors';
 
 function SpecialForYou(): JSX.Element {
-  const trainingLoading = useAppSelector(getIsTrainingLoading);
-  const training = useAppSelector(getTraining);
+  const isSpecialTrainingLoading = useAppSelector(getIsSpecialTrainingLoading);
+  const specialTraining = useAppSelector(getSpecialTraining);
 
   const sliderRef = useRef<SwiperRef>(null);
 
@@ -22,7 +22,7 @@ function SpecialForYou(): JSX.Element {
   return (
     <div className="container">
       <div className="special-for-you__wrapper">
-        {trainingLoading || !training ? (
+        {isSpecialTrainingLoading || !specialTraining ? (
           <Spinner />
         ) : (
           <>
@@ -69,7 +69,7 @@ function SpecialForYou(): JSX.Element {
                 }
               }}
             >
-              {training.entities.map((trainingItem) => (
+              {specialTraining.entities.map((trainingItem) => (
                 <SwiperSlide
                   key={`SwiperSlide-${trainingItem.id}`}
                   className="special-for-you__item"

@@ -11,7 +11,11 @@ import {
   TrainingType,
 } from '../../types/shared';
 
-function GymCatalogForm(): JSX.Element {
+interface GymCatalogFormProps {
+  page: number;
+}
+
+function GymCatalogForm({ page }: GymCatalogFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const MAX_PRICE = 10000;
   const [isFree, setIsFree] = useState(false);
@@ -51,6 +55,7 @@ function GymCatalogForm(): JSX.Element {
       type: type,
       sortDirection: sortDirection,
       sortBy: sortBy,
+      page: page,
     };
     dispatch(fetchTrainings(query));
   }, [
@@ -65,6 +70,7 @@ function GymCatalogForm(): JSX.Element {
     type,
     sortBy,
     sortDirection,
+    page,
   ]);
 
   return (

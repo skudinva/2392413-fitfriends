@@ -22,6 +22,7 @@ type Extra = {
 export const TrainingAction = {
   FETCH_TRAININGS: 'trainings/fetch',
   FETCH_POPULAR_TRAINING: 'popular-trainings/fetch',
+  FETCH_SPECIAL_TRAINING: 'special-trainings/fetch',
   FETCH_TRAINING: 'training/fetch',
   POST_TRAINING: 'training/post-training',
   EDIT_TRAINING: 'training/edit-training',
@@ -49,9 +50,23 @@ export const fetchTrainings = createAsyncThunk<
       }
     }
   });
+  //console.log(queryStrings.join('&'));
 
   const { data } = await api.get<TrainingWithPagination>(
     `${ApiRoute.Trainings}?${queryStrings.join('&')}`
+  );
+
+  return data;
+});
+
+export const fetchSpecialTrainings = createAsyncThunk<
+  TrainingWithPagination,
+  undefined,
+  { extra: Extra }
+>(TrainingAction.FETCH_SPECIAL_TRAINING, async (_, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<TrainingWithPagination>(
+    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.DATE}&sortDirection=${SortDirection.Desc}`
   );
 
   return data;

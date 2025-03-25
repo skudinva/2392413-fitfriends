@@ -1,6 +1,14 @@
 import { StoreSlice } from '../../const';
 import { State } from '../../types/state';
 
+export const getIsSpecialTrainingLoading = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isSpecialTrainingLoading;
+
+export const getSpecialTraining = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.specialTraining;
+
 export const getIsTrainingLoading = ({
   [StoreSlice.SiteData]: SITE_DATA,
 }: State) => SITE_DATA.isTrainingLoading;
