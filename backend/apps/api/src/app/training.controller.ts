@@ -4,9 +4,10 @@ import {
 } from '@backend/authentication';
 import { createStaticUrlForFile } from '@backend/helpers';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
-import { EntityConstrain, SortDirection, SortType } from '@backend/shared/core';
+import { EntityConstrain } from '@backend/shared/core';
 import {
   CreateTrainingDto,
+  TrainingQuery,
   TrainingRdo,
   TrainingResponse,
   TrainingWithPaginationRdo,
@@ -14,6 +15,7 @@ import {
 } from '@backend/training';
 import {
   CreateCommentDto,
+  TrainingCommentQuery,
   TrainingCommentRdo,
   TrainingCommentResponse,
   TrainingCommentWithPaginationRdo,
@@ -205,25 +207,7 @@ export class TrainingController {
     status: HttpStatus.OK,
     description: TrainingResponse.TrainingsFound,
   })
-  @ApiQuery({
-    name: 'sortDirection',
-    required: true,
-    enum: SortDirection,
-    description: 'Sort direction',
-  })
-  @ApiQuery({
-    name: 'sortBy',
-    required: true,
-    enum: SortType,
-    description: 'Sort by',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: true,
-    type: Number,
-    example: 1,
-    description: 'Page number',
-  })
+  @ApiQuery({ type: TrainingQuery })
   @Get('/')
   @ApiBearerAuth('accessToken')
   @UseGuards(CheckAuthForceGuard)
@@ -285,19 +269,7 @@ export class TrainingController {
     status: HttpStatus.NOT_FOUND,
     description: TrainingCommentResponse.TrainingNotFound,
   })
-  @ApiQuery({
-    name: 'sortDirection',
-    required: true,
-    enum: SortDirection,
-    description: 'Sort direction',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: true,
-    type: Number,
-    description: 'Page number',
-    example: 1,
-  })
+  @ApiQuery({ type: TrainingCommentQuery })
   @Get('/comments/:trainingId')
   @ApiTags(ApiSection.Comment)
   public async getComments(

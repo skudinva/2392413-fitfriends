@@ -5,5 +5,6 @@ export { TrainingCommentResponse } from './training-comment-module/training-comm
 export { TrainingCommentEntity } from './training-comment-module/training-comment.entity';
 export { TrainingCommentFactory } from './training-comment-module/training-comment.factory';
 export { TrainingCommentModule } from './training-comment-module/training-comment.module';
+export { TrainingCommentQuery } from './training-comment-module/training-comment.query';
 export { TrainingCommentRepository } from './training-comment-module/training-comment.repository';
 export { TrainingCommentService } from './training-comment-module/training-comment.service';
