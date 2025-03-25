@@ -41,7 +41,9 @@ export const fetchTrainings = createAsyncThunk<
     name: string,
     value: string | number | undefined | null | unknown
   ) => {
-    if (typeof value === 'string' || typeof value === 'number') {
+    if (typeof value === 'object' && Array.isArray(value) && value.length) {
+      return `${name}=${value.join(`&${name}=`)}`;
+    } else if (typeof value === 'string' || typeof value === 'number') {
       return `${name}=${value}`;
     }
     return '';
@@ -49,6 +51,8 @@ export const fetchTrainings = createAsyncThunk<
 
   const queryStrings: string[] = [];
   Object.entries(query).forEach(([key, value]) => {
+    // console.log(key, value, typeof value);
+
     const param = composeParam(key, value);
     if (param) {
       queryStrings.push(param);

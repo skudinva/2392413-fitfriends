@@ -1,5 +1,6 @@
 import MultiRangeSlider from 'multi-range-slider-react';
 import { useEffect, useRef, useState } from 'react';
+import { TRAINING_TYPE } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { fetchTrainings } from '../../store/training-action';
 import {
@@ -7,11 +8,13 @@ import {
   SortDirection,
   SortType,
   TrainingQuery,
+  TrainingType,
 } from '../../types/shared';
 
 function GymCatalogForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const MAX_PRICE = 10000;
+  const [isFree, setIsFree] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
 
@@ -32,17 +35,20 @@ function GymCatalogForm(): JSX.Element {
     EntityConstrain.feedback.mark.maxValue
   );
 
+  const [type, setType] = useState<typeof TRAINING_TYPE>([]);
+
   const minPriceInput = useRef<HTMLInputElement>(null);
   const maxPriceInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const query: TrainingQuery = {
-      minPrice: minPrice,
-      maxPrice: maxPrice,
+      minPrice: isFree ? 0 : minPrice,
+      maxPrice: isFree ? 0 : maxPrice,
       minCalories: minCalories,
       maxCalories: maxCalories,
       minRating: minRating,
       maxRating: maxRating,
+      type: type,
       sortDirection: sortDirection,
       sortBy: sortBy,
     };
@@ -55,6 +61,8 @@ function GymCatalogForm(): JSX.Element {
     minPrice,
     minRating,
     maxRating,
+    isFree,
+    type,
     sortBy,
     sortDirection,
   ]);
@@ -187,120 +195,38 @@ function GymCatalogForm(): JSX.Element {
       <div className="gym-catalog-form__block gym-catalog-form__block--type">
         <h4 className="gym-catalog-form__block-title">Тип</h4>
         <ul className="gym-catalog-form__check-list">
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input type="checkbox" defaultValue="type-1" name="type" />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">йога</span>
-              </label>
-            </div>
-          </li>
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input type="checkbox" defaultValue="type-1" name="type" />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">силовые</span>
-              </label>
-            </div>
-          </li>
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  defaultValue="type"
-                  name="type"
-                  defaultChecked
-                />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">кроссфит</span>
-              </label>
-            </div>
-          </li>
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  defaultValue="type-1"
-                  name="type"
-                  defaultChecked
-                />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">бокс</span>
-              </label>
-            </div>
-          </li>
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input type="checkbox" defaultValue="type-1" name="type" />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">бег</span>
-              </label>
-            </div>
-          </li>
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input type="checkbox" defaultValue="type-1" name="type" />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">аэробика</span>
-              </label>
-            </div>
-          </li>
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input type="checkbox" defaultValue="type-1" name="type" />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">пилатес</span>
-              </label>
-            </div>
-          </li>
-          <li className="gym-catalog-form__check-list-item">
-            <div className="custom-toggle custom-toggle--checkbox">
-              <label>
-                <input type="checkbox" defaultValue="type-1" name="type" />
-                <span className="custom-toggle__icon">
-                  <svg width="9" height="6" aria-hidden="true">
-                    <use xlinkHref="#arrow-check"></use>
-                  </svg>
-                </span>
-                <span className="custom-toggle__label">стрейчинг</span>
-              </label>
-            </div>
-          </li>
+          {TRAINING_TYPE.map((trainingType) => (
+            <li
+              className="gym-catalog-form__check-list-item"
+              key={`type-${trainingType}`}
+            >
+              <div className="custom-toggle custom-toggle--checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="type"
+                    id="type"
+                    value={trainingType}
+                    onInput={(evt) => {
+                      const { value, checked } = evt.currentTarget;
+                      const newState = type.filter((item) => item !== value);
+                      if (checked) {
+                        newState.push(value as TrainingType);
+                      }
+
+                      setType(newState);
+                    }}
+                  />
+                  <span className="custom-toggle__icon">
+                    <svg width="9" height="6" aria-hidden="true">
+                      <use xlinkHref="#arrow-check"></use>
+                    </svg>
+                  </span>
+                  <span className="custom-toggle__label">{trainingType}</span>
+                </label>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="gym-catalog-form__block gym-catalog-form__block--sort">
@@ -322,6 +248,7 @@ function GymCatalogForm(): JSX.Element {
                 if (maxPriceInput.current) {
                   setMaxPrice(Number(maxPriceInput.current.value));
                 }
+                setIsFree(false);
               }}
             />
             <span className="btn-radio-sort__label">Дешевле</span>
@@ -340,6 +267,7 @@ function GymCatalogForm(): JSX.Element {
                 if (maxPriceInput.current) {
                   setMaxPrice(Number(maxPriceInput.current.value));
                 }
+                setIsFree(false);
               }}
             />
             <span className="btn-radio-sort__label">Дороже</span>
@@ -350,8 +278,9 @@ function GymCatalogForm(): JSX.Element {
               name="sort"
               value="free"
               onInput={() => {
-                setMinPrice(0);
-                setMaxPrice(0);
+                setIsFree(true);
+                // setMinPrice(0);
+                // setMaxPrice(0);
               }}
             />
             <span className="btn-radio-sort__label">Бесплатные</span>

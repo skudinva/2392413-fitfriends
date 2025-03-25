@@ -1,7 +1,13 @@
-import { ITrainingQuery, SortDirection, SortType } from '@backend/shared/core';
+import { TransformToArray } from '@backend/helpers';
+import {
+  ITrainingQuery,
+  SortDirection,
+  SortType,
+  TrainingType,
+} from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsIn, IsOptional } from 'class-validator';
+import { IsArray, IsIn, IsOptional } from 'class-validator';
 import {
   DEFAULT_PAGE,
   DEFAULT_SORT_DIRECTION,
@@ -28,6 +34,20 @@ export class TrainingQuery implements ITrainingQuery {
     default: DEFAULT_SORT_DIRECTION,
   })
   public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
+
+  @ApiProperty({
+    description: 'Training type',
+    example: TrainingType.Boxing,
+    enum: TrainingType,
+    enumName: 'TrainingType',
+    required: false,
+    isArray: true,
+  })
+  @IsIn(Object.values(TrainingType), { each: true })
+  @IsOptional()
+  @IsArray()
+  @TransformToArray()
+  public type: TrainingType[];
 
   @Transform(({ value }) => value || DEFAULT_SORT_TYPE)
   @IsIn(Object.values(SortType))

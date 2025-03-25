@@ -1,5 +1,6 @@
 import { SortDirection } from '../interfaces/sort-direction.interface';
 import { SortType } from '../interfaces/sort-type.interface';
+import { TrainingType } from './training-type.enum';
 
 export interface ITrainingQuery {
   limit?: number;
@@ -12,4 +13,5 @@ export interface ITrainingQuery {
   maxCalories: number;
   minRating: number;
   maxRating: number;
+  type: TrainingType[];
 }
