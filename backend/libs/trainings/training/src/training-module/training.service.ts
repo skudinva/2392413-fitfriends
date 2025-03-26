@@ -1,4 +1,4 @@
-import { PaginationResult, Training } from '@backend/shared/core';
+import { Training } from '@backend/shared/core';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UpdateTrainingDto } from './dto/update-training.dto';
@@ -53,9 +53,7 @@ export class TrainingService {
     return existTraining;
   }
 
-  public async getTrainings(
-    query?: TrainingQuery
-  ): Promise<PaginationResult<TrainingEntity | null>> {
+  public async getTrainings(query?: TrainingQuery) {
     return this.trainingRepository.find(query);
   }
 

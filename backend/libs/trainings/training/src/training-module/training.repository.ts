@@ -29,6 +29,19 @@ export class TrainingRepository extends BasePostgresRepository<
     return this.client.training.count({ where });
   }
 
+  private async getTrainingMaxPrice(
+    where: Prisma.TrainingWhereInput
+  ): Promise<number> {
+    const maxPrice = await this.client.training.aggregate({
+      where,
+      _max: {
+        price: true,
+      },
+    });
+
+    return maxPrice._max.price;
+  }
+
   private calculateTrainingsPage(totalCount: number, limit: number): number {
     if (limit === 0) {
       return 0;
@@ -79,23 +92,24 @@ export class TrainingRepository extends BasePostgresRepository<
 
   public async find(
     query?: TrainingQuery
-  ): Promise<PaginationResult<TrainingEntity | null>> {
+  ): Promise<PaginationResult<TrainingEntity | null> & { maxPrice: number }> {
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.TrainingWhereInput = {};
+    const priceConditions: Prisma.TrainingWhereInput[] = [];
     const andConditions: Prisma.TrainingWhereInput[] = [];
     const orderBy: Prisma.TrainingOrderByWithRelationInput = {};
 
     if (query.minPrice === query.maxPrice) {
-      andConditions.push({ price: { equals: query.maxPrice } });
+      priceConditions.push({ price: { equals: query.maxPrice } });
     } else {
       if (query?.minPrice !== undefined && query?.minPrice !== null) {
-        andConditions.push({ price: { gte: query.minPrice } });
+        priceConditions.push({ price: { gte: query.minPrice } });
       }
 
       if (query?.maxPrice !== undefined && query?.maxPrice !== null) {
-        andConditions.push({ price: { lte: query.maxPrice } });
+        priceConditions.push({ price: { lte: query.maxPrice } });
       }
     }
 
@@ -128,14 +142,14 @@ export class TrainingRepository extends BasePostgresRepository<
     }
 
     if (andConditions.length) {
-      where.AND = [...andConditions];
+      where.AND = [...andConditions, ...priceConditions];
     }
 
     if (query?.sortBy) {
       orderBy[query.sortBy] = query.sortDirection;
     }
 
-    const [records, trainingCount] = await Promise.all([
+    const [records, trainingCount, maxPrice] = await Promise.all([
       this.client.training.findMany({
         where,
         orderBy,
@@ -143,6 +157,7 @@ export class TrainingRepository extends BasePostgresRepository<
         take,
       }),
       this.getTrainingCount(where),
+      this.getTrainingMaxPrice({ AND: [...andConditions] }),
     ]);
 
     return {
@@ -159,6 +174,7 @@ export class TrainingRepository extends BasePostgresRepository<
       totalPages: this.calculateTrainingsPage(trainingCount, take),
       itemsPerPage: take,
       totalItems: trainingCount,
+      maxPrice,
     };
   }
 }

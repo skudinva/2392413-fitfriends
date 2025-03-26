@@ -41,4 +41,11 @@ export class TrainingWithPaginationRdo implements TrainingWithPagination {
     example: 5,
   })
   public itemsPerPage!: number;
+
+  @Expose()
+  @ApiProperty({
+    description: 'maxPrice',
+    example: 1000,
+  })
+  maxPrice: number;
 }

@@ -53,6 +53,7 @@ export const siteData = createSlice({
             totalItems: state.training.totalItems + action.payload.totalItems,
             totalPages: action.payload.totalPages,
             currentPage: action.payload.currentPage,
+            maxPrice: action.payload.maxPrice,
           };
         }
         state.isTrainingLoading = false;
