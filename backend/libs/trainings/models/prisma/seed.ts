@@ -64,6 +64,9 @@ function getComment(
 
 async function seedDb(prismaClient: PrismaClient) {
   const trainings = Array.from({ length: 100 }, () => getTraining());
+  for (let index = 0; index < 10; index++) {
+    trainings[index].price = 0;
+  }
 
   for (const training of trainings) {
     const newTraining = await prismaClient.training.create({ data: training });

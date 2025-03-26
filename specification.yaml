@@ -1,0 +1,990 @@
+openapi: 3.0.0
+paths:
+  /api/users/register:
+    post:
+      operationId: UsersController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateUserDto"
+      responses:
+        "201":
+          description: The new user has been successfully created.
+        "409":
+          description: User with the email already exists
+      tags:
+        - User API
+  /api/users/update:
+    patch:
+      operationId: UsersController_update
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateUserDto"
+      responses:
+        "200":
+          description: The user password has been successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRdo"
+        "401":
+          description: Need authorization
+        "404":
+          description: User not found
+      tags:
+        - User API
+      security:
+        - accessToken: []
+  /api/users/login:
+    post:
+      operationId: UsersController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUserDto"
+      responses:
+        "200":
+          description: User has been successfully logged.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoggedUserRdo"
+        "401":
+          description: Password or Login is wrong.
+      tags:
+        - User API
+  /api/users/{id}:
+    get:
+      operationId: UsersController_show
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRdo"
+        "401":
+          description: Need authorization
+        "404":
+          description: User not found
+      tags:
+        - User API
+      security:
+        - accessToken: []
+  /api/users/refresh:
+    post:
+      operationId: UsersController_refreshToken
+      parameters: []
+      responses:
+        "201":
+          description: Get a new access/refresh tokens
+      tags:
+        - User API
+      security:
+        - refreshToken: []
+  /api/users/check:
+    post:
+      operationId: UsersController_checkToken
+      parameters: []
+      responses:
+        "201":
+          description: User found
+      tags:
+        - User API
+      security:
+        - accessToken: []
+  /api/trainings:
+    post:
+      operationId: TrainingController_createTraining
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateTrainingDto"
+      responses:
+        "201":
+          description: Training found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingRdo"
+        "404":
+          description: Training not found
+      security:
+        - accessToken: []
+      tags:
+        - Training API
+    get:
+      operationId: TrainingController_getTrainings
+      parameters:
+        - description: limit
+          example: 12
+          name: limit
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: sortDirection
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortDirection"
+        - example: бокс
+          required: false
+          name: types
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/TrainingType"
+        - name: sortBy
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortType"
+        - description: page
+          example: 1
+          name: page
+          in: query
+          required: true
+          schema:
+            default: 1
+            type: number
+        - description: minPrice
+          required: true
+          example: 100
+          name: minPrice
+          in: query
+          schema:
+            default: 0
+            type: number
+        - description: maxPrice
+          required: true
+          example: 10000
+          name: maxPrice
+          in: query
+          schema:
+            default: 10000
+            type: number
+        - description: minCalories
+          required: true
+          example: 100
+          name: minCalories
+          in: query
+          schema:
+            default: 0
+            type: number
+        - description: maxCalories
+          required: true
+          example: 10000
+          name: maxCalories
+          in: query
+          schema:
+            default: 10000
+            type: number
+        - description: minRating
+          required: true
+          example: 0
+          name: minRating
+          in: query
+          schema:
+            default: 0
+            type: number
+        - description: maxRating
+          required: true
+          example: 5
+          name: maxRating
+          in: query
+          schema:
+            default: 5
+            type: number
+      responses:
+        "200":
+          description: Trainings found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingWithPaginationRdo"
+      security:
+        - accessToken: []
+      tags:
+        - Training API
+  /api/trainings/{id}:
+    patch:
+      operationId: TrainingController_updateTraining
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateTrainingDto"
+      responses:
+        "200":
+          description: Training updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingRdo"
+        "401":
+          description: Need authorization
+        "404":
+          description: Training not found
+        "409":
+          description: AccessDeny
+      security:
+        - accessToken: []
+      tags:
+        - Training API
+    delete:
+      operationId: TrainingController_deleteTraining
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Training deleted
+        "401":
+          description: Need authorization
+        "404":
+          description: Training not found
+        "409":
+          description: AccessDeny
+      security:
+        - accessToken: []
+      tags:
+        - Training API
+    get:
+      operationId: TrainingController_getTraining
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Training found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingRdo"
+        "404":
+          description: Training not found
+      security:
+        - accessToken: []
+      tags:
+        - Training API
+  /api/trainings/comments/{trainingId}:
+    get:
+      operationId: TrainingController_getComments
+      parameters:
+        - name: trainingId
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: sortDirection
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortDirection"
+        - description: page
+          example: 1
+          name: page
+          in: query
+          required: true
+          schema:
+            default: 1
+            type: number
+      responses:
+        "200":
+          description: Successfully found comments of the post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingCommentWithPaginationRdo"
+        "404":
+          description: Training not found
+      tags:
+        - Comment API
+    post:
+      operationId: TrainingController_createComment
+      parameters:
+        - name: trainingId
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCommentDto"
+      responses:
+        "201":
+          description: Successfully create comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingCommentRdo"
+        "404":
+          description: Training not found
+      security:
+        - accessToken: []
+      tags:
+        - Comment API
+  /api/trainings/comments/{commentId}:
+    delete:
+      operationId: TrainingController_deleteComment
+      parameters:
+        - name: commentId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Successfully delete comment
+        "404":
+          description: Comment not found
+        "409":
+          description: You are not allowed to delete this comment
+      security:
+        - accessToken: []
+      tags:
+        - Comment API
+info:
+  title: FitFriends app
+  description: FitFriends app API
+  version: "1.0"
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    accessToken:
+      scheme: bearer
+      bearerFormat: Bearer
+      description: "[just text field] Please enter token in following format: Bearer "
+      name: Authorization
+      type: http
+    refreshToken:
+      scheme: bearer
+      bearerFormat: Bearer
+      description: "[just text field] Please enter token in following format: Bearer "
+      name: Authorization
+      type: http
+  schemas:
+    LOCATIONS:
+      type: string
+      description: User Location
+      enum:
+        - Пионерская
+        - Петроградская
+        - Удельная
+        - Звёздная
+        - Спортивная
+    CreateUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: User unique address
+          example: user2@notfound.local
+        password:
+          type: string
+          description: User password
+          example: "123456"
+        name:
+          type: string
+          description: User name
+          example: Keks
+        avatar:
+          type: string
+          description: User avatar
+          format: binary
+        gender:
+          type: string
+          description: User gender
+          enum:
+            - мужской
+            - женский
+            - неважно
+        description:
+          type: string
+          description: User description
+          example: ""
+        location:
+          example: Пионерская
+          $ref: "#/components/schemas/LOCATIONS"
+        birthday:
+          format: date-time
+          type: string
+          description: User birthday
+          example: "1981-10-11"
+        role:
+          type: string
+          description: User role
+          enum:
+            - sportsman
+            - coach
+      required:
+        - email
+        - password
+        - name
+        - avatar
+        - gender
+        - location
+        - role
+    UpdateUserDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User name
+          example: Keks
+        avatar:
+          type: string
+          description: User avatar
+          format: binary
+        gender:
+          type: string
+          description: User gender
+          enum:
+            - мужской
+            - женский
+            - неважно
+        description:
+          type: string
+          description: User description
+          example: ""
+        location:
+          example: Пионерская
+          $ref: "#/components/schemas/LOCATIONS"
+        birthday:
+          format: date-time
+          type: string
+          description: User birthday
+          example: "1981-10-11"
+        role:
+          type: string
+          description: User role
+          enum:
+            - sportsman
+            - coach
+    TrainingLevel:
+      type: string
+      description: Training level
+      enum:
+        - новичок
+        - любитель
+        - профессионал
+    UserRole:
+      type: string
+      description: User role
+      enum:
+        - sportsman
+        - coach
+    UserRdo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The uniq user ID
+          example: 134ce8babd-cc30-4805-9b12-d9420398e7c5
+        avatar:
+          type: string
+          description: User avatar path
+          example: /images/user.png
+        registerDate:
+          format: date-time
+          type: string
+          description: User register date (ISO format)
+          example: "1981-03-12"
+        email:
+          type: string
+          description: User email
+          example: user@user.local
+        name:
+          type: string
+          description: User name
+          example: Keks
+        gender:
+          type: string
+          description: User gender
+          enum:
+            - мужской
+            - женский
+            - неважно
+        birthday:
+          format: date-time
+          type: string
+          description: User birthday
+          example: "1981-10-11"
+        description:
+          type: string
+          description: User avatar path
+          example: /images/user.png
+        location:
+          type: string
+          description: User Location
+          example: Пионерская
+        calories:
+          type: number
+          description: User calories
+          example: 2300
+        trainingLevel:
+          example: новичок
+          $ref: "#/components/schemas/TrainingLevel"
+        role:
+          example: sportsman
+          $ref: "#/components/schemas/UserRole"
+      required:
+        - id
+        - avatar
+        - registerDate
+        - email
+        - name
+        - gender
+        - birthday
+        - description
+        - location
+        - calories
+        - trainingLevel
+        - role
+    LoginUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: User unique address
+          example: user2@notfound.local
+        password:
+          type: string
+          description: User password
+          example: "123456"
+      required:
+        - email
+        - password
+    LoggedUserRdo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The uniq user ID
+          example: 134ce8babd-cc30-4805-9b12-d9420398e7c5
+        email:
+          type: string
+          description: User email
+          example: user@user.local
+        accessToken:
+          type: string
+          description: Access token
+          example: user@user.local
+        refreshToken:
+          type: string
+          description: Refresh token
+      required:
+        - id
+        - email
+        - accessToken
+        - refreshToken
+    TrainingType:
+      type: string
+      description: Training type
+      enum:
+        - йога
+        - бег
+        - бокс
+        - стрейчинг
+        - кроссфит
+        - аэробика
+        - пилатес
+    TRAINING_DURATIONS:
+      type: string
+      description: Training duration
+      enum:
+        - 10-30 мин
+        - 30-50 мин
+        - 50-80 мин
+        - 80-100 мин
+    UserGender:
+      type: string
+      description: gender
+      enum:
+        - мужской
+        - женский
+        - неважно
+    CreateTrainingDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Training title
+          example: Boxing
+        image:
+          type: string
+          description: Training image
+          example: image01.png
+        level:
+          $ref: "#/components/schemas/TrainingLevel"
+        type:
+          $ref: "#/components/schemas/TrainingType"
+        duration:
+          example: 10-30 мин
+          $ref: "#/components/schemas/TRAINING_DURATIONS"
+        price:
+          type: number
+          description: Training price
+          example: "500"
+          minimum: 0
+        calories:
+          type: number
+          description: Training calories
+          example: "1000"
+        description:
+          type: string
+          description: Training description
+          example: >-
+            Тренировка на фитболе — отличном тренажере для развития чувства
+            баланса и равновесия, улучшения координации.
+        gender:
+          $ref: "#/components/schemas/UserGender"
+        video:
+          type: string
+          description: Training video
+          format: binary
+        userId:
+          type: string
+          description: userId
+          example: 63f4567890abcdef1234567d
+        isSpecial:
+          type: boolean
+          description: Flag special training
+      required:
+        - title
+        - image
+        - level
+        - type
+        - duration
+        - price
+        - calories
+        - description
+        - gender
+        - video
+        - userId
+        - isSpecial
+    TrainingRdo:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Training id
+          example: "1"
+        title:
+          type: string
+          description: Training title
+          example: Boxing
+        image:
+          type: string
+          description: Training image
+          example: image01.png
+        level:
+          $ref: "#/components/schemas/TrainingLevel"
+        type:
+          $ref: "#/components/schemas/TrainingType"
+        duration:
+          example: 10-30 мин
+          $ref: "#/components/schemas/TRAINING_DURATIONS"
+        price:
+          type: number
+          description: Training price
+          example: "500"
+          minimum: 0
+        calories:
+          type: number
+          description: Training calories
+          example: "1000"
+        description:
+          type: string
+          description: Training description
+          example: >-
+            Тренировка на фитболе — отличном тренажере для развития чувства
+            баланса и равновесия, улучшения координации.
+        gender:
+          $ref: "#/components/schemas/UserGender"
+        video:
+          type: string
+          description: Training video
+          format: binary
+        rating:
+          type: number
+          description: Training rating
+          default: 0
+        userId:
+          type: string
+          description: userId
+          example: 63f4567890abcdef1234567d
+        isSpecial:
+          type: boolean
+          description: Flag special training
+        createdAt:
+          format: date-time
+          type: string
+          description: Creation date
+        averageRating:
+          type: number
+          description: Training average rating
+          default: 0
+        userInfo:
+          description: User info
+          allOf:
+            - $ref: "#/components/schemas/UserRdo"
+      required:
+        - id
+        - title
+        - image
+        - level
+        - type
+        - duration
+        - price
+        - calories
+        - description
+        - gender
+        - video
+        - userId
+        - isSpecial
+        - createdAt
+    UpdateTrainingDto:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Training id
+          example: "1"
+        title:
+          type: string
+          description: Training title
+          example: Boxing
+        image:
+          type: string
+          description: Training image
+          example: image01.png
+        level:
+          $ref: "#/components/schemas/TrainingLevel"
+        type:
+          $ref: "#/components/schemas/TrainingType"
+        duration:
+          example: 10-30 мин
+          $ref: "#/components/schemas/TRAINING_DURATIONS"
+        price:
+          type: number
+          description: Training price
+          example: "500"
+          minimum: 0
+        calories:
+          type: number
+          description: Training calories
+          example: "1000"
+        description:
+          type: string
+          description: Training description
+          example: >-
+            Тренировка на фитболе — отличном тренажере для развития чувства
+            баланса и равновесия, улучшения координации.
+        gender:
+          $ref: "#/components/schemas/UserGender"
+        video:
+          type: string
+          description: Training video
+          format: binary
+        userId:
+          type: string
+          description: userId
+          example: 63f4567890abcdef1234567d
+        isSpecial:
+          type: boolean
+          description: Flag special training
+      required:
+        - id
+        - title
+        - image
+        - level
+        - type
+        - duration
+        - price
+        - calories
+        - description
+        - gender
+        - video
+        - userId
+        - isSpecial
+    SortDirection:
+      type: string
+      description: sortDirection
+      default: desc
+      enum:
+        - asc
+        - desc
+    SortType:
+      type: string
+      description: sortBy
+      default: createdAt
+      enum:
+        - createdAt
+        - averageRating
+        - price
+    TrainingWithPaginationRdo:
+      type: object
+      properties:
+        entities:
+          description: trainings
+          allOf:
+            - $ref: "#/components/schemas/TrainingRdo"
+        totalPages:
+          type: number
+          description: totalPages
+          example: 10
+        totalItems:
+          type: number
+          description: totalItems
+          example: 100
+        currentPage:
+          type: number
+          description: currentPage
+          example: 1
+        itemsPerPage:
+          type: number
+          description: itemsPerPage
+          example: 5
+        maxPrice:
+          type: number
+          description: maxPrice
+          example: 1000
+      required:
+        - entities
+        - totalPages
+        - totalItems
+        - currentPage
+        - itemsPerPage
+        - maxPrice
+    TrainingCommentRdo:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID comment
+          example: "1"
+        userId:
+          type: string
+          description: User Id
+          example: 677cd8d75ff92067f1de5911
+        trainingId:
+          type: number
+          description: ID of training
+          example: "1"
+        rating:
+          type: number
+          description: rating
+          example: "5"
+        message:
+          type: string
+          description: Comment message
+          example: Some comment for post
+        createdAt:
+          format: date-time
+          type: string
+          description: Date of comment
+          example: "2024-02-15T13:43:22+07:00"
+        userInfo:
+          description: User info
+          allOf:
+            - $ref: "#/components/schemas/UserRdo"
+      required:
+        - id
+        - userId
+        - trainingId
+        - rating
+        - message
+        - createdAt
+    TrainingCommentWithPaginationRdo:
+      type: object
+      properties:
+        entities:
+          description: comments
+          allOf:
+            - $ref: "#/components/schemas/TrainingCommentRdo"
+        totalPages:
+          type: number
+          description: Total page count of selected entity
+          example: 10
+        currentPage:
+          type: number
+          description: Current page number
+          example: 2
+        totalItems:
+          type: number
+          description: Total items count of selected entity
+          example: 50
+        itemsPerPage:
+          type: number
+          description: Number of items on one page
+          example: 20
+      required:
+        - entities
+        - totalPages
+        - currentPage
+        - totalItems
+        - itemsPerPage
+    CreateCommentDto:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User Id
+          example: 677cd8d75ff92067f1de5911
+        trainingId:
+          type: number
+          description: ID of training
+          example: "1"
+        rating:
+          type: number
+          description: rating
+          example: "5"
+        message:
+          type: string
+          description: Comment message
+          example: Some comment for post
+      required:
+        - userId
+        - trainingId
+        - rating
+        - message
