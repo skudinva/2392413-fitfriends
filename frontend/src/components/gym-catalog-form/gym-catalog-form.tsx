@@ -11,15 +11,16 @@ import {
 
 interface GymCatalogFormProps {
   handleFilterApply(query: TrainingQuery): void;
+  maxPriceTraining: number;
 }
 
 function GymCatalogForm({
   handleFilterApply,
+  maxPriceTraining,
 }: GymCatalogFormProps): JSX.Element {
-  const MAX_PRICE = 10000;
   const [isFree, setIsFree] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
+  const [maxPrice, setMaxPrice] = useState<number>(maxPriceTraining);
 
   const [sortDirection, SetSortDirection] = useState<SortDirection>(
     SortDirection.Asc
@@ -105,7 +106,7 @@ function GymCatalogForm({
         <div className="filter-range">
           <MultiRangeSlider
             min={0}
-            max={MAX_PRICE}
+            max={maxPriceTraining}
             step={100}
             style={{ border: 'none', boxShadow: 'none', padding: '15px 10px' }}
             ruler="false"
