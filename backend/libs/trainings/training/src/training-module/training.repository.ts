@@ -123,8 +123,8 @@ export class TrainingRepository extends BasePostgresRepository<
       }
     }
 
-    if (query.type && query.type.length) {
-      andConditions.push({ type: { in: query.type } });
+    if (query.types && query.types.length) {
+      andConditions.push({ type: { in: query.types } });
     }
 
     if (andConditions.length) {

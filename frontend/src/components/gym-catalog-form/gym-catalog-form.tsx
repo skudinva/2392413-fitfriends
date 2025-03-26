@@ -38,7 +38,7 @@ function GymCatalogForm({
     EntityConstrain.feedback.mark.maxValue
   );
 
-  const [type, setType] = useState<typeof TRAINING_TYPE>([]);
+  const [types, setTypes] = useState<typeof TRAINING_TYPE>([]);
 
   const minPriceInput = useRef<HTMLInputElement>(null);
   const maxPriceInput = useRef<HTMLInputElement>(null);
@@ -51,7 +51,7 @@ function GymCatalogForm({
       maxCalories: maxCalories,
       minRating: minRating,
       maxRating: maxRating,
-      type: type,
+      types: types,
       sortDirection: sortDirection,
       sortBy: sortBy,
       page: 1,
@@ -64,7 +64,7 @@ function GymCatalogForm({
     minRating,
     maxRating,
     isFree,
-    type,
+    types,
     sortBy,
     sortDirection,
     handleFilterApply,
@@ -212,12 +212,12 @@ function GymCatalogForm({
                     value={trainingType}
                     onInput={(evt) => {
                       const { value, checked } = evt.currentTarget;
-                      const newState = type.filter((item) => item !== value);
+                      const newTypes = types.filter((item) => item !== value);
                       if (checked) {
-                        newState.push(value as TrainingType);
+                        newTypes.push(value as TrainingType);
                       }
 
-                      setType(newState);
+                      setTypes(newTypes);
                     }}
                   />
                   <span className="custom-toggle__icon">

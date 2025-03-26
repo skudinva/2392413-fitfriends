@@ -13,5 +13,5 @@ export interface ITrainingQuery {
   maxCalories: number;
   minRating: number;
   maxRating: number;
-  type: TrainingType[];
+  types: TrainingType[];
 }

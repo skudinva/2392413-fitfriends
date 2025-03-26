@@ -44,7 +44,9 @@ export const siteData = createSlice({
         state.isTrainingLoading = true;
       })
       .addCase(fetchTrainings.fulfilled, (state, action) => {
-        if (state.training) {
+        if (!state.training || action.payload.currentPage === 1) {
+          state.training = action.payload;
+        } else if (state.training) {
           state.training = {
             entities: [...state.training.entities, ...action.payload.entities],
             itemsPerPage: action.payload.itemsPerPage,
@@ -52,8 +54,6 @@ export const siteData = createSlice({
             totalPages: action.payload.totalPages,
             currentPage: action.payload.currentPage,
           };
-        } else {
-          state.training = action.payload;
         }
         state.isTrainingLoading = false;
       })

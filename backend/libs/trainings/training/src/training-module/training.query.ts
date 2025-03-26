@@ -47,7 +47,7 @@ export class TrainingQuery implements ITrainingQuery {
   @IsOptional()
   @IsArray()
   @TransformToArray()
-  public type: TrainingType[];
+  public types: TrainingType[];
 
   @Transform(({ value }) => value || DEFAULT_SORT_TYPE)
   @IsIn(Object.values(SortType))
