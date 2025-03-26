@@ -33,24 +33,25 @@ export const TrainingAction = {
 
 export const fetchTrainings = createAsyncThunk<
   TrainingWithPagination,
-  TrainingQuery,
+  TrainingQuery | null,
   { extra: Extra }
 >(TrainingAction.FETCH_TRAININGS, async (query, { extra }) => {
   const { api } = extra;
 
   const queryStrings: string[] = [];
-  Object.entries(query).forEach(([key, value]) => {
-    if (value !== undefined) {
-      if (Array.isArray(value)) {
-        value.forEach((item) => {
-          queryStrings.push(`${key}=${String(item)}`);
-        });
-      } else {
-        queryStrings.push(`${key}=${String(value)}`);
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            queryStrings.push(`${key}=${String(item)}`);
+          });
+        } else {
+          queryStrings.push(`${key}=${String(value)}`);
+        }
       }
-    }
-  });
-  console.log(queryStrings.join('&'));
+    });
+  }
 
   const { data } = await api.get<TrainingWithPagination>(
     `${ApiRoute.Trainings}?${queryStrings.join('&')}`

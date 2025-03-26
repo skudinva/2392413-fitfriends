@@ -8,6 +8,7 @@ import {
   fetchPopularTrainings,
   fetchSpecialTrainings,
   fetchTraining,
+  fetchTrainings,
 } from '../../store/training-action';
 import { fetchUserInfo } from '../../store/user-action';
 import {
@@ -33,6 +34,7 @@ function Main(): JSX.Element {
       dispatch(fetchUserInfo(userId));
       dispatch(fetchSpecialTrainings());
       dispatch(fetchPopularTrainings());
+      dispatch(fetchTrainings(null));
     }
   }, [dispatch, authorizationStatus, userId]);
 

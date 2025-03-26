@@ -43,10 +43,12 @@ function Trainings(): JSX.Element {
             <div className="gym-catalog-form__wrapper">
               <BackButton baseClassName="btn-flat--underlined gym-catalog-form__btnback" />
               <h3 className="gym-catalog-form__title">Фильтры</h3>
-              <GymCatalogForm
-                handleFilterApply={setFilterParam}
-                maxPriceTraining={training?.maxPrice || 1000000}
-              />
+              {training && (
+                <GymCatalogForm
+                  handleFilterApply={setFilterParam}
+                  maxPriceTraining={training.maxPrice}
+                />
+              )}
             </div>
           </div>
           <div className="training-catalog">
