@@ -50,7 +50,6 @@ export const fetchTrainings = createAsyncThunk<
       }
     }
   });
-  //console.log(queryStrings.join('&'));
 
   const { data } = await api.get<TrainingWithPagination>(
     `${ApiRoute.Trainings}?${queryStrings.join('&')}`

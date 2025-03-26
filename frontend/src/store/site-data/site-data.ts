@@ -44,7 +44,17 @@ export const siteData = createSlice({
         state.isTrainingLoading = true;
       })
       .addCase(fetchTrainings.fulfilled, (state, action) => {
-        state.training = action.payload;
+        if (state.training) {
+          state.training = {
+            entities: [...state.training.entities, ...action.payload.entities],
+            itemsPerPage: action.payload.itemsPerPage,
+            totalItems: state.training.totalItems + action.payload.totalItems,
+            totalPages: action.payload.totalPages,
+            currentPage: action.payload.currentPage,
+          };
+        } else {
+          state.training = action.payload;
+        }
         state.isTrainingLoading = false;
       })
       .addCase(fetchTrainings.rejected, (state) => {

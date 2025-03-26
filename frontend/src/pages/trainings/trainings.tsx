@@ -1,19 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackButton from '../../components/back-button/back-button';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import GymCatalogForm from '../../components/gym-catalog-form/gym-catalog-form';
 import PopularTrainingCard from '../../components/popular-training-card/popular-training-card';
 import Spinner from '../../components/spinner/spinner';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   getIsTrainingLoading,
   getTraining,
 } from '../../store/site-data/selectors';
+import { fetchTrainings } from '../../store/training-action';
+import { TrainingQuery } from '../../types/shared';
 
 function Trainings(): JSX.Element {
+  const dispatch = useAppDispatch();
   const trainingLoading = useAppSelector(getIsTrainingLoading);
   const training = useAppSelector(getTraining);
-  const [page, setPage] = useState<number>(training?.currentPage ?? 1);
+  const [filterParam, setFilterParam] = useState<TrainingQuery | null>(null);
+  const page = filterParam?.page ?? 1;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -21,6 +25,12 @@ function Trainings(): JSX.Element {
       behavior: 'smooth',
     });
   };
+
+  useEffect(() => {
+    if (filterParam) {
+      dispatch(fetchTrainings(filterParam));
+    }
+  }, [dispatch, filterParam]);
 
   return (
     <section className="inner-page">
@@ -33,7 +43,7 @@ function Trainings(): JSX.Element {
             <div className="gym-catalog-form__wrapper">
               <BackButton baseClassName="btn-flat--underlined gym-catalog-form__btnback" />
               <h3 className="gym-catalog-form__title">Фильтры</h3>
-              <GymCatalogForm page={page} />
+              <GymCatalogForm handleFilterApply={setFilterParam} />
             </div>
           </div>
           <div className="training-catalog">
@@ -53,11 +63,19 @@ function Trainings(): JSX.Element {
                     ))}
                 </ul>
                 <div className="show-more training-catalog__show-more">
-                  {training && training.totalPages > page ? (
+                  {training && page && training.totalPages > page ? (
                     <button
                       className="btn show-more__button show-more__button--more"
                       type="button"
-                      onClick={() => setPage(page + 1)}
+                      onClick={() => {
+                        if (!filterParam) {
+                          return;
+                        }
+                        setFilterParam({
+                          ...filterParam,
+                          page: page + 1,
+                        });
+                      }}
                     >
                       Показать еще
                     </button>

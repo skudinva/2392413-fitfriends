@@ -1,8 +1,6 @@
 import MultiRangeSlider from 'multi-range-slider-react';
 import { useEffect, useRef, useState } from 'react';
 import { TRAINING_TYPE } from '../../const';
-import { useAppDispatch } from '../../hooks';
-import { fetchTrainings } from '../../store/training-action';
 import {
   EntityConstrain,
   SortDirection,
@@ -12,11 +10,12 @@ import {
 } from '../../types/shared';
 
 interface GymCatalogFormProps {
-  page: number;
+  handleFilterApply(query: TrainingQuery): void;
 }
 
-function GymCatalogForm({ page }: GymCatalogFormProps): JSX.Element {
-  const dispatch = useAppDispatch();
+function GymCatalogForm({
+  handleFilterApply,
+}: GymCatalogFormProps): JSX.Element {
   const MAX_PRICE = 10000;
   const [isFree, setIsFree] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
@@ -45,7 +44,7 @@ function GymCatalogForm({ page }: GymCatalogFormProps): JSX.Element {
   const maxPriceInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const query: TrainingQuery = {
+    handleFilterApply({
       minPrice: isFree ? 0 : minPrice,
       maxPrice: isFree ? 0 : maxPrice,
       minCalories: minCalories,
@@ -55,11 +54,9 @@ function GymCatalogForm({ page }: GymCatalogFormProps): JSX.Element {
       type: type,
       sortDirection: sortDirection,
       sortBy: sortBy,
-      page: page,
-    };
-    dispatch(fetchTrainings(query));
+      page: 1,
+    });
   }, [
-    dispatch,
     maxCalories,
     maxPrice,
     minCalories,
@@ -70,7 +67,7 @@ function GymCatalogForm({ page }: GymCatalogFormProps): JSX.Element {
     type,
     sortBy,
     sortDirection,
-    page,
+    handleFilterApply,
   ]);
 
   return (
