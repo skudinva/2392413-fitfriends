@@ -25,7 +25,7 @@ function GymCatalogForm({
   const [sortDirection, SetSortDirection] = useState<SortDirection>(
     SortDirection.Asc
   );
-  const [sortBy, SetSortBy] = useState<SortType>(SortType.PRICE);
+  const [sortBy, SetSortBy] = useState<SortType>(SortType.Price);
 
   const [minCalories, setMinCalories] = useState<number>(
     EntityConstrain.training.calories.minValue
@@ -245,7 +245,7 @@ function GymCatalogForm({
               defaultChecked
               onInput={() => {
                 SetSortDirection(SortDirection.Asc);
-                SetSortBy(SortType.PRICE);
+                SetSortBy(SortType.Price);
                 if (minPriceInput.current) {
                   setMinPrice(Number(minPriceInput.current.value));
                 }
@@ -264,7 +264,7 @@ function GymCatalogForm({
               value="expensive"
               onInput={() => {
                 SetSortDirection(SortDirection.Desc);
-                SetSortBy(SortType.PRICE);
+                SetSortBy(SortType.Price);
                 if (minPriceInput.current) {
                   setMinPrice(Number(minPriceInput.current.value));
                 }

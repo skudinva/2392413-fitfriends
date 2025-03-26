@@ -1,5 +1,5 @@
 export enum SortType {
-  DATE = 'createdAt',
-  AVERAGE_RATING = 'averageRating',
-  PRICE = 'price',
+  Date = 'createdAt',
+  AverageRating = 'averageRating',
+  Price = 'price',
 }

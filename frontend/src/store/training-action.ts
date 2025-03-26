@@ -50,6 +50,7 @@ export const fetchTrainings = createAsyncThunk<
       }
     }
   });
+  console.log(queryStrings.join('&'));
 
   const { data } = await api.get<TrainingWithPagination>(
     `${ApiRoute.Trainings}?${queryStrings.join('&')}`
@@ -65,7 +66,7 @@ export const fetchSpecialTrainings = createAsyncThunk<
 >(TrainingAction.FETCH_SPECIAL_TRAINING, async (_, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingWithPagination>(
-    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.DATE}&sortDirection=${SortDirection.Desc}`
+    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}`
   );
 
   return data;
@@ -78,7 +79,7 @@ export const fetchPopularTrainings = createAsyncThunk<
 >(TrainingAction.FETCH_POPULAR_TRAINING, async (_, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingWithPagination>(
-    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.AVERAGE_RATING}&sortDirection=${SortDirection.Desc}`
+    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.AverageRating}&sortDirection=${SortDirection.Desc}`
   );
 
   return data;

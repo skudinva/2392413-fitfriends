@@ -125,7 +125,7 @@ export class TrainingController {
   public async sendNewPostNotify(@Body() dto: UserIdDto) {
     const query = new TrainingQuery();
     query.userId = dto.userId;
-    query.sortBy = SortType.DATE;
+    query.sortBy = SortType.Date;
     query.sortDirection = SortDirection.Desc;
     const { entities } = await this.trainingService.getTrainings(query);
 
