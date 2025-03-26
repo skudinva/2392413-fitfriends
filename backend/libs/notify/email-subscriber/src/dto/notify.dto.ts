@@ -1,5 +1,5 @@
-import { Post } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
+import { Training } from '@prisma/client';
 import { IsMongoId } from 'class-validator';
 
 export class NotifyDto {
