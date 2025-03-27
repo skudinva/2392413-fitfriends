@@ -59,13 +59,13 @@ export class TrainingService {
 
   public async updateAverageRating(
     trainingId: Training['id'],
-    averageRating: Training['averageRating']
+    rating: Training['rating']
   ): Promise<void> {
     const existTraining = await this.getTraining(trainingId);
     if (!existTraining) {
       return;
     }
-    existTraining.averageRating = averageRating;
+    existTraining.rating = rating;
     await this.trainingRepository.update(existTraining);
   }
 }

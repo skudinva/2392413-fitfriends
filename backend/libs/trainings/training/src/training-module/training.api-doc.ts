@@ -123,13 +123,6 @@ export class TrainingApiDoc implements Training {
   createdAt: Date;
 
   @ApiProperty({
-    description: 'Training average rating',
-    required: false,
-    default: 0,
-  })
-  averageRating: number;
-
-  @ApiProperty({
     description: 'User info',
     required: false,
   })

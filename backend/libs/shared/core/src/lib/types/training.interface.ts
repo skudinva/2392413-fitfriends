@@ -19,5 +19,4 @@ export interface Training {
   userId: string;
   isSpecial: boolean;
   createdAt: Date;
-  averageRating: number;
 }

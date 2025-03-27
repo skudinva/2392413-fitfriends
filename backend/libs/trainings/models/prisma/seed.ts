@@ -63,28 +63,47 @@ function getComment(
 }
 
 async function seedDb(prismaClient: PrismaClient) {
-  const trainings = Array.from({ length: 100 }, () => getTraining());
-  for (let index = 0; index < 10; index++) {
-    trainings[index].price = 0;
-  }
-
-  for (const training of trainings) {
-    const newTraining = await prismaClient.training.create({ data: training });
-    const userIds = mockUsers.map((user) => user.id);
-    const comments = Array.from({ length: 5 }, () =>
-      getComment(newTraining.id, userIds)
-    );
-
-    for (const comment of comments) {
-      await prismaClient.comment.create({ data: comment });
+  try {
+    const trainings = Array.from({ length: 100 }, () => getTraining());
+    for (let i = 0; i < 10; i++) {
+      trainings[i].price = 0;
     }
 
-    const avgRating = comments.map(comment => {
-      ra
-    })
-  }
+    await Promise.all(
+      trainings.map(async (training) => {
+        const newTraining = await prismaClient.training.create({
+          data: training,
+        });
 
-  console.info('🤘️ Database was filled');
+        const userIds = mockUsers.map((user) => user.id);
+        const comments = Array.from({ length: 5 }, () =>
+          getComment(newTraining.id, userIds)
+        );
+
+        await Promise.all(
+          comments.map(async (comment) =>
+            prismaClient.comment.create({ data: comment })
+          )
+        );
+
+        const rating =
+          comments.reduce((total, comment) => total + comment.rating, 0) /
+          comments.length;
+
+        await prismaClient.training.update({
+          data: { rating },
+          where: { id: newTraining.id },
+        });
+
+        return newTraining;
+      })
+    );
+
+    console.info('🤘️ Database was filled');
+  } catch (error) {
+    console.error('Error seeding database:', error);
+    throw error;
+  }
 }
 
 async function bootstrap() {

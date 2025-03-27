@@ -22,13 +22,8 @@ import {
 import { TrainingApiDoc } from '../training.api-doc';
 
 export class BaseTrainingDto
-  extends OmitType(TrainingApiDoc, [
-    'createdAt',
-    'rating',
-    'userInfo',
-    'averageRating',
-  ])
-  implements Omit<Training, 'createdAt' | 'rating' | 'averageRating'>
+  extends OmitType(TrainingApiDoc, ['createdAt', 'rating', 'userInfo'])
+  implements Omit<Training, 'createdAt' | 'rating'>
 {
   @IsNumber()
   id: number;
