@@ -78,6 +78,10 @@ async function seedDb(prismaClient: PrismaClient) {
     for (const comment of comments) {
       await prismaClient.comment.create({ data: comment });
     }
+
+    const avgRating = comments.map(comment => {
+      ra
+    })
   }
 
   console.info('🤘️ Database was filled');

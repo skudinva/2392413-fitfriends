@@ -27,6 +27,8 @@ export { FixedQuestionValue } from './lib/types/fixed-question-value.interface';
 export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
 export { ILoginUserDto } from './lib/types/login-user-dto.interface';
+export { OrderType } from './lib/types/order-type.enum';
+export { PayType } from './lib/types/pay-type.enum';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { StoredFile } from './lib/types/stored-file.interface';
 export { Subscriber } from './lib/types/subscriber.interface';

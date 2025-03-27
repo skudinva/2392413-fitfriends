@@ -1,31 +1,34 @@
 import { Training } from '../../types/shared';
 
 interface SpecialOfferCardProps {
-  training: Training & { oldPrice: number };
+  training: Pick<Training, 'image' | 'title' | 'description' | 'price'> & {
+    oldPrice: number;
+  };
+  isActive: boolean;
 }
 
-function SpecialOfferCard({ training }: SpecialOfferCardProps): JSX.Element {
+function SpecialOfferCard({
+  training,
+  isActive,
+}: SpecialOfferCardProps): JSX.Element {
+  const { image, title, description, price, oldPrice } = training;
+
   return (
-    <li className="special-offers__item is-active">
+    <li className={`special-offers__item ${isActive ? 'is-active' : ''}`}>
       <aside className="promo-slider">
         <div className="promo-slider__overlay"></div>
         <div className="promo-slider__image">
-          <img
-            src={training.image}
-            width="1040"
-            height="469"
-            alt="promo-photo"
-          />
+          <img src={image} width="1040" height="469" alt="promo-photo" />
         </div>
         <div className="promo-slider__header">
-          <h3 className="promo-slider__title">{training.title}</h3>
+          <h3 className="promo-slider__title">{title}</h3>
           <div className="promo-slider__logo">
             <svg width="74" height="74" aria-hidden="true">
               <use xlinkHref="#logotype"></use>
             </svg>
           </div>
         </div>
-        <span className="promo-slider__text">{training.description}</span>
+        <span className="promo-slider__text">{description}</span>
         <div className="promo-slider__bottom-container">
           <div className="promo-slider__slider-dots">
             <button
@@ -42,9 +45,9 @@ function SpecialOfferCard({ training }: SpecialOfferCardProps): JSX.Element {
             />
           </div>
           <div className="promo-slider__price-container">
-            <p className="promo-slider__price">{training.price} ₽</p>
+            <p className="promo-slider__price">{price} ₽</p>
             <p className="promo-slider__sup">за занятие</p>
-            <p className="promo-slider__old-price">{training.oldPrice} ₽</p>
+            <p className="promo-slider__old-price">{oldPrice} ₽</p>
           </div>
         </div>
       </aside>

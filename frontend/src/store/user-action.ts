@@ -17,7 +17,7 @@ type Extra = {
   history: History;
 };
 
-export const UserAction = {
+const UserAction = {
   FETCH_USER_STATUS: 'user/fetch-status',
   LOGIN_USER: 'user/login',
   LOGOUT_USER: 'user/logout',

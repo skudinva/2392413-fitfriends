@@ -7,7 +7,6 @@ import {
   TrainingWithUserInfo,
   UserRdo,
 } from './shared';
-import type { SortName } from './types';
 
 export type SiteData = {
   specialTraining: TrainingWithPagination | null;
@@ -21,11 +20,6 @@ export type SiteData = {
   isSuccessAddTrainingComment: boolean;
   popularTraining: TrainingWithPagination | null;
   isPopularTrainingLoading: boolean;
-};
-
-export type SiteProcess = {
-  // city: City;
-  sorting: SortName;
 };
 
 export type UserProcess = {

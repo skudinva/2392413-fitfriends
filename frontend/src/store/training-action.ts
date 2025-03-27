@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
 import httpStatus from 'http-status';
-import { ApiRoute, AppRoute } from '../const';
+import { ApiRoute, AppRoute, SPECIAL_FOR_YOU_CARD_LIMIT } from '../const';
 import {
   CreateCommentDto,
   SortDirection,
@@ -19,7 +19,7 @@ type Extra = {
   history: History;
 };
 
-export const TrainingAction = {
+const TrainingAction = {
   FETCH_TRAININGS: 'trainings/fetch',
   FETCH_POPULAR_TRAINING: 'popular-trainings/fetch',
   FETCH_SPECIAL_TRAINING: 'special-trainings/fetch',
@@ -67,7 +67,7 @@ export const fetchSpecialTrainings = createAsyncThunk<
 >(TrainingAction.FETCH_SPECIAL_TRAINING, async (_, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingWithPagination>(
-    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}`
+    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}&limit=${SPECIAL_FOR_YOU_CARD_LIMIT}`
   );
 
   return data;
