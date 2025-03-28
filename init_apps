@@ -1,0 +1,74 @@
+#!/bin/bash
+set -e
+
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+BACKEND_DIR="$SCRIPT_DIR/backend"
+FRONTEND_DIR="$SCRIPT_DIR/frontend"
+
+function log() {
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $1"
+}
+
+function check_command() {
+    if ! command -v $1 &> /dev/null; then
+        echo "Команда $1 не найдена"
+        exit 1
+    fi
+}
+
+# Проверяем наличие необходимых инструментов
+check_command npm
+check_command npx
+check_command docker
+
+if [ -d "$BACKEND_DIR" ]; then
+    log "Backend директория существует"
+
+    # Копируем .env файлы
+    cp "$BACKEND_DIR/apps/account/.env-example" "$BACKEND_DIR/apps/account/.env"
+    cp "$BACKEND_DIR/apps/api/.env-example" "$BACKEND_DIR/apps/api/.env"
+    cp "$BACKEND_DIR/apps/file-vault/.env-example" "$BACKEND_DIR/apps/file-vault/.env"
+    cp "$BACKEND_DIR/apps/trainings/.env-example" "$BACKEND_DIR/apps/trainings/.env"
+    cp "$BACKEND_DIR/libs/trainings/models/prisma/.env-example" "$BACKEND_DIR/libs/trainings/models/prisma/.env"
+
+    log "Развертывание docker образов"
+    docker compose -f docker-compose.dev.yml up -d
+
+    cd "$BACKEND_DIR"
+
+    log "Установка пакетов"
+    npm ci
+    npx nx run trainings:db:generate
+
+    log "Сборка проекта"
+    npm run build:all
+
+    log "Генерация моковых данных"
+    npx nx run trainings:db:migrate
+    npm run cli:generate
+    npx nx run trainings:db:seed
+
+    echo "Backend готов"
+    echo "Для запуска выполните \"npm run serve:all\""
+else
+    log "Backend директория не найдена"
+    exit 1
+fi
+
+if [ -d "$FRONTEND_DIR" ]; then
+    log "Frontend директория существует"
+    cd "$FRONTEND_DIR"
+
+    log "Установка пакетов"
+    npm ci
+
+    log "Сборка проекта"
+    npm run build
+
+    echo "Frontend готов"
+    echo "Для запуска выполните \"npm run start\""
+else
+    log "Frontend директория не найдена"
+    exit 1
+fi
+wait
