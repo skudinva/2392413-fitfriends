@@ -1,3 +1,4 @@
 name: 2392413-fitfriends
 include:
   - backend/apps/account/docker-compose.stage.yml
+  - backend/apps/file-vault/docker-compose.stage.yml

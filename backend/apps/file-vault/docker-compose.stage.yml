@@ -1,0 +1,45 @@
+services:
+  fitfriends.stage.file-vault.mongodb:
+    image: mongo:4.4
+    restart: always
+    container_name: fitfriends.stage.file-vault.mongodb
+    env_file:
+      - .env.stage
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+      MONGO_HOST: ${MONGO_HOST}
+    ports:
+      - ${MONGO_PORT}:27017
+    volumes:
+      - fitfriends.stage.mongodb.file-vault:/data/db
+    networks:
+      - fitfriends.stage
+
+  fitfriends.stage.file-vault:
+    build:
+      context: ../../
+      dockerfile: ./apps/file-vault/Dockerfile
+    container_name: fitfriends.stage.file-vault.app
+    depends_on:
+      - fitfriends.stage.file-vault.mongodb
+    restart: always
+    environment:
+      NODE_ENV: production
+      MONGO_HOST: fitfriends.stage.file-vault.mongodb
+      MONGO_PORT: 27017
+    env_file:
+      - .env.stage
+    ports:
+      - ${PORT}:${PORT}
+    hostname: fitfriends
+    networks:
+      - fitfriends.stage
+
+networks:
+  fitfriends.stage:
+    driver: bridge
+
+volumes:
+  fitfriends.stage.mongodb.file-vault:
