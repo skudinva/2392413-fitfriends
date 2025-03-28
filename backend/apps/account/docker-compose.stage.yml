@@ -1,0 +1,44 @@
+services:
+  fitfriends.stage.account.mongodb:
+    image: mongo:4.4
+    restart: always
+    container_name: fitfriends.stage.account.mongodb
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+      MONGO_HOST: fitfriends.stage.account.mongodb
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    volumes:
+      - fitfriends.stage.mongodb.account:/data/db
+    networks:
+      - fitfriends.stage
+
+  fitfriends.stage.account:
+    build:
+      context: ../../
+      dockerfile: ./apps/account/Dockerfile
+    container_name: fitfriends.stage.account.app
+    depends_on:
+      - fitfriends.stage.account.mongodb
+    restart: always
+    environment:
+      NODE_ENV: production
+      MONGO_HOST: fitfriends.stage.account.mongodb
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+    hostname: fitfriends
+    networks:
+      - fitfriends.stage
+
+networks:
+  fitfriends.stage:
+    driver: bridge
+
+volumes:
+  fitfriends.stage.mongodb.account:

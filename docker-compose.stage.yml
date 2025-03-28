@@ -1,0 +1,3 @@
+name: 2392413-fitfriends
+include:
+  - backend/apps/account/docker-compose.stage.yml
