@@ -51,10 +51,9 @@ function getConfig(): FileVaultConfig {
     uploadDirectory: process.env.UPLOAD_DIRECTORY_PATH,
     db: {
       host: process.env.MONGO_HOST,
-      port: parseInt(
-        process.env.MONGO_PORT ?? DEFAULT_MONGO_PORT.toString(),
-        10
-      ),
+      port: process.env.MONGO_PORT
+        ? parseInt(process.env.MONGO_PORT, 10)
+        : DEFAULT_MONGO_PORT,
       name: process.env.MONGO_DB,
       user: process.env.MONGO_USER,
       password: process.env.MONGO_PASSWORD,
