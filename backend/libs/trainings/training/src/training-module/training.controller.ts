@@ -22,9 +22,7 @@ import { TrainingService } from './training.service';
 
 @Controller('trainings')
 export class TrainingController {
-  constructor(
-    private readonly trainingService: TrainingService //private readonly notifyService: TrainingNotifyService
-  ) {}
+  constructor(private readonly trainingService: TrainingService) {}
 
   @Get('/:id/:userId')
   @ApiResponse({
@@ -118,20 +116,4 @@ export class TrainingController {
     const updatedPost = await this.trainingService.updateTraining(id, dto);
     return fillDto(TrainingRdo, updatedPost.toPOJO());
   }
-
-  /*@Post('sendNewPostNotify')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiTags('training post')
-  public async sendNewPostNotify(@Body() dto: UserIdDto) {
-    const query = new TrainingQuery();
-    query.userId = dto.userId;
-    query.sortBy = SortType.Date;
-    query.sortDirection = SortDirection.Desc;
-    const { entities } = await this.trainingService.getTrainings(query);
-
-    this.notifyService.sendNewPostNotify(
-      entities.map((training) => training.toPOJO()),
-      dto.userId
-    );
-  }*/
 }

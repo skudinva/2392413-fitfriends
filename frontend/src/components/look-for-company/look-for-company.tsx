@@ -1,4 +1,56 @@
+import { useRef } from 'react';
+import 'swiper/css';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
+import { AppRoute } from '../../const';
+import history from '../../history';
+import { LOCATIONS, TrainingType } from '../../types/shared';
+import LookForCompanyCard from '../look-for-company-card/look-for-company-card';
+
+const mockData = [
+  {
+    id: 1,
+    name: 'Диана',
+    location: LOCATIONS[1],
+    hashtag: TrainingType.Pilates,
+    avatar: 'img/content/thumbnails/user-04.jpg',
+  },
+  {
+    id: 2,
+    name: 'Константин',
+    location: LOCATIONS[2],
+    hashtag: TrainingType.Boxing,
+    avatar: 'img/content/thumbnails/user-05.jpg',
+  },
+  {
+    id: 3,
+    name: 'Иван',
+    location: LOCATIONS[3],
+    hashtag: TrainingType.Crossfit,
+    avatar: 'img/content/thumbnails/user-06.jpg',
+  },
+  {
+    id: 4,
+    name: 'Яна',
+    location: LOCATIONS[4],
+    hashtag: TrainingType.Yoga,
+    avatar: 'img/content/thumbnails/user-03.jpg',
+  },
+  {
+    id: 5,
+    name: 'Оксана',
+    location: LOCATIONS[0],
+    hashtag: TrainingType.Running,
+    avatar: 'img/content/thumbnails/user-01.jpg',
+  },
+];
+
 function LookForCompany(): JSX.Element {
+  const sliderRef = useRef<SwiperRef>(null);
+
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const prevButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <div className="container">
       <div className="look-for-company__wrapper">
@@ -9,6 +61,7 @@ function LookForCompany(): JSX.Element {
           <button
             className="btn-flat btn-flat--light look-for-company__button"
             type="button"
+            onClick={() => history.push(AppRoute.Friends)}
           >
             <span>Смотреть все</span>
             <svg width="14" height="10" aria-hidden="true">
@@ -20,6 +73,8 @@ function LookForCompany(): JSX.Element {
               className="btn-icon btn-icon--outlined look-for-company__control"
               type="button"
               aria-label="previous"
+              ref={prevButtonRef}
+              onClick={() => sliderRef.current?.swiper.slidePrev()}
             >
               <svg width="16" height="14" aria-hidden="true">
                 <use xlinkHref="#arrow-left"></use>
@@ -29,6 +84,8 @@ function LookForCompany(): JSX.Element {
               className="btn-icon btn-icon--outlined look-for-company__control"
               type="button"
               aria-label="next"
+              ref={nextButtonRef}
+              onClick={() => sliderRef.current?.swiper.slideNext()}
             >
               <svg width="16" height="14" aria-hidden="true">
                 <use xlinkHref="#arrow-right"></use>
@@ -36,180 +93,31 @@ function LookForCompany(): JSX.Element {
             </button>
           </div>
         </div>
-        <ul className="look-for-company__list">
-          <li className="look-for-company__item">
-            <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
-              <div className="thumbnail-user__image">
-                <picture>
-                  <source
-                    type="image/webp"
-                    srcSet="img/content/thumbnails/user-04.webp, img/content/thumbnails/user-04@2x.webp 2x"
-                  />
-                  <img
-                    src="img/content/thumbnails/user-04.jpg"
-                    srcSet="img/content/thumbnails/user-04@2x.jpg 2x"
-                    width="82"
-                    height="82"
-                    alt=""
-                  />
-                </picture>
-              </div>
-              <div className="thumbnail-user__header">
-                <h3 className="thumbnail-user__name">Диана</h3>
-                <div className="thumbnail-user__location">
-                  <svg width="14" height="16" aria-hidden="true">
-                    <use xlinkHref="#icon-location"></use>
-                  </svg>
-                  <address className="thumbnail-user__location-address">
-                    Невский проспект
-                  </address>
-                </div>
-              </div>
-              <ul className="thumbnail-user__hashtags-list">
-                <li className="thumbnail-user__hashtags-item">
-                  <div className="hashtag thumbnail-user__hashtag">
-                    <span>#пилатес</span>
-                  </div>
-                </li>
-              </ul>
-              <a
-                className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-                href="#"
-              >
-                Подробнее
-              </a>
-            </div>
-          </li>
-          <li className="look-for-company__item">
-            <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
-              <div className="thumbnail-user__image">
-                <picture>
-                  <source
-                    type="image/webp"
-                    srcSet="img/content/thumbnails/user-05.webp, img/content/thumbnails/user-05@2x.webp 2x"
-                  />
-                  <img
-                    src="img/content/thumbnails/user-05.jpg"
-                    srcSet="img/content/thumbnails/user-05@2x.jpg 2x"
-                    width="82"
-                    height="82"
-                    alt=""
-                  />
-                </picture>
-              </div>
-              <div className="thumbnail-user__header">
-                <h3 className="thumbnail-user__name">Константин</h3>
-                <div className="thumbnail-user__location">
-                  <svg width="14" height="16" aria-hidden="true">
-                    <use xlinkHref="#icon-location"></use>
-                  </svg>
-                  <address className="thumbnail-user__location-address">
-                    Комендантский проспект
-                  </address>
-                </div>
-              </div>
-              <ul className="thumbnail-user__hashtags-list">
-                <li className="thumbnail-user__hashtags-item">
-                  <div className="hashtag thumbnail-user__hashtag">
-                    <span>#силовые</span>
-                  </div>
-                </li>
-              </ul>
-              <a
-                className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-                href="#"
-              >
-                Подробнее
-              </a>
-            </div>
-          </li>
-          <li className="look-for-company__item">
-            <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
-              <div className="thumbnail-user__image">
-                <picture>
-                  <source
-                    type="image/webp"
-                    srcSet="img/content/thumbnails/user-06.webp, img/content/thumbnails/user-06@2x.webp 2x"
-                  />
-                  <img
-                    src="img/content/thumbnails/user-06.jpg"
-                    srcSet="img/content/thumbnails/user-06@2x.jpg 2x"
-                    width="82"
-                    height="82"
-                    alt=""
-                  />
-                </picture>
-              </div>
-              <div className="thumbnail-user__header">
-                <h3 className="thumbnail-user__name">Иван</h3>
-                <div className="thumbnail-user__location">
-                  <svg width="14" height="16" aria-hidden="true">
-                    <use xlinkHref="#icon-location"></use>
-                  </svg>
-                  <address className="thumbnail-user__location-address">
-                    Чёрная речка
-                  </address>
-                </div>
-              </div>
-              <ul className="thumbnail-user__hashtags-list">
-                <li className="thumbnail-user__hashtags-item">
-                  <div className="hashtag thumbnail-user__hashtag">
-                    <span>#бег</span>
-                  </div>
-                </li>
-              </ul>
-              <a
-                className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-                href="#"
-              >
-                Подробнее
-              </a>
-            </div>
-          </li>
-          <li className="look-for-company__item">
-            <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
-              <div className="thumbnail-user__image">
-                <picture>
-                  <source
-                    type="image/webp"
-                    srcSet="img/content/thumbnails/user-07.webp, img/content/thumbnails/user-07@2x.webp 2x"
-                  />
-                  <img
-                    src="img/content/thumbnails/user-07.jpg"
-                    srcSet="img/content/thumbnails/user-07@2x.jpg 2x"
-                    width="82"
-                    height="82"
-                    alt=""
-                  />
-                </picture>
-              </div>
-              <div className="thumbnail-user__header">
-                <h3 className="thumbnail-user__name">Яна</h3>
-                <div className="thumbnail-user__location">
-                  <svg width="14" height="16" aria-hidden="true">
-                    <use xlinkHref="#icon-location"></use>
-                  </svg>
-                  <address className="thumbnail-user__location-address">
-                    Крестовский остров
-                  </address>
-                </div>
-              </div>
-              <ul className="thumbnail-user__hashtags-list">
-                <li className="thumbnail-user__hashtags-item">
-                  <div className="hashtag thumbnail-user__hashtag">
-                    <span>#пилатес</span>
-                  </div>
-                </li>
-              </ul>
-              <a
-                className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-                href="#"
-              >
-                Подробнее
-              </a>
-            </div>
-          </li>
-        </ul>
+        <Swiper
+          slidesPerView={4}
+          className="look-for-company__list"
+          modules={[Navigation]}
+          ref={sliderRef}
+          onBeforeInit={(swiper) => {
+            if (prevButtonRef.current) {
+              swiper.navigation.prevEl = prevButtonRef.current;
+            }
+            if (nextButtonRef.current) {
+              swiper.navigation.nextEl = nextButtonRef.current;
+            }
+          }}
+        >
+          {mockData.map((userInfo) => (
+            <SwiperSlide
+              key={`SwiperSlide-${userInfo.id}`}
+              className="special-for-you__item"
+            >
+              <li className="look-for-company__item">
+                <LookForCompanyCard userInfo={userInfo} />
+              </li>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );

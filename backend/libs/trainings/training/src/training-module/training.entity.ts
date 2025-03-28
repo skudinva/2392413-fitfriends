@@ -14,13 +14,13 @@ export class TrainingEntity
 {
   public title!: string;
   public image!: string;
-  public level!: string; //TrainingLevel;
-  public type!: string; //TrainingType;
-  public duration!: string; //TrainingDuration;
+  public level!: TrainingLevel;
+  public type!: TrainingType;
+  public duration!: TrainingDuration;
   public price!: number;
   public calories!: number;
   public description!: string;
-  public gender!: string; //UserGender;
+  public gender!: UserGender;
   public video!: string;
   public rating!: number;
   public userId!: string;
@@ -58,13 +58,13 @@ export class TrainingEntity
       id: this.id,
       title: this.title,
       image: this.image,
-      level: this.level as TrainingLevel,
-      type: this.type as TrainingType,
-      duration: this.duration as TrainingDuration,
+      level: this.level,
+      type: this.type,
+      duration: this.duration,
       price: this.price,
       calories: this.calories,
       description: this.description,
-      gender: this.gender as UserGender,
+      gender: this.gender,
       video: this.video,
       rating: this.rating,
       userId: this.userId,

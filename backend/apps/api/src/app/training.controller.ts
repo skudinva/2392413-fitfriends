@@ -338,17 +338,4 @@ export class TrainingController {
       `${ApplicationServiceURL.Comments}/${commentId}/${userId}`
     );
   }
-
-  /*  @Post('/sendNewPostNotify')
-  @UseGuards(CheckAuthGuard)
-  @UseInterceptors(InjectUserIdInterceptor)
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiBearerAuth('accessToken')
-  @ApiTags(ApiSection.Training)
-  public async sendNewPostNotify(@Body() dto: UserIdDto) {
-    await this.httpService.axiosRef.post(
-      `${ApplicationServiceURL.Training}/sendNewPostNotify`,
-      dto
-    );
-  }*/
 }

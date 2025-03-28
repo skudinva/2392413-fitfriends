@@ -85,7 +85,6 @@ function UserInfoForm(): JSX.Element {
               ) : (
                 <img
                   src={userInfo?.avatar}
-                  //srcSet={userInfo?.avatar && `${userInfo.avatar} 2x`}
                   width="98"
                   height="98"
                   alt="user photo"
