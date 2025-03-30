@@ -136,7 +136,7 @@ paths:
       operationId: TrainingController_getTrainings
       parameters:
         - description: limit
-          example: 12
+          example: 6
           name: limit
           in: query
           required: true
@@ -391,13 +391,13 @@ servers: []
 components:
   securitySchemes:
     accessToken:
-      scheme: bearer
+      scheme: Bearer
       bearerFormat: Bearer
       description: "[just text field] Please enter token in following format: Bearer "
       name: Authorization
       type: http
     refreshToken:
-      scheme: bearer
+      scheme: Bearer
       bearerFormat: Bearer
       description: "[just text field] Please enter token in following format: Bearer "
       name: Authorization
@@ -760,10 +760,6 @@ components:
           format: date-time
           type: string
           description: Creation date
-        averageRating:
-          type: number
-          description: Training average rating
-          default: 0
         userInfo:
           description: User info
           allOf:
@@ -860,7 +856,7 @@ components:
       default: createdAt
       enum:
         - createdAt
-        - averageRating
+        - rating
         - price
     TrainingWithPaginationRdo:
       type: object
