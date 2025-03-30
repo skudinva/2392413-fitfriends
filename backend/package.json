@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "cli:generate": "node dist/apps/cli/main.js --generate 20 mongodb://admin:123456@localhost:27017/fitfriends-users?authSource=admin",
-    "build:all": "nx run-many -t serve -p file-vault account trainings api cli",
+    "build:all": "nx run-many -t build -p file-vault account trainings api cli",
     "serve:all": "nx run-many -t serve -p file-vault account trainings api"
   },
   "private": true,
