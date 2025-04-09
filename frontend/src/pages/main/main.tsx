@@ -5,6 +5,7 @@ import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   fetchComment,
+  fetchDiscountTrainings,
   fetchPopularTrainings,
   fetchSpecialTrainings,
   fetchTraining,
@@ -33,6 +34,7 @@ function Main(): JSX.Element {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchUserInfo(userId));
       dispatch(fetchSpecialTrainings());
+      dispatch(fetchDiscountTrainings());
       dispatch(fetchPopularTrainings());
       dispatch(fetchTrainings(null));
     }

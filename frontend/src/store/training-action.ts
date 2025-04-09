@@ -2,7 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
 import httpStatus from 'http-status';
-import { ApiRoute, AppRoute, SPECIAL_FOR_YOU_CARD_LIMIT } from '../const';
+import {
+  ApiRoute,
+  AppRoute,
+  DISCOUNT_TRAINING_LIMIT,
+  SPECIAL_FOR_YOU_CARD_LIMIT,
+} from '../const';
 import {
   CreateCommentDto,
   SortDirection,
@@ -23,6 +28,7 @@ const TrainingAction = {
   FETCH_TRAININGS: 'trainings/fetch',
   FETCH_POPULAR_TRAINING: 'popular-trainings/fetch',
   FETCH_SPECIAL_TRAINING: 'special-trainings/fetch',
+  FETCH_DISCOUNT_TRAINING: 'discount-trainings/fetch',
   FETCH_TRAINING: 'training/fetch',
   POST_TRAINING: 'training/post-training',
   EDIT_TRAINING: 'training/edit-training',
@@ -68,6 +74,19 @@ export const fetchSpecialTrainings = createAsyncThunk<
   const { api } = extra;
   const { data } = await api.get<TrainingWithPagination>(
     `${ApiRoute.Trainings}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}&limit=${SPECIAL_FOR_YOU_CARD_LIMIT}`
+  );
+
+  return data;
+});
+
+export const fetchDiscountTrainings = createAsyncThunk<
+  TrainingWithPagination,
+  undefined,
+  { extra: Extra }
+>(TrainingAction.FETCH_DISCOUNT_TRAINING, async (_, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<TrainingWithPagination>(
+    `${ApiRoute.Trainings}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}&limit=${DISCOUNT_TRAINING_LIMIT}&isSpecial=true`
   );
 
   return data;

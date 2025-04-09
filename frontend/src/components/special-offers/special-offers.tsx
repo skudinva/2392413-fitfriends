@@ -1,43 +1,39 @@
+import { useAppSelector } from '../../hooks';
+import {
+  getDiscountTraining,
+  getIsDiscountTrainingLoading,
+} from '../../store/site-data/selectors';
 import SpecialOfferCard from '../special-offer-card/special-offer-card';
+import Spinner from '../spinner/spinner';
 
 function SpecialOffers(): JSX.Element {
+  const isDiscountTrainingLoading = useAppSelector(
+    getIsDiscountTrainingLoading
+  );
+  const discountTraining = useAppSelector(getDiscountTraining);
+
+  if (isDiscountTrainingLoading || !discountTraining) {
+    return <Spinner />;
+  }
+
   return (
     <div className="container">
       <div className="special-offers__wrapper">
         <h2 className="visually-hidden">Специальные предложения</h2>
         <ul className="special-offers__list">
-          <SpecialOfferCard
-            training={{
-              image: 'img/content/promo-1.png',
-              title: 'Fitball',
-              description: 'Горячие предложения на тренировки на фитболе',
-              price: 1600,
-              oldPrice: 2000,
-            }}
-            isActive
-          />
-          <SpecialOfferCard
-            training={{
-              image: 'img/content/promo-2.png',
-              title: 'Fleksbend',
-              description:
-                'Горячие предложения на&nbsp;Тренировки с&nbsp;резинкой для фитнеса',
-              price: 2400,
-              oldPrice: 2800,
-            }}
-            isActive={false}
-          />
-          <SpecialOfferCard
-            training={{
-              image: 'img/content/promo-3.png',
-              title: 'Full Body Stretch',
-              description:
-                'Горячие предложения на&nbsp;Комплекс упражнений на&nbsp;растяжку всего тела для новичков',
-              price: 1800,
-              oldPrice: 2200,
-            }}
-            isActive={false}
-          />
+          {discountTraining.entities.map((trainingItem, index) => (
+            <SpecialOfferCard
+              key={`discount-${trainingItem.id}`}
+              training={{
+                image: trainingItem.image,
+                title: trainingItem.title,
+                description: trainingItem.description,
+                price: trainingItem.price,
+                oldPrice: trainingItem.specialPrice,
+              }}
+              isActive={index === 0}
+            />
+          ))}
         </ul>
         <div className="thumbnail-spec-gym">
           <div className="thumbnail-spec-gym__image">

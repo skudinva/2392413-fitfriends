@@ -39,3 +39,4 @@ export enum StoreSlice {
 }
 
 export const SPECIAL_FOR_YOU_CARD_LIMIT = 9;
+export const DISCOUNT_TRAINING_LIMIT = 3;

@@ -20,6 +20,8 @@ export type SiteData = {
   isSuccessAddTrainingComment: boolean;
   popularTraining: TrainingWithPagination | null;
   isPopularTrainingLoading: boolean;
+  discountTraining: TrainingWithPagination | null;
+  isDiscountTrainingLoading: boolean;
 };
 
 export type UserProcess = {
