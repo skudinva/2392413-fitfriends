@@ -122,4 +122,11 @@ export class TrainingQuery implements ITrainingQuery {
     default: 5,
   })
   maxRating: number;
+
+  @ApiProperty({
+    description: 'Flag special training',
+    required: false,
+  })
+  @Transform(({ value }) => String(value).toLowerCase() === 'true')
+  isSpecial?: boolean;
 }

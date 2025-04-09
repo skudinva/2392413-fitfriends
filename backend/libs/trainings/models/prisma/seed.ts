@@ -47,7 +47,7 @@ function getTraining(): Prisma.TrainingUncheckedCreateInput {
     userId: getRandomItem(mockUsers).id,
     isSpecial,
     specialPrice: isSpecial
-      ? +((price * SPECIAL_DISCOUNT) / 100).toFixed(0)
+      ? +((price * (100 - SPECIAL_DISCOUNT)) / 100).toFixed(0)
       : price,
     createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
   };
