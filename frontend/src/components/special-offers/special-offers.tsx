@@ -1,3 +1,6 @@
+import { useRef } from 'react';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { useAppSelector } from '../../hooks';
 import {
   getDiscountTraining,
@@ -12,6 +15,10 @@ function SpecialOffers(): JSX.Element {
   );
   const discountTraining = useAppSelector(getDiscountTraining);
 
+  const sliderRef = useRef<SwiperRef>(null);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const prevButtonRef = useRef<HTMLButtonElement>(null);
+
   if (isDiscountTrainingLoading || !discountTraining) {
     return <Spinner />;
   }
@@ -20,21 +27,39 @@ function SpecialOffers(): JSX.Element {
     <div className="container">
       <div className="special-offers__wrapper">
         <h2 className="visually-hidden">Специальные предложения</h2>
-        <ul className="special-offers__list">
+        <Swiper
+          slidesPerView={1}
+          className="special-offers__list"
+          modules={[Navigation, Pagination]}
+          ref={sliderRef}
+          onBeforeInit={(swiper) => {
+            if (prevButtonRef.current) {
+              swiper.navigation.prevEl = prevButtonRef.current;
+            }
+            if (nextButtonRef.current) {
+              swiper.navigation.nextEl = nextButtonRef.current;
+            }
+          }}
+        >
           {discountTraining.entities.map((trainingItem, index) => (
-            <SpecialOfferCard
+            <SwiperSlide
               key={`discount-${trainingItem.id}`}
-              training={{
-                image: trainingItem.image,
-                title: trainingItem.title,
-                description: trainingItem.description,
-                price: trainingItem.price,
-                oldPrice: trainingItem.specialPrice,
-              }}
-              isActive={index === 0}
-            />
+              className="special-offers__item"
+            >
+              <SpecialOfferCard
+                training={{
+                  image: trainingItem.image,
+                  title: trainingItem.title,
+                  description: trainingItem.description,
+                  price: trainingItem.specialPrice,
+                  oldPrice: trainingItem.price,
+                }}
+                sliderRef={sliderRef}
+                slideIndex={index}
+              />
+            </SwiperSlide>
           ))}
-        </ul>
+        </Swiper>
         <div className="thumbnail-spec-gym">
           <div className="thumbnail-spec-gym__image">
             <picture>
