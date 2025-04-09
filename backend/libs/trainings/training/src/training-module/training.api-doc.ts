@@ -117,6 +117,14 @@ export class TrainingApiDoc implements Training {
   isSpecial: boolean;
 
   @ApiProperty({
+    description: 'Training specialPrice',
+    example: '500',
+    required: true,
+    minimum: 0,
+  })
+  specialPrice: number;
+
+  @ApiProperty({
     description: 'Creation date',
     required: true,
   })

@@ -75,4 +75,8 @@ export class BaseTrainingDto
 
   @IsBoolean()
   isSpecial: boolean;
+
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @Min(0)
+  specialPrice: number;
 }

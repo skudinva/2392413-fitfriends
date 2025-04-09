@@ -5,6 +5,7 @@ export {
   EntityConstrain,
   LOCATIONS,
   SERVE_ROOT,
+  SPECIAL_DISCOUNT,
   TRAINING_DURATIONS,
 } from './lib/const';
 export { EntityFactory } from './lib/interfaces/entity-factory.interface';

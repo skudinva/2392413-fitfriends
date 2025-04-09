@@ -116,3 +116,5 @@ export const DefaultFixedQuestionValue: {
     trainingLevel: TrainingLevel.Beginner,
   },
 } as const;
+
+export const SPECIAL_DISCOUNT = 10;

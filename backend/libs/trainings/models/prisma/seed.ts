@@ -2,6 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   EntityConstrain,
+  SPECIAL_DISCOUNT,
   TRAINING_DURATIONS,
   TrainingLevel,
   TrainingType,
@@ -24,13 +25,16 @@ import {
 } from '../../../shared/helpers/src/lib/mock';
 
 function getTraining(): Prisma.TrainingUncheckedCreateInput {
+  const price = getRandomValue(0, 2000, 0);
+  const isSpecial = getRandomItem([true, false]);
+
   return {
     title: getRandomItem(mockTrainingTitles),
     image: `img/content/training-${getRandomValue(1, 4, 0)}.png`,
     level: getRandomEnumValue(TrainingLevel),
     type: getRandomEnumValue(TrainingType),
     duration: getRandomItem([...TRAINING_DURATIONS]),
-    price: getRandomValue(0, 2000, 0),
+    price,
     calories: getRandomValue(
       EntityConstrain.training.calories.minValue,
       EntityConstrain.training.calories.maxValue,
@@ -41,7 +45,10 @@ function getTraining(): Prisma.TrainingUncheckedCreateInput {
     video: `video/content/training-${getRandomValue(1, 4, 0)}.mp4`,
     rating: getRandomValue(1, 5, 0),
     userId: getRandomItem(mockUsers).id,
-    isSpecial: getRandomItem([true, false]),
+    isSpecial,
+    specialPrice: isSpecial
+      ? +((price * SPECIAL_DISCOUNT) / 100).toFixed(0)
+      : price,
     createdAt: generateRandomDate(new Date(2024, 0, 1), new Date()),
   };
 }

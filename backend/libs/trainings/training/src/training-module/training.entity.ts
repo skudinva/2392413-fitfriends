@@ -25,6 +25,7 @@ export class TrainingEntity
   public rating!: number;
   public userId!: string;
   public isSpecial!: boolean;
+  public specialPrice!: number;
   public createdAt!: Date;
 
   constructor(training?: Training) {
@@ -50,6 +51,7 @@ export class TrainingEntity
     this.rating = training.rating;
     this.userId = training.userId;
     this.isSpecial = training.isSpecial;
+    this.specialPrice = training.specialPrice;
     this.createdAt = training.createdAt;
   }
 
@@ -69,6 +71,7 @@ export class TrainingEntity
       rating: this.rating,
       userId: this.userId,
       isSpecial: this.isSpecial,
+      specialPrice: this.specialPrice,
       createdAt: this.createdAt,
     };
   }

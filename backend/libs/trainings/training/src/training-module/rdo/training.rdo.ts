@@ -53,6 +53,9 @@ export class TrainingRdo extends TrainingApiDoc implements Training {
   isSpecial: boolean;
 
   @Expose()
+  specialPrice: number;
+
+  @Expose()
   createdAt: Date;
 
   @Expose()

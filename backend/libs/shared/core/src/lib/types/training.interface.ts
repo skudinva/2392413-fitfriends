@@ -18,5 +18,6 @@ export interface Training {
   rating: number;
   userId: string;
   isSpecial: boolean;
+  specialPrice: number;
   createdAt: Date;
 }

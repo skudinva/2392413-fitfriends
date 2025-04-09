@@ -9,23 +9,24 @@ datasource db {
 }
 
 model Training {
-  id          Int       @id @default(autoincrement())
-  title       String
-  image       String
-  level       String
-  type        String
-  duration    String
-  price       Int
-  calories    Int
-  description String
-  gender      String
-  video       String
-  rating      Float     @default(0)
-  userId      String    @map("user_id")
-  isSpecial   Boolean   @default(false) @map("is_special")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  comments    Comment[]
-  orders      Order[]
+  id           Int       @id @default(autoincrement())
+  title        String
+  image        String
+  level        String
+  type         String
+  duration     String
+  price        Int
+  calories     Int
+  description  String
+  gender       String
+  video        String
+  rating       Float     @default(0)
+  userId       String    @map("user_id")
+  isSpecial    Boolean   @default(false) @map("is_special")
+  specialPrice Int       @map("special_price")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  comments     Comment[]
+  orders       Order[]
 
   @@map("trainings")
 }
