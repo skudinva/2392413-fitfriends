@@ -32,6 +32,7 @@
       "@backend/pipes": ["libs/shared/pipes/src/index.ts"],
       "@backend/shared/core": ["libs/shared/core/src/index.ts"],
       "@backend/shop-user": ["libs/account/shop-user/src/index.ts"],
+      "@backend/training": ["libs/trainings/training/src/index.ts"],
       "@backend/training-comment": [
         "libs/trainings/training-comment/src/index.ts"
       ],
@@ -42,7 +43,7 @@
       "@backend/training-notify": [
         "libs/trainings/training-notify/src/index.ts"
       ],
-      "@backend/training": ["libs/trainings/training/src/index.ts"]
+      "@backend/training-order": ["libs/trainings/training-order/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
