@@ -22,6 +22,7 @@ export { TrainingCommentWithPagination } from './lib/types/comment-with-paginati
 export { TrainingCommentWithUserInfo } from './lib/types/comment-with-user-info.interface';
 export { Comment } from './lib/types/comment.interface';
 export { ICreateCommentDto } from './lib/types/create-comment-dto.interface';
+export { ICreateOrderDto } from './lib/types/create-order-dto.interface';
 export { EntityList } from './lib/types/entity-list.enum';
 export { File } from './lib/types/file.interface';
 export { FixedQuestionValue } from './lib/types/fixed-question-value.interface';
@@ -29,6 +30,7 @@ export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
 export { ILoginUserDto } from './lib/types/login-user-dto.interface';
 export { OrderType } from './lib/types/order-type.enum';
+export { Order } from './lib/types/order.interface';
 export { PayType } from './lib/types/pay-type.enum';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { StoredFile } from './lib/types/stored-file.interface';
