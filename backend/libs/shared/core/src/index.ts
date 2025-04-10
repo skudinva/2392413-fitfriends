@@ -30,6 +30,7 @@ export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
 export { ILoginUserDto } from './lib/types/login-user-dto.interface';
 export { OrderType } from './lib/types/order-type.enum';
+export { TrainingOrderWithPagination } from './lib/types/order-with-pagination.interface';
 export { Order } from './lib/types/order.interface';
 export { PayType } from './lib/types/pay-type.enum';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
