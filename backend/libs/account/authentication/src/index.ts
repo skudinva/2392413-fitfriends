@@ -1,5 +1,6 @@
 export { AuthenticationResponseMessage } from './authentication-module/authentication.constant';
 export { AuthenticationModule } from './authentication-module/authentication.module';
+export { AuthenticationService } from './authentication-module/authentication.service';
 export {
   RequestWithTokenPayload,
   RequestWithTokenPayloadUrl,
