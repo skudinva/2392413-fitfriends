@@ -20,12 +20,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { RefreshTokenService } from '../refresh-token-module/refresh-token.service';
-import {
-  AUTH_USER_EXISTS,
-  AUTH_USER_NOT_FOUND,
-  AUTH_USER_PASSWORD_WRONG,
-  AuthenticationResponseMessage,
-} from './authentication.constant';
+import { AuthenticationResponseMessage } from './authentication.constant';
 
 @Injectable()
 export class AuthenticationService {
@@ -67,7 +62,7 @@ export class AuthenticationService {
     const existUser = await this.shopUserRepository.findByEmail(email);
 
     if (existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS);
+      throw new ConflictException(AuthenticationResponseMessage.UserExist);
     }
 
     const userEntity = await new ShopUserEntity(shopUser).setPassword(password);
@@ -82,11 +77,13 @@ export class AuthenticationService {
     const existUser = await this.shopUserRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthenticationResponseMessage.UserNotFound);
     }
 
     if (!(await existUser.comparePassword(password))) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(
+        AuthenticationResponseMessage.LoggedError
+      );
     }
 
     return existUser;
@@ -96,7 +93,7 @@ export class AuthenticationService {
     const user = await this.shopUserRepository.findById(id);
 
     if (!user) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthenticationResponseMessage.UserNotFound);
     }
 
     return user;
@@ -149,7 +146,7 @@ export class AuthenticationService {
 
     const existUser = await this.shopUserRepository.findById(id);
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthenticationResponseMessage.UserNotFound);
     }
 
     const updateUser = new ShopUserEntity({ ...existUser, ...dto, ...{ id } });
