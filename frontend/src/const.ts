@@ -25,6 +25,7 @@ export enum ApiRoute {
   Users = '/api/users',
   Trainings = '/api/trainings',
   Comments = '/api/trainings/comments',
+  Order = '/api/orders',
 }
 
 export enum AuthorizationStatus {

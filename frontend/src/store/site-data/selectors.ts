@@ -50,3 +50,7 @@ export const getTrainingComment = ({
 export const getIsSuccessAddTrainingComment = ({
   [StoreSlice.SiteData]: SITE_DATA,
 }: State) => SITE_DATA.isSuccessAddTrainingComment;
+
+export const getIsSuccessBuyOrder = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isSuccessBuyOrder;

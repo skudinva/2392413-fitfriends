@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { StoreSlice } from '../../const';
 import type { SiteData } from '../../types/state';
 import {
+  buyTraining,
   createComment,
   fetchComment,
   fetchDiscountTrainings,
@@ -25,6 +26,7 @@ const initialState: SiteData = {
   isPopularTrainingLoading: false,
   discountTraining: null,
   isDiscountTrainingLoading: false,
+  isSuccessBuyOrder: false,
 };
 
 export const siteData = createSlice({
@@ -115,6 +117,20 @@ export const siteData = createSlice({
       })
       .addCase(createComment.rejected, (state) => {
         state.isSuccessAddTrainingComment = false;
+      })
+
+      .addCase(buyTraining.pending, (state) => {
+        state.isSuccessBuyOrder = false;
+      })
+      .addCase(buyTraining.fulfilled, (state, action) => {
+        if (state.trainingComment) {
+          console.log(action);
+          //state.trainingComment.entities.unshift(action.payload);
+          state.isSuccessBuyOrder = true;
+        }
+      })
+      .addCase(buyTraining.rejected, (state) => {
+        state.isSuccessBuyOrder = false;
       });
   },
 });

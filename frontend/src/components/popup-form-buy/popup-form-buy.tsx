@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getIsSuccessBuyOrder } from '../../store/site-data/selectors';
+import { buyTraining } from '../../store/training-action';
 import { OrderType, PayType, TrainingWithUserInfo } from '../../types/shared';
 
 interface PopupCommentProps {
@@ -12,10 +14,13 @@ function PopupFormBuy({
   training,
 }: PopupCommentProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const isSuccessBuyOrder = useAppSelector(getIsSuccessBuyOrder);
+
   const { specialPrice, title, image } = training;
   const [amount, setAmount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [paymentType, setPaymentType] = useState<PayType | null>(null);
+  const [isInit, setIsInit] = useState(false);
 
   useEffect(() => {
     setTotalPrice(specialPrice * amount);
@@ -25,16 +30,32 @@ function PopupFormBuy({
     if (!paymentType) {
       return;
     }
-    console.log({
-      amount,
-      paymentType,
-      price: training.price,
-      totalPrice,
-      trainingId: training.id,
-      type: OrderType.Ticket,
-      userId: '',
-    });
+    dispatch(
+      buyTraining({
+        amount,
+        paymentType,
+        price: training.price,
+        totalPrice,
+        trainingId: training.id,
+        type: OrderType.Ticket,
+        userId: '',
+      })
+    );
   };
+
+  useEffect(() => {
+    setIsInit(true);
+  }, [isInit]);
+
+  useEffect(() => {
+    if (!isInit) {
+      return;
+    }
+
+    if (isSuccessBuyOrder) {
+      handleClose();
+    }
+  }, [handleClose, isInit, isSuccessBuyOrder]);
 
   return (
     <div className="popup-form popup-form--buy">

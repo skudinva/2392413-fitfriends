@@ -10,6 +10,8 @@ import {
 } from '../const';
 import {
   CreateCommentDto,
+  CreateOrderDto,
+  Order,
   SortDirection,
   SortType,
   TrainingCommentWithPagination,
@@ -35,6 +37,7 @@ const TrainingAction = {
   DELETE_TRAINING: 'training/delete-training',
   FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
   POST_TRAINING_COMMENT: 'training/comment/post',
+  BUY_TRAINING: 'training/buy',
 };
 
 export const fetchTrainings = createAsyncThunk<
@@ -162,6 +165,23 @@ export const createComment = createAsyncThunk<
   try {
     const { data } = await api.post<TrainingCommentWithUserInfo>(
       `${ApiRoute.Comments}/${dto.trainingId}`,
+      dto
+    );
+    return data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
+
+export const buyTraining = createAsyncThunk<
+  Order,
+  CreateOrderDto,
+  { extra: Extra }
+>(TrainingAction.BUY_TRAINING, async (dto, { extra }) => {
+  const { api } = extra;
+  try {
+    const { data } = await api.post<Order>(
+      `${ApiRoute.Order}/${dto.trainingId}`,
       dto
     );
     return data;
