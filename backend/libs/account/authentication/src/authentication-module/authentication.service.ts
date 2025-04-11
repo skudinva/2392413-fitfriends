@@ -15,6 +15,7 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import dayjs from 'dayjs';
+import { randomUUID } from 'node:crypto';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -105,7 +106,7 @@ export class AuthenticationService {
     const accessTokenPayload = createJWTPayload(user);
     const refreshTokenPayload = {
       ...accessTokenPayload,
-      tokenId: crypto.randomUUID(),
+      tokenId: randomUUID(),
     };
     await this.refreshTokenService.createRefreshSession(refreshTokenPayload);
 

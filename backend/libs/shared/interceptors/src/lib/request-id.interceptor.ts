@@ -4,13 +4,13 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-import * as crypto from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { Observable } from 'rxjs';
 
 export class RequestIdInterceptor implements NestInterceptor {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const requestId = crypto.randomUUID();
+    const requestId = randomUUID();
     const request = context.switchToHttp().getRequest<Request>();
     request.headers['X-Request-Id'] = requestId;
 
