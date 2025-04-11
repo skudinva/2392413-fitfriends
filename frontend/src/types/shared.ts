@@ -9,9 +9,12 @@ export type { AuthUser } from '../../../backend/libs/shared/core/src/lib/types/a
 export type { TrainingCommentWithPagination } from '../../../backend/libs/shared/core/src/lib/types/comment-with-pagination.interface';
 export type { TrainingCommentWithUserInfo } from '../../../backend/libs/shared/core/src/lib/types/comment-with-user-info.interface';
 export type { ICreateCommentDto as CreateCommentDto } from '../../../backend/libs/shared/core/src/lib/types/create-comment-dto.interface';
+export type { ICreateOrderDto as CreateOrderDto } from '../../../backend/libs/shared/core/src/lib/types/create-order-dto.interface';
 export type { LocationName } from '../../../backend/libs/shared/core/src/lib/types/location-name.interface';
 export type { ILoggedUserRdo as LoggedUserRdo } from '../../../backend/libs/shared/core/src/lib/types/logged-user-rdo.interface';
 export type { ILoginUserDto as LoginUserDto } from '../../../backend/libs/shared/core/src/lib/types/login-user-dto.interface';
+export { OrderType } from '../../../backend/libs/shared/core/src/lib/types/order-type.enum';
+export { PayType } from '../../../backend/libs/shared/core/src/lib/types/pay-type.enum';
 export { TrainingLevel } from '../../../backend/libs/shared/core/src/lib/types/training-level.enum';
 export type { ITrainingQuery as TrainingQuery } from '../../../backend/libs/shared/core/src/lib/types/training-query.interface';
 export { TrainingType } from '../../../backend/libs/shared/core/src/lib/types/training-type.enum';

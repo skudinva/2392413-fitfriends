@@ -1,9 +1,34 @@
+import { MouseEvent, useState } from 'react';
 import { useAppSelector } from '../../hooks';
 import { getTrainingCard } from '../../store/site-data/selectors';
 import { UserGender } from '../../types/shared';
+import ModalWindow from '../modal-window/modal-window';
+import PopupFormBuy from '../popup-form-buy/popup-form-buy';
 
 function TrainingInfo(): JSX.Element {
   const trainingCard = useAppSelector(getTrainingCard);
+  const [showModal, setShowModal] = useState(false);
+
+  const onCloseCommentForm = () => {
+    setShowModal(false);
+  };
+
+  const onBuyButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setShowModal(true);
+  };
+
+  if (showModal && trainingCard) {
+    return (
+      <ModalWindow handleClose={onCloseCommentForm}>
+        <PopupFormBuy
+          handleClose={onCloseCommentForm}
+          training={trainingCard}
+        />
+      </ModalWindow>
+    );
+  }
+
   return (
     <div className="training-card">
       <div className="training-info">
@@ -120,7 +145,11 @@ function TrainingInfo(): JSX.Element {
                   </label>
                   <div className="training-info__error">Введите число</div>
                 </div>
-                <button className="btn training-info__buy" type="button">
+                <button
+                  className="btn training-info__buy"
+                  type="button"
+                  onClick={onBuyButtonClick}
+                >
                   Купить
                 </button>
               </div>
