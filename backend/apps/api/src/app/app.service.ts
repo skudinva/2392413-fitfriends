@@ -1,6 +1,7 @@
 import { createStaticUrlForFile, createUrlForFile } from '@backend/helpers';
 import { File } from '@backend/shared/core';
 import { UserRdo } from '@backend/shop-user';
+import { TrainingRdo } from '@backend/training';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import FormData from 'form-data';
@@ -38,6 +39,37 @@ export class AppService {
 
     records.forEach((record) => {
       record.userInfo = usersInfo.get(record.userId);
+    });
+  }
+
+  public async appendTrainingInfo<
+    T extends { trainingId: number; training: TrainingRdo }
+  >(records: T[]): Promise<void> {
+    const uniqueTrainingIds = new Set<number>();
+    const trainingsInfo = new Map<number, TrainingRdo>();
+
+    records.forEach((record) => {
+      uniqueTrainingIds.add(record.trainingId);
+    });
+
+    const trainingInfos = await Promise.all(
+      Array.from(uniqueTrainingIds).map((trainingId) =>
+        this.httpService.axiosRef.get<TrainingRdo>(
+          `${ApplicationServiceURL.Training}/${trainingId}`
+        )
+      )
+    );
+    trainingInfos.forEach(({ data }) => {
+      data.video = createStaticUrlForFile(
+        data.video,
+        ApplicationServiceURL.File
+      );
+
+      return trainingsInfo.set(data.id, data);
+    });
+
+    records.forEach((record) => {
+      record.training = trainingsInfo.get(record.trainingId);
     });
   }
 
