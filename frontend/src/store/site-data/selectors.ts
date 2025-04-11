@@ -54,3 +54,10 @@ export const getIsSuccessAddTrainingComment = ({
 export const getIsSuccessBuyOrder = ({
   [StoreSlice.SiteData]: SITE_DATA,
 }: State) => SITE_DATA.isSuccessBuyOrder;
+
+export const getUserOrder = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
+  SITE_DATA.userOrder;
+
+export const getIsUserOrderLoading = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isUserOrderLoading;

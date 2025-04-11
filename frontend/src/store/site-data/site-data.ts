@@ -6,6 +6,7 @@ import {
   createComment,
   fetchComment,
   fetchDiscountTrainings,
+  fetchOrders,
   fetchPopularTrainings,
   fetchSpecialTrainings,
   fetchTraining,
@@ -27,7 +28,8 @@ const initialState: SiteData = {
   discountTraining: null,
   isDiscountTrainingLoading: false,
   isSuccessBuyOrder: false,
-  userOrders: [],
+  isUserOrderLoading: false,
+  userOrder: null,
 };
 
 export const siteData = createSlice({
@@ -46,6 +48,7 @@ export const siteData = createSlice({
       .addCase(fetchSpecialTrainings.rejected, (state) => {
         state.isSpecialTrainingLoading = false;
       })
+
       .addCase(fetchDiscountTrainings.pending, (state) => {
         state.isDiscountTrainingLoading = true;
       })
@@ -56,6 +59,7 @@ export const siteData = createSlice({
       .addCase(fetchDiscountTrainings.rejected, (state) => {
         state.isDiscountTrainingLoading = false;
       })
+
       .addCase(fetchTrainings.pending, (state) => {
         state.isTrainingLoading = true;
       })
@@ -77,6 +81,7 @@ export const siteData = createSlice({
       .addCase(fetchTrainings.rejected, (state) => {
         state.isTrainingLoading = false;
       })
+
       .addCase(fetchPopularTrainings.pending, (state) => {
         state.isPopularTrainingLoading = true;
       })
@@ -87,6 +92,7 @@ export const siteData = createSlice({
       .addCase(fetchPopularTrainings.rejected, (state) => {
         state.isPopularTrainingLoading = false;
       })
+
       .addCase(fetchTraining.pending, (state) => {
         state.isTrainingCardLoading = true;
       })
@@ -97,6 +103,7 @@ export const siteData = createSlice({
       .addCase(fetchTraining.rejected, (state) => {
         state.isTrainingCardLoading = false;
       })
+
       .addCase(fetchComment.pending, (state) => {
         state.isTrainingCommentLoading = true;
       })
@@ -107,6 +114,7 @@ export const siteData = createSlice({
       .addCase(fetchComment.rejected, (state) => {
         state.isTrainingCommentLoading = false;
       })
+
       .addCase(createComment.pending, (state) => {
         state.isSuccessAddTrainingComment = false;
       })
@@ -124,13 +132,24 @@ export const siteData = createSlice({
         state.isSuccessBuyOrder = false;
       })
       .addCase(buyTraining.fulfilled, (state, action) => {
-        if (state.trainingComment) {
-          state.userOrders.unshift(action.payload);
+        if (state.userOrder) {
+          state.userOrder.entities.unshift(action.payload);
           state.isSuccessBuyOrder = true;
         }
       })
       .addCase(buyTraining.rejected, (state) => {
         state.isSuccessBuyOrder = false;
+      })
+
+      .addCase(fetchOrders.pending, (state) => {
+        state.isUserOrderLoading = true;
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.isUserOrderLoading = false;
+        state.userOrder = action.payload;
+      })
+      .addCase(fetchOrders.rejected, (state) => {
+        state.isUserOrderLoading = false;
       });
   },
 });

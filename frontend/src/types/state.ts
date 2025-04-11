@@ -1,9 +1,9 @@
 import { AuthorizationStatus } from '../const';
 import store from '../store';
 import {
-  Order,
   TokenPayload,
   TrainingCommentWithPagination,
+  TrainingOrderWithPagination,
   TrainingWithPagination,
   TrainingWithUserInfo,
   UserRdo,
@@ -24,7 +24,8 @@ export type SiteData = {
   discountTraining: TrainingWithPagination | null;
   isDiscountTrainingLoading: boolean;
   isSuccessBuyOrder: boolean;
-  userOrders: Order[];
+  isUserOrderLoading: boolean;
+  userOrder: TrainingOrderWithPagination | null;
 };
 
 export type UserProcess = {

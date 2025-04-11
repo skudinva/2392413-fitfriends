@@ -16,6 +16,7 @@ import {
   SortType,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
+  TrainingOrderWithPagination,
   TrainingQuery,
   TrainingWithPagination,
   TrainingWithUserInfo,
@@ -38,6 +39,7 @@ const TrainingAction = {
   FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
   POST_TRAINING_COMMENT: 'training/comment/post',
   BUY_TRAINING: 'training/buy',
+  FETCH_ORDERS: 'orders/fetch',
 };
 
 export const fetchTrainings = createAsyncThunk<
@@ -188,4 +190,17 @@ export const buyTraining = createAsyncThunk<
   } catch (error) {
     return Promise.reject(error);
   }
+});
+
+export const fetchOrders = createAsyncThunk<
+  TrainingOrderWithPagination,
+  undefined,
+  { extra: Extra }
+>(TrainingAction.FETCH_ORDERS, async (_, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.get<TrainingOrderWithPagination>(
+    `${ApiRoute.Order}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}`
+  );
+
+  return data;
 });
