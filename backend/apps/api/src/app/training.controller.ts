@@ -13,13 +13,6 @@ import {
   TrainingWithPaginationRdo,
   UpdateTrainingDto,
 } from '@backend/training';
-import {
-  CreateCommentDto,
-  TrainingCommentQuery,
-  TrainingCommentRdo,
-  TrainingCommentResponse,
-  TrainingCommentWithPaginationRdo,
-} from '@backend/training-comment';
 import { HttpService } from '@nestjs/axios';
 import {
   Body,
@@ -258,84 +251,5 @@ export class TrainingController {
     data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
     await this.appService.appendUserInfo([data]);
     return data;
-  }
-
-  @ApiResponse({
-    type: TrainingCommentWithPaginationRdo,
-    status: HttpStatus.OK,
-    description: TrainingCommentResponse.CommentsFound,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: TrainingCommentResponse.TrainingNotFound,
-  })
-  @ApiQuery({ type: TrainingCommentQuery })
-  @Get('/comments/:trainingId')
-  @ApiTags(ApiSection.Comment)
-  public async getComments(
-    @Param('trainingId') trainingId: number,
-    @Req() req: Request
-  ) {
-    const { data } =
-      await this.httpService.axiosRef.get<TrainingCommentWithPaginationRdo>(
-        `${ApplicationServiceURL.Comments}/${trainingId}?${
-          url.parse(req.url).query
-        }`
-      );
-    await this.appService.appendUserInfo(data.entities);
-    return data;
-  }
-
-  @Post('/comments/:trainingId')
-  @UseGuards(CheckAuthGuard)
-  @ApiBearerAuth('accessToken')
-  @UseInterceptors(InjectUserIdInterceptor)
-  @ApiResponse({
-    type: TrainingCommentRdo,
-    status: HttpStatus.CREATED,
-    description: TrainingCommentResponse.CommentCreated,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: TrainingCommentResponse.TrainingNotFound,
-  })
-  @ApiTags(ApiSection.Comment)
-  public async createComment(
-    @Param('trainingId') trainingId: number,
-    @Body() dto: CreateCommentDto
-  ) {
-    const { data } = await this.httpService.axiosRef.post<TrainingCommentRdo>(
-      `${ApplicationServiceURL.Comments}/${trainingId}`,
-      dto
-    );
-    await this.appService.appendUserInfo([data]);
-    return data;
-  }
-
-  @Delete('/comments/:commentId')
-  @UseGuards(CheckAuthGuard)
-  @ApiBearerAuth('accessToken')
-  @UseInterceptors(InjectUserIdInterceptor)
-  @ApiResponse({
-    status: HttpStatus.NO_CONTENT,
-    description: TrainingCommentResponse.CommentDeleted,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: TrainingCommentResponse.CommentNotFound,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: TrainingCommentResponse.NotAllowed,
-  })
-  @ApiTags(ApiSection.Comment)
-  public async deleteComment(
-    @Param('commentId') commentId: number,
-    @Req() req: RequestWithTokenPayload
-  ) {
-    const userId = req.user.sub;
-    await this.httpService.axiosRef.delete(
-      `${ApplicationServiceURL.Comments}/${commentId}/${userId}`
-    );
   }
 }
