@@ -45,6 +45,22 @@ function GymCatalogForm({
   const maxPriceInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (maxPrice >= Number.MAX_SAFE_INTEGER) {
+      return;
+    }
+
+    if (minCalories < EntityConstrain.training.calories.minValue) {
+      return;
+    }
+
+    if (maxCalories > EntityConstrain.training.calories.maxValue) {
+      return;
+    }
+
+    if (minCalories > maxCalories) {
+      return;
+    }
+
     handleFilterApply({
       minPrice: isFree ? 0 : minPrice,
       maxPrice: isFree ? 0 : maxPrice,
@@ -82,9 +98,15 @@ function GymCatalogForm({
               id="minPrice"
               name="minPrice"
               value={minPrice}
+              max={maxPrice}
+              min={0}
               ref={minPriceInput}
               onInput={(evt) => {
-                setMinPrice(Number(evt.currentTarget.value));
+                const newMinPrice = Number(evt.currentTarget.value);
+                if (newMinPrice > maxPrice) {
+                  return;
+                }
+                setMinPrice(newMinPrice);
               }}
             />
             <label htmlFor="minPrice">от</label>
@@ -95,9 +117,13 @@ function GymCatalogForm({
               id="maxPrice"
               name="maxPrice"
               value={maxPrice}
+              max={maxPrice}
+              min={0}
               ref={maxPriceInput}
               onInput={(evt) => {
-                setMaxPrice(Number(evt.currentTarget.value));
+                setMaxPrice(
+                  Math.min(maxPriceTraining, Number(evt.currentTarget.value))
+                );
               }}
             />
             <label htmlFor="maxPrice">до</label>
@@ -115,8 +141,8 @@ function GymCatalogForm({
             barRightColor="black"
             thumbLeftColor="black"
             thumbRightColor="black"
-            minValue={minPrice}
-            maxValue={maxPrice}
+            minValue={minPrice <= maxPrice ? minPrice : maxPrice}
+            maxValue={maxPrice >= minPrice ? maxPrice : minPrice}
             onInput={(evt) => {
               setMinPrice(evt.minValue);
               setMaxPrice(evt.maxValue);
@@ -132,9 +158,16 @@ function GymCatalogForm({
               type="number"
               id="text-min-cal"
               name="text-min-cal"
+              min={EntityConstrain.training.calories.minValue}
+              max={EntityConstrain.training.calories.maxValue}
               value={minCalories}
               onInput={(evt) => {
-                setMinCalories(Number(evt.currentTarget.value));
+                const newMinCalories = Number(evt.currentTarget.value);
+                if (newMinCalories > maxCalories) {
+                  return;
+                }
+
+                setMinCalories(newMinCalories);
               }}
             />
             <label htmlFor="text-min-cal">от</label>
@@ -144,9 +177,16 @@ function GymCatalogForm({
               type="number"
               id="text-max-cal"
               name="text-max-cal"
+              min={EntityConstrain.training.calories.minValue}
+              max={EntityConstrain.training.calories.maxValue}
               value={maxCalories}
               onInput={(evt) => {
-                setMaxCalories(Number(evt.currentTarget.value));
+                setMaxCalories(
+                  Math.max(
+                    Number(evt.currentTarget.value),
+                    EntityConstrain.training.calories.maxValue
+                  )
+                );
               }}
             />
             <label htmlFor="text-max-cal">до</label>

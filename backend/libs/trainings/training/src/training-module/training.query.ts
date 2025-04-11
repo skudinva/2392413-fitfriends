@@ -1,5 +1,6 @@
 import { TransformToArray } from '@backend/helpers';
 import {
+  EntityConstrain,
   ITrainingQuery,
   SortDirection,
   SortType,
@@ -7,7 +8,15 @@ import {
 } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsOptional } from 'class-validator';
+import {
+  IsArray,
+  IsIn,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  Max,
+  Min,
+} from 'class-validator';
 import {
   DEFAULT_PAGE,
   DEFAULT_SORT_DIRECTION,
@@ -67,6 +76,7 @@ export class TrainingQuery implements ITrainingQuery {
     example: DEFAULT_PAGE,
     default: DEFAULT_PAGE,
   })
+  @IsNumber({ maxDecimalPlaces: 0 })
   public page: number = DEFAULT_PAGE;
 
   @Transform(({ value }) => parseInt(value, 10) || 0)
@@ -76,6 +86,10 @@ export class TrainingQuery implements ITrainingQuery {
     example: 100,
     default: 0,
   })
+  @Max(Number.MAX_SAFE_INTEGER)
+  @Min(0)
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsOptional()
   minPrice: number;
 
   @Transform(({ value }) => parseInt(value, 10) || 0)
@@ -85,6 +99,9 @@ export class TrainingQuery implements ITrainingQuery {
     example: 10000,
     default: 10000,
   })
+  @Min(0)
+  @IsOptional()
+  @IsInt()
   maxPrice: number;
 
   @Transform(({ value }) => parseInt(value, 10) || 0)
@@ -94,6 +111,10 @@ export class TrainingQuery implements ITrainingQuery {
     example: 100,
     default: 0,
   })
+  @Min(EntityConstrain.training.calories.minValue)
+  @Max(EntityConstrain.training.calories.maxValue)
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsOptional()
   minCalories: number;
 
   @Transform(({ value }) => parseInt(value, 10) || 0)
@@ -103,6 +124,10 @@ export class TrainingQuery implements ITrainingQuery {
     example: 10000,
     default: 10000,
   })
+  @Min(EntityConstrain.training.calories.minValue)
+  @Max(EntityConstrain.training.calories.maxValue)
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsOptional()
   maxCalories: number;
 
   @Transform(({ value }) => parseInt(value, 10) || 0)
@@ -112,6 +137,10 @@ export class TrainingQuery implements ITrainingQuery {
     example: 0,
     default: 0,
   })
+  @Min(0)
+  @Max(EntityConstrain.feedback.mark.maxValue)
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsOptional()
   minRating: number;
 
   @Transform(({ value }) => parseInt(value, 10) || 0)
@@ -121,6 +150,10 @@ export class TrainingQuery implements ITrainingQuery {
     example: 5,
     default: 5,
   })
+  @Min(EntityConstrain.feedback.mark.minValue)
+  @Max(EntityConstrain.feedback.mark.maxValue)
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsOptional()
   maxRating: number;
 
   @ApiProperty({
@@ -128,5 +161,6 @@ export class TrainingQuery implements ITrainingQuery {
     required: false,
   })
   @Transform(({ value }) => String(value).toLowerCase() === 'true')
+  @IsOptional()
   isSpecial?: boolean;
 }

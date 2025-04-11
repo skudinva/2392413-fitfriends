@@ -48,6 +48,7 @@ export class BaseTrainingDto
   duration: TrainingDuration;
 
   @IsNumber({ maxDecimalPlaces: 0 })
+  @Max(Number.MAX_SAFE_INTEGER)
   @Min(0)
   price: number;
 
