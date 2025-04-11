@@ -1,1 +1,1 @@
-export * from './training-order.module';
+export { TrainingOrderModule } from './training-order.module';

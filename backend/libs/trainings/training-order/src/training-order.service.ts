@@ -1,5 +1,4 @@
 import { Order, PaginationResult } from '@backend/shared/core';
-import { ShopUserService } from '@backend/shop-user';
 import { TrainingService } from '@backend/training';
 import {
   ConflictException,
@@ -16,18 +15,13 @@ import { TrainingOrderRepository } from './training-order.repository';
 export class TrainingOrderService {
   constructor(
     private readonly trainingOrderRepository: TrainingOrderRepository,
-    private readonly trainingService: TrainingService,
-    private readonly userService: ShopUserService
+    private readonly trainingService: TrainingService
   ) {}
 
   public async getOrders(
     userId: Order['userId'],
     query: TrainingOrderQuery
   ): Promise<PaginationResult<ReturnType<TrainingOrderEntity['toPOJO']>>> {
-    const user = await this.userService.getUserInfo(userId);
-    if (!user) {
-      return;
-    }
     const ordersWithPagination =
       await this.trainingOrderRepository.findByUserId(userId, query);
 
