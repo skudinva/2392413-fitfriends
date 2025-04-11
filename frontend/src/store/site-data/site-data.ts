@@ -27,6 +27,7 @@ const initialState: SiteData = {
   discountTraining: null,
   isDiscountTrainingLoading: false,
   isSuccessBuyOrder: false,
+  userOrders: [],
 };
 
 export const siteData = createSlice({
@@ -124,8 +125,7 @@ export const siteData = createSlice({
       })
       .addCase(buyTraining.fulfilled, (state, action) => {
         if (state.trainingComment) {
-          console.log(action);
-          //state.trainingComment.entities.unshift(action.payload);
+          state.userOrders.unshift(action.payload);
           state.isSuccessBuyOrder = true;
         }
       })
