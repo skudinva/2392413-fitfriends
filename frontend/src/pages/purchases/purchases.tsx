@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import BackButton from '../../components/back-button/back-button';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import PopularTrainingCard from '../../components/popular-training-card/popular-training-card';
@@ -15,9 +15,18 @@ function Purchases(): JSX.Element {
   const isUserOrderLoading = useAppSelector(getIsUserOrderLoading);
   const userOrder = useAppSelector(getUserOrder);
 
+  const [page, setPage] = useState(1);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   useEffect(() => {
-    dispatch(fetchOrders());
-  }, [dispatch]);
+    dispatch(fetchOrders({ page }));
+  }, [dispatch, page]);
 
   if (isUserOrderLoading || !userOrder) {
     return <Spinner />;
@@ -63,18 +72,25 @@ function Purchases(): JSX.Element {
             ))}
           </ul>
           <div className="show-more my-purchases__show-more">
-            <button
-              className="btn show-more__button show-more__button--more"
-              type="button"
-            >
-              Показать еще
-            </button>
-            <button
-              className="btn show-more__button show-more__button--to-top"
-              type="button"
-            >
-              Вернуться в начало
-            </button>
+            {userOrder && page && userOrder.totalPages > page ? (
+              <button
+                className="btn show-more__button show-more__button--more"
+                type="button"
+                onClick={() => {
+                  setPage(page + 1);
+                }}
+              >
+                Показать еще
+              </button>
+            ) : (
+              <button
+                className="btn show-more__button"
+                type="button"
+                onClick={scrollToTop}
+              >
+                Вернуться в начало
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -194,12 +194,14 @@ export const buyTraining = createAsyncThunk<
 
 export const fetchOrders = createAsyncThunk<
   TrainingOrderWithPagination,
-  undefined,
+  { page?: number },
   { extra: Extra }
->(TrainingAction.FETCH_ORDERS, async (_, { extra }) => {
+>(TrainingAction.FETCH_ORDERS, async ({ page }, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingOrderWithPagination>(
-    `${ApiRoute.Order}?page=1&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}`
+    `${ApiRoute.Order}?page=${page ?? 1}&sortBy=${
+      SortType.Date
+    }&sortDirection=${SortDirection.Desc}`
   );
 
   return data;
