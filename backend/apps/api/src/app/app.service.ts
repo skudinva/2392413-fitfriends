@@ -44,7 +44,7 @@ export class AppService {
 
   public async appendTrainingInfo<
     T extends { trainingId: number; training: TrainingRdo }
-  >(records: T[]): Promise<void> {
+  >(userId: string, records: T[]): Promise<void> {
     const uniqueTrainingIds = new Set<number>();
     const trainingsInfo = new Map<number, TrainingRdo>();
 
@@ -55,7 +55,7 @@ export class AppService {
     const trainingInfos = await Promise.all(
       Array.from(uniqueTrainingIds).map((trainingId) =>
         this.httpService.axiosRef.get<TrainingRdo>(
-          `${ApplicationServiceURL.Training}/${trainingId}`
+          `${ApplicationServiceURL.Training}/${trainingId}/${userId}/`
         )
       )
     );

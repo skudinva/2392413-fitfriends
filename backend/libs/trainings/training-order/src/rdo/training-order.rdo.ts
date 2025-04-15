@@ -1,4 +1,5 @@
 import { Order, OrderType, PayType } from '@backend/shared/core';
+import { TrainingRdo } from '@backend/training';
 import { Expose } from 'class-transformer';
 import { TrainingOrderApiDoc } from '../training-order.api-doc';
 
@@ -29,4 +30,7 @@ export class TrainingOrderRdo extends TrainingOrderApiDoc implements Order {
 
   @Expose()
   createdAt: Date;
+
+  @Expose()
+  training: TrainingRdo;
 }

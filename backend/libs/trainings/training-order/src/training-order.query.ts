@@ -1,4 +1,4 @@
-import { SortDirection } from '@backend/shared/core';
+import { SortDirection, SortType } from '@backend/shared/core';
 import { Transform } from 'class-transformer';
 import { IsIn, IsOptional } from 'class-validator';
 
@@ -6,11 +6,23 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   DEFAULT_PAGE,
   DEFAULT_SORT_DIRECTION,
+  DEFAULT_SORT_TYPE,
   MAX_ORDERS_COUNT,
 } from './training-order.constant';
 
 export class TrainingOrderQuery {
   public limit: number = MAX_ORDERS_COUNT;
+
+  @Transform(({ value }) => value || DEFAULT_SORT_TYPE)
+  @IsIn(Object.values(SortType))
+  @IsOptional()
+  @ApiProperty({
+    description: 'sortBy',
+    enum: SortType,
+    enumName: 'SortType',
+    default: DEFAULT_SORT_TYPE,
+  })
+  public sortBy: SortType = DEFAULT_SORT_TYPE;
 
   @ApiProperty({
     description: 'sortDirection',

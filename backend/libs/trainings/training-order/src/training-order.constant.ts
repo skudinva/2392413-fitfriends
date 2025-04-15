@@ -1,7 +1,8 @@
-import { SortDirection } from '@backend/shared/core';
+import { SortDirection, SortType } from '@backend/shared/core';
 
 export const MAX_ORDERS_COUNT = 50;
 export const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
+export const DEFAULT_SORT_TYPE = SortType.Date;
 export const DEFAULT_PAGE = 1;
 
 export const TrainingOrderValidateMessage = {

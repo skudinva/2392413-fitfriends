@@ -24,13 +24,17 @@ import {
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import * as url from 'node:url';
 import { ApiSection, ApplicationServiceURL } from './app.config';
+import { AppService } from './app.service';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 
 @Controller('orders')
 @UseFilters(AxiosExceptionFilter)
 export class OrderController {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly appService: AppService
+  ) {}
 
   @ApiResponse({
     type: TrainingOrderWithPaginationRdo,
@@ -47,15 +51,14 @@ export class OrderController {
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
   @UseInterceptors(InjectUserIdInterceptor)
-  public async getOrders(
-    @Req() reqToken: RequestWithTokenPayload,
-    @Req() req: Request
-  ) {
-    const userId = reqToken.user.sub;
+  public async getOrders(@Req() req: RequestWithTokenPayload & Request) {
+    const userId = req.user.sub;
     const { data } =
       await this.httpService.axiosRef.get<TrainingOrderWithPaginationRdo>(
         `${ApplicationServiceURL.Orders}/${userId}?${url.parse(req.url).query}`
       );
+
+    await this.appService.appendTrainingInfo(userId, data.entities);
 
     return data;
   }
@@ -82,6 +85,7 @@ export class OrderController {
       `${ApplicationServiceURL.Orders}/${trainingId}`,
       dto
     );
+    await this.appService.appendTrainingInfo(dto.userId, [data]);
 
     return data;
   }

@@ -1,4 +1,5 @@
 import { Order, OrderType, PayType } from '@backend/shared/core';
+import { TrainingRdo } from '@backend/training';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TrainingOrderApiDoc implements Order {
@@ -70,4 +71,10 @@ export class TrainingOrderApiDoc implements Order {
     example: '2024-02-15T13:43:22+07:00',
   })
   createdAt!: Date;
+
+  @ApiProperty({
+    description: 'Training info',
+    required: false,
+  })
+  training: TrainingRdo;
 }
