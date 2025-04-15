@@ -53,6 +53,7 @@ export class TrainingOrderQuery implements ITrainingOrderQuery {
     description: 'Только активные',
     example: false,
     default: false,
+    required: false,
   })
   @Transform(({ value }) => String(value).toLowerCase() === 'true')
   @IsOptional()
