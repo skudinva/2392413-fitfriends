@@ -11,7 +11,7 @@ import {
 import {
   CreateCommentDto,
   CreateOrderDto,
-  Order,
+  OrderWithTraining,
   SortDirection,
   SortType,
   TrainingCommentWithPagination,
@@ -176,13 +176,13 @@ export const createComment = createAsyncThunk<
 });
 
 export const buyTraining = createAsyncThunk<
-  Order,
+  OrderWithTraining,
   CreateOrderDto,
   { extra: Extra }
 >(TrainingAction.BUY_TRAINING, async (dto, { extra }) => {
   const { api } = extra;
   try {
-    const { data } = await api.post<Order>(
+    const { data } = await api.post<OrderWithTraining>(
       `${ApiRoute.Order}/${dto.trainingId}`,
       dto
     );

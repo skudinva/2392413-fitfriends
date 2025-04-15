@@ -1,4 +1,4 @@
 import { PaginationResult } from '../interfaces/pagination.interface';
-import { Order } from './order.interface';
+import { OrderWithTraining } from './order-with-training.interface';
 
-export type TrainingOrderWithPagination = PaginationResult<Order>;
+export type TrainingOrderWithPagination = PaginationResult<OrderWithTraining>;
