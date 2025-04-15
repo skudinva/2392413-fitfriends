@@ -16,6 +16,7 @@ function Purchases(): JSX.Element {
   const userOrder = useAppSelector(getUserOrder);
 
   const [page, setPage] = useState(1);
+  const [activeOnly, setActiveOnly] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -25,8 +26,8 @@ function Purchases(): JSX.Element {
   };
 
   useEffect(() => {
-    dispatch(fetchOrders({ page }));
-  }, [dispatch, page]);
+    dispatch(fetchOrders({ page, activeOnly }));
+  }, [activeOnly, dispatch, page]);
 
   if (isUserOrderLoading || !userOrder) {
     return <Spinner />;
@@ -50,6 +51,8 @@ function Purchases(): JSX.Element {
                     type="checkbox"
                     value="user-agreement-1"
                     name="user-agreement"
+                    checked={activeOnly}
+                    onClick={() => setActiveOnly(!activeOnly)}
                   />
                   <span className="custom-toggle__icon">
                     <svg width="9" height="6" aria-hidden="true">
