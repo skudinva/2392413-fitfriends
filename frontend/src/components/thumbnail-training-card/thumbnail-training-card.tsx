@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { Training } from '../../types/shared';
 
-interface PopularTrainingCardProps {
+interface ThumbnailTrainingCardProps {
   training: Training;
 }
 
-function PopularTrainingCard({
+function ThumbnailTrainingCard({
   training,
-}: PopularTrainingCardProps): JSX.Element {
+}: ThumbnailTrainingCardProps): JSX.Element {
   return (
     <div className="thumbnail-training">
       <div className="thumbnail-training__inner">
@@ -68,4 +68,4 @@ function PopularTrainingCard({
   );
 }
 
-export default PopularTrainingCard;
+export default ThumbnailTrainingCard;

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import BackButton from '../../components/back-button/back-button';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import GymCatalogForm from '../../components/gym-catalog-form/gym-catalog-form';
-import PopularTrainingCard from '../../components/popular-training-card/popular-training-card';
 import Spinner from '../../components/spinner/spinner';
+import ThumbnailTrainingCard from '../../components/thumbnail-training-card/thumbnail-training-card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   getIsTrainingLoading,
@@ -63,7 +63,7 @@ function Trainings(): JSX.Element {
                         className="training-catalog__item"
                         key={`training-catalog__item-${trainingItem.id}`}
                       >
-                        <PopularTrainingCard training={trainingItem} />
+                        <ThumbnailTrainingCard training={trainingItem} />
                       </li>
                     ))}
                 </ul>

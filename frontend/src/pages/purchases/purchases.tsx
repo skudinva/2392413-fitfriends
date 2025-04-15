@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import BackButton from '../../components/back-button/back-button';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
-import PopularTrainingCard from '../../components/popular-training-card/popular-training-card';
 import Spinner from '../../components/spinner/spinner';
+import ThumbnailTrainingCard from '../../components/thumbnail-training-card/thumbnail-training-card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   getIsUserOrderLoading,
@@ -71,7 +71,7 @@ function Purchases(): JSX.Element {
                     className="my-purchases__item"
                     key={`my-purchases__item-${order.id}`}
                   >
-                    <PopularTrainingCard training={order.training} />
+                    <ThumbnailTrainingCard training={order.training} />
                   </li>
                 ))}
               </ul>

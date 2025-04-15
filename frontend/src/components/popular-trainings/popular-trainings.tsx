@@ -10,7 +10,7 @@ import {
   getIsPopularTrainingLoading,
   getPopularTraining,
 } from '../../store/site-data/selectors';
-import PopularTrainingCard from '../popular-training-card/popular-training-card';
+import ThumbnailTrainingCard from '../thumbnail-training-card/thumbnail-training-card';
 
 function PopularTrainings(): JSX.Element {
   const trainingLoading = useAppSelector(getIsPopularTrainingLoading);
@@ -90,7 +90,7 @@ function PopularTrainings(): JSX.Element {
                     className="popular-trainings__item"
                     key={`popular-trainings__item-${trainingItem.id}`}
                   >
-                    <PopularTrainingCard training={trainingItem} />
+                    <ThumbnailTrainingCard training={trainingItem} />
                   </li>
                 </SwiperSlide>
               ))}
