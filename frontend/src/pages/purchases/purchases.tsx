@@ -4,11 +4,11 @@ import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import Spinner from '../../components/spinner/spinner';
 import ThumbnailTrainingCard from '../../components/thumbnail-training-card/thumbnail-training-card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchOrders } from '../../store/order-action';
 import {
   getIsUserOrderLoading,
   getUserOrder,
 } from '../../store/site-data/selectors';
-import { fetchOrders } from '../../store/training-action';
 
 function Purchases(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -47,7 +47,7 @@ function Purchases(): JSX.Element {
                     type="checkbox"
                     value="user-agreement-1"
                     name="user-agreement"
-                    checked={activeOnly}
+                    defaultChecked={activeOnly}
                     onClick={() => setActiveOnly(!activeOnly)}
                   />
                   <span className="custom-toggle__icon">

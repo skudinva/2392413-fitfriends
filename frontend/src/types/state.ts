@@ -1,6 +1,7 @@
 import { AuthorizationStatus } from '../const';
 import store from '../store';
 import {
+  Order,
   TokenPayload,
   TrainingCommentWithPagination,
   TrainingOrderWithPagination,
@@ -15,6 +16,7 @@ export type SiteData = {
   training: TrainingWithPagination | null;
   isTrainingLoading: boolean;
   trainingCard: TrainingWithUserInfo | null;
+  trainingState: Order | null;
   isTrainingCardLoading: boolean;
   trainingComment: TrainingCommentWithPagination | null;
   isTrainingCommentLoading: boolean;

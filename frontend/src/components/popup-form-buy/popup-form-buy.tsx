@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { buyTraining } from '../../store/order-action';
 import { getIsSuccessBuyOrder } from '../../store/site-data/selectors';
-import { buyTraining } from '../../store/training-action';
 import { OrderType, PayType, TrainingWithUserInfo } from '../../types/shared';
 
 interface PopupCommentProps {

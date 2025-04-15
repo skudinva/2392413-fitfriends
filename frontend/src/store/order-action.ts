@@ -4,6 +4,7 @@ import type { History } from 'history';
 import { ApiRoute } from '../const';
 import {
   CreateOrderDto,
+  Order,
   OrderWithTraining,
   SortDirection,
   SortType,
@@ -16,26 +17,17 @@ type Extra = {
   history: History;
 };
 
-const TrainingAction = {
-  FETCH_TRAININGS: 'trainings/fetch',
-  FETCH_POPULAR_TRAINING: 'popular-trainings/fetch',
-  FETCH_SPECIAL_TRAINING: 'special-trainings/fetch',
-  FETCH_DISCOUNT_TRAINING: 'discount-trainings/fetch',
-  FETCH_TRAINING: 'training/fetch',
-  POST_TRAINING: 'training/post-training',
-  EDIT_TRAINING: 'training/edit-training',
-  DELETE_TRAINING: 'training/delete-training',
-  FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
-  POST_TRAINING_COMMENT: 'training/comment/post',
+const OrderAction = {
   BUY_TRAINING: 'training/buy',
   FETCH_ORDERS: 'orders/fetch',
+  FETCH_TRAINING_STATE: 'training/state',
 };
 
 export const buyTraining = createAsyncThunk<
   OrderWithTraining,
   CreateOrderDto,
   { extra: Extra }
->(TrainingAction.BUY_TRAINING, async (dto, { extra }) => {
+>(OrderAction.BUY_TRAINING, async (dto, { extra }) => {
   const { api } = extra;
   try {
     const { data } = await api.post<OrderWithTraining>(
@@ -52,13 +44,28 @@ export const fetchOrders = createAsyncThunk<
   TrainingOrderWithPagination,
   TrainingOrderQuery,
   { extra: Extra }
->(TrainingAction.FETCH_ORDERS, async ({ page, activeOnly }, { extra }) => {
+>(OrderAction.FETCH_ORDERS, async ({ page, activeOnly }, { extra }) => {
   const { api } = extra;
   const { data } = await api.get<TrainingOrderWithPagination>(
     `${ApiRoute.Order}?page=${page ?? 1}&activeOnly=${String(
       activeOnly
     )}&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}`
   );
+
+  return data;
+});
+
+export const fetchTrainingState = createAsyncThunk<
+  Order | null,
+  Order['trainingId'],
+  { extra: Extra }
+>(OrderAction.FETCH_TRAINING_STATE, async (trainingId, { extra }) => {
+  if (!trainingId) {
+    return null;
+  }
+
+  const { api } = extra;
+  const { data } = await api.get<Order>(`${ApiRoute.Order}/${trainingId}`);
 
   return data;
 });

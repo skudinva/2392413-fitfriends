@@ -65,9 +65,7 @@ export class TrainingOrderController {
     };
     const orders = await this.trainingOrderService.getOrders(userId, query);
     if (!orders.entities.length) {
-      console.log(111);
-
-      return [];
+      return null;
     }
 
     return fillDto(TrainingOrderRdo, orders.entities[0]);

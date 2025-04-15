@@ -3,6 +3,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchTrainingState } from '../../store/order-action';
 import {
   fetchComment,
   fetchDiscountTrainings,
@@ -26,6 +27,7 @@ function Main(): JSX.Element {
   useEffect(() => {
     if (trainingId) {
       dispatch(fetchTraining(+trainingId));
+      dispatch(fetchTrainingState(+trainingId));
       dispatch(fetchComment(+trainingId));
     }
   }, [dispatch, trainingId]);
