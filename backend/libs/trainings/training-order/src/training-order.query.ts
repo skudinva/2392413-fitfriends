@@ -58,4 +58,13 @@ export class TrainingOrderQuery implements ITrainingOrderQuery {
   @Transform(({ value }) => String(value).toLowerCase() === 'true')
   @IsOptional()
   public activeOnly: boolean;
+
+  @ApiProperty({
+    description: 'trainingId',
+    example: 52,
+    default: 52,
+    required: false,
+  })
+  @IsOptional()
+  public trainingId: number;
 }

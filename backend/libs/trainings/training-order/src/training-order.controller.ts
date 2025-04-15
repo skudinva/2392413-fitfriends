@@ -1,4 +1,5 @@
 import { fillDto } from '@backend/helpers';
+import { SortDirection, SortType } from '@backend/shared/core';
 import {
   Body,
   Controller,
@@ -38,6 +39,38 @@ export class TrainingOrderController {
   ) {
     const orders = await this.trainingOrderService.getOrders(userId, query);
     return fillDto(TrainingOrderWithPaginationRdo, orders);
+  }
+
+  @ApiResponse({
+    type: TrainingOrderRdo,
+    status: HttpStatus.OK,
+    description: TrainingOrderResponse.OrdersFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: TrainingOrderResponse.TrainingNotFound,
+  })
+  @Get('/:userId/:trainingId')
+  public async getTrainingOrder(
+    @Param('userId') userId: string,
+    @Param('trainingId') trainingId: number
+  ) {
+    const query: TrainingOrderQuery = {
+      limit: 1,
+      sortBy: SortType.Date,
+      sortDirection: SortDirection.Asc,
+      page: 1,
+      activeOnly: true,
+      trainingId,
+    };
+    const orders = await this.trainingOrderService.getOrders(userId, query);
+    if (!orders.entities.length) {
+      console.log(111);
+
+      return [];
+    }
+
+    return fillDto(TrainingOrderRdo, orders.entities[0]);
   }
 
   @ApiResponse({

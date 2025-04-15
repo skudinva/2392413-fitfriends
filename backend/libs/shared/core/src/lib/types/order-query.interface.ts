@@ -7,4 +7,5 @@ export interface ITrainingOrderQuery {
   sortBy?: SortType;
   page?: number;
   activeOnly?: boolean;
+  trainingId?: number;
 }

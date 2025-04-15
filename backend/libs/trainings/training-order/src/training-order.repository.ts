@@ -86,6 +86,10 @@ export class TrainingOrderRepository extends BasePostgresRepository<
       where.isDone = false;
     }
 
+    if (query.trainingId) {
+      where.trainingId = query.trainingId;
+    }
+
     const [documents, ordersCount] = await Promise.all([
       this.client.order.findMany({ where, skip, take, orderBy }),
       this.getOrdersCount(where),
