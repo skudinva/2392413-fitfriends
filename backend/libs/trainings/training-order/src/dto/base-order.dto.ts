@@ -12,8 +12,14 @@ import { TrainingOrderApiDoc } from '../training-order.api-doc';
 import { TrainingOrderValidateMessage } from '../training-order.constant';
 
 export class BaseOrderDto
-  extends OmitType(TrainingOrderApiDoc, ['createdAt'])
-  implements Omit<Order, 'createdAt'>
+  extends OmitType(TrainingOrderApiDoc, [
+    'createdAt',
+    'isStarted',
+    'doneCount',
+    'isDone',
+    'training',
+  ])
+  implements Omit<Order, 'createdAt' | 'isStarted' | 'doneCount' | 'isDone'>
 {
   @IsNumber()
   public id: number;

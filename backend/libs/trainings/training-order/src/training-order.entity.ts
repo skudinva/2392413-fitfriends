@@ -17,6 +17,9 @@ export class TrainingOrderEntity
   public amount!: number;
   public totalPrice!: number;
   public paymentType!: PayType;
+  public isStarted: boolean;
+  public doneCount: number;
+  public isDone: boolean;
   public createdAt!: Date;
 
   constructor(order?: Order) {
@@ -37,6 +40,9 @@ export class TrainingOrderEntity
     this.amount = order.amount;
     this.totalPrice = order.totalPrice;
     this.paymentType = order.paymentType;
+    this.isStarted = order.isStarted;
+    this.doneCount = order.doneCount;
+    this.isDone = order.isDone;
     this.createdAt = order.createdAt;
   }
 
@@ -50,6 +56,9 @@ export class TrainingOrderEntity
       amount: this.amount,
       totalPrice: this.totalPrice,
       paymentType: this.paymentType,
+      isStarted: this.isStarted,
+      doneCount: this.doneCount,
+      isDone: this.isDone,
       createdAt: this.createdAt,
     };
   }

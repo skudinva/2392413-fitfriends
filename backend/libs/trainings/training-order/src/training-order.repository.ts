@@ -82,6 +82,10 @@ export class TrainingOrderRepository extends BasePostgresRepository<
       orderBy.createdAt = query.sortDirection;
     }
 
+    if (query.activeOnly) {
+      where.AND = [{ isDone: false }];
+    }
+
     const [documents, ordersCount] = await Promise.all([
       this.client.order.findMany({ where, skip, take, orderBy }),
       this.getOrdersCount(where),

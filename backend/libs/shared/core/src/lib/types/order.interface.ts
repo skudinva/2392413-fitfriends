@@ -10,5 +10,8 @@ export interface Order {
   amount: number;
   totalPrice: number;
   paymentType: PayType;
+  isStarted: boolean;
+  doneCount: number;
+  isDone: boolean;
   createdAt: Date;
 }

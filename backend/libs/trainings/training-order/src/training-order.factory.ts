@@ -25,6 +25,9 @@ export class TrainingOrderFactory
     newOrder.amount = dto.amount;
     newOrder.totalPrice = dto.totalPrice;
     newOrder.paymentType = dto.paymentType;
+    newOrder.isStarted = false;
+    newOrder.doneCount = 0;
+    newOrder.isDone = false;
     newOrder.createdAt = dayjs().toDate();
 
     return newOrder;

@@ -53,6 +53,9 @@ model Order {
   amount      Int
   totalPrice  Int      @map("total_price")
   paymentType String   @map("payment_type")
+  isStarted   Boolean  @map("is_started")
+  doneCount   Int      @map("done_count")
+  isDone      Boolean  @map("is_done")
   createdAt   DateTime @default(now()) @map("created_at")
   training    Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 

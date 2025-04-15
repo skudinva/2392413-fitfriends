@@ -67,6 +67,24 @@ export class TrainingOrderApiDoc implements Order {
   paymentType!: PayType;
 
   @ApiProperty({
+    description: 'isStarted',
+    example: false,
+  })
+  isStarted: boolean;
+
+  @ApiProperty({
+    description: 'doneCount',
+    example: 0,
+  })
+  doneCount: number;
+
+  @ApiProperty({
+    description: 'isDone',
+    example: false,
+  })
+  isDone: boolean;
+
+  @ApiProperty({
     description: 'Date of order',
     example: '2024-02-15T13:43:22+07:00',
   })
