@@ -32,6 +32,15 @@ export class TrainingOrderRdo
   paymentType: PayType;
 
   @Expose()
+  isStarted: boolean;
+
+  @Expose()
+  doneCount: number;
+
+  @Expose()
+  isDone: boolean;
+
+  @Expose()
   createdAt: Date;
 
   @Expose()

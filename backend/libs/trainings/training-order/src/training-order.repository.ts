@@ -83,7 +83,7 @@ export class TrainingOrderRepository extends BasePostgresRepository<
     }
 
     if (query.activeOnly) {
-      where.AND = [{ isDone: false }];
+      where.isDone = false;
     }
 
     const [documents, ordersCount] = await Promise.all([
