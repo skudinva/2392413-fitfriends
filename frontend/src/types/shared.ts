@@ -13,6 +13,7 @@ export type { ICreateOrderDto as CreateOrderDto } from '../../../backend/libs/sh
 export type { LocationName } from '../../../backend/libs/shared/core/src/lib/types/location-name.interface';
 export type { ILoggedUserRdo as LoggedUserRdo } from '../../../backend/libs/shared/core/src/lib/types/logged-user-rdo.interface';
 export type { ILoginUserDto as LoginUserDto } from '../../../backend/libs/shared/core/src/lib/types/login-user-dto.interface';
+export type { ITrainingOrderQuery as TrainingOrderQuery } from '../../../backend/libs/shared/core/src/lib/types/order-query.interface';
 export { OrderType } from '../../../backend/libs/shared/core/src/lib/types/order-type.enum';
 export type { TrainingOrderWithPagination } from '../../../backend/libs/shared/core/src/lib/types/order-with-pagination.interface';
 export type { OrderWithTraining } from '../../../backend/libs/shared/core/src/lib/types/order-with-training.interface';

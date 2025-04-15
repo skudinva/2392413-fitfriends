@@ -29,6 +29,7 @@ export { FixedQuestionValue } from './lib/types/fixed-question-value.interface';
 export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
 export { ILoginUserDto } from './lib/types/login-user-dto.interface';
+export { ITrainingOrderQuery } from './lib/types/order-query.interface';
 export { OrderType } from './lib/types/order-type.enum';
 export { TrainingOrderWithPagination } from './lib/types/order-with-pagination.interface';
 export { OrderWithTraining } from './lib/types/order-with-training.interface';

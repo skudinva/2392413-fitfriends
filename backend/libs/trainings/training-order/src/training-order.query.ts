@@ -1,4 +1,8 @@
-import { SortDirection, SortType } from '@backend/shared/core';
+import {
+  ITrainingOrderQuery,
+  SortDirection,
+  SortType,
+} from '@backend/shared/core';
 import { Transform } from 'class-transformer';
 import { IsIn, IsOptional } from 'class-validator';
 
@@ -10,7 +14,7 @@ import {
   MAX_ORDERS_COUNT,
 } from './training-order.constant';
 
-export class TrainingOrderQuery {
+export class TrainingOrderQuery implements ITrainingOrderQuery {
   public limit: number = MAX_ORDERS_COUNT;
 
   @Transform(({ value }) => value || DEFAULT_SORT_TYPE)
@@ -44,4 +48,13 @@ export class TrainingOrderQuery {
   @Transform(({ value }) => parseInt(value, 10) || DEFAULT_PAGE)
   @IsOptional()
   public page: number = DEFAULT_PAGE;
+
+  @ApiProperty({
+    description: 'Только активные',
+    example: false,
+    default: false,
+  })
+  @Transform(({ value }) => String(value).toLowerCase() === 'true')
+  @IsOptional()
+  public activeOnly: boolean;
 }

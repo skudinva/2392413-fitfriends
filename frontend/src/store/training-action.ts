@@ -16,6 +16,7 @@ import {
   SortType,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
+  TrainingOrderQuery,
   TrainingOrderWithPagination,
   TrainingQuery,
   TrainingWithPagination,
@@ -194,7 +195,7 @@ export const buyTraining = createAsyncThunk<
 
 export const fetchOrders = createAsyncThunk<
   TrainingOrderWithPagination,
-  { page?: number },
+  TrainingOrderQuery,
   { extra: Extra }
 >(TrainingAction.FETCH_ORDERS, async ({ page }, { extra }) => {
   const { api } = extra;
