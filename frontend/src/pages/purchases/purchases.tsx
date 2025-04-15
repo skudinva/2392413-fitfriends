@@ -29,10 +29,6 @@ function Purchases(): JSX.Element {
     dispatch(fetchOrders({ page, activeOnly }));
   }, [activeOnly, dispatch, page]);
 
-  if (isUserOrderLoading || !userOrder) {
-    return <Spinner />;
-  }
-
   return (
     <section className="my-purchases">
       <CustomHelmet pageTitle="Мои покупки" />
@@ -64,37 +60,44 @@ function Purchases(): JSX.Element {
               </div>
             </div>
           </div>
-          <ul className="my-purchases__list">
-            {userOrder.entities.map((order) => (
-              <li
-                className="my-purchases__item"
-                key={`my-purchases__item-${order.id}`}
-              >
-                <PopularTrainingCard training={order.training} />
-              </li>
-            ))}
-          </ul>
-          <div className="show-more my-purchases__show-more">
-            {userOrder && page && userOrder.totalPages > page ? (
-              <button
-                className="btn show-more__button show-more__button--more"
-                type="button"
-                onClick={() => {
-                  setPage(page + 1);
-                }}
-              >
-                Показать еще
-              </button>
-            ) : (
-              <button
-                className="btn show-more__button"
-                type="button"
-                onClick={scrollToTop}
-              >
-                Вернуться в начало
-              </button>
-            )}
-          </div>
+
+          {isUserOrderLoading || !userOrder ? (
+            <Spinner />
+          ) : (
+            <>
+              <ul className="my-purchases__list">
+                {userOrder.entities.map((order) => (
+                  <li
+                    className="my-purchases__item"
+                    key={`my-purchases__item-${order.id}`}
+                  >
+                    <PopularTrainingCard training={order.training} />
+                  </li>
+                ))}
+              </ul>
+              <div className="show-more my-purchases__show-more">
+                {userOrder && page && userOrder.totalPages > page ? (
+                  <button
+                    className="btn show-more__button show-more__button--more"
+                    type="button"
+                    onClick={() => {
+                      setPage(page + 1);
+                    }}
+                  >
+                    Показать еще
+                  </button>
+                ) : (
+                  <button
+                    className="btn show-more__button"
+                    type="button"
+                    onClick={scrollToTop}
+                  >
+                    Вернуться в начало
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </section>
