@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StoreSlice } from '../../const';
 import type { SiteData } from '../../types/state';
+import { buyTraining, fetchOrders } from '../order-action';
 import {
-  buyTraining,
   createComment,
   fetchComment,
   fetchDiscountTrainings,
-  fetchOrders,
   fetchPopularTrainings,
   fetchSpecialTrainings,
   fetchTraining,

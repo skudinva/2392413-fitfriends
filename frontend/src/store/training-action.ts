@@ -10,14 +10,10 @@ import {
 } from '../const';
 import {
   CreateCommentDto,
-  CreateOrderDto,
-  OrderWithTraining,
   SortDirection,
   SortType,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
-  TrainingOrderQuery,
-  TrainingOrderWithPagination,
   TrainingQuery,
   TrainingWithPagination,
   TrainingWithUserInfo,
@@ -39,8 +35,6 @@ const TrainingAction = {
   DELETE_TRAINING: 'training/delete-training',
   FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
   POST_TRAINING_COMMENT: 'training/comment/post',
-  BUY_TRAINING: 'training/buy',
-  FETCH_ORDERS: 'orders/fetch',
 };
 
 export const fetchTrainings = createAsyncThunk<
@@ -174,36 +168,4 @@ export const createComment = createAsyncThunk<
   } catch (error) {
     return Promise.reject(error);
   }
-});
-
-export const buyTraining = createAsyncThunk<
-  OrderWithTraining,
-  CreateOrderDto,
-  { extra: Extra }
->(TrainingAction.BUY_TRAINING, async (dto, { extra }) => {
-  const { api } = extra;
-  try {
-    const { data } = await api.post<OrderWithTraining>(
-      `${ApiRoute.Order}/${dto.trainingId}`,
-      dto
-    );
-    return data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-});
-
-export const fetchOrders = createAsyncThunk<
-  TrainingOrderWithPagination,
-  TrainingOrderQuery,
-  { extra: Extra }
->(TrainingAction.FETCH_ORDERS, async ({ page, activeOnly }, { extra }) => {
-  const { api } = extra;
-  const { data } = await api.get<TrainingOrderWithPagination>(
-    `${ApiRoute.Order}?page=${page ?? 1}&activeOnly=${String(
-      activeOnly
-    )}&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}`
-  );
-
-  return data;
 });
