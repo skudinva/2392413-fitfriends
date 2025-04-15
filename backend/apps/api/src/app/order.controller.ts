@@ -63,6 +63,32 @@ export class OrderController {
     return data;
   }
 
+  @ApiResponse({
+    type: TrainingOrderRdo,
+    status: HttpStatus.OK,
+    description: TrainingOrderResponse.OrdersFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: TrainingOrderResponse.TrainingNotFound,
+  })
+  @Get('/:trainingId')
+  @ApiTags(ApiSection.Order)
+  @UseGuards(CheckAuthGuard)
+  @ApiBearerAuth('accessToken')
+  @UseInterceptors(InjectUserIdInterceptor)
+  public async getOrder(
+    @Param('trainingId') trainingId: number,
+    @Req() req: RequestWithTokenPayload
+  ) {
+    const userId = req.user.sub;
+    const { data } = await this.httpService.axiosRef.get<TrainingOrderRdo>(
+      `${ApplicationServiceURL.Orders}/${userId}/${trainingId}`
+    );
+
+    return data;
+  }
+
   @Post('/:trainingId')
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
