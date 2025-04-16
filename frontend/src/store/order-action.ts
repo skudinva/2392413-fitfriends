@@ -10,6 +10,7 @@ import {
   SortType,
   TrainingOrderQuery,
   TrainingOrderWithPagination,
+  UpdateOrderStateDto,
 } from '../types/shared';
 
 type Extra = {
@@ -20,7 +21,8 @@ type Extra = {
 const OrderAction = {
   BUY_TRAINING: 'training/buy',
   FETCH_ORDERS: 'orders/fetch',
-  FETCH_TRAINING_STATE: 'training/state',
+  FETCH_TRAINING_STATE: 'training/state/fetch',
+  UPDATE_TRAINING_STATE: 'training/state/update',
 };
 
 export const buyTraining = createAsyncThunk<
@@ -68,4 +70,21 @@ export const fetchTrainingState = createAsyncThunk<
   const { data } = await api.get<Order>(`${ApiRoute.Order}/${trainingId}`);
 
   return data || null;
+});
+
+export const updateTrainingState = createAsyncThunk<
+  Order,
+  UpdateOrderStateDto,
+  { extra: Extra }
+>(OrderAction.UPDATE_TRAINING_STATE, async (dto, { extra }) => {
+  const { api } = extra;
+  try {
+    const { data } = await api.put<Order>(
+      `${ApiRoute.Order}/${dto.trainingId}`,
+      dto
+    );
+    return data;
+  } catch (error) {
+    return Promise.reject(error);
+  }
 });

@@ -25,6 +25,7 @@ export { TrainingType } from '../../../backend/libs/shared/core/src/lib/types/tr
 export type { TrainingWithPagination } from '../../../backend/libs/shared/core/src/lib/types/training-with-pagination.interface';
 export type { TrainingWithUserInfo } from '../../../backend/libs/shared/core/src/lib/types/training-with-user-info.interface';
 export type { Training } from '../../../backend/libs/shared/core/src/lib/types/training.interface';
+export type { IUpdateOrderStateDto as UpdateOrderStateDto } from '../../../backend/libs/shared/core/src/lib/types/update-order-state-dto.interface';
 export type { IUpdateUserDto as UpdateUserDto } from '../../../backend/libs/shared/core/src/lib/types/update-user-dto.itnerface';
 export { UserGender } from '../../../backend/libs/shared/core/src/lib/types/user-gender.enum';
 export type { IUserRdo as UserRdo } from '../../../backend/libs/shared/core/src/lib/types/user-rdo.interface';

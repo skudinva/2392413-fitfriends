@@ -40,6 +40,13 @@ export class TrainingOrderRepository extends BasePostgresRepository<
     entity.id = record.id;
   }
 
+  public override async update(entity: TrainingOrderEntity): Promise<void> {
+    await this.client.order.update({
+      data: { ...entity.toPOJO() },
+      where: { id: entity.id },
+    });
+  }
+
   public override async findById(
     id: Order['id']
   ): Promise<TrainingOrderEntity | null> {

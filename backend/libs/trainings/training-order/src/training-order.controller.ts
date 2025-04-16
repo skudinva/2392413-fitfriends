@@ -83,7 +83,7 @@ export class TrainingOrderController {
       dto
     );
 
-    return fillDto(TrainingOrderRdo, order);
+    return fillDto(TrainingOrderRdo, order.toPOJO());
   }
 
   @ApiResponse({

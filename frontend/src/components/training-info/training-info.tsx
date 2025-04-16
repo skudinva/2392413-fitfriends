@@ -1,5 +1,6 @@
 import { MouseEvent, useState } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { updateTrainingState } from '../../store/order-action';
 import {
   getTrainingCard,
   getTrainingState,
@@ -9,6 +10,7 @@ import ModalWindow from '../modal-window/modal-window';
 import PopupFormBuy from '../popup-form-buy/popup-form-buy';
 
 function TrainingInfo(): JSX.Element {
+  const dispatch = useAppDispatch();
   const trainingCard = useAppSelector(getTrainingCard);
   const trainingState = useAppSelector(getTrainingState);
   const canBuy =
@@ -28,6 +30,20 @@ function TrainingInfo(): JSX.Element {
   const onBuyButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setShowModal(true);
+  };
+
+  const onStartButtonClick = (state: 'start' | 'finish') => {
+    if (!trainingCard) {
+      return;
+    }
+
+    dispatch(
+      updateTrainingState({
+        trainingId: trainingCard.id,
+        state,
+        userId: '',
+      })
+    );
   };
 
   if (showModal && trainingCard) {
@@ -199,20 +215,24 @@ function TrainingInfo(): JSX.Element {
           </button>
         </div>
         <div className="training-video__buttons-wrapper">
-          {canStart && (
+          {canFinish ? (
             <button
               className="btn training-video__button training-video__button--start"
               type="button"
-            >
-              Приступить
-            </button>
-          )}
-          {canFinish && (
-            <button
-              className="btn training-video__button training-video__button--stop"
-              type="button"
+              onClick={() => onStartButtonClick('finish')}
             >
               Закончить
+            </button>
+          ) : (
+            <button
+              className={`btn training-video__button training-video__button--start ${
+                !canStart ? 'is-disabled' : ''
+              }`}
+              type="button"
+              onClick={() => onStartButtonClick('start')}
+              disabled={!canStart}
+            >
+              Приступить
             </button>
           )}
         </div>

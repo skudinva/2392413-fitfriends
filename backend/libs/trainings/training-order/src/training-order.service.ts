@@ -42,7 +42,7 @@ export class TrainingOrderService {
   public async findActiveOrderByTrainingId(
     trainingId: Order['trainingId'],
     userId: Order['userId']
-  ): Promise<TrainingOrderEntity> {
+  ): Promise<TrainingOrderEntity | null> {
     const orders = await this.getOrders(userId, {
       limit: 1,
       sortBy: SortType.Date,
@@ -53,9 +53,7 @@ export class TrainingOrderService {
     });
 
     if (!orders.entities.length) {
-      throw new NotFoundException(
-        `Active order with trainingId ${trainingId} not found`
-      );
+      return null;
     }
 
     return new TrainingOrderEntity(orders.entities[0]);
@@ -85,7 +83,7 @@ export class TrainingOrderService {
       throw new ConflictException('You are not allowed to delete this order');
     }
 
-    await this.trainingOrderRepository.save(orderEntity);
+    await this.trainingOrderRepository.update(orderEntity);
     return orderEntity;
   }
 
@@ -97,6 +95,12 @@ export class TrainingOrderService {
       trainingId,
       dto.userId
     );
+
+    if (!orderEntity) {
+      throw new ConflictException(
+        `Active training with id ${trainingId} not found`
+      );
+    }
 
     if (dto.state === 'start') {
       orderEntity.isStarted = true;

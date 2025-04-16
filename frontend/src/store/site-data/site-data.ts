@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StoreSlice } from '../../const';
 import type { SiteData } from '../../types/state';
-import { buyTraining, fetchOrders, fetchTrainingState } from '../order-action';
+import {
+  buyTraining,
+  fetchOrders,
+  fetchTrainingState,
+  updateTrainingState,
+} from '../order-action';
 import {
   createComment,
   fetchComment,
@@ -157,6 +162,22 @@ export const siteData = createSlice({
         state.userOrder = action.payload;
       })
       .addCase(fetchOrders.rejected, (state) => {
+        state.isUserOrderLoading = false;
+      })
+
+      .addCase(updateTrainingState.pending, (state) => {
+        state.isUserOrderLoading = true;
+      })
+      .addCase(updateTrainingState.fulfilled, (state, action) => {
+        state.isUserOrderLoading = false;
+        state.trainingState = action.payload;
+        state.userOrder.entities.map((order) => {
+          if (order.id === action.payload.id) {
+            order = { ...order, ...action.payload };
+          }
+        });
+      })
+      .addCase(updateTrainingState.rejected, (state) => {
         state.isUserOrderLoading = false;
       });
   },
