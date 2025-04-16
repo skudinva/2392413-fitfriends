@@ -6,6 +6,7 @@ import {
   TrainingOrderRdo,
   TrainingOrderResponse,
   TrainingOrderWithPaginationRdo,
+  UpdateOrderStateDto,
 } from '@backend/training-order';
 import { HttpService } from '@nestjs/axios';
 import {
@@ -16,6 +17,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Req,
   UseFilters,
   UseGuards,
@@ -85,6 +87,33 @@ export class OrderController {
     const { data } = await this.httpService.axiosRef.get<TrainingOrderRdo>(
       `${ApplicationServiceURL.Orders}/${userId}/${trainingId}`
     );
+
+    return data;
+  }
+
+  @Put('/:trainingId')
+  @UseGuards(CheckAuthGuard)
+  @ApiBearerAuth('accessToken')
+  @UseInterceptors(InjectUserIdInterceptor)
+  @ApiResponse({
+    type: TrainingOrderRdo,
+    status: HttpStatus.OK,
+    description: TrainingOrderResponse.OrdersFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: TrainingOrderResponse.TrainingNotFound,
+  })
+  @ApiTags(ApiSection.Order)
+  public async updateTrainingState(
+    @Param('trainingId') trainingId: number,
+    @Body() dto: UpdateOrderStateDto
+  ) {
+    const { data } = await this.httpService.axiosRef.put<TrainingOrderRdo>(
+      `${ApplicationServiceURL.Orders}/${trainingId}`,
+      dto
+    );
+    await this.appService.appendTrainingInfo(dto.userId, [data]);
 
     return data;
   }

@@ -1,5 +1,4 @@
 import { fillDto } from '@backend/helpers';
-import { SortDirection, SortType } from '@backend/shared/core';
 import {
   Body,
   Controller,
@@ -8,10 +7,12 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderStateDto } from './dto/update-order-state.dto';
 import { TrainingOrderWithPaginationRdo } from './rdo/training-order-with-pagination';
 import { TrainingOrderRdo } from './rdo/training-order.rdo';
 import { TrainingOrderResponse } from './training-order.constant';
@@ -55,20 +56,34 @@ export class TrainingOrderController {
     @Param('userId') userId: string,
     @Param('trainingId') trainingId: number
   ) {
-    const query: TrainingOrderQuery = {
-      limit: 1,
-      sortBy: SortType.Date,
-      sortDirection: SortDirection.Asc,
-      page: 1,
-      activeOnly: true,
+    const order = await this.trainingOrderService.findActiveOrderByTrainingId(
       trainingId,
-    };
-    const orders = await this.trainingOrderService.getOrders(userId, query);
-    if (!orders.entities.length) {
-      return null;
-    }
+      userId
+    );
 
-    return fillDto(TrainingOrderRdo, orders.entities[0]);
+    return fillDto(TrainingOrderRdo, order);
+  }
+
+  @ApiResponse({
+    type: TrainingOrderRdo,
+    status: HttpStatus.OK,
+    description: TrainingOrderResponse.OrdersFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: TrainingOrderResponse.TrainingNotFound,
+  })
+  @Put('/:trainingId')
+  public async updateTrainingState(
+    @Param('trainingId') trainingId: number,
+    @Body() dto: UpdateOrderStateDto
+  ) {
+    const order = await this.trainingOrderService.updateTrainingState(
+      trainingId,
+      dto
+    );
+
+    return fillDto(TrainingOrderRdo, order);
   }
 
   @ApiResponse({
