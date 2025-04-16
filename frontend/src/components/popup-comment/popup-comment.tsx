@@ -19,7 +19,7 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
   const [rating, setRating] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
   const [ratingError, setRatingError] = useState<string>('');
-  const [isInit, setIsInit] = useState(false);
+  const [isSaveButtonClick, setIsSaveButtonClickIsBuyClick] = useState(false);
 
   const validateRating = useCallback(() => {
     if (!rating) {
@@ -30,9 +30,7 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
   }, [rating]);
 
   const onRatingInput = (evt: ChangeEvent<HTMLInputElement>) => {
-    const newRating = evt.target.value;
-    setRating(newRating);
-    validateRating();
+    setRating(evt.target.value);
   };
 
   const onDescriptionInput = () => {
@@ -60,10 +58,17 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
 
   const validateDescription = onDescriptionInput;
 
+  useEffect(() => {
+    validateDescription();
+    validateRating();
+  }, [rating, description, validateDescription, validateRating]);
+
   const onButtonClick = () => {
     if (!trainingId) {
       return;
     }
+
+    setIsSaveButtonClickIsBuyClick(true);
 
     dispatch(
       createComment({
@@ -76,29 +81,14 @@ function PopupComment({ handleClose }: PopupCommentProps): JSX.Element {
   };
 
   useEffect(() => {
-    if (!isInit) {
-      validateDescription();
-      validateRating();
-    }
-
-    setIsInit(true);
-  }, [
-    descriptionError,
-    isInit,
-    ratingError,
-    validateDescription,
-    validateRating,
-  ]);
-
-  useEffect(() => {
-    if (!isInit) {
+    if (!isSaveButtonClick) {
       return;
     }
 
     if (isSuccessAddTrainingComment) {
       handleClose();
     }
-  }, [handleClose, isInit, isSuccessAddTrainingComment]);
+  }, [handleClose, isSaveButtonClick, isSuccessAddTrainingComment]);
 
   return (
     <div className="popup-form popup-form--feedback">
