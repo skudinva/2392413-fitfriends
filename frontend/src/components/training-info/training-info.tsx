@@ -170,7 +170,7 @@ function TrainingInfo(): JSX.Element {
                     <input
                       type="text"
                       name="price"
-                      defaultValue={`${trainingCard?.price || 0} ₽`}
+                      defaultValue={`${trainingCard?.specialPrice || 0} ₽`}
                       disabled
                     />
                   </label>

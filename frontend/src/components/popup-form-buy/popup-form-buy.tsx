@@ -35,7 +35,7 @@ function PopupFormBuy({
       buyTraining({
         amount,
         paymentType,
-        price: training.price,
+        price: training.specialPrice,
         totalPrice,
         trainingId: training.id,
         type: OrderType.Ticket,
