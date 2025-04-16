@@ -34,6 +34,7 @@ const initialState: SiteData = {
   isDiscountTrainingLoading: false,
   isSuccessBuyOrder: false,
   isUserOrderLoading: false,
+  isUserOrderSave: false,
   userOrder: {
     entities: [],
     totalPages: 0,
@@ -166,19 +167,19 @@ export const siteData = createSlice({
       })
 
       .addCase(updateTrainingState.pending, (state) => {
-        state.isUserOrderLoading = true;
+        state.isUserOrderSave = true;
       })
       .addCase(updateTrainingState.fulfilled, (state, action) => {
-        state.isUserOrderLoading = false;
         state.trainingState = action.payload;
         state.userOrder.entities.map((order) => {
           if (order.id === action.payload.id) {
             order = { ...order, ...action.payload };
           }
         });
+        state.isUserOrderSave = false;
       })
       .addCase(updateTrainingState.rejected, (state) => {
-        state.isUserOrderLoading = false;
+        state.isUserOrderSave = false;
       });
   },
 });

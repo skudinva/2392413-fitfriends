@@ -2,6 +2,7 @@ import { MouseEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateTrainingState } from '../../store/order-action';
 import {
+  getIsUserOrderSave,
   getTrainingCard,
   getTrainingState,
 } from '../../store/site-data/selectors';
@@ -13,6 +14,8 @@ function TrainingInfo(): JSX.Element {
   const dispatch = useAppDispatch();
   const trainingCard = useAppSelector(getTrainingCard);
   const trainingState = useAppSelector(getTrainingState);
+  const isUserOrderSave = useAppSelector(getIsUserOrderSave);
+
   const canBuy =
     trainingState === undefined ||
     trainingState === null ||
@@ -217,20 +220,23 @@ function TrainingInfo(): JSX.Element {
         <div className="training-video__buttons-wrapper">
           {canFinish ? (
             <button
-              className="btn training-video__button training-video__button--start"
+              className={`btn training-video__button training-video__button--start ${
+                isUserOrderSave ? 'is-disabled' : ''
+              }`}
               type="button"
               onClick={() => onStartButtonClick('finish')}
+              disabled={isUserOrderSave}
             >
               Закончить
             </button>
           ) : (
             <button
               className={`btn training-video__button training-video__button--start ${
-                !canStart ? 'is-disabled' : ''
+                !canStart || isUserOrderSave ? 'is-disabled' : ''
               }`}
               type="button"
               onClick={() => onStartButtonClick('start')}
-              disabled={!canStart}
+              disabled={!canStart || isUserOrderSave}
             >
               Приступить
             </button>

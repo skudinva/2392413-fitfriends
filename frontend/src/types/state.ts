@@ -26,6 +26,7 @@ export type SiteData = {
   discountTraining: TrainingWithPagination | null;
   isDiscountTrainingLoading: boolean;
   isSuccessBuyOrder: boolean;
+  isUserOrderSave: boolean;
   isUserOrderLoading: boolean;
   userOrder: TrainingOrderWithPagination;
 };
