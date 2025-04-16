@@ -1,12 +1,21 @@
 import { MouseEvent, useState } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getTrainingCard } from '../../store/site-data/selectors';
+import {
+  getTrainingCard,
+  getTrainingState,
+} from '../../store/site-data/selectors';
 import { UserGender } from '../../types/shared';
 import ModalWindow from '../modal-window/modal-window';
 import PopupFormBuy from '../popup-form-buy/popup-form-buy';
 
 function TrainingInfo(): JSX.Element {
   const trainingCard = useAppSelector(getTrainingCard);
+  const trainingState = useAppSelector(getTrainingState);
+  const canBuy =
+    trainingState === undefined ||
+    trainingState === null ||
+    trainingState.isDone;
+
   const [showModal, setShowModal] = useState(false);
 
   const onCloseCommentForm = () => {
@@ -149,6 +158,7 @@ function TrainingInfo(): JSX.Element {
                   className="btn training-info__buy"
                   type="button"
                   onClick={onBuyButtonClick}
+                  disabled={!canBuy}
                 >
                   Купить
                 </button>

@@ -67,5 +67,5 @@ export const fetchTrainingState = createAsyncThunk<
   const { api } = extra;
   const { data } = await api.get<Order>(`${ApiRoute.Order}/${trainingId}`);
 
-  return data;
+  return data || null;
 });

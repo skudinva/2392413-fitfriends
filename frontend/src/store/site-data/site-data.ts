@@ -29,7 +29,12 @@ const initialState: SiteData = {
   isDiscountTrainingLoading: false,
   isSuccessBuyOrder: false,
   isUserOrderLoading: false,
-  userOrder: null,
+  userOrder: {
+    entities: [],
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 0,
+  },
 };
 
 export const siteData = createSlice({
@@ -134,10 +139,11 @@ export const siteData = createSlice({
         state.isSuccessBuyOrder = false;
       })
       .addCase(buyTraining.fulfilled, (state, action) => {
-        if (state.userOrder) {
-          state.userOrder.entities.unshift(action.payload);
-          state.isSuccessBuyOrder = true;
-        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { training, ...order } = action.payload;
+        state.userOrder.entities.unshift(action.payload);
+        state.trainingState = { ...order };
+        state.isSuccessBuyOrder = true;
       })
       .addCase(buyTraining.rejected, (state) => {
         state.isSuccessBuyOrder = false;

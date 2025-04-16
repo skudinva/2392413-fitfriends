@@ -61,3 +61,6 @@ export const getUserOrder = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
 export const getIsUserOrderLoading = ({
   [StoreSlice.SiteData]: SITE_DATA,
 }: State) => SITE_DATA.isUserOrderLoading;
+
+export const getTrainingState = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
+  SITE_DATA.trainingState;

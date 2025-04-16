@@ -3,7 +3,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchTrainingState } from '../../store/order-action';
+import { fetchOrders, fetchTrainingState } from '../../store/order-action';
 import {
   fetchComment,
   fetchDiscountTrainings,
@@ -39,6 +39,7 @@ function Main(): JSX.Element {
       dispatch(fetchDiscountTrainings());
       dispatch(fetchPopularTrainings());
       dispatch(fetchTrainings(null));
+      dispatch(fetchOrders({ page: 1, activeOnly: false }));
     }
   }, [dispatch, authorizationStatus, userId]);
 

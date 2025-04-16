@@ -27,7 +27,7 @@ export type SiteData = {
   isDiscountTrainingLoading: boolean;
   isSuccessBuyOrder: boolean;
   isUserOrderLoading: boolean;
-  userOrder: TrainingOrderWithPagination | null;
+  userOrder: TrainingOrderWithPagination;
 };
 
 export type UserProcess = {
