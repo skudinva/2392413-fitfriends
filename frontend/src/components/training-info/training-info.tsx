@@ -16,6 +16,9 @@ function TrainingInfo(): JSX.Element {
     trainingState === null ||
     trainingState.isDone;
 
+  const canStart = !canBuy && trainingState && !trainingState.isStarted;
+  const canFinish = !canBuy && trainingState && trainingState.isStarted;
+
   const [showModal, setShowModal] = useState(false);
 
   const onCloseCommentForm = () => {
@@ -185,26 +188,33 @@ function TrainingInfo(): JSX.Element {
               />
             </picture>
           </div>
-          <button className="training-video__play-button btn-reset">
+          <button
+            className={`training-video__play-button btn-reset ${
+              !canFinish ? 'is-disabled' : ''
+            }`}
+          >
             <svg width="18" height="30" aria-hidden="true">
               <use xlinkHref="#icon-arrow"></use>
             </svg>
           </button>
         </div>
         <div className="training-video__buttons-wrapper">
-          <button
-            className="btn training-video__button training-video__button--start"
-            type="button"
-            disabled
-          >
-            Приступить
-          </button>
-          <button
-            className="btn training-video__button training-video__button--stop"
-            type="button"
-          >
-            Закончить
-          </button>
+          {canStart && (
+            <button
+              className="btn training-video__button training-video__button--start"
+              type="button"
+            >
+              Приступить
+            </button>
+          )}
+          {canFinish && (
+            <button
+              className="btn training-video__button training-video__button--stop"
+              type="button"
+            >
+              Закончить
+            </button>
+          )}
         </div>
       </div>
     </div>
