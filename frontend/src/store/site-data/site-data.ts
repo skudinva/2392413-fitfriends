@@ -32,7 +32,7 @@ const initialState: SiteData = {
   isPopularTrainingLoading: false,
   discountTraining: null,
   isDiscountTrainingLoading: false,
-  isSuccessBuyOrder: false,
+  isSuccessBuyOrder: true,
   isUserOrderLoading: false,
   isUserOrderSave: false,
   userOrder: {

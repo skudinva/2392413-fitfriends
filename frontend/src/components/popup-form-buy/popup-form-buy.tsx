@@ -20,16 +20,17 @@ function PopupFormBuy({
   const [amount, setAmount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [paymentType, setPaymentType] = useState<PayType | null>(null);
-  const [isInit, setIsInit] = useState(false);
+  const [isBuyClick, setIsBuyClick] = useState(false);
 
   useEffect(() => {
     setTotalPrice(specialPrice * amount);
   }, [amount, specialPrice]);
 
-  const onButtonClick = () => {
+  const onBuyButtonClick = () => {
     if (!paymentType) {
       return;
     }
+    setIsBuyClick(true);
     dispatch(
       buyTraining({
         amount,
@@ -44,18 +45,14 @@ function PopupFormBuy({
   };
 
   useEffect(() => {
-    setIsInit(true);
-  }, [isInit]);
-
-  useEffect(() => {
-    if (!isInit) {
+    if (!isBuyClick) {
       return;
     }
 
     if (isSuccessBuyOrder) {
       handleClose();
     }
-  }, [handleClose, isInit, isSuccessBuyOrder]);
+  }, [handleClose, isBuyClick, isSuccessBuyOrder]);
 
   return (
     <div className="popup-form popup-form--buy">
@@ -188,7 +185,7 @@ function PopupFormBuy({
               <button
                 className="btn"
                 type="button"
-                onClick={() => onButtonClick()}
+                onClick={() => onBuyButtonClick()}
               >
                 Купить
               </button>
