@@ -1,6 +1,7 @@
 export {
   EntityConstrain,
   LOCATIONS,
+  TRAINING_DURATIONS,
 } from '../../../backend/libs/shared/core/src/lib/const';
 export { SortDirection } from '../../../backend/libs/shared/core/src/lib/interfaces/sort-direction.interface';
 export { SortType } from '../../../backend/libs/shared/core/src/lib/interfaces/sort-type.interface';
@@ -29,3 +30,4 @@ export type { IUpdateOrderStateDto as UpdateOrderStateDto } from '../../../backe
 export type { IUpdateUserDto as UpdateUserDto } from '../../../backend/libs/shared/core/src/lib/types/update-user-dto.itnerface';
 export { UserGender } from '../../../backend/libs/shared/core/src/lib/types/user-gender.enum';
 export type { IUserRdo as UserRdo } from '../../../backend/libs/shared/core/src/lib/types/user-rdo.interface';
+export { UserRole } from '../../../backend/libs/shared/core/src/lib/types/user-role.enum';

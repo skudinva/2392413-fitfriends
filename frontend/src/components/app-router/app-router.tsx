@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import CreateTraining from '../../pages/create-training/create-training';
 import Friends from '../../pages/friends/friends';
 import Home from '../../pages/home/home';
 import Intro from '../../pages/intro/intro';
@@ -11,6 +12,7 @@ import Purchases from '../../pages/purchases/purchases';
 import Registration from '../../pages/registration/registration';
 import TrainingCard from '../../pages/training-card/training-card';
 import Trainings from '../../pages/trainings/trainings';
+import { UserRole } from '../../types/shared';
 import PrivateRoute from '../private-route/private-route';
 
 function AppRouter() {
@@ -50,7 +52,18 @@ function AppRouter() {
         }
       />
       <Route element={<Main />}>
-
+        <Route
+          path={AppRoute.CreateTraining}
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={AppRoute.Intro}
+              allowForRole={UserRole.Coach}
+            >
+              <CreateTraining />
+            </PrivateRoute>
+          }
+        />
         <Route
           index
           element={

@@ -12,6 +12,7 @@ import {
   CreateCommentDto,
   SortDirection,
   SortType,
+  Training,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
   TrainingQuery,
@@ -36,6 +37,16 @@ const TrainingAction = {
   FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
   POST_TRAINING_COMMENT: 'training/comment/post',
 };
+
+export const createTraining = createAsyncThunk<
+  Training,
+  FormData,
+  { extra: Extra }
+>(TrainingAction.POST_TRAINING, async (newTraining, { extra }) => {
+  const { api } = extra;
+  const { data } = await api.post<Training>(ApiRoute.Trainings, newTraining);
+  return data;
+});
 
 export const fetchTrainings = createAsyncThunk<
   TrainingWithPagination,

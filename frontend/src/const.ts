@@ -1,8 +1,10 @@
-import { TrainingType } from './types/shared';
+import { TrainingLevel, TrainingType } from './types/shared';
 
 export const PROJECT_NAME = 'FitFriends';
 
 export const TRAINING_TYPE = Object.values(TrainingType);
+
+export const TRAINING_LEVEL = Object.values(TrainingLevel);
 
 export enum AppRoute {
   Root = '/',
@@ -11,6 +13,7 @@ export enum AppRoute {
   Register = '/register',
   PersonalAccount = '/personalAccount',
   Trainings = '/trainings',
+  CreateTraining = '/createTraining',
   Friends = '/friends',
   Purchases = '/purchases',
   NotFound = '/404',
