@@ -155,7 +155,7 @@ function RegisterForm(): JSX.Element {
                   type="radio"
                   name="role"
                   value="coach"
-                  disabled
+                  required
                 />
                 <span className="role-btn__icon">
                   <svg width="12" height="13" aria-hidden="true">
@@ -172,7 +172,7 @@ function RegisterForm(): JSX.Element {
                   type="radio"
                   name="role"
                   value="sportsman"
-                  defaultChecked
+                  required
                 />
                 <span className="role-btn__icon">
                   <svg width="12" height="13" aria-hidden="true">
