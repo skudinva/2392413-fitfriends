@@ -163,7 +163,6 @@ function TrainingInfo(): JSX.Element {
                       type="number"
                       name="rating"
                       defaultValue={trainingCard?.rating}
-                      disabled={!isEdit}
                     />
                   </label>
                 </div>
