@@ -8,9 +8,12 @@ import Spinner from '../../components/spinner/spinner';
 import TrainingInfo from '../../components/training-info/training-info';
 import { useAppSelector } from '../../hooks';
 import { getIsTrainingCardLoading } from '../../store/site-data/selectors';
+import { getUserInfo } from '../../store/user-process/selectors';
+import { UserRole } from '../../types/shared';
 
 function TrainingCard(): JSX.Element {
   const isTrainingCardLoading = useAppSelector(getIsTrainingCardLoading);
+  const userInfo = useAppSelector(getUserInfo);
   const [showModal, setShowModal] = useState(false);
 
   const onAddCommentButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -22,7 +25,7 @@ function TrainingCard(): JSX.Element {
     setShowModal(false);
   };
 
-  if (isTrainingCardLoading) {
+  if (isTrainingCardLoading || !userInfo) {
     return <Spinner />;
   }
 
@@ -33,6 +36,7 @@ function TrainingCard(): JSX.Element {
       </ModalWindow>
     );
   }
+  const isCoach = userInfo.role === UserRole.Coach;
 
   return (
     <>
@@ -50,6 +54,7 @@ function TrainingCard(): JSX.Element {
                 className="btn btn--medium reviews-side-bar__button"
                 type="button"
                 onClick={onAddCommentButtonClick}
+                disabled={isCoach}
               >
                 Оставить отзыв
               </button>

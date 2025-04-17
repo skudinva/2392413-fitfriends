@@ -6,15 +6,20 @@ import {
   getTrainingCard,
   getTrainingState,
 } from '../../store/site-data/selectors';
-import { UserGender } from '../../types/shared';
+import { getUserInfo } from '../../store/user-process/selectors';
+import { UserGender, UserRole } from '../../types/shared';
 import ModalWindow from '../modal-window/modal-window';
 import PopupFormBuy from '../popup-form-buy/popup-form-buy';
+import Spinner from '../spinner/spinner';
 
 function TrainingInfo(): JSX.Element {
   const dispatch = useAppDispatch();
+  const userInfo = useAppSelector(getUserInfo);
   const trainingCard = useAppSelector(getTrainingCard);
   const trainingState = useAppSelector(getTrainingState);
   const isUserOrderSave = useAppSelector(getIsUserOrderSave);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isSpecial, setIsSpecial] = useState(trainingCard?.isSpecial);
 
   const canBuy =
     trainingState === undefined ||
@@ -33,6 +38,10 @@ function TrainingInfo(): JSX.Element {
   const onBuyButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setShowModal(true);
+  };
+
+  const onSaveButtonClick = () => {
+    setIsEdit(false);
   };
 
   const onStartButtonClick = (state: 'start' | 'finish') => {
@@ -60,8 +69,13 @@ function TrainingInfo(): JSX.Element {
     );
   }
 
+  if (!userInfo) {
+    return <Spinner />;
+  }
+  const isCoach = userInfo.role === UserRole.Coach;
+
   return (
-    <div className="training-card">
+    <div className={`training-card ${isEdit ? 'training-card--edit' : ''}`}>
       <div className="training-info">
         <h2 className="visually-hidden">Информация о тренировке</h2>
         <div className="training-info__header">
@@ -84,6 +98,26 @@ function TrainingInfo(): JSX.Element {
               </span>
             </div>
           </div>
+          <button
+            className="btn-flat btn-flat--light btn-flat--underlined training-info__edit training-info__edit--edit"
+            type="button"
+            onClick={() => setIsEdit(true)}
+          >
+            <svg width="12" height="12" aria-hidden="true">
+              <use xlinkHref="#icon-edit"></use>
+            </svg>
+            <span>Редактировать</span>
+          </button>
+          <button
+            className="btn-flat btn-flat--light btn-flat--underlined training-info__edit training-info__edit--save"
+            type="button"
+            onClick={() => onSaveButtonClick()}
+          >
+            <svg width="12" height="12" aria-hidden="true">
+              <use xlinkHref="#icon-edit"></use>
+            </svg>
+            <span>Сохранить</span>
+          </button>
         </div>
         <div className="training-info__main-content">
           <form action="#" method="get">
@@ -98,7 +132,7 @@ function TrainingInfo(): JSX.Element {
                       type="text"
                       name="training"
                       defaultValue={trainingCard?.title}
-                      disabled
+                      disabled={!isEdit}
                     />
                   </label>
                   <div className="training-info__error">Обязательное поле</div>
@@ -110,7 +144,7 @@ function TrainingInfo(): JSX.Element {
                     </span>
                     <textarea
                       name="description"
-                      disabled
+                      disabled={!isEdit}
                       defaultValue={trainingCard?.description}
                     />
                   </label>
@@ -129,7 +163,7 @@ function TrainingInfo(): JSX.Element {
                       type="number"
                       name="rating"
                       defaultValue={trainingCard?.rating}
-                      disabled
+                      disabled={!isEdit}
                     />
                   </label>
                 </div>
@@ -170,20 +204,38 @@ function TrainingInfo(): JSX.Element {
                     <input
                       type="text"
                       name="price"
-                      defaultValue={`${trainingCard?.specialPrice || 0} ₽`}
-                      disabled
+                      defaultValue={`${trainingCard?.price || 0}${
+                        !isEdit ? ' ₽' : ''
+                      }`}
+                      disabled={!isEdit}
                     />
                   </label>
                   <div className="training-info__error">Введите число</div>
                 </div>
-                <button
-                  className="btn training-info__buy"
-                  type="button"
-                  onClick={onBuyButtonClick}
-                  disabled={!canBuy}
-                >
-                  Купить
-                </button>
+                {isCoach ? (
+                  <button
+                    className="btn-flat btn-flat--light btn-flat--underlined"
+                    type="button"
+                    disabled={!isEdit}
+                    onClick={() => setIsSpecial(!isSpecial)}
+                  >
+                    <svg width="14" height="14" aria-hidden="true">
+                      <use xlinkHref="#icon-discount"></use>
+                    </svg>
+                    <span>
+                      {isSpecial ? 'Отменить скидку' : 'Сделать скидку 10%'}
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    className="btn training-info__buy"
+                    type="button"
+                    onClick={onBuyButtonClick}
+                    disabled={!canBuy}
+                  >
+                    Купить
+                  </button>
+                )}
               </div>
             </div>
           </form>
@@ -217,8 +269,30 @@ function TrainingInfo(): JSX.Element {
             </svg>
           </button>
         </div>
+        <div className="training-video__drop-files">
+          <form action="#" method="post">
+            <div className="training-video__form-wrapper">
+              <div className="drag-and-drop">
+                <label>
+                  <span className="drag-and-drop__label" tabIndex={0}>
+                    Загрузите сюда файлы формата MOV, AVI или MP4
+                    <svg width="20" height="20" aria-hidden="true">
+                      <use xlinkHref="#icon-import-video"></use>
+                    </svg>
+                  </span>
+                  <input
+                    type="file"
+                    name="import"
+                    tabIndex={-1}
+                    accept=".mov, .avi, .mp4"
+                  />
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
         <div className="training-video__buttons-wrapper">
-          {canFinish ? (
+          {!isCoach && canFinish && (
             <button
               className={`btn training-video__button training-video__button--start ${
                 isUserOrderSave ? 'is-disabled' : ''
@@ -229,7 +303,8 @@ function TrainingInfo(): JSX.Element {
             >
               Закончить
             </button>
-          ) : (
+          )}
+          {!isCoach && !canFinish && (
             <button
               className={`btn training-video__button training-video__button--start ${
                 !canStart || isUserOrderSave ? 'is-disabled' : ''
@@ -240,6 +315,16 @@ function TrainingInfo(): JSX.Element {
             >
               Приступить
             </button>
+          )}
+          {isCoach && (
+            <div className="training-video__edit-buttons">
+              <button className="btn" type="button">
+                Сохранить
+              </button>
+              <button className="btn btn--outlined" type="button">
+                Удалить
+              </button>
+            </div>
           )}
         </div>
       </div>
