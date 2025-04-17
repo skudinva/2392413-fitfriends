@@ -12,6 +12,7 @@ function MainNav(): JSX.Element {
           <Link
             className={`main-nav__link ${
               pathname === AppRoute.Root ||
+              pathname === AppRoute.CreateTraining ||
               pathname.startsWith(AppRoute.Trainings)
                 ? 'is-active'
                 : ''
