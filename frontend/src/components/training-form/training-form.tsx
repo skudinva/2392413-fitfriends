@@ -19,8 +19,9 @@ const FieldMap = {
   isSpecial: 'isSpecial',
 } as const;
 
-function CreateTrainingForm(): JSX.Element {
+function TrainingForm(): JSX.Element {
   const dispatch = useAppDispatch();
+
   const [video, setVideo] = useState<File>();
   const onVideoUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
     if (!evt.target.files) {
@@ -204,4 +205,4 @@ function CreateTrainingForm(): JSX.Element {
   );
 }
 
-export default CreateTrainingForm;
+export default TrainingForm;

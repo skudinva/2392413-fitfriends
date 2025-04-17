@@ -1,4 +1,4 @@
-import CreateTrainingForm from '../../components/create-training-form/create-training-form';
+import TrainingForm from '../../components/training-form/training-form';
 
 function CreateTraining(): JSX.Element {
   return (
@@ -9,7 +9,7 @@ function CreateTraining(): JSX.Element {
             <h1 className="popup-form__title">Создание тренировки</h1>
           </div>
           <div className="popup-form__form">
-            <CreateTrainingForm />
+            <TrainingForm />
           </div>
         </div>
       </div>
