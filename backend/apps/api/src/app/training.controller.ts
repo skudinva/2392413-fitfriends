@@ -104,7 +104,7 @@ export class TrainingController {
     );
 
     data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
-
+    await this.appService.appendUserInfo([data]);
     return data;
   }
 
@@ -130,7 +130,7 @@ export class TrainingController {
   @ApiBearerAuth('accessToken')
   @UseInterceptors(UseInterceptors)
   @UseInterceptors(InjectUserIdInterceptor)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('video'))
   @ApiConsumes('multipart/form-data')
   @ApiTags(ApiSection.Training)
   public async updateTraining(
@@ -143,12 +143,16 @@ export class TrainingController {
             fileType: EntityConstrain.training.video.mimeTypes,
           }),
         ],
-        fileIsRequired: true,
+        fileIsRequired: false,
       })
     )
     file?: Express.Multer.File
   ) {
-    const trainingDto = plainToInstance(UpdateTrainingDto, dto);
+    const trainingDto = plainToInstance(
+      UpdateTrainingDto,
+      { ...dto },
+      { enableImplicitConversion: true }
+    );
 
     if (file) {
       trainingDto.video = await this.appService.uploadFile(file);
@@ -160,7 +164,7 @@ export class TrainingController {
     );
 
     data.video = createStaticUrlForFile(data.video, ApplicationServiceURL.File);
-
+    await this.appService.appendUserInfo([data]);
     return data;
   }
 

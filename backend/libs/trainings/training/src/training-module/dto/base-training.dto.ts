@@ -22,8 +22,13 @@ import {
 import { TrainingApiDoc } from '../training.api-doc';
 
 export class BaseTrainingDto
-  extends OmitType(TrainingApiDoc, ['createdAt', 'rating', 'userInfo'])
-  implements Omit<Training, 'createdAt' | 'rating'>
+  extends OmitType(TrainingApiDoc, [
+    'specialPrice',
+    'createdAt',
+    'rating',
+    'userInfo',
+  ])
+  implements Omit<Training, 'specialPrice' | 'createdAt' | 'rating'>
 {
   @IsNumber()
   id: number;
@@ -76,8 +81,4 @@ export class BaseTrainingDto
 
   @IsBoolean()
   isSpecial: boolean;
-
-  @IsNumber({ maxDecimalPlaces: 0 })
-  @Min(0)
-  specialPrice: number;
 }

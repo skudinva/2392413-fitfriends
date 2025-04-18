@@ -13,7 +13,7 @@ import {
 export type SiteData = {
   specialTraining: TrainingWithPagination | null;
   isSpecialTrainingLoading: boolean;
-  training: TrainingWithPagination | null;
+  training: TrainingWithPagination;
   isTrainingLoading: boolean;
   trainingCard: TrainingWithUserInfo | null;
   trainingState: Order | null;
@@ -29,6 +29,7 @@ export type SiteData = {
   isUserOrderSave: boolean;
   isUserOrderLoading: boolean;
   userOrder: TrainingOrderWithPagination;
+  isSuccessSaveTraining: boolean;
 };
 
 export type UserProcess = {

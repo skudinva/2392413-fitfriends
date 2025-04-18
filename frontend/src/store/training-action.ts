@@ -12,7 +12,6 @@ import {
   CreateCommentDto,
   SortDirection,
   SortType,
-  Training,
   TrainingCommentWithPagination,
   TrainingCommentWithUserInfo,
   TrainingQuery,
@@ -32,6 +31,7 @@ const TrainingAction = {
   FETCH_DISCOUNT_TRAINING: 'discount-trainings/fetch',
   FETCH_TRAINING: 'training/fetch',
   POST_TRAINING: 'training/post-training',
+  UPDATE_TRAINING: 'training/update-training',
   EDIT_TRAINING: 'training/edit-training',
   DELETE_TRAINING: 'training/delete-training',
   FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
@@ -39,12 +39,32 @@ const TrainingAction = {
 };
 
 export const createTraining = createAsyncThunk<
-  Training,
+  TrainingWithUserInfo,
   FormData,
   { extra: Extra }
 >(TrainingAction.POST_TRAINING, async (newTraining, { extra }) => {
   const { api } = extra;
-  const { data } = await api.post<Training>(ApiRoute.Trainings, newTraining);
+  const { data } = await api.post<TrainingWithUserInfo>(
+    ApiRoute.Trainings,
+    newTraining
+  );
+  return data;
+});
+
+export const updateTraining = createAsyncThunk<
+  TrainingWithUserInfo,
+  FormData,
+  { extra: Extra }
+>(TrainingAction.UPDATE_TRAINING, async (dto, { extra }) => {
+  const { api } = extra;
+  const id = dto.get('id')?.toString();
+  if (!id) {
+    throw new Error('idTraining not filled');
+  }
+  const { data } = await api.patch<TrainingWithUserInfo>(
+    `${ApiRoute.Trainings}/${id}`,
+    dto
+  );
   return data;
 });
 

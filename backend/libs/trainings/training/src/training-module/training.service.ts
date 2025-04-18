@@ -1,5 +1,9 @@
 import { Training } from '@backend/shared/core';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { TrainingResponse } from './training.constant';
@@ -24,12 +28,21 @@ export class TrainingService {
     dto: UpdateTrainingDto
   ): Promise<TrainingEntity> {
     const existTraining = await this.getTraining(id);
+    if (dto.userId !== existTraining.userId) {
+      throw new ConflictException(
+        'You are not allowed to update this training'
+      );
+    }
 
     for (const [key, value] of Object.entries(dto)) {
       if (value !== undefined && existTraining[key] !== value) {
         existTraining[key] = value;
       }
     }
+
+    existTraining.specialPrice = existTraining.isSpecial
+      ? TrainingFactory.calcDiscountPrice(existTraining.price)
+      : existTraining.price;
 
     await this.trainingRepository.update(existTraining);
     return existTraining;

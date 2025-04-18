@@ -1,4 +1,8 @@
-import { EntityFactory, Training } from '@backend/shared/core';
+import {
+  EntityFactory,
+  SPECIAL_DISCOUNT,
+  Training,
+} from '@backend/shared/core';
 import { Injectable } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { CreateTrainingDto } from './dto/create-training.dto';
@@ -8,6 +12,10 @@ import { TrainingEntity } from './training.entity';
 export class TrainingFactory implements EntityFactory<TrainingEntity> {
   create(entityPlainData: Training): TrainingEntity {
     return new TrainingEntity(entityPlainData);
+  }
+
+  public static calcDiscountPrice(basePrice: number) {
+    return +((basePrice * (100 - SPECIAL_DISCOUNT)) / 100).toFixed(0);
   }
 
   public static composeFromCreateTrainingDto(
@@ -28,7 +36,9 @@ export class TrainingFactory implements EntityFactory<TrainingEntity> {
     newTraining.video = dto.video;
     newTraining.userId = dto.userId;
     newTraining.isSpecial = dto.isSpecial;
-    newTraining.specialPrice = dto.specialPrice;
+    newTraining.specialPrice = dto.isSpecial
+      ? this.calcDiscountPrice(dto.price)
+      : dto.price;
     newTraining.createdAt = dayjs().toDate();
     newTraining.rating = 0;
 

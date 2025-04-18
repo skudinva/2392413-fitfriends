@@ -1,11 +1,13 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateTrainingState } from '../../store/order-action';
 import {
+  getIsSuccessSaveTraining,
   getIsUserOrderSave,
   getTrainingCard,
   getTrainingState,
 } from '../../store/site-data/selectors';
+import { updateTraining } from '../../store/training-action';
 import { getUserInfo } from '../../store/user-process/selectors';
 import { UserGender, UserRole } from '../../types/shared';
 import ModalWindow from '../modal-window/modal-window';
@@ -18,16 +20,32 @@ function TrainingInfo(): JSX.Element {
   const trainingCard = useAppSelector(getTrainingCard);
   const trainingState = useAppSelector(getTrainingState);
   const isUserOrderSave = useAppSelector(getIsUserOrderSave);
+  const isSuccessSaveTraining = useAppSelector(getIsSuccessSaveTraining);
+
+  const trainingForm = useRef<HTMLFormElement>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [isSpecial, setIsSpecial] = useState(trainingCard?.isSpecial);
+
+  const [video, setVideo] = useState<File>();
+  const onVideoUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) {
+      return;
+    }
+    setVideo(evt.target.files[0]);
+  };
+
+  const onVideoDelete = () => {
+    if (fileInput.current) {
+      fileInput.current.value = '';
+    }
+    setVideo(undefined);
+  };
 
   const canBuy =
     trainingState === undefined ||
     trainingState === null ||
     trainingState.isDone;
-
-  const canStart = !canBuy && trainingState && !trainingState.isStarted;
-  const canFinish = !canBuy && trainingState && trainingState.isStarted;
 
   const [showModal, setShowModal] = useState(false);
 
@@ -41,8 +59,50 @@ function TrainingInfo(): JSX.Element {
   };
 
   const onSaveButtonClick = () => {
-    setIsEdit(false);
+    if (!trainingForm.current) {
+      return;
+    }
+
+    if (!trainingCard?.id) {
+      return;
+    }
+
+    const formData = new FormData(trainingForm.current);
+    const trainingData = new FormData();
+
+    trainingData.append('id', trainingCard.id.toString());
+    trainingData.append('price', formData.get('price')?.toString() || '');
+    trainingData.append('title', formData.get('training')?.toString() || '');
+    trainingData.append(
+      'description',
+      formData.get('description')?.toString() || ''
+    );
+    trainingData.append(
+      'isSpecial',
+      formData.get('isSpecial')?.toString() || 'false'
+    );
+
+    dispatch(updateTraining(trainingData));
   };
+
+  const onSaveVideo = () => {
+    if (!trainingCard?.id) {
+      return;
+    }
+    const trainingData = new FormData();
+    trainingData.append('id', trainingCard.id.toString());
+
+    if (video) {
+      trainingData.append('video', video);
+    }
+    dispatch(updateTraining(trainingData));
+  };
+
+  useEffect(() => {
+    if (isSuccessSaveTraining) {
+      setIsEdit(false);
+    }
+  }, [isSuccessSaveTraining]);
 
   const onStartButtonClick = (state: 'start' | 'finish') => {
     if (!trainingCard) {
@@ -73,6 +133,9 @@ function TrainingInfo(): JSX.Element {
     return <Spinner />;
   }
   const isCoach = userInfo.role === UserRole.Coach;
+  const canStart = !canBuy && trainingState && !trainingState.isStarted;
+  const canFinish = !canBuy && trainingState && trainingState.isStarted;
+  const canPlayVideo = !isEdit && (canFinish || isCoach);
 
   return (
     <div className={`training-card ${isEdit ? 'training-card--edit' : ''}`}>
@@ -98,29 +161,33 @@ function TrainingInfo(): JSX.Element {
               </span>
             </div>
           </div>
-          <button
-            className="btn-flat btn-flat--light btn-flat--underlined training-info__edit training-info__edit--edit"
-            type="button"
-            onClick={() => setIsEdit(true)}
-          >
-            <svg width="12" height="12" aria-hidden="true">
-              <use xlinkHref="#icon-edit"></use>
-            </svg>
-            <span>Редактировать</span>
-          </button>
-          <button
-            className="btn-flat btn-flat--light btn-flat--underlined training-info__edit training-info__edit--save"
-            type="button"
-            onClick={() => onSaveButtonClick()}
-          >
-            <svg width="12" height="12" aria-hidden="true">
-              <use xlinkHref="#icon-edit"></use>
-            </svg>
-            <span>Сохранить</span>
-          </button>
+          {isCoach && (
+            <>
+              <button
+                className="btn-flat btn-flat--light btn-flat--underlined training-info__edit training-info__edit--edit"
+                type="button"
+                onClick={() => setIsEdit(true)}
+              >
+                <svg width="12" height="12" aria-hidden="true">
+                  <use xlinkHref="#icon-edit"></use>
+                </svg>
+                <span>Редактировать</span>
+              </button>
+              <button
+                className="btn-flat btn-flat--light btn-flat--underlined training-info__edit training-info__edit--save"
+                type="button"
+                onClick={() => onSaveButtonClick()}
+              >
+                <svg width="12" height="12" aria-hidden="true">
+                  <use xlinkHref="#icon-edit"></use>
+                </svg>
+                <span>Сохранить</span>
+              </button>
+            </>
+          )}
         </div>
         <div className="training-info__main-content">
-          <form action="#" method="get">
+          <form action="#" method="get" ref={trainingForm}>
             <div className="training-info__form-wrapper">
               <div className="training-info__info-wrapper">
                 <div className="training-info__input training-info__input--training">
@@ -203,12 +270,11 @@ function TrainingInfo(): JSX.Element {
                     <input
                       type="text"
                       name="price"
-                      defaultValue={`${trainingCard?.price || 0}${
-                        !isEdit ? ' ₽' : ''
-                      }`}
+                      defaultValue={trainingCard?.price || 0}
                       disabled={!isEdit}
                     />
                   </label>
+
                   <div className="training-info__error">Введите число</div>
                 </div>
                 {isCoach ? (
@@ -243,7 +309,18 @@ function TrainingInfo(): JSX.Element {
       <div className="training-video">
         <h2 className="training-video__title">Видео</h2>
         <div className="training-video__video">
-          <div className="training-video__thumbnail">
+          <div
+            className="training-video__thumbnail"
+            onClick={() => {
+              if (!isEdit) {
+                return;
+              }
+              if (!fileInput.current) {
+                return;
+              }
+              fileInput.current.click();
+            }}
+          >
             <picture>
               <source
                 type="image/webp"
@@ -260,7 +337,7 @@ function TrainingInfo(): JSX.Element {
           </div>
           <button
             className={`training-video__play-button btn-reset ${
-              !canFinish ? 'is-disabled' : ''
+              !canPlayVideo ? 'is-disabled' : ''
             }`}
           >
             <svg width="18" height="30" aria-hidden="true">
@@ -271,7 +348,7 @@ function TrainingInfo(): JSX.Element {
         <div className="training-video__drop-files">
           <form action="#" method="post">
             <div className="training-video__form-wrapper">
-              <div className="drag-and-drop">
+              <div className="drag-and-drop create-training__drag-and-drop">
                 <label>
                   <span className="drag-and-drop__label" tabIndex={0}>
                     Загрузите сюда файлы формата MOV, AVI или MP4
@@ -284,6 +361,9 @@ function TrainingInfo(): JSX.Element {
                     name="import"
                     tabIndex={-1}
                     accept=".mov, .avi, .mp4"
+                    required
+                    onChange={onVideoUpload}
+                    ref={fileInput}
                   />
                 </label>
               </div>
@@ -317,10 +397,18 @@ function TrainingInfo(): JSX.Element {
           )}
           {isCoach && (
             <div className="training-video__edit-buttons">
-              <button className="btn" type="button">
+              <button
+                className="btn"
+                type="button"
+                onClick={() => onSaveVideo()}
+              >
                 Сохранить
               </button>
-              <button className="btn btn--outlined" type="button">
+              <button
+                className="btn btn--outlined"
+                type="button"
+                onClick={() => onVideoDelete()}
+              >
                 Удалить
               </button>
             </div>

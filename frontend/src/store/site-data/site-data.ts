@@ -9,18 +9,26 @@ import {
 } from '../order-action';
 import {
   createComment,
+  createTraining,
   fetchComment,
   fetchDiscountTrainings,
   fetchPopularTrainings,
   fetchSpecialTrainings,
   fetchTraining,
   fetchTrainings,
+  updateTraining,
 } from '../training-action';
 
 const initialState: SiteData = {
   specialTraining: null,
   isSpecialTrainingLoading: false,
-  training: null,
+  training: {
+    entities: [],
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 0,
+    maxPrice: 0,
+  },
   isTrainingLoading: false,
   trainingCard: null,
   trainingState: null,
@@ -35,6 +43,7 @@ const initialState: SiteData = {
   isSuccessBuyOrder: true,
   isUserOrderLoading: false,
   isUserOrderSave: false,
+  isSuccessSaveTraining: false,
   userOrder: {
     entities: [],
     totalPages: 0,
@@ -180,6 +189,33 @@ export const siteData = createSlice({
       })
       .addCase(updateTrainingState.rejected, (state) => {
         state.isUserOrderSave = false;
+      })
+
+      .addCase(createTraining.pending, (state) => {
+        state.isSuccessSaveTraining = false;
+      })
+      .addCase(createTraining.fulfilled, (state, action) => {
+        state.training.entities.unshift(action.payload);
+        state.isSuccessSaveTraining = true;
+      })
+      .addCase(createTraining.rejected, (state) => {
+        state.isSuccessSaveTraining = false;
+      })
+
+      .addCase(updateTraining.pending, (state) => {
+        state.isSuccessSaveTraining = false;
+      })
+      .addCase(updateTraining.fulfilled, (state, action) => {
+        state.isSuccessSaveTraining = true;
+        state.training.entities.map((item) => {
+          if (item.id === action.payload.id) {
+            item = { ...action.payload };
+          }
+        });
+        state.trainingCard = action.payload;
+      })
+      .addCase(updateTraining.rejected, (state) => {
+        state.isSuccessSaveTraining = false;
       });
   },
 });
