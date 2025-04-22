@@ -19,9 +19,9 @@ function ThumbnailTrainingCard({
         </div>
         <p className="thumbnail-training__price">
           <span className="thumbnail-training__price-value">
-            {training.price}
+            {!training.price ? 'бесплатно' : training.price}
           </span>
-          <span>₽</span>
+          <span>{training.price ? '₽' : ''}</span>
         </p>
         <h3 className="thumbnail-training__title">{training.title}</h3>
         <div className="thumbnail-training__info">
