@@ -5,6 +5,7 @@ import {
   EntityConstrain,
   SortDirection,
   SortType,
+  TRAINING_DURATIONS,
   TrainingQuery,
   TrainingType,
 } from '../../types/shared';
@@ -12,10 +13,16 @@ import {
 interface GymCatalogFormProps {
   handleFilterApply(query: TrainingQuery): void;
   maxPriceTraining: number;
+  includeType: boolean;
+  includeDuration: boolean;
+  includeSort: boolean;
 }
 
 function GymCatalogForm({
   handleFilterApply,
+  includeType,
+  includeSort,
+  includeDuration,
   maxPriceTraining,
 }: GymCatalogFormProps): JSX.Element {
   const [isFree, setIsFree] = useState(false);
@@ -236,99 +243,180 @@ function GymCatalogForm({
           />
         </div>
       </div>
-      <div className="gym-catalog-form__block gym-catalog-form__block--type">
-        <h4 className="gym-catalog-form__block-title">Тип</h4>
-        <ul className="gym-catalog-form__check-list">
-          {TRAINING_TYPE.map((trainingType) => (
-            <li
-              className="gym-catalog-form__check-list-item"
-              key={`type-${trainingType}`}
-            >
+      {includeType && (
+        <div className="gym-catalog-form__block gym-catalog-form__block--type">
+          <h4 className="gym-catalog-form__block-title">Тип</h4>
+          <ul className="gym-catalog-form__check-list">
+            {TRAINING_TYPE.map((trainingType) => (
+              <li
+                className="gym-catalog-form__check-list-item"
+                key={`type-${trainingType}`}
+              >
+                <div className="custom-toggle custom-toggle--checkbox">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="type"
+                      id="type"
+                      value={trainingType}
+                      onInput={(evt) => {
+                        const { value, checked } = evt.currentTarget;
+                        const newTypes = types.filter((item) => item !== value);
+                        if (checked) {
+                          newTypes.push(value as TrainingType);
+                        }
+
+                        setTypes(newTypes);
+                      }}
+                    />
+                    <span className="custom-toggle__icon">
+                      <svg width="9" height="6" aria-hidden="true">
+                        <use xlinkHref="#arrow-check"></use>
+                      </svg>
+                    </span>
+                    <span className="custom-toggle__label">{trainingType}</span>
+                  </label>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {includeDuration && (
+        <div className="my-training-form__block my-training-form__block--duration">
+          <h4 className="my-training-form__block-title">Длительность</h4>
+          <ul className="my-training-form__check-list">
+            <li className="my-training-form__check-list-item">
               <div className="custom-toggle custom-toggle--checkbox">
                 <label>
                   <input
                     type="checkbox"
-                    name="type"
-                    id="type"
-                    value={trainingType}
-                    onInput={(evt) => {
-                      const { value, checked } = evt.currentTarget;
-                      const newTypes = types.filter((item) => item !== value);
-                      if (checked) {
-                        newTypes.push(value as TrainingType);
-                      }
-
-                      setTypes(newTypes);
-                    }}
+                    value={TRAINING_DURATIONS[0]}
+                    name="duration"
                   />
                   <span className="custom-toggle__icon">
                     <svg width="9" height="6" aria-hidden="true">
                       <use xlinkHref="#arrow-check"></use>
                     </svg>
                   </span>
-                  <span className="custom-toggle__label">{trainingType}</span>
+                  <span className="custom-toggle__label">10 мин - 30 мин</span>
                 </label>
               </div>
             </li>
-          ))}
-        </ul>
-      </div>
-      <div className="gym-catalog-form__block gym-catalog-form__block--sort">
-        <h4 className="gym-catalog-form__title gym-catalog-form__title--sort">
-          Сортировка
-        </h4>
-        <div className="btn-radio-sort gym-catalog-form__radio">
-          <label>
-            <input
-              type="radio"
-              name="sort"
-              defaultChecked
-              onInput={() => {
-                SetSortDirection(SortDirection.Asc);
-                SetSortBy(SortType.Price);
-                if (minPriceInput.current) {
-                  setMinPrice(Number(minPriceInput.current.value));
-                }
-                if (maxPriceInput.current) {
-                  setMaxPrice(Number(maxPriceInput.current.value));
-                }
-                setIsFree(false);
-              }}
-            />
-            <span className="btn-radio-sort__label">Дешевле</span>
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="sort"
-              value="expensive"
-              onInput={() => {
-                SetSortDirection(SortDirection.Desc);
-                SetSortBy(SortType.Price);
-                if (minPriceInput.current) {
-                  setMinPrice(Number(minPriceInput.current.value));
-                }
-                if (maxPriceInput.current) {
-                  setMaxPrice(Number(maxPriceInput.current.value));
-                }
-                setIsFree(false);
-              }}
-            />
-            <span className="btn-radio-sort__label">Дороже</span>
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="sort"
-              value="free"
-              onInput={() => {
-                setIsFree(true);
-              }}
-            />
-            <span className="btn-radio-sort__label">Бесплатные</span>
-          </label>
+            <li className="my-training-form__check-list-item">
+              <div className="custom-toggle custom-toggle--checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    value={TRAINING_DURATIONS[1]}
+                    name="duration"
+                  />
+                  <span className="custom-toggle__icon">
+                    <svg width="9" height="6" aria-hidden="true">
+                      <use xlinkHref="#arrow-check"></use>
+                    </svg>
+                  </span>
+                  <span className="custom-toggle__label">30 мин - 50 мин</span>
+                </label>
+              </div>
+            </li>
+            <li className="my-training-form__check-list-item">
+              <div className="custom-toggle custom-toggle--checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    value={TRAINING_DURATIONS[2]}
+                    name="duration"
+                  />
+                  <span className="custom-toggle__icon">
+                    <svg width="9" height="6" aria-hidden="true">
+                      <use xlinkHref="#arrow-check"></use>
+                    </svg>
+                  </span>
+                  <span className="custom-toggle__label">50 мин - 80 мин</span>
+                </label>
+              </div>
+            </li>
+            <li className="my-training-form__check-list-item">
+              <div className="custom-toggle custom-toggle--checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    value={TRAINING_DURATIONS[3]}
+                    name="duration"
+                  />
+                  <span className="custom-toggle__icon">
+                    <svg width="9" height="6" aria-hidden="true">
+                      <use xlinkHref="#arrow-check"></use>
+                    </svg>
+                  </span>
+                  <span className="custom-toggle__label">80 мин - 100 мин</span>
+                </label>
+              </div>
+            </li>
+          </ul>
         </div>
-      </div>
+      )}
+
+      {includeSort && (
+        <div className="gym-catalog-form__block gym-catalog-form__block--sort">
+          <h4 className="gym-catalog-form__title gym-catalog-form__title--sort">
+            Сортировка
+          </h4>
+          <div className="btn-radio-sort gym-catalog-form__radio">
+            <label>
+              <input
+                type="radio"
+                name="sort"
+                defaultChecked
+                onInput={() => {
+                  SetSortDirection(SortDirection.Asc);
+                  SetSortBy(SortType.Price);
+                  if (minPriceInput.current) {
+                    setMinPrice(Number(minPriceInput.current.value));
+                  }
+                  if (maxPriceInput.current) {
+                    setMaxPrice(Number(maxPriceInput.current.value));
+                  }
+                  setIsFree(false);
+                }}
+              />
+              <span className="btn-radio-sort__label">Дешевле</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="sort"
+                value="expensive"
+                onInput={() => {
+                  SetSortDirection(SortDirection.Desc);
+                  SetSortBy(SortType.Price);
+                  if (minPriceInput.current) {
+                    setMinPrice(Number(minPriceInput.current.value));
+                  }
+                  if (maxPriceInput.current) {
+                    setMaxPrice(Number(maxPriceInput.current.value));
+                  }
+                  setIsFree(false);
+                }}
+              />
+              <span className="btn-radio-sort__label">Дороже</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="sort"
+                value="free"
+                onInput={() => {
+                  setIsFree(true);
+                }}
+              />
+              <span className="btn-radio-sort__label">Бесплатные</span>
+            </label>
+          </div>
+        </div>
+      )}
     </form>
   );
 }

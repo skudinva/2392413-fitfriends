@@ -141,6 +141,10 @@ export class TrainingRepository extends BasePostgresRepository<
       andConditions.push({ type: { in: query.types } });
     }
 
+    if (query.durations && query.durations.length) {
+      andConditions.push({ duration: { in: query.durations } });
+    }
+
     if (query.isSpecial !== null && query.isSpecial !== undefined) {
       andConditions.push({ isSpecial: query.isSpecial });
     }

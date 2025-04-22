@@ -48,6 +48,8 @@ export class CommentController {
   @ApiQuery({ type: TrainingCommentQuery })
   @Get('/comments/:trainingId')
   @ApiTags(ApiSection.Comment)
+  @ApiBearerAuth('accessToken')
+  @UseGuards(CheckAuthGuard)
   public async getComments(
     @Param('trainingId') trainingId: number,
     @Req() req: Request

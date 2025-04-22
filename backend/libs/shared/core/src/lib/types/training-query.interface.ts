@@ -1,5 +1,6 @@
 import { SortDirection } from '../interfaces/sort-direction.interface';
 import { SortType } from '../interfaces/sort-type.interface';
+import { TrainingDuration } from './training-duration.interface';
 import { TrainingType } from './training-type.enum';
 
 export interface ITrainingQuery {
@@ -14,4 +15,5 @@ export interface ITrainingQuery {
   minRating: number;
   maxRating: number;
   types: TrainingType[];
+  durations: TrainingDuration[];
 }

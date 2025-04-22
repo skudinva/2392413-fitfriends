@@ -4,6 +4,8 @@ import {
   ITrainingQuery,
   SortDirection,
   SortType,
+  TRAINING_DURATIONS,
+  TrainingDuration,
   TrainingType,
 } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
@@ -108,8 +110,8 @@ export class TrainingQuery implements ITrainingQuery {
   @ApiProperty({
     description: 'minCalories',
     required: true,
-    example: 100,
-    default: 0,
+    example: EntityConstrain.training.calories.minValue,
+    default: EntityConstrain.training.calories.minValue,
   })
   @Min(EntityConstrain.training.calories.minValue)
   @Max(EntityConstrain.training.calories.maxValue)
@@ -121,8 +123,8 @@ export class TrainingQuery implements ITrainingQuery {
   @ApiProperty({
     description: 'maxCalories',
     required: true,
-    example: 10000,
-    default: 10000,
+    example: EntityConstrain.training.calories.maxValue,
+    default: EntityConstrain.training.calories.maxValue,
   })
   @Min(EntityConstrain.training.calories.minValue)
   @Max(EntityConstrain.training.calories.maxValue)
@@ -163,4 +165,18 @@ export class TrainingQuery implements ITrainingQuery {
   @Transform(({ value }) => String(value).toLowerCase() === 'true')
   @IsOptional()
   isSpecial?: boolean;
+
+  @ApiProperty({
+    description: 'Training durations',
+    example: TRAINING_DURATIONS[0],
+    enum: TRAINING_DURATIONS,
+    enumName: 'TRAINING_DURATIONS',
+    required: false,
+    isArray: true,
+  })
+  @IsIn(Object.values(TRAINING_DURATIONS), { each: true })
+  @IsOptional()
+  @IsArray()
+  @TransformToArray()
+  durations: TrainingDuration[];
 }

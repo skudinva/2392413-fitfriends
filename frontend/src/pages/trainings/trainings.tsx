@@ -47,6 +47,9 @@ function Trainings(): JSX.Element {
                 <GymCatalogForm
                   handleFilterApply={setFilterParam}
                   maxPriceTraining={training.maxPrice}
+                  includeType
+                  includeSort
+                  includeDuration={false}
                 />
               )}
             </div>
