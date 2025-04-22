@@ -149,6 +149,10 @@ export class TrainingRepository extends BasePostgresRepository<
       andConditions.push({ isSpecial: query.isSpecial });
     }
 
+    if (query.userId) {
+      andConditions.push({ userId: query.userId });
+    }
+
     if (andConditions.length) {
       where.AND = [...andConditions, ...priceConditions];
     }

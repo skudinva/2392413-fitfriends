@@ -48,7 +48,6 @@ export class TrainingQuery implements ITrainingQuery {
 
   @ApiProperty({
     description: 'Training type',
-    example: TrainingType.Boxing,
     enum: TrainingType,
     enumName: 'TrainingType',
     required: false,
@@ -168,7 +167,6 @@ export class TrainingQuery implements ITrainingQuery {
 
   @ApiProperty({
     description: 'Training durations',
-    example: TRAINING_DURATIONS[0],
     enum: TRAINING_DURATIONS,
     enumName: 'TRAINING_DURATIONS',
     required: false,
@@ -179,4 +177,6 @@ export class TrainingQuery implements ITrainingQuery {
   @IsArray()
   @TransformToArray()
   durations: TrainingDuration[];
+
+  userId?: string;
 }

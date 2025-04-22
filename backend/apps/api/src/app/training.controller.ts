@@ -4,7 +4,7 @@ import {
 } from '@backend/authentication';
 import { createStaticUrlForFile } from '@backend/helpers';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
-import { EntityConstrain } from '@backend/shared/core';
+import { EntityConstrain, UserRole } from '@backend/shared/core';
 import {
   CreateTrainingDto,
   TrainingQuery,
@@ -210,7 +210,10 @@ export class TrainingController {
   @ApiTags(ApiSection.Training)
   public async getTrainings(@Req() req: RequestWithTokenPayloadUrl) {
     const userId = req.user?.sub;
-    const requestUrl = userId ? `${req.url}&userId=${userId}` : req.url;
+
+    const role = req.user?.role;
+    const requestUrl =
+      role === UserRole.Coach ? `${req.url}&userId=${userId}` : req.url;
     const query = url.parse(requestUrl).query;
 
     const { data } =

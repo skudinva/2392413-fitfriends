@@ -16,4 +16,5 @@ export interface ITrainingQuery {
   maxRating: number;
   types: TrainingType[];
   durations: TrainingDuration[];
+  userId?: string;
 }
