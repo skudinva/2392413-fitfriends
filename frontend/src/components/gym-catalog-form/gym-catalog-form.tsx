@@ -79,6 +79,7 @@ function GymCatalogForm({
       sortDirection: sortDirection,
       sortBy: sortBy,
       page: 1,
+      durations: [],
     });
   }, [
     maxCalories,
