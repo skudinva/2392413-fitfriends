@@ -20,6 +20,7 @@ export type { TrainingOrderWithPagination } from '../../../backend/libs/shared/c
 export type { OrderWithTraining } from '../../../backend/libs/shared/core/src/lib/types/order-with-training.interface';
 export type { Order } from '../../../backend/libs/shared/core/src/lib/types/order.interface';
 export { PayType } from '../../../backend/libs/shared/core/src/lib/types/pay-type.enum';
+export type { TrainingDuration } from '../../../backend/libs/shared/core/src/lib/types/training-duration.interface';
 export { TrainingLevel } from '../../../backend/libs/shared/core/src/lib/types/training-level.enum';
 export type { ITrainingQuery as TrainingQuery } from '../../../backend/libs/shared/core/src/lib/types/training-query.interface';
 export { TrainingType } from '../../../backend/libs/shared/core/src/lib/types/training-type.enum';

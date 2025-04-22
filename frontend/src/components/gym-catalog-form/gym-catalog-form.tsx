@@ -1,11 +1,12 @@
 import MultiRangeSlider from 'multi-range-slider-react';
-import { useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { TRAINING_TYPE } from '../../const';
 import {
   EntityConstrain,
   SortDirection,
   SortType,
   TRAINING_DURATIONS,
+  TrainingDuration,
   TrainingQuery,
   TrainingType,
 } from '../../types/shared';
@@ -47,6 +48,19 @@ function GymCatalogForm({
   );
 
   const [types, setTypes] = useState<typeof TRAINING_TYPE>([]);
+  const [durations, setDurations] = useState<TrainingDuration[]>([]);
+
+  const onDurationChecked = (evt: FormEvent<HTMLInputElement>) => {
+    const { value, checked } = evt.currentTarget;
+    const newDurations = durations.filter(
+      (item) => item !== (value as TrainingDuration)
+    );
+    if (checked) {
+      newDurations.push(value as TrainingDuration);
+    }
+
+    setDurations(newDurations);
+  };
 
   const minPriceInput = useRef<HTMLInputElement>(null);
   const maxPriceInput = useRef<HTMLInputElement>(null);
@@ -79,7 +93,7 @@ function GymCatalogForm({
       sortDirection: sortDirection,
       sortBy: sortBy,
       page: 1,
-      durations: [],
+      durations: durations,
     });
   }, [
     maxCalories,
@@ -90,6 +104,7 @@ function GymCatalogForm({
     maxRating,
     isFree,
     types,
+    durations,
     sortBy,
     sortDirection,
     handleFilterApply,
@@ -295,6 +310,7 @@ function GymCatalogForm({
                     type="checkbox"
                     value={TRAINING_DURATIONS[0]}
                     name="duration"
+                    onInput={onDurationChecked}
                   />
                   <span className="custom-toggle__icon">
                     <svg width="9" height="6" aria-hidden="true">
@@ -312,6 +328,7 @@ function GymCatalogForm({
                     type="checkbox"
                     value={TRAINING_DURATIONS[1]}
                     name="duration"
+                    onInput={onDurationChecked}
                   />
                   <span className="custom-toggle__icon">
                     <svg width="9" height="6" aria-hidden="true">
@@ -329,6 +346,7 @@ function GymCatalogForm({
                     type="checkbox"
                     value={TRAINING_DURATIONS[2]}
                     name="duration"
+                    onInput={onDurationChecked}
                   />
                   <span className="custom-toggle__icon">
                     <svg width="9" height="6" aria-hidden="true">
@@ -346,6 +364,7 @@ function GymCatalogForm({
                     type="checkbox"
                     value={TRAINING_DURATIONS[3]}
                     name="duration"
+                    onInput={onDurationChecked}
                   />
                   <span className="custom-toggle__icon">
                     <svg width="9" height="6" aria-hidden="true">
