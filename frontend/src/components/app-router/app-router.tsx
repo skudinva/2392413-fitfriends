@@ -22,9 +22,10 @@ import PrivateRoute from '../private-route/private-route';
 function AppRouter() {
   const userInfo = useAppSelector(getUserInfo);
 
-  const role = userInfo?.role;
   const redirectUrl =
-    role === UserRole.Sportsman ? AppRoute.Intro : AppRoute.PersonalAccount;
+    userInfo?.role === UserRole.Coach
+      ? AppRoute.PersonalAccount
+      : AppRoute.Intro;
 
   return (
     <Routes>
