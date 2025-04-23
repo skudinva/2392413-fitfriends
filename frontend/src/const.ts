@@ -13,6 +13,7 @@ export enum AppRoute {
   Register = '/register',
   PersonalAccount = '/personalAccount',
   Trainings = '/trainings',
+  Orders = '/orders',
   CoachTrainings = '/coach-trainings',
   CreateTraining = '/createTraining',
   Friends = '/friends',
