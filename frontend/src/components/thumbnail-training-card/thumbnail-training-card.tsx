@@ -1,13 +1,17 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Training } from '../../types/shared';
+import { Order, Training } from '../../types/shared';
 
 interface ThumbnailTrainingCardProps {
   training: Training;
+  totalInfo?: Order;
+  detailButtonStyle: 'comments-and-detail' | 'detail';
 }
 
 function ThumbnailTrainingCard({
   training,
+  totalInfo,
+  detailButtonStyle,
 }: ThumbnailTrainingCardProps): JSX.Element {
   return (
     <div className="thumbnail-training">
@@ -49,21 +53,59 @@ function ThumbnailTrainingCard({
         <div className="thumbnail-training__text-wrapper">
           <p className="thumbnail-training__text">{training.description}</p>
         </div>
-        <div className="thumbnail-training__button-wrapper">
+        {detailButtonStyle === 'detail' && (
           <Link
-            className="btn btn--small thumbnail-training__button-catalog"
+            className="btn-flat btn-flat--underlined thumbnail-training__button-orders"
             to={`${AppRoute.Trainings}/${training.id}`}
           >
-            Подробнее
+            <svg width="18" height="18" aria-hidden="true">
+              <use xlinkHref="#icon-info"></use>
+            </svg>
+            <span>Подробнее</span>
           </Link>
-          <Link
-            className="btn btn--small btn--outlined thumbnail-training__button-catalog"
-            to={`${AppRoute.Trainings}/${training.id}`}
-          >
-            Отзывы
-          </Link>
-        </div>
+        )}
+        {detailButtonStyle === 'comments-and-detail' && (
+          <div className="thumbnail-training__button-wrapper">
+            <Link
+              className="btn btn--small thumbnail-training__button-catalog"
+              to={`${AppRoute.Trainings}/${training.id}`}
+            >
+              Подробнее
+            </Link>
+            <Link
+              className="btn btn--small btn--outlined thumbnail-training__button-catalog"
+              to={`${AppRoute.Trainings}/${training.id}`}
+            >
+              Отзывы
+            </Link>
+          </div>
+        )}
       </div>
+      {totalInfo && (
+        <div className="thumbnail-training__total-info">
+          <div className="thumbnail-training__total-info-card">
+            <svg width="32" height="32" aria-hidden="true">
+              <use xlinkHref="#icon-chart"></use>
+            </svg>
+            <p className="thumbnail-training__total-info-value">
+              {totalInfo.amount}
+            </p>
+            <p className="thumbnail-training__total-info-text">
+              Куплено тренировок
+            </p>
+          </div>
+          <div className="thumbnail-training__total-info-card">
+            <svg width="31" height="28" aria-hidden="true">
+              <use xlinkHref="#icon-wallet"></use>
+            </svg>
+            <p className="thumbnail-training__total-info-value">
+              {totalInfo.totalPrice}
+              <span>₽</span>
+            </p>
+            <p className="thumbnail-training__total-info-text">Общая сумма</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

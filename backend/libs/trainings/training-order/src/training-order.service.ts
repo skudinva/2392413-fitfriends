@@ -3,6 +3,7 @@ import {
   PaginationResult,
   SortDirection,
   SortType,
+  UserRole,
 } from '@backend/shared/core';
 import { TrainingService } from '@backend/training';
 import {
@@ -25,11 +26,10 @@ export class TrainingOrderService {
   ) {}
 
   public async getOrders(
-    userId: Order['userId'],
     query: TrainingOrderQuery
   ): Promise<PaginationResult<ReturnType<TrainingOrderEntity['toPOJO']>>> {
     const ordersWithPagination =
-      await this.trainingOrderRepository.findByUserId(userId, query);
+      await this.trainingOrderRepository.findByUserId(query);
 
     const orders = {
       ...ordersWithPagination,
@@ -43,13 +43,15 @@ export class TrainingOrderService {
     trainingId: Order['trainingId'],
     userId: Order['userId']
   ): Promise<TrainingOrderEntity | null> {
-    const orders = await this.getOrders(userId, {
+    const orders = await this.getOrders({
       limit: 1,
       sortBy: SortType.Date,
       sortDirection: SortDirection.Asc,
       page: 1,
       activeOnly: true,
       trainingId,
+      userId,
+      role: UserRole.Sportsman,
     });
 
     if (!orders.entities.length) {

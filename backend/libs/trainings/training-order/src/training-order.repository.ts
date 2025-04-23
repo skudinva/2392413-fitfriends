@@ -4,6 +4,7 @@ import {
   OrderType,
   PaginationResult,
   PayType,
+  UserRole,
 } from '@backend/shared/core';
 import { PrismaClientService } from '@backend/training-models';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -76,17 +77,23 @@ export class TrainingOrderRepository extends BasePostgresRepository<
   }
 
   public async findByUserId(
-    userId: Order['userId'],
     query: TrainingOrderQuery
   ): Promise<PaginationResult<TrainingOrderEntity>> {
     const skip =
       query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
-    const where: Prisma.OrderWhereInput = { userId };
+    const where: Prisma.OrderWhereInput = {};
+
+    if (query.role === UserRole.Sportsman) {
+      where.userId = query.userId;
+    } else if (query.role === UserRole.Coach) {
+      where.training = { userId: query.userId };
+    }
+
     const orderBy: Prisma.OrderOrderByWithRelationInput = {};
 
-    if (query?.sortDirection) {
-      orderBy.createdAt = query.sortDirection;
+    if (query?.sortBy) {
+      orderBy[query.sortBy] = query.sortDirection;
     }
 
     if (query.activeOnly) {
@@ -98,7 +105,12 @@ export class TrainingOrderRepository extends BasePostgresRepository<
     }
 
     const [documents, ordersCount] = await Promise.all([
-      this.client.order.findMany({ where, skip, take, orderBy }),
+      this.client.order.findMany({
+        where,
+        skip,
+        take,
+        orderBy,
+      }),
       this.getOrdersCount(where),
     ]);
 

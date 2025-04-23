@@ -46,16 +46,21 @@ export const fetchOrders = createAsyncThunk<
   TrainingOrderWithPagination,
   TrainingOrderQuery,
   { extra: Extra }
->(OrderAction.FETCH_ORDERS, async ({ page, activeOnly }, { extra }) => {
-  const { api } = extra;
-  const { data } = await api.get<TrainingOrderWithPagination>(
-    `${ApiRoute.Order}?page=${page ?? 1}&activeOnly=${String(
-      activeOnly
-    )}&sortBy=${SortType.Date}&sortDirection=${SortDirection.Desc}`
-  );
+>(
+  OrderAction.FETCH_ORDERS,
+  async ({ page, activeOnly, sortBy, sortDirection }, { extra }) => {
+    const { api } = extra;
+    const { data } = await api.get<TrainingOrderWithPagination>(
+      `${ApiRoute.Order}?page=${page ?? 1}&activeOnly=${String(
+        activeOnly
+      )}&sortBy=${sortBy || SortType.Date}&sortDirection=${
+        sortDirection || SortDirection.Desc
+      }`
+    );
 
-  return data;
-});
+    return data;
+  }
+);
 
 export const fetchTrainingState = createAsyncThunk<
   Order | null,

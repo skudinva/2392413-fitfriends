@@ -2,6 +2,7 @@ import {
   ITrainingOrderQuery,
   SortDirection,
   SortType,
+  UserRole,
 } from '@backend/shared/core';
 import { Transform } from 'class-transformer';
 import { IsIn, IsOptional } from 'class-validator';
@@ -67,4 +68,7 @@ export class TrainingOrderQuery implements ITrainingOrderQuery {
   })
   @IsOptional()
   public trainingId: number;
+
+  userId: string;
+  role: UserRole;
 }

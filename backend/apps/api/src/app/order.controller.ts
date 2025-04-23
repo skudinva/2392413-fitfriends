@@ -55,9 +55,14 @@ export class OrderController {
   @UseInterceptors(InjectUserIdInterceptor)
   public async getOrders(@Req() req: RequestWithTokenPayload & Request) {
     const userId = req.user.sub;
+    const role = req.user.role;
+
+    const requestUrl = `${req.url}&userId=${userId}&role=${role}`;
+    const query = url.parse(requestUrl).query;
+
     const { data } =
       await this.httpService.axiosRef.get<TrainingOrderWithPaginationRdo>(
-        `${ApplicationServiceURL.Orders}/${userId}?${url.parse(req.url).query}`
+        `${ApplicationServiceURL.Orders}?${query}`
       );
 
     await this.appService.appendTrainingInfo(userId, data.entities);

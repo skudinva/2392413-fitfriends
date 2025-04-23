@@ -33,12 +33,9 @@ export class TrainingOrderController {
     status: HttpStatus.NOT_FOUND,
     description: TrainingOrderResponse.TrainingNotFound,
   })
-  @Get('/:userId')
-  public async show(
-    @Param('userId') userId: string,
-    @Query() query: TrainingOrderQuery
-  ) {
-    const orders = await this.trainingOrderService.getOrders(userId, query);
+  @Get('/')
+  public async show(@Query() query: TrainingOrderQuery) {
+    const orders = await this.trainingOrderService.getOrders(query);
     return fillDto(TrainingOrderWithPaginationRdo, orders);
   }
 

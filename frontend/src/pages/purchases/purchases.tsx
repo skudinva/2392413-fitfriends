@@ -26,7 +26,13 @@ function Purchases(): JSX.Element {
   };
 
   useEffect(() => {
-    dispatch(fetchOrders({ page, activeOnly }));
+    dispatch(
+      fetchOrders({
+        page,
+        activeOnly,
+        userId: '',
+      })
+    );
   }, [activeOnly, dispatch, page]);
 
   return (
@@ -71,7 +77,10 @@ function Purchases(): JSX.Element {
                     className="my-purchases__item"
                     key={`my-purchases__item-${order.id}`}
                   >
-                    <ThumbnailTrainingCard training={order.training} />
+                    <ThumbnailTrainingCard
+                      training={order.training}
+                      detailButtonStyle="comments-and-detail"
+                    />
                   </li>
                 ))}
               </ul>

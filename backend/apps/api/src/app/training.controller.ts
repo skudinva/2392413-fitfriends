@@ -210,8 +210,8 @@ export class TrainingController {
   @ApiTags(ApiSection.Training)
   public async getTrainings(@Req() req: RequestWithTokenPayloadUrl) {
     const userId = req.user?.sub;
-
     const role = req.user?.role;
+
     const requestUrl =
       role === UserRole.Coach ? `${req.url}&userId=${userId}` : req.url;
     const query = url.parse(requestUrl).query;
