@@ -18,6 +18,7 @@ import {
   TrainingWithPagination,
   TrainingWithUserInfo,
 } from '../types/shared';
+import { composeQuery } from '../utils';
 
 type Extra = {
   api: AxiosInstance;
@@ -74,24 +75,9 @@ export const fetchTrainings = createAsyncThunk<
   { extra: Extra }
 >(TrainingAction.FETCH_TRAININGS, async (query, { extra }) => {
   const { api } = extra;
-
-  const queryStrings: string[] = [];
-  if (query) {
-    Object.entries(query).forEach(([key, value]) => {
-      if (value !== undefined) {
-        if (Array.isArray(value)) {
-          value.forEach((item) => {
-            queryStrings.push(`${key}=${String(item)}`);
-          });
-        } else {
-          queryStrings.push(`${key}=${String(value)}`);
-        }
-      }
-    });
-  }
-
+  const queryString = query ? composeQuery(query) : '';
   const { data } = await api.get<TrainingWithPagination>(
-    `${ApiRoute.Trainings}?${queryStrings.join('&')}`
+    `${ApiRoute.Trainings}?${queryString}`
   );
 
   return data;

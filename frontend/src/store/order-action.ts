@@ -6,12 +6,11 @@ import {
   CreateOrderDto,
   Order,
   OrderWithTraining,
-  SortDirection,
-  SortType,
   TrainingOrderQuery,
   TrainingOrderWithPagination,
   UpdateOrderStateDto,
 } from '../types/shared';
+import { composeQuery } from '../utils';
 
 type Extra = {
   api: AxiosInstance;
@@ -46,21 +45,16 @@ export const fetchOrders = createAsyncThunk<
   TrainingOrderWithPagination,
   TrainingOrderQuery,
   { extra: Extra }
->(
-  OrderAction.FETCH_ORDERS,
-  async ({ page, activeOnly, sortBy, sortDirection }, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.get<TrainingOrderWithPagination>(
-      `${ApiRoute.Order}?page=${page ?? 1}&activeOnly=${String(
-        activeOnly
-      )}&sortBy=${sortBy || SortType.Date}&sortDirection=${
-        sortDirection || SortDirection.Desc
-      }`
-    );
+>(OrderAction.FETCH_ORDERS, async (query, { extra }) => {
+  const { api } = extra;
+  const queryString = query ? composeQuery(query) : '';
 
-    return data;
-  }
-);
+  const { data } = await api.get<TrainingOrderWithPagination>(
+    `${ApiRoute.Order}?${queryString}`
+  );
+
+  return data;
+});
 
 export const fetchTrainingState = createAsyncThunk<
   Order | null,
