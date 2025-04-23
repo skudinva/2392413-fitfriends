@@ -159,7 +159,8 @@ function AppRouter() {
           element={
             <PrivateRoute
               restrictedFor={AuthorizationStatus.NoAuth}
-              redirectTo={AppRoute.Intro}
+              redirectTo={redirectUrl}
+              allowForRole={UserRole.Sportsman}
             >
               <Purchases />
             </PrivateRoute>
