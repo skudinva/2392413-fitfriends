@@ -14,6 +14,7 @@ function MainNav(): JSX.Element {
               pathname === AppRoute.Root ||
               pathname === AppRoute.CreateTraining ||
               pathname === AppRoute.CoachTrainings ||
+              pathname === AppRoute.Orders ||
               pathname.startsWith(AppRoute.Trainings)
                 ? 'is-active'
                 : ''
