@@ -67,7 +67,10 @@ function MyTrainings() {
                           className="my-trainings__item"
                           key={`my-trainings__item-${trainingItem.id}`}
                         >
-                          <ThumbnailTrainingCard training={trainingItem} />
+                          <ThumbnailTrainingCard
+                            training={trainingItem}
+                            detailButtonStyle="comments-and-detail"
+                          />
                         </li>
                       ))}
                   </ul>

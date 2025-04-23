@@ -66,7 +66,10 @@ function Trainings(): JSX.Element {
                         className="training-catalog__item"
                         key={`training-catalog__item-${trainingItem.id}`}
                       >
-                        <ThumbnailTrainingCard training={trainingItem} />
+                        <ThumbnailTrainingCard
+                          training={trainingItem}
+                          detailButtonStyle="comments-and-detail"
+                        />
                       </li>
                     ))}
                 </ul>

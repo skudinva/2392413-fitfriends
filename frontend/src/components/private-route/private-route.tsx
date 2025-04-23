@@ -26,7 +26,9 @@ function PrivateRoute({
 
   if (
     authorizationStatus === AuthorizationStatus.Unknown ||
-    (allowForRole && !userInfo?.role)
+    (authorizationStatus === AuthorizationStatus.Auth &&
+      allowForRole &&
+      !userInfo?.role)
   ) {
     return (
       <div className="container">

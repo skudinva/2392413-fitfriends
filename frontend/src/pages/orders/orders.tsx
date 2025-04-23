@@ -17,7 +17,7 @@ function Orders(): JSX.Element {
   const userOrder = useAppSelector(getUserOrder);
 
   const [page, setPage] = useState(1);
-  const [sortBy, setSortBy] = useState(SortType.Price);
+  const [sortBy, setSortBy] = useState(SortType.Amount);
   const [sortDirection, setSortDirection] = useState(SortDirection.Desc);
 
   const scrollToTop = () => {

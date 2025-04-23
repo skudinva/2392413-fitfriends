@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
 import CreateTraining from '../../pages/create-training/create-training';
 import Friends from '../../pages/friends/friends';
 import Home from '../../pages/home/home';
@@ -14,10 +15,17 @@ import Purchases from '../../pages/purchases/purchases';
 import Registration from '../../pages/registration/registration';
 import TrainingCard from '../../pages/training-card/training-card';
 import Trainings from '../../pages/trainings/trainings';
+import { getUserInfo } from '../../store/user-process/selectors';
 import { UserRole } from '../../types/shared';
 import PrivateRoute from '../private-route/private-route';
 
 function AppRouter() {
+  const userInfo = useAppSelector(getUserInfo);
+
+  const role = userInfo?.role;
+  const redirectUrl =
+    role === UserRole.Sportsman ? AppRoute.Intro : AppRoute.PersonalAccount;
+
   return (
     <Routes>
       <Route
@@ -117,7 +125,8 @@ function AppRouter() {
           element={
             <PrivateRoute
               restrictedFor={AuthorizationStatus.NoAuth}
-              redirectTo={AppRoute.Intro}
+              redirectTo={redirectUrl}
+              allowForRole={UserRole.Sportsman}
             >
               <Trainings />
             </PrivateRoute>

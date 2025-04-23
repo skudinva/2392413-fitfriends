@@ -90,7 +90,10 @@ function PopularTrainings(): JSX.Element {
                     className="popular-trainings__item"
                     key={`popular-trainings__item-${trainingItem.id}`}
                   >
-                    <ThumbnailTrainingCard training={trainingItem} />
+                    <ThumbnailTrainingCard
+                      training={trainingItem}
+                      detailButtonStyle="comments-and-detail"
+                    />
                   </li>
                 </SwiperSlide>
               ))}
