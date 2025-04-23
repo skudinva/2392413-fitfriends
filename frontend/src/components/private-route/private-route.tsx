@@ -24,7 +24,10 @@ function PrivateRoute({
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userInfo = useAppSelector(getUserInfo);
 
-  if (authorizationStatus === AuthorizationStatus.Unknown) {
+  if (
+    authorizationStatus === AuthorizationStatus.Unknown ||
+    (allowForRole && !userInfo?.role)
+  ) {
     return (
       <div className="container">
         <Spinner />

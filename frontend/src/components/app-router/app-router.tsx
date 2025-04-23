@@ -8,6 +8,7 @@ import Login from '../../pages/login/login';
 import Main from '../../pages/main/main';
 import MyTrainings from '../../pages/my-trainings/my-trainings';
 import NotFound from '../../pages/not-found/not-found';
+import Orders from '../../pages/orders/orders';
 import PersonalAccount from '../../pages/personal-account/personal-account';
 import Purchases from '../../pages/purchases/purchases';
 import Registration from '../../pages/registration/registration';
@@ -62,6 +63,18 @@ function AppRouter() {
               allowForRole={UserRole.Coach}
             >
               <CreateTraining />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Orders}
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={AppRoute.Intro}
+              allowForRole={UserRole.Coach}
+            >
+              <Orders />
             </PrivateRoute>
           }
         />
