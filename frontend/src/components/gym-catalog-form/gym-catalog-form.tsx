@@ -205,7 +205,7 @@ function GymCatalogForm({
               value={maxCalories}
               onInput={(evt) => {
                 setMaxCalories(
-                  Math.max(
+                  Math.min(
                     Number(evt.currentTarget.value),
                     EntityConstrain.training.calories.maxValue
                   )
