@@ -35,10 +35,10 @@ function Main(): JSX.Element {
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchUserInfo(userId));
+      dispatch(fetchTrainings(null));
       dispatch(fetchSpecialTrainings());
       dispatch(fetchDiscountTrainings());
       dispatch(fetchPopularTrainings());
-      dispatch(fetchTrainings(null));
       dispatch(
         fetchOrders({
           page: 1,

@@ -164,8 +164,8 @@ function GymCatalogForm({
             barRightColor="black"
             thumbLeftColor="black"
             thumbRightColor="black"
-            minValue={minPrice <= maxPrice ? minPrice : maxPrice}
-            maxValue={maxPrice >= minPrice ? maxPrice : minPrice}
+            minValue={0}
+            maxValue={maxPriceTraining}
             onInput={(evt) => {
               setMinPrice(evt.minValue);
               setMaxPrice(evt.maxValue);

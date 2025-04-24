@@ -10,14 +10,26 @@ import {
   getTraining,
 } from '../../store/site-data/selectors';
 import { fetchTrainings } from '../../store/training-action';
-import { TrainingQuery } from '../../types/shared';
+import { EntityConstrain, TrainingQuery } from '../../types/shared';
 
 function MyTrainings() {
   const dispatch = useAppDispatch();
+
   const trainingLoading = useAppSelector(getIsTrainingLoading);
   const training = useAppSelector(getTraining);
-  const [filterParam, setFilterParam] = useState<TrainingQuery | null>(null);
-  const page = filterParam?.page ?? 1;
+
+  const [filterParam, setFilterParam] = useState<TrainingQuery>({
+    minPrice: 0,
+    maxPrice: training.maxPrice,
+    minCalories: EntityConstrain.training.calories.minValue,
+    maxCalories: EntityConstrain.training.calories.maxValue,
+    minRating: 0,
+    maxRating: EntityConstrain.feedback.mark.maxValue,
+    types: [],
+    durations: [],
+    page: 1,
+  });
+  const { page } = filterParam;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -27,10 +39,16 @@ function MyTrainings() {
   };
 
   useEffect(() => {
-    if (filterParam) {
-      dispatch(fetchTrainings(filterParam));
+    if (!filterParam) {
+      return;
     }
+
+    dispatch(fetchTrainings(filterParam));
   }, [dispatch, filterParam]);
+
+  if (training.itemsPerPage === 0) {
+    return <Spinner />;
+  }
 
   return (
     <section className="inner-page">
@@ -43,15 +61,13 @@ function MyTrainings() {
             <div className="my-training-form__wrapper">
               <BackButton baseClassName="btn-flat--underlined my-training-form__btnback" />
               <h3 className="my-training-form__title">фильтры</h3>
-              {training && (
-                <GymCatalogForm
-                  handleFilterApply={setFilterParam}
-                  maxPriceTraining={training.maxPrice}
-                  includeType={false}
-                  includeSort={false}
-                  includeDuration
-                />
-              )}
+              <GymCatalogForm
+                handleFilterApply={setFilterParam}
+                maxPriceTraining={training.maxPrice}
+                includeType={false}
+                includeSort={false}
+                includeDuration
+              />
             </div>
           </div>
           <div className="inner-page__content">

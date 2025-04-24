@@ -10,14 +10,24 @@ import {
   getTraining,
 } from '../../store/site-data/selectors';
 import { fetchTrainings } from '../../store/training-action';
-import { TrainingQuery } from '../../types/shared';
+import { EntityConstrain, TrainingQuery } from '../../types/shared';
 
 function Trainings(): JSX.Element {
   const dispatch = useAppDispatch();
   const trainingLoading = useAppSelector(getIsTrainingLoading);
   const training = useAppSelector(getTraining);
-  const [filterParam, setFilterParam] = useState<TrainingQuery | null>(null);
-  const page = filterParam?.page ?? 1;
+  const [filterParam, setFilterParam] = useState<TrainingQuery>({
+    minPrice: 0,
+    maxPrice: training.maxPrice,
+    minCalories: EntityConstrain.training.calories.minValue,
+    maxCalories: EntityConstrain.training.calories.maxValue,
+    minRating: 0,
+    maxRating: EntityConstrain.feedback.mark.maxValue,
+    types: [],
+    durations: [],
+    page: 1,
+  });
+  const { page } = filterParam;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -27,10 +37,16 @@ function Trainings(): JSX.Element {
   };
 
   useEffect(() => {
-    if (filterParam) {
-      dispatch(fetchTrainings(filterParam));
+    if (!filterParam) {
+      return;
     }
+
+    dispatch(fetchTrainings(filterParam));
   }, [dispatch, filterParam]);
+
+  if (training.itemsPerPage === 0) {
+    return <Spinner />;
+  }
 
   return (
     <section className="inner-page">
@@ -43,15 +59,13 @@ function Trainings(): JSX.Element {
             <div className="gym-catalog-form__wrapper">
               <BackButton baseClassName="btn-flat--underlined gym-catalog-form__btnback" />
               <h3 className="gym-catalog-form__title">Фильтры</h3>
-              {training && (
-                <GymCatalogForm
-                  handleFilterApply={setFilterParam}
-                  maxPriceTraining={training.maxPrice}
-                  includeType
-                  includeSort
-                  includeDuration={false}
-                />
-              )}
+              <GymCatalogForm
+                handleFilterApply={setFilterParam}
+                maxPriceTraining={training.maxPrice}
+                includeType
+                includeSort
+                includeDuration={false}
+              />
             </div>
           </div>
           <div className="training-catalog">
