@@ -32,5 +32,9 @@ export function composeQuery(query: object) {
   return queryStrings.join('&');
 }
 
+export function getRandomValue(min: number, max: number, numAfterDigit = 0) {
+  return +(Math.random() * (max - min) + min).toFixed(numAfterDigit);
+}
+
 export const token = new Token('fit-friends-auth-token');
 export const refreshToken = new Token('fit-friends-auth-refresh-token');

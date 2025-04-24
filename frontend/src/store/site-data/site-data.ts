@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { StoreSlice } from '../../const';
+import { AppRoute, StoreSlice } from '../../const';
+import history from '../../history';
 import type { SiteData } from '../../types/state';
 import {
   buyTraining,
@@ -197,6 +198,7 @@ export const siteData = createSlice({
       .addCase(createTraining.fulfilled, (state, action) => {
         state.training.entities.unshift(action.payload);
         state.isSuccessSaveTraining = true;
+        history.push(AppRoute.CoachTrainings);
       })
       .addCase(createTraining.rejected, (state) => {
         state.isSuccessSaveTraining = false;

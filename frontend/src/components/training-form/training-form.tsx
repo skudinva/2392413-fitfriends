@@ -3,6 +3,7 @@ import { TRAINING_LEVEL, TRAINING_TYPE } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { createTraining } from '../../store/training-action';
 import { TRAINING_DURATIONS, UserGender } from '../../types/shared';
+import { getRandomValue } from '../../utils';
 import CustomSelect from '../custom-select/custom-select';
 
 const FieldMap = {
@@ -14,7 +15,6 @@ const FieldMap = {
   gender: 'gender',
   description: 'description',
   title: 'training-name',
-  image: 'image',
   specialPrice: 'price',
   isSpecial: 'isSpecial',
 } as const;
@@ -42,6 +42,11 @@ function TrainingForm(): JSX.Element {
     if (video) {
       trainingData.append('video', video);
     }
+
+    trainingData.append(
+      'image',
+      `img/content/training-${getRandomValue(1, 4, 0)}.png`
+    );
 
     dispatch(createTraining(trainingData));
   };
