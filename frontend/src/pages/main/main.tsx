@@ -39,7 +39,13 @@ function Main(): JSX.Element {
       dispatch(fetchDiscountTrainings());
       dispatch(fetchPopularTrainings());
       dispatch(fetchTrainings(null));
-      dispatch(fetchOrders({ page: 1, activeOnly: false }));
+      dispatch(
+        fetchOrders({
+          page: 1,
+          activeOnly: false,
+          userId: '',
+        })
+      );
     }
   }, [dispatch, authorizationStatus, userId]);
 
