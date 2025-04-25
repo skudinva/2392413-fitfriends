@@ -76,6 +76,7 @@ export const logoutUser = createAsyncThunk<void, undefined, { extra: Extra }>(
   UserAction.LOGOUT_USER,
   () => {
     token.drop();
+    refreshToken.drop();
   }
 );
 
