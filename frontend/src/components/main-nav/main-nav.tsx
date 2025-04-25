@@ -1,9 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { logoutUser } from '../../store/user-action';
 
 function MainNav(): JSX.Element {
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const { pathname } = location;
+
+  const onLogoutButtonClick = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <nav className="main-nav">
@@ -103,6 +110,18 @@ function MainNav(): JSX.Element {
               </li>
             </ul>
           </div>
+        </li>
+        <li className="main-nav__item">
+          <button
+            className="main-nav__link"
+            type="button"
+            onClick={onLogoutButtonClick}
+          >
+            <svg width="12" height="12" aria-hidden="true">
+              <use xlinkHref="#icon-edit"></use>
+            </svg>
+            <span>Выход</span>
+          </button>
         </li>
       </ul>
     </nav>

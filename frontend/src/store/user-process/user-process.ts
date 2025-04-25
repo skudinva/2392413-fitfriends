@@ -14,6 +14,7 @@ const initialState: UserProcess = {
   user: {
     sub: '',
     email: '',
+    role: null,
   },
   isUserInfoLoading: false,
   userInfo: null,
@@ -34,6 +35,7 @@ export const userProcess = createSlice({
         state.user = {
           sub: '',
           email: '',
+          role: null,
         };
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
@@ -43,12 +45,13 @@ export const userProcess = createSlice({
       })
       .addCase(loginUser.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
-        state.user = { email: '', sub: '' };
+        state.user = { email: '', sub: '', role: null };
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = {
           sub: '',
           email: '',
+          role: null,
         };
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
