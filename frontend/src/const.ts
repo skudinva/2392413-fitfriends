@@ -17,6 +17,7 @@ export enum AppRoute {
   CoachTrainings = '/coach-trainings',
   CreateTraining = '/createTraining',
   Friends = '/friends',
+  UserCard = '/user-card',
   Purchases = '/purchases',
   NotFound = '/404',
 }

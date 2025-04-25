@@ -15,6 +15,7 @@ import Purchases from '../../pages/purchases/purchases';
 import Registration from '../../pages/registration/registration';
 import TrainingCard from '../../pages/training-card/training-card';
 import Trainings from '../../pages/trainings/trainings';
+import UserCard from '../../pages/user-card/user-card';
 import { getUserInfo } from '../../store/user-process/selectors';
 import { UserRole } from '../../types/shared';
 import PrivateRoute from '../private-route/private-route';
@@ -165,6 +166,17 @@ function AppRouter() {
               allowForRole={UserRole.Sportsman}
             >
               <Purchases />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={`${AppRoute.UserCard}/:userId`}
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={AppRoute.Intro}
+            >
+              <UserCard />
             </PrivateRoute>
           }
         />
