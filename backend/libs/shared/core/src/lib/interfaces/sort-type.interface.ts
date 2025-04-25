@@ -3,4 +3,5 @@ export enum SortType {
   Rating = 'rating',
   Price = 'price',
   Amount = 'amount',
+  TotalPrice = 'totalPrice',
 }

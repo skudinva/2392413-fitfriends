@@ -65,7 +65,7 @@ function Orders(): JSX.Element {
                   className="btn-filter-sort"
                   type="button"
                   onClick={() => {
-                    onSortingButtonClick(SortType.Price);
+                    onSortingButtonClick(SortType.TotalPrice);
                   }}
                 >
                   <span>Сумме</span>
