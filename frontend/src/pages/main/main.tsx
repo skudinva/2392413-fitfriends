@@ -16,13 +16,16 @@ import { fetchUserInfo } from '../../store/user-action';
 import {
   getAuthorizationStatus,
   getCurrentUserId,
+  getUserRole,
 } from '../../store/user-process/selectors';
+import { UserRole } from '../../types/shared';
 
 function Main(): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userId = useAppSelector(getCurrentUserId);
   const { trainingId } = useParams();
+  const userRole = useAppSelector(getUserRole);
 
   useEffect(() => {
     if (trainingId) {
@@ -35,10 +38,6 @@ function Main(): JSX.Element {
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchUserInfo(userId));
-      dispatch(fetchTrainings(null));
-      dispatch(fetchSpecialTrainings());
-      dispatch(fetchDiscountTrainings());
-      dispatch(fetchPopularTrainings());
       dispatch(
         fetchOrders({
           page: 1,
@@ -48,6 +47,15 @@ function Main(): JSX.Element {
       );
     }
   }, [dispatch, authorizationStatus, userId]);
+
+  useEffect(() => {
+    if (userRole === UserRole.Sportsman) {
+      dispatch(fetchTrainings(null));
+      dispatch(fetchSpecialTrainings());
+      dispatch(fetchDiscountTrainings());
+      dispatch(fetchPopularTrainings());
+    }
+  }, [dispatch, userRole]);
 
   return (
     <div className="wrapper">

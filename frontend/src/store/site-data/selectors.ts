@@ -72,3 +72,10 @@ export const getIsUserOrderSave = ({
 export const getIsSuccessSaveTraining = ({
   [StoreSlice.SiteData]: SITE_DATA,
 }: State) => SITE_DATA.isSuccessSaveTraining;
+
+export const getIsCoachTrainingLoading = ({
+  [StoreSlice.SiteData]: SITE_DATA,
+}: State) => SITE_DATA.isCoachTrainingLoading;
+
+export const getCoachTraining = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
+  SITE_DATA.coachTraining;

@@ -33,6 +33,10 @@ export const getUserCardInfo = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.userCardInfo;
 
+export const getUserRole = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State) => USER_PROCESS.userCardInfo?.role;
+
 export const getIsUserCardInfoLoading = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.isUserCardInfoLoading;

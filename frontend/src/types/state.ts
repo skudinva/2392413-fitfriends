@@ -30,6 +30,8 @@ export type SiteData = {
   isUserOrderLoading: boolean;
   userOrder: TrainingOrderWithPagination;
   isSuccessSaveTraining: boolean;
+  coachTraining: TrainingWithPagination | null;
+  isCoachTrainingLoading: boolean;
 };
 
 export type UserProcess = {

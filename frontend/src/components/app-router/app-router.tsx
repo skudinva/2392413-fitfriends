@@ -16,17 +16,15 @@ import Registration from '../../pages/registration/registration';
 import TrainingCard from '../../pages/training-card/training-card';
 import Trainings from '../../pages/trainings/trainings';
 import UserCard from '../../pages/user-card/user-card';
-import { getUserInfo } from '../../store/user-process/selectors';
+import { getUserRole } from '../../store/user-process/selectors';
 import { UserRole } from '../../types/shared';
 import PrivateRoute from '../private-route/private-route';
 
 function AppRouter() {
-  const userInfo = useAppSelector(getUserInfo);
+  const userRole = useAppSelector(getUserRole);
 
   const redirectUrl =
-    userInfo?.role === UserRole.Coach
-      ? AppRoute.PersonalAccount
-      : AppRoute.Intro;
+    userRole === UserRole.Coach ? AppRoute.PersonalAccount : AppRoute.Intro;
 
   return (
     <Routes>

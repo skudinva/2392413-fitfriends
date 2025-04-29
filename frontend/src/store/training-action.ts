@@ -27,6 +27,7 @@ type Extra = {
 
 const TrainingAction = {
   FETCH_TRAININGS: 'trainings/fetch',
+  FETCH_COACH_TRAININGS: 'coach-trainings/fetch',
   FETCH_POPULAR_TRAINING: 'popular-trainings/fetch',
   FETCH_SPECIAL_TRAINING: 'special-trainings/fetch',
   FETCH_DISCOUNT_TRAINING: 'discount-trainings/fetch',
@@ -78,6 +79,20 @@ export const fetchTrainings = createAsyncThunk<
   const queryString = query ? composeQuery(query) : '';
   const { data } = await api.get<TrainingWithPagination>(
     `${ApiRoute.Trainings}?${queryString}`
+  );
+
+  return data;
+});
+
+export const fetchCoachTraining = createAsyncThunk<
+  TrainingWithPagination,
+  string,
+  { extra: Extra }
+>(TrainingAction.FETCH_COACH_TRAININGS, async (userId, { extra }) => {
+  const { api } = extra;
+
+  const { data } = await api.get<TrainingWithPagination>(
+    `${ApiRoute.Trainings}?userId=${userId}`
   );
 
   return data;

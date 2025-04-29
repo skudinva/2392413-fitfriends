@@ -11,6 +11,7 @@ import {
 import {
   createComment,
   createTraining,
+  fetchCoachTraining,
   fetchComment,
   fetchDiscountTrainings,
   fetchPopularTrainings,
@@ -51,6 +52,8 @@ const initialState: SiteData = {
     totalItems: 0,
     itemsPerPage: 0,
   },
+  coachTraining: null,
+  isCoachTrainingLoading: false,
 };
 
 export const siteData = createSlice({
@@ -79,6 +82,17 @@ export const siteData = createSlice({
       })
       .addCase(fetchDiscountTrainings.rejected, (state) => {
         state.isDiscountTrainingLoading = false;
+      })
+
+      .addCase(fetchCoachTraining.pending, (state) => {
+        state.isCoachTrainingLoading = true;
+      })
+      .addCase(fetchCoachTraining.fulfilled, (state, action) => {
+        state.coachTraining = action.payload;
+        state.isCoachTrainingLoading = false;
+      })
+      .addCase(fetchCoachTraining.rejected, (state) => {
+        state.isCoachTrainingLoading = false;
       })
 
       .addCase(fetchTrainings.pending, (state) => {
