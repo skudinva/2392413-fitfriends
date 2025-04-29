@@ -175,6 +175,7 @@ function AppRouter() {
             <PrivateRoute
               restrictedFor={AuthorizationStatus.NoAuth}
               redirectTo={AppRoute.Intro}
+              allowForRole={UserRole.Sportsman}
             >
               <UserCard />
             </PrivateRoute>

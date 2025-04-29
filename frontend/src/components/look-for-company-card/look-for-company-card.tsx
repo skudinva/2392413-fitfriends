@@ -42,7 +42,7 @@ function LookForCompanyCard({
       </ul>
       <Link
         className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
-        to={`${AppRoute.Friends}/${userInfo.id}`}
+        to={`${AppRoute.UserCard}/${userInfo.id}`}
       >
         Подробнее
       </Link>
