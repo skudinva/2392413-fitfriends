@@ -1,7 +1,33 @@
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import BackButton from '../../components/back-button/back-button';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
+import Spinner from '../../components/spinner/spinner';
+import { TRAINING_TYPE } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchUserCardInfo } from '../../store/user-action';
+import {
+  getIsUserCardInfoLoading,
+  getUserCardInfo,
+} from '../../store/user-process/selectors';
+import { UserRole } from '../../types/shared';
 
 function UserCard(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const { userId } = useParams();
+  const userCardInfo = useAppSelector(getUserCardInfo);
+  const isUserCardInfoLoading = useAppSelector(getIsUserCardInfoLoading);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchUserCardInfo(userId));
+    }
+  }, [dispatch, userId]);
+
+  if (isUserCardInfoLoading || !userCardInfo) {
+    return <Spinner />;
+  }
+
   return (
     <div className="inner-page inner-page--no-sidebar">
       <CustomHelmet pageTitle="Карточка пользователя" />
@@ -17,10 +43,12 @@ function UserCard(): JSX.Element {
                 <div className="user-card-coach__card">
                   <div className="user-card-coach__content">
                     <div className="user-card-coach__head">
-                      <h2 className="user-card-coach__title">Валерия</h2>
+                      <h2 className="user-card-coach__title">
+                        {userCardInfo.name}
+                      </h2>
                     </div>
                     <div className="user-card-coach__label">
-                      <a href="popup-user-map.html">
+                      <Link to="#">
                         <svg
                           className="user-card-coach__icon-location"
                           width="12"
@@ -29,8 +57,8 @@ function UserCard(): JSX.Element {
                         >
                           <use xlinkHref="#icon-location"></use>
                         </svg>
-                        <span>Адмиралтейская</span>
-                      </a>
+                        <span>{userCardInfo.location}</span>
+                      </Link>
                     </div>
                     <div className="user-card-coach__status-container">
                       <div className="user-card-coach__status user-card-coach__status--tag">
@@ -42,27 +70,21 @@ function UserCard(): JSX.Element {
                         >
                           <use xlinkHref="#icon-cup"></use>
                         </svg>
-                        <span>Тренер</span>
+                        <span>
+                          {userCardInfo.role === UserRole.Coach
+                            ? 'Тренер'
+                            : 'Спортсмен'}
+                        </span>
                       </div>
                       <div className="user-card-coach__status user-card-coach__status--check">
                         <span>Готов тренировать</span>
                       </div>
                     </div>
                     <div className="user-card-coach__text">
-                      <p>
-                        Привет! Меня зовут Иванова Валерия, мне 34 года.
-                        Я&nbsp;профессиональный тренер по&nbsp;боксу.
-                        Не&nbsp;боюсь пробовать новое, также увлекаюсь
-                        кроссфитом, йогой и&nbsp;силовыми тренировками.
-                      </p>
-                      <p>
-                        Провожу как индивидуальные тренировки, так
-                        и&nbsp;групповые занятия. Помогу вам достигнуть своей
-                        цели и&nbsp;сделать это с&nbsp;удовольствием!
-                      </p>
+                      <p>{userCardInfo.description}</p>
                     </div>
                     <button
-                      className="btn-flat user-card-coach__sertificate"
+                      className="btn-flat user-card-coach__sertificate is-disabled"
                       type="button"
                     >
                       <svg width="12" height="13" aria-hidden="true">
@@ -71,28 +93,21 @@ function UserCard(): JSX.Element {
                       <span>Посмотреть сертификаты</span>
                     </button>
                     <ul className="user-card-coach__hashtag-list">
-                      <li className="user-card-coach__hashtag-item">
-                        <div className="hashtag">
-                          <span>#бокс</span>
-                        </div>
-                      </li>
-                      <li className="user-card-coach__hashtag-item">
-                        <div className="hashtag">
-                          <span>#кроссфит</span>
-                        </div>
-                      </li>
-                      <li className="user-card-coach__hashtag-item">
-                        <div className="hashtag">
-                          <span>#силовые</span>
-                        </div>
-                      </li>
-                      <li className="user-card-coach__hashtag-item">
-                        <div className="hashtag">
-                          <span>#йога</span>
-                        </div>
-                      </li>
+                      {TRAINING_TYPE.map((trainingType) => (
+                        <li
+                          className="user-card-coach__hashtag-item"
+                          key={trainingType}
+                        >
+                          <div className="hashtag">
+                            <span>#{trainingType}</span>
+                          </div>
+                        </li>
+                      ))}
                     </ul>
-                    <button className="btn user-card-coach__btn" type="button">
+                    <button
+                      className="btn user-card-coach__btn is-disabled"
+                      type="button"
+                    >
                       Добавить в друзья
                     </button>
                   </div>

@@ -28,3 +28,11 @@ export const getUserInfo = ({
 export const getIsUserInfoSave = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.isUserInfoSave;
+
+export const getUserCardInfo = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State) => USER_PROCESS.userCardInfo;
+
+export const getIsUserCardInfoLoading = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State) => USER_PROCESS.isUserCardInfoLoading;

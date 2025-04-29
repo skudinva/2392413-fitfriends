@@ -24,6 +24,7 @@ const UserAction = {
   REGISTER_USER: 'user/register',
   UPDATE_USER: 'user/update',
   FETCH_USER_INFO: '/user/fetch-user-info',
+  FETCH_USER_CARD_INFO: '/user/fetch-user-card-info',
 };
 
 export const fetchUserStatus = createAsyncThunk<
@@ -102,11 +103,7 @@ export const updateUser = createAsyncThunk<UserRdo, FormData, { extra: Extra }>(
   }
 );
 
-export const fetchUserInfo = createAsyncThunk<
-  UserRdo,
-  string,
-  { extra: Extra }
->(UserAction.FETCH_USER_INFO, async (id, { extra }) => {
+const fetchUserProfile = async (id: string, extra: Extra) => {
   const { api, history } = extra;
 
   try {
@@ -121,4 +118,20 @@ export const fetchUserInfo = createAsyncThunk<
 
     return Promise.reject(error);
   }
-});
+};
+
+export const fetchUserInfo = createAsyncThunk<
+  UserRdo,
+  string,
+  { extra: Extra }
+>(UserAction.FETCH_USER_INFO, async (id, { extra }) =>
+  fetchUserProfile(id, extra)
+);
+
+export const fetchUserCardInfo = createAsyncThunk<
+  UserRdo,
+  string,
+  { extra: Extra }
+>(UserAction.FETCH_USER_CARD_INFO, async (id, { extra }) =>
+  fetchUserProfile(id, extra)
+);

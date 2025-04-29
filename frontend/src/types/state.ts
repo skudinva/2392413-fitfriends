@@ -38,6 +38,8 @@ export type UserProcess = {
   isUserInfoLoading: boolean;
   userInfo: UserRdo | null;
   isUserInfoSave: boolean;
+  userCardInfo: UserRdo | null;
+  isUserCardInfoLoading: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

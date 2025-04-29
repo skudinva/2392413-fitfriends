@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, StoreSlice } from '../../const';
 import type { UserProcess } from '../../types/state';
 import {
+  fetchUserCardInfo,
   fetchUserInfo,
   fetchUserStatus,
   loginUser,
@@ -19,6 +20,8 @@ const initialState: UserProcess = {
   isUserInfoLoading: false,
   userInfo: null,
   isUserInfoSave: false,
+  userCardInfo: null,
+  isUserCardInfoLoading: false,
 };
 
 export const userProcess = createSlice({
@@ -65,6 +68,7 @@ export const userProcess = createSlice({
       .addCase(fetchUserInfo.rejected, (state) => {
         state.isUserInfoLoading = false;
       })
+
       .addCase(updateUser.pending, (state) => {
         state.isUserInfoSave = true;
       })
@@ -74,6 +78,17 @@ export const userProcess = createSlice({
       })
       .addCase(updateUser.rejected, (state) => {
         state.isUserInfoSave = false;
+      })
+
+      .addCase(fetchUserCardInfo.pending, (state) => {
+        state.isUserCardInfoLoading = true;
+      })
+      .addCase(fetchUserCardInfo.fulfilled, (state, action) => {
+        state.userCardInfo = action.payload;
+        state.isUserCardInfoLoading = false;
+      })
+      .addCase(fetchUserCardInfo.rejected, (state) => {
+        state.isUserCardInfoLoading = false;
       });
   },
 });
