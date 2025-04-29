@@ -444,7 +444,7 @@ function UserCard(): JSX.Element {
                       </div>
                     </li>
                   </ul>
-                  <form className="user-card-coach__training-form">
+                  <form className="user-card-coach__training-form is-disabled">
                     <button
                       className="btn user-card-coach__btn-training"
                       type="button"
