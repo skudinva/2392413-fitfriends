@@ -35,7 +35,7 @@ export const getUserCardInfo = ({
 
 export const getUserRole = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
-}: State) => USER_PROCESS.userCardInfo?.role;
+}: State) => USER_PROCESS.user?.role;
 
 export const getIsUserCardInfoLoading = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
