@@ -121,4 +121,4 @@ export const mockCoachUsers = [
   },
 ];
 
-export const mockUsers = [mockSportsmanUsers, mockCoachUsers];
+export const mockUsers = [...mockSportsmanUsers, ...mockCoachUsers];
