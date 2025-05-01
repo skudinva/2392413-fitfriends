@@ -4,7 +4,7 @@ import { LocationName, TrainingType } from '../../types/shared';
 
 interface LookForCompanyCardProps {
   userInfo: {
-    id: number;
+    id: string;
     name: string;
     location: LocationName;
     hashtag: TrainingType;
