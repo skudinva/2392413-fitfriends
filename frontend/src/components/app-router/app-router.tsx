@@ -61,7 +61,20 @@ function AppRouter() {
           </PrivateRoute>
         }
       />
+
       <Route element={<Main />}>
+        <Route
+          index
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={redirectUrl}
+              allowForRole={UserRole.Sportsman}
+            >
+              <Home />
+            </PrivateRoute>
+          }
+        />
         <Route
           path={AppRoute.CreateTraining}
           element={
@@ -95,18 +108,6 @@ function AppRouter() {
               allowForRole={UserRole.Coach}
             >
               <MyTrainings />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          index
-          element={
-            <PrivateRoute
-              restrictedFor={AuthorizationStatus.NoAuth}
-              redirectTo={redirectUrl}
-              allowForRole={UserRole.Sportsman}
-            >
-              <Home />
             </PrivateRoute>
           }
         />
@@ -179,8 +180,6 @@ function AppRouter() {
             </PrivateRoute>
           }
         />
-      </Route>
-      <Route element={<Main />}>
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -56,7 +56,8 @@ function Main(): JSX.Element {
         })
       );
     }
-  }, [dispatch, authorizationStatus, userId, userRole]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, authorizationStatus]);
 
   return (
     <div className="wrapper">
