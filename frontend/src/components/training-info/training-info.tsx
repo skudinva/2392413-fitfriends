@@ -49,7 +49,7 @@ function TrainingInfo(): JSX.Element {
 
   const [showModal, setShowModal] = useState(false);
 
-  const onCloseCommentForm = () => {
+  const onCloseModalForm = () => {
     setShowModal(false);
   };
 
@@ -120,11 +120,8 @@ function TrainingInfo(): JSX.Element {
 
   if (showModal && trainingCard) {
     return (
-      <ModalWindow handleClose={onCloseCommentForm}>
-        <PopupFormBuy
-          handleClose={onCloseCommentForm}
-          training={trainingCard}
-        />
+      <ModalWindow handleClose={onCloseModalForm}>
+        <PopupFormBuy handleClose={onCloseModalForm} training={trainingCard} />
       </ModalWindow>
     );
   }

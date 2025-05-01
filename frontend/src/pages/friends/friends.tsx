@@ -11,7 +11,7 @@ function Friends(): JSX.Element {
           <div className="friends-list__title-wrapper">
             <h1 className="friends-list__title">Мои друзья</h1>
           </div>
-          <ul className="friends-list__list">
+          <ul className="friends-list__list is-disabled">
             <li className="friends-list__item">
               <div className="thumbnail-friend">
                 <div className="thumbnail-friend__info thumbnail-friend__info--theme-light">

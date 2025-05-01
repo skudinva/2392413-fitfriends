@@ -55,7 +55,7 @@ export const mockTrainingComments = [
   'Профессионалы своего дела! Всегда подскажут, помогут, поддержат. Рекомендую всем!',
 ];
 
-export const mockUsers = [
+export const mockSportsmanUsers = [
   {
     id: '63f4567890abcdef12345678',
     name: 'ВикторСилаев',
@@ -86,6 +86,9 @@ export const mockUsers = [
     email: 'creative.mind99@outlook.com',
     role: UserRole.Sportsman,
   },
+];
+
+export const mockCoachUsers = [
   {
     id: '63f4567890abcdef1234567d',
     name: 'МарияПобеда',
@@ -117,3 +120,5 @@ export const mockUsers = [
     role: UserRole.Coach,
   },
 ];
+
+export const mockUsers = [mockSportsmanUsers, mockCoachUsers];
