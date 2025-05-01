@@ -37,7 +37,17 @@ function Main(): JSX.Element {
 
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
-      dispatch(fetchUserInfo(userId));
+      if (userId) {
+        dispatch(fetchUserInfo(userId));
+      }
+
+      if (userRole === UserRole.Sportsman) {
+        dispatch(fetchTrainings(null));
+        dispatch(fetchSpecialTrainings());
+        dispatch(fetchDiscountTrainings());
+        dispatch(fetchPopularTrainings());
+      }
+
       dispatch(
         fetchOrders({
           page: 1,
@@ -46,16 +56,7 @@ function Main(): JSX.Element {
         })
       );
     }
-  }, [dispatch, authorizationStatus, userId]);
-
-  useEffect(() => {
-    if (userRole === UserRole.Sportsman) {
-      dispatch(fetchTrainings(null));
-      dispatch(fetchSpecialTrainings());
-      dispatch(fetchDiscountTrainings());
-      dispatch(fetchPopularTrainings());
-    }
-  }, [dispatch, userRole]);
+  }, [dispatch, authorizationStatus, userId, userRole]);
 
   return (
     <div className="wrapper">

@@ -4,7 +4,7 @@ import { ApiProperty, PickType } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 export class LoggedUserRdo
-  extends PickType(UserRdo, ['id', 'email'])
+  extends PickType(UserRdo, ['id', 'email', 'role'])
   implements ILoggedUserRdo
 {
   @ApiProperty({
