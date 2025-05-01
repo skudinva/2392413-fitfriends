@@ -113,7 +113,7 @@ async function seedDb(prismaClient: PrismaClient) {
         );
 
         const orderUserIds = mockSportsmanUsers.map((user) => user.id);
-        const orders = Array.from({ length: 5 }, () =>
+        const orders = Array.from({ length: 1 }, () =>
           getOrder(newTraining.id, newTraining.specialPrice, orderUserIds)
         );
 
