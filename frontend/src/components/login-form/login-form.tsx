@@ -1,20 +1,10 @@
-import { FormEvent, useEffect } from 'react';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import history from '../../history';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { FormEvent } from 'react';
+import { useAppDispatch } from '../../hooks';
 import { loginUser } from '../../store/user-action';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { LoginUserDto } from '../../types/shared';
 
 function LoginForm(): JSX.Element {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-
-  useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
-      history.push(AppRoute.Root);
-    }
-  }, [authorizationStatus]);
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

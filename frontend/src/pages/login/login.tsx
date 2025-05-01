@@ -1,20 +1,7 @@
-import { useEffect } from 'react';
 import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import LoginForm from '../../components/login-form/login-form';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import history from '../../history';
-import { useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function Login(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-
-  useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
-      history.push(AppRoute.Root);
-    }
-  }, [authorizationStatus]);
-
   return (
     <>
       <CustomHelmet pageTitle="Войти" />
