@@ -40,7 +40,6 @@ model Comment {
   createdAt  DateTime @default(now()) @map("created_at")
   training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@unique([trainingId, userId])
   @@map("comments")
 }
 

@@ -48,16 +48,6 @@ export class TrainingCommentService {
       return;
     }
 
-    const existsComment =
-      await this.trainingCommentRepository.findByUserAndPostId(
-        trainingId,
-        dto.userId
-      );
-
-    if (existsComment) {
-      throw new ConflictException('User already comment this post');
-    }
-
     const newComment = TrainingCommentFactory.composeFromCreateCommentDto(dto);
     await this.trainingCommentRepository.save(newComment);
     const averageRation =
