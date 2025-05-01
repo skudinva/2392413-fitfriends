@@ -147,8 +147,7 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/SortDirection"
-        - example: бокс
-          required: false
+        - required: false
           name: types
           in: query
           schema:
@@ -186,19 +185,19 @@ paths:
             type: number
         - description: minCalories
           required: true
-          example: 100
+          example: 1000
           name: minCalories
           in: query
           schema:
-            default: 0
+            default: 1000
             type: number
         - description: maxCalories
           required: true
-          example: 10000
+          example: 5000
           name: maxCalories
           in: query
           schema:
-            default: 10000
+            default: 5000
             type: number
         - description: minRating
           required: true
@@ -216,6 +215,19 @@ paths:
           schema:
             default: 5
             type: number
+        - description: Flag special training
+          required: false
+          name: isSpecial
+          in: query
+          schema:
+            type: boolean
+        - required: false
+          name: durations
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/TRAINING_DURATIONS"
       responses:
         "200":
           description: Trainings found
@@ -303,7 +315,7 @@ paths:
         - Training API
   /api/trainings/comments/{trainingId}:
     get:
-      operationId: TrainingController_getComments
+      operationId: CommentController_getComments
       parameters:
         - name: trainingId
           required: true
@@ -332,10 +344,12 @@ paths:
                 $ref: "#/components/schemas/TrainingCommentWithPaginationRdo"
         "404":
           description: Training not found
+      security:
+        - accessToken: []
       tags:
         - Comment API
     post:
-      operationId: TrainingController_createComment
+      operationId: CommentController_createComment
       parameters:
         - name: trainingId
           required: true
@@ -363,7 +377,7 @@ paths:
         - Comment API
   /api/trainings/comments/{commentId}:
     delete:
-      operationId: TrainingController_deleteComment
+      operationId: CommentController_deleteComment
       parameters:
         - name: commentId
           required: true
@@ -381,6 +395,153 @@ paths:
         - accessToken: []
       tags:
         - Comment API
+  /api/orders:
+    get:
+      operationId: OrderController_getOrders
+      parameters:
+        - name: sortBy
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortType"
+        - name: sortDirection
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortDirection"
+        - description: page
+          example: 1
+          name: page
+          in: query
+          required: true
+          schema:
+            default: 1
+            type: number
+        - description: Только активные
+          example: false
+          required: false
+          name: activeOnly
+          in: query
+          schema:
+            default: false
+            type: boolean
+        - description: trainingId
+          example: 52
+          required: false
+          name: trainingId
+          in: query
+          schema:
+            default: 52
+            type: number
+      responses:
+        "200":
+          description: Successfully found orders of the post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingOrderWithPaginationRdo"
+        "404":
+          description: Training not found
+      security:
+        - accessToken: []
+      tags:
+        - Order API
+  /api/orders/{trainingId}:
+    get:
+      operationId: OrderController_getOrder
+      parameters:
+        - name: trainingId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successfully found orders of the post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingOrderRdo"
+        "404":
+          description: Training not found
+      security:
+        - accessToken: []
+      tags:
+        - Order API
+    put:
+      operationId: OrderController_updateTrainingState
+      parameters:
+        - name: trainingId
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrderStateDto"
+      responses:
+        "200":
+          description: Successfully found orders of the post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingOrderRdo"
+        "404":
+          description: Training not found
+      security:
+        - accessToken: []
+      tags:
+        - Order API
+    post:
+      operationId: OrderController_createOrder
+      parameters:
+        - name: trainingId
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderDto"
+      responses:
+        "201":
+          description: Successfully create order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingOrderRdo"
+        "404":
+          description: Training not found
+      security:
+        - accessToken: []
+      tags:
+        - Order API
+  /api/orders/{orderId}:
+    delete:
+      operationId: OrderController_deleteOrder
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Successfully delete order
+        "404":
+          description: Order not found
+        "409":
+          description: You are not allowed to delete this order
+      security:
+        - accessToken: []
+      tags:
+        - Order API
 info:
   title: FitFriends app
   description: FitFriends app API
@@ -605,6 +766,9 @@ components:
           type: string
           description: User email
           example: user@user.local
+        role:
+          example: sportsman
+          $ref: "#/components/schemas/UserRole"
         accessToken:
           type: string
           description: Access token
@@ -615,6 +779,7 @@ components:
       required:
         - id
         - email
+        - role
         - accessToken
         - refreshToken
     TrainingType:
@@ -756,6 +921,11 @@ components:
         isSpecial:
           type: boolean
           description: Flag special training
+        specialPrice:
+          type: number
+          description: Training specialPrice
+          example: "500"
+          minimum: 0
         createdAt:
           format: date-time
           type: string
@@ -778,6 +948,7 @@ components:
         - video
         - userId
         - isSpecial
+        - specialPrice
         - createdAt
     UpdateTrainingDto:
       type: object
@@ -829,20 +1000,6 @@ components:
         isSpecial:
           type: boolean
           description: Flag special training
-      required:
-        - id
-        - title
-        - image
-        - level
-        - type
-        - duration
-        - price
-        - calories
-        - description
-        - gender
-        - video
-        - userId
-        - isSpecial
     SortDirection:
       type: string
       description: sortDirection
@@ -858,6 +1015,8 @@ components:
         - createdAt
         - rating
         - price
+        - amount
+        - totalPrice
     TrainingWithPaginationRdo:
       type: object
       properties:
@@ -984,3 +1143,175 @@ components:
         - trainingId
         - rating
         - message
+    OrderType:
+      type: string
+      description: type
+      enum:
+        - абонемент
+    PayType:
+      type: string
+      description: paymentType
+      enum:
+        - visa
+        - mir
+        - umoney
+    TrainingOrderRdo:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID order
+          example: "1"
+        type:
+          example: абонемент
+          $ref: "#/components/schemas/OrderType"
+        trainingId:
+          type: number
+          description: Training id
+          example: "1"
+        userId:
+          type: string
+          description: userId
+          example: 63f4567890abcdef1234567d
+        price:
+          type: number
+          description: Training price
+          example: "500"
+          minimum: 0
+        amount:
+          type: number
+          description: Training amount
+          example: "1"
+          minimum: 1
+          maximum: 50
+        totalPrice:
+          type: number
+          description: Training totalPrice
+          example: "500"
+          minimum: 0
+        paymentType:
+          example: mir
+          $ref: "#/components/schemas/PayType"
+        isStarted:
+          type: boolean
+          description: isStarted
+          example: false
+        doneCount:
+          type: number
+          description: doneCount
+          example: 0
+        isDone:
+          type: boolean
+          description: isDone
+          example: false
+        createdAt:
+          format: date-time
+          type: string
+          description: Date of order
+          example: "2024-02-15T13:43:22+07:00"
+        training:
+          description: Training info
+          allOf:
+            - $ref: "#/components/schemas/TrainingRdo"
+      required:
+        - id
+        - type
+        - trainingId
+        - userId
+        - price
+        - amount
+        - totalPrice
+        - paymentType
+        - isStarted
+        - doneCount
+        - isDone
+        - createdAt
+    TrainingOrderWithPaginationRdo:
+      type: object
+      properties:
+        entities:
+          description: orders
+          allOf:
+            - $ref: "#/components/schemas/TrainingOrderRdo"
+        totalPages:
+          type: number
+          description: Total page count of selected entity
+          example: 10
+        currentPage:
+          type: number
+          description: Current page number
+          example: 2
+        totalItems:
+          type: number
+          description: Total items count of selected entity
+          example: 50
+        itemsPerPage:
+          type: number
+          description: Number of items on one page
+          example: 20
+      required:
+        - entities
+        - totalPages
+        - currentPage
+        - totalItems
+        - itemsPerPage
+    UpdateOrderStateDto:
+      type: object
+      properties:
+        trainingId:
+          type: number
+          description: Training id
+          example: "1"
+        userId:
+          type: string
+          description: userId
+          example: 63f4567890abcdef1234567d
+        state:
+          type: string
+          description: state
+          example: start
+      required:
+        - trainingId
+        - userId
+        - state
+    CreateOrderDto:
+      type: object
+      properties:
+        type:
+          example: абонемент
+          $ref: "#/components/schemas/OrderType"
+        trainingId:
+          type: number
+          description: Training id
+          example: "1"
+        userId:
+          type: string
+          description: userId
+          example: 63f4567890abcdef1234567d
+        price:
+          type: number
+          description: Training price
+          example: "500"
+          minimum: 0
+        amount:
+          type: number
+          description: Training amount
+          example: "1"
+          minimum: 1
+          maximum: 50
+        totalPrice:
+          type: number
+          description: Training totalPrice
+          example: "500"
+          minimum: 0
+        paymentType:
+          example: mir
+          $ref: "#/components/schemas/PayType"
+      required:
+        - type
+        - trainingId
+        - userId
+        - price
+        - amount
+        - totalPrice
+        - paymentType
