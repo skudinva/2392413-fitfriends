@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ShopUserQuery } from './shop-user.query';
 import { ShopUserRepository } from './shop-user.repository';
 
 @Injectable()
@@ -11,5 +12,9 @@ export class ShopUserService {
       throw new NotFoundException('User not found');
     }
     return existUser;
+  }
+
+  public async getUsers(query?: ShopUserQuery) {
+    return this.shopUserRepository.find(query);
   }
 }

@@ -37,7 +37,7 @@ export class ShopUserRepository extends BaseMongoRepository<
 
   public async find(
     query: ShopUserQuery
-  ): Promise<PaginationResult<ShopUserEntity | null>> {
+  ): Promise<PaginationResult<ShopUserEntity>> {
     const {
       types,
       locations,
@@ -66,7 +66,7 @@ export class ShopUserRepository extends BaseMongoRepository<
       filter.where({ role });
     }
 
-    const [records, trainingCount] = await Promise.all([
+    const [records, userCount] = await Promise.all([
       this.model
         .find(filter)
         .limit(limit)
@@ -79,9 +79,9 @@ export class ShopUserRepository extends BaseMongoRepository<
     return {
       entities: records.map((record) => this.createEntityFromDocument(record)),
       currentPage: query?.page,
-      totalPages: this.calculateTrainingsPage(trainingCount, limit),
+      totalPages: this.calculateTrainingsPage(userCount, limit),
       itemsPerPage: limit,
-      totalItems: trainingCount,
+      totalItems: userCount,
     };
   }
 }
