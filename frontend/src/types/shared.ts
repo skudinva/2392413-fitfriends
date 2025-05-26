@@ -30,5 +30,7 @@ export type { Training } from '../../../backend/libs/shared/core/src/lib/types/t
 export type { IUpdateOrderStateDto as UpdateOrderStateDto } from '../../../backend/libs/shared/core/src/lib/types/update-order-state-dto.interface';
 export type { IUpdateUserDto as UpdateUserDto } from '../../../backend/libs/shared/core/src/lib/types/update-user-dto.itnerface';
 export { UserGender } from '../../../backend/libs/shared/core/src/lib/types/user-gender.enum';
+export type { IUserQuery as UserQuery } from '../../../backend/libs/shared/core/src/lib/types/user-query.interface';
 export type { IUserRdo as UserRdo } from '../../../backend/libs/shared/core/src/lib/types/user-rdo.interface';
 export { UserRole } from '../../../backend/libs/shared/core/src/lib/types/user-role.enum';
+export type { UserWithPagination } from '../../../backend/libs/shared/core/src/lib/types/user-with-pagination.interface';

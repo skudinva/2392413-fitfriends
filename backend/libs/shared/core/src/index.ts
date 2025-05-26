@@ -47,6 +47,8 @@ export { TrainingWithUserInfo } from './lib/types/training-with-user-info.interf
 export { Training } from './lib/types/training.interface';
 export { IUpdateOrderStateDto } from './lib/types/update-order-state-dto.interface';
 export { UserGender } from './lib/types/user-gender.enum';
+export { IUserQuery } from './lib/types/user-query.interface';
 export { IUserRdo } from './lib/types/user-rdo.interface';
 export { UserRole } from './lib/types/user-role.enum';
+export { UserWithPagination } from './lib/types/user-with-pagination.interface';
 export { User } from './lib/types/user.interface';

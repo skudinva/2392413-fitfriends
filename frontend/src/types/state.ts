@@ -8,6 +8,7 @@ import {
   TrainingWithPagination,
   TrainingWithUserInfo,
   UserRdo,
+  UserWithPagination,
 } from './shared';
 
 export type SiteData = {
@@ -32,6 +33,8 @@ export type SiteData = {
   isSuccessSaveTraining: boolean;
   coachTraining: TrainingWithPagination | null;
   isCoachTrainingLoading: boolean;
+  isUserCatalogLoading: boolean;
+  userCatalog: UserWithPagination;
 };
 
 export type UserProcess = {
