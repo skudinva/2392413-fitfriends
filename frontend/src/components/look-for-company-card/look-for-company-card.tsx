@@ -13,6 +13,8 @@ interface LookForCompanyCardProps {
   };
 }
 
+const VISUAL_HASHTAG_COUNT = 3;
+
 function LookForCompanyCard({
   userInfo,
 }: LookForCompanyCardProps): JSX.Element {
@@ -41,7 +43,7 @@ function LookForCompanyCard({
         </div>
       </div>
       <ul className="thumbnail-user__hashtags-list">
-        {userInfo.hashtags.map((hashtag) => (
+        {userInfo.hashtags.slice(0, VISUAL_HASHTAG_COUNT).map((hashtag) => (
           <li
             className="thumbnail-user__hashtags-item"
             key={`hashtag-${hashtag}`}
