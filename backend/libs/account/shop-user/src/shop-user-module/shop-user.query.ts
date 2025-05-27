@@ -26,25 +26,26 @@ export class ShopUserQuery implements IUserQuery {
     description: 'Training type',
     enum: TrainingType,
     enumName: 'TrainingType',
-    required: true,
+    required: false,
     isArray: true,
   })
   @IsIn(Object.values(TrainingType), { each: true })
   @IsArray()
   @TransformToArray()
+  @IsOptional()
   types: TrainingType[];
 
   @ApiProperty({
     description: 'Locations',
     enum: LOCATIONS,
     enumName: 'LocationName',
-    required: true,
+    required: false,
     isArray: true,
   })
   @IsIn(Object.values(LOCATIONS), { each: true })
-  //@IsOptional()
   @IsArray()
   @TransformToArray()
+  @IsOptional()
   locations: LocationName[];
 
   @ApiProperty({

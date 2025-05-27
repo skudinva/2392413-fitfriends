@@ -49,21 +49,22 @@ export class ShopUserRepository extends BaseMongoRepository<
       sortDirection,
     } = query;
     const skip = page && limit ? (page - 1) * limit : undefined;
+
     const filter: FilterQuery<ShopUserModel> = {};
     if (types) {
-      filter.where({ type: types });
+      //filter.type = types;
     }
 
     if (locations) {
-      filter.where({ location: locations });
+      filter.location = locations;
     }
 
     if (trainingLevel) {
-      filter.where({ trainingLevel });
+      //filter.trainingLevel = trainingLevel;
     }
 
     if (role) {
-      filter.where({ role });
+      filter.role = role;
     }
 
     const [records, userCount] = await Promise.all([

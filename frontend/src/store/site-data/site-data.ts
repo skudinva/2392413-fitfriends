@@ -54,6 +54,13 @@ const initialState: SiteData = {
   },
   coachTraining: null,
   isCoachTrainingLoading: false,
+  isUserCatalogLoading: false,
+  userCatalog: {
+    entities: [],
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 0,
+  },
 };
 
 export const siteData = createSlice({

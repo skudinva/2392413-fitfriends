@@ -61,7 +61,7 @@ function LookForCompany(): JSX.Element {
           <button
             className="btn-flat btn-flat--light look-for-company__button"
             type="button"
-            onClick={() => history.push(AppRoute.Friends)}
+            onClick={() => history.push(AppRoute.FindFriends)}
           >
             <span>Смотреть все</span>
             <svg width="14" height="10" aria-hidden="true">

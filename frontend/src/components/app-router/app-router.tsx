@@ -16,6 +16,7 @@ import Registration from '../../pages/registration/registration';
 import TrainingCard from '../../pages/training-card/training-card';
 import Trainings from '../../pages/trainings/trainings';
 import UserCard from '../../pages/user-card/user-card';
+import UsersCatalog from '../../pages/users-catalog/users-catalog';
 import { getUserRole } from '../../store/user-process/selectors';
 import { UserRole } from '../../types/shared';
 import PrivateRoute from '../private-route/private-route';
@@ -153,6 +154,18 @@ function AppRouter() {
               redirectTo={AppRoute.Intro}
             >
               <Friends />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.FindFriends}
+          element={
+            <PrivateRoute
+              restrictedFor={AuthorizationStatus.NoAuth}
+              redirectTo={AppRoute.Intro}
+              allowForRole={UserRole.Sportsman}
+            >
+              <UsersCatalog />
             </PrivateRoute>
           }
         />
