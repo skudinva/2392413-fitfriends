@@ -6,8 +6,13 @@ import {
   UpdateUserDto,
 } from '@backend/authentication';
 import { createStaticUrlForFile } from '@backend/helpers';
+import { InjectUserIdInterceptor } from '@backend/interceptors';
 import { EntityConstrain, SERVE_ROOT } from '@backend/shared/core';
-import { UserRdo } from '@backend/shop-user';
+import {
+  ShopUserQuery,
+  UserRdo,
+  UserWithPaginationRdo,
+} from '@backend/shop-user';
 import { HttpService } from '@nestjs/axios';
 import {
   Body,
@@ -30,15 +35,18 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiConsumes,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
 import 'multer';
+import * as url from 'node:url';
 import { ApiSection, ApplicationServiceURL } from './app.config';
 import { AppService } from './app.service';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check-auth.guard';
+import { UserRoleGuard } from './guards/user-role.guard';
 
 const DEFAULT_AVATAR_PATH = `${ApplicationServiceURL.File}/${SERVE_ROOT}/default-avatar.jpg`;
 
@@ -207,6 +215,44 @@ export class UsersController {
       data.avatar,
       ApplicationServiceURL.File
     );
+
+    return data;
+  }
+
+  @Get()
+  @UseGuards(CheckAuthGuard, UserRoleGuard)
+  @ApiBearerAuth('accessToken')
+  @UseInterceptors(InjectUserIdInterceptor)
+  @ApiQuery({ type: ShopUserQuery })
+  @ApiResponse({
+    type: UserWithPaginationRdo,
+    status: HttpStatus.OK,
+    description: AuthenticationResponseMessage.UserFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: AuthenticationResponseMessage.UserNotFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: AuthenticationResponseMessage.Unauthorized,
+  })
+  public async index(@Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.get<UserWithPaginationRdo>(
+      `${ApplicationServiceURL.Users}?${url.parse(req.url).query}`,
+      {
+        headers: {
+          Authorization: req.headers['authorization'],
+        },
+      }
+    );
+
+    data.entities.map((user) => {
+      user.avatar = createStaticUrlForFile(
+        user.avatar,
+        ApplicationServiceURL.File
+      );
+    });
 
     return data;
   }
