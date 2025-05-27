@@ -71,6 +71,7 @@ function UsersCatalog(): JSX.Element {
                           key={`users-catalog__item-${userItem.id ?? ''}`}
                         >
                           <LookForCompanyCard
+                            style="light"
                             userInfo={{
                               id: userItem.id ?? '',
                               name: userItem.name,

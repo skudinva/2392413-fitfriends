@@ -3,6 +3,7 @@ import { AppRoute } from '../../const';
 import { LocationName, TrainingType, UserRole } from '../../types/shared';
 
 interface LookForCompanyCardProps {
+  style: 'light' | 'dark';
   userInfo: {
     id: string;
     name: string;
@@ -17,6 +18,7 @@ const VISUAL_HASHTAG_COUNT = 3;
 
 function LookForCompanyCard({
   userInfo,
+  style,
 }: LookForCompanyCardProps): JSX.Element {
   return (
     <div
@@ -24,7 +26,9 @@ function LookForCompanyCard({
         userInfo.role === UserRole.Coach
           ? 'thumbnail-user--role-coach'
           : 'thumbnail-user--role-user'
-      }`}
+      }
+      ${style === 'dark' ? 'thumbnail-user--dark' : ''}
+      `}
     >
       <div className="thumbnail-user__image">
         <picture>
@@ -55,7 +59,9 @@ function LookForCompanyCard({
         ))}
       </ul>
       <Link
-        className="btn btn--medium thumbnail-user__button"
+        className={`btn btn--medium thumbnail-user__button  ${
+          style === 'dark' ? 'btn--outlined btn--dark-bg' : ''
+        }`}
         to={`${AppRoute.UserCard}/${userInfo.id}`}
       >
         Подробнее

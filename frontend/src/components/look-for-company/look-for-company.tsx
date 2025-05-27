@@ -118,7 +118,7 @@ function LookForCompany(): JSX.Element {
               className="special-for-you__item"
             >
               <li className="look-for-company__item">
-                <LookForCompanyCard userInfo={userInfo} />
+                <LookForCompanyCard style="dark" userInfo={userInfo} />
               </li>
             </SwiperSlide>
           ))}
