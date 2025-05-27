@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { LocationName, TrainingType } from '../../types/shared';
+import { LocationName, TrainingType, UserRole } from '../../types/shared';
 
 interface LookForCompanyCardProps {
   userInfo: {
@@ -9,6 +9,7 @@ interface LookForCompanyCardProps {
     location: LocationName;
     hashtag: TrainingType;
     avatar: string;
+    role: UserRole;
   };
 }
 
@@ -16,7 +17,13 @@ function LookForCompanyCard({
   userInfo,
 }: LookForCompanyCardProps): JSX.Element {
   return (
-    <div className="thumbnail-user thumbnail-user--role-user thumbnail-user--dark">
+    <div
+      className={`thumbnail-user ${
+        userInfo.role === UserRole.Coach
+          ? 'thumbnail-user--role-coach'
+          : 'thumbnail-user--role-user'
+      }`}
+    >
       <div className="thumbnail-user__image">
         <picture>
           <img src={userInfo.avatar} width="82" height="82" alt="" />
@@ -41,7 +48,7 @@ function LookForCompanyCard({
         </li>
       </ul>
       <Link
-        className="btn btn--outlined btn--dark-bg btn--medium thumbnail-user__button"
+        className="btn btn--medium thumbnail-user__button"
         to={`${AppRoute.UserCard}/${userInfo.id}`}
       >
         Подробнее

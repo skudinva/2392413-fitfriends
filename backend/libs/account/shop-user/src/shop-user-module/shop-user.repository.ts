@@ -20,7 +20,7 @@ export class ShopUserRepository extends BaseMongoRepository<
     super(entityFactory, shopUserModel);
   }
 
-  private calculateTrainingsPage(totalCount: number, limit: number): number {
+  private calculatePage(totalCount: number, limit: number): number {
     if (limit === 0) {
       return 0;
     }
@@ -80,7 +80,7 @@ export class ShopUserRepository extends BaseMongoRepository<
     return {
       entities: records.map((record) => this.createEntityFromDocument(record)),
       currentPage: query?.page,
-      totalPages: this.calculateTrainingsPage(userCount, limit),
+      totalPages: this.calculatePage(userCount, limit),
       itemsPerPage: limit,
       totalItems: userCount,
     };

@@ -18,6 +18,7 @@ import {
   fetchSpecialTrainings,
   fetchTraining,
   fetchTrainings,
+  fetchUserCatalog,
   updateTraining,
 } from '../training-action';
 
@@ -239,6 +240,31 @@ export const siteData = createSlice({
       })
       .addCase(updateTraining.rejected, (state) => {
         state.isSuccessSaveTraining = false;
+      })
+      .addCase(fetchUserCatalog.pending, (state) => {
+        state.isUserCatalogLoading = true;
+      })
+      .addCase(fetchUserCatalog.fulfilled, (state, action) => {
+        if (!state.userCatalog || action.payload.currentPage === 1) {
+          state.userCatalog = action.payload;
+        } else if (state.userCatalog) {
+          state.userCatalog = {
+            entities: [
+              ...state.userCatalog.entities,
+              ...action.payload.entities,
+            ],
+            itemsPerPage: action.payload.itemsPerPage,
+            totalItems:
+              state.userCatalog.totalItems + action.payload.totalItems,
+            totalPages: action.payload.totalPages,
+            currentPage: action.payload.currentPage,
+          };
+        }
+
+        state.isUserCatalogLoading = false;
+      })
+      .addCase(fetchUserCatalog.rejected, (state) => {
+        state.isUserCatalogLoading = false;
       });
   },
 });

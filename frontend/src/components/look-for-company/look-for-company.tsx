@@ -4,7 +4,7 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { AppRoute } from '../../const';
 import history from '../../history';
-import { LOCATIONS, TrainingType } from '../../types/shared';
+import { LOCATIONS, TrainingType, UserRole } from '../../types/shared';
 import LookForCompanyCard from '../look-for-company-card/look-for-company-card';
 
 const mockData = [
@@ -14,6 +14,7 @@ const mockData = [
     location: LOCATIONS[1],
     hashtag: TrainingType.Pilates,
     avatar: 'img/content/thumbnails/user-04.jpg',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef1234567c',
@@ -21,6 +22,7 @@ const mockData = [
     location: LOCATIONS[2],
     hashtag: TrainingType.Boxing,
     avatar: 'img/content/thumbnails/user-05.jpg',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef12345678',
@@ -28,6 +30,7 @@ const mockData = [
     location: LOCATIONS[3],
     hashtag: TrainingType.Crossfit,
     avatar: 'img/content/thumbnails/user-06.jpg',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef12345679',
@@ -35,6 +38,7 @@ const mockData = [
     location: LOCATIONS[4],
     hashtag: TrainingType.Yoga,
     avatar: 'img/content/thumbnails/user-03.jpg',
+    role: UserRole.Sportsman,
   },
   {
     id: '63f4567890abcdef1234567a',
@@ -42,6 +46,7 @@ const mockData = [
     location: LOCATIONS[0],
     hashtag: TrainingType.Running,
     avatar: 'img/content/thumbnails/user-01.jpg',
+    role: UserRole.Sportsman,
   },
 ];
 

@@ -10,21 +10,24 @@ import {
   getUserCatalog,
 } from '../../store/site-data/selectors';
 import { fetchUserCatalog } from '../../store/training-action';
-import { TrainingLevel, TrainingType, UserQuery } from '../../types/shared';
+import {
+  TrainingLevel,
+  TrainingType,
+  UserQuery,
+  UserRole,
+} from '../../types/shared';
 
 function UsersCatalog(): JSX.Element {
   const dispatch = useAppDispatch();
   const userCatalogLoading = useAppSelector(getIsUserCatalogLoading);
   const userCatalog = useAppSelector(getUserCatalog);
-
+  const [page, setPage] = useState(1);
   const [filterParam, setFilterParam] = useState<UserQuery>({
     types: [],
     locations: [],
-    trainingLevel: TrainingLevel.Amateur,
-    page: 1,
+    trainingLevel: TrainingLevel.Beginner,
+    role: UserRole.Coach,
   });
-
-  const { page } = filterParam;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -34,12 +37,21 @@ function UsersCatalog(): JSX.Element {
   };
 
   useEffect(() => {
+    if (!page) {
+      return;
+    }
+
     if (!filterParam) {
       return;
     }
 
-    dispatch(fetchUserCatalog(filterParam));
-  }, [dispatch, filterParam]);
+    dispatch(
+      fetchUserCatalog({
+        ...filterParam,
+        page,
+      })
+    );
+  }, [dispatch, page, filterParam]);
 
   if (userCatalog.itemsPerPage === 0) {
     return <Spinner />;
@@ -79,6 +91,7 @@ function UsersCatalog(): JSX.Element {
                               location: userItem.location,
                               hashtag: TrainingType.Boxing,
                               avatar: userItem.avatar ?? '',
+                              role: userItem.role,
                             }}
                           />
                         </li>
@@ -90,20 +103,14 @@ function UsersCatalog(): JSX.Element {
                         className="btn show-more__button show-more__button--more"
                         type="button"
                         onClick={() => {
-                          if (!filterParam) {
-                            return;
-                          }
-                          setFilterParam({
-                            ...filterParam,
-                            page: page + 1,
-                          });
+                          setPage(page + 1);
                         }}
                       >
                         Показать еще
                       </button>
                     ) : (
                       <button
-                        className="btn show-more__button show-more__button--to-top"
+                        className="btn show-more__button"
                         type="button"
                         onClick={scrollToTop}
                       >
