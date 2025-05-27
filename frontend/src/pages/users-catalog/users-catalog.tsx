@@ -10,7 +10,7 @@ import {
   getUserCatalog,
 } from '../../store/site-data/selectors';
 import { fetchUserCatalog } from '../../store/training-action';
-import { TrainingLevel, TrainingType, UserQuery } from '../../types/shared';
+import { TrainingLevel, UserQuery } from '../../types/shared';
 
 function UsersCatalog(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -75,7 +75,7 @@ function UsersCatalog(): JSX.Element {
                               id: userItem.id ?? '',
                               name: userItem.name,
                               location: userItem.location,
-                              hashtag: TrainingType.Boxing,
+                              hashtags: userItem.trainingType,
                               avatar: userItem.avatar ?? '',
                               role: userItem.role,
                             }}

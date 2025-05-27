@@ -7,7 +7,7 @@ interface LookForCompanyCardProps {
     id: string;
     name: string;
     location: LocationName;
-    hashtag: TrainingType;
+    hashtags: TrainingType[];
     avatar: string;
     role: UserRole;
   };
@@ -41,11 +41,16 @@ function LookForCompanyCard({
         </div>
       </div>
       <ul className="thumbnail-user__hashtags-list">
-        <li className="thumbnail-user__hashtags-item">
-          <div className="hashtag thumbnail-user__hashtag">
-            <span>#{userInfo.hashtag}</span>
-          </div>
-        </li>
+        {userInfo.hashtags.map((hashtag) => (
+          <li
+            className="thumbnail-user__hashtags-item"
+            key={`hashtag-${hashtag}`}
+          >
+            <div className="hashtag thumbnail-user__hashtag">
+              <span>#{hashtag}</span>
+            </div>
+          </li>
+        ))}
       </ul>
       <Link
         className="btn btn--medium thumbnail-user__button"

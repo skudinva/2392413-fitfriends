@@ -3,6 +3,7 @@ import {
   LocationName,
   LOCATIONS,
   TrainingLevel,
+  TrainingType,
   UserGender,
   UserRole,
 } from '@backend/shared/core';
@@ -96,4 +97,13 @@ export class UserRdo implements IUserRdo {
   })
   @Expose()
   role: UserRole;
+
+  @ApiProperty({
+    description: 'User trainingType',
+    enum: TrainingType,
+    enumName: 'TrainingType',
+    isArray: true,
+  })
+  @Expose()
+  trainingType: TrainingType[];
 }

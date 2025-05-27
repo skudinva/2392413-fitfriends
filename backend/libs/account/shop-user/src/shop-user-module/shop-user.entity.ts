@@ -78,6 +78,7 @@ export class ShopUserEntity
       role: this.role,
       calories: fixedValue.calories,
       trainingLevel: fixedValue.trainingLevel,
+      trainingType: fixedValue.trainingType,
     };
   }
 
