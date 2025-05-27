@@ -9,6 +9,8 @@ import {
   UserRole,
 } from '../../types/shared';
 
+const VISUAL_ELEMENT_COUNT = 5;
+
 interface UserCatalogFormProps {
   handleFilterApply(query: UserQuery): void;
 }
@@ -16,12 +18,18 @@ interface UserCatalogFormProps {
 function UserCatalogForm({
   handleFilterApply,
 }: UserCatalogFormProps): JSX.Element {
+  const [showAllTrainingType, setShowAllTrainingType] = useState(
+    TRAINING_TYPE.length <= VISUAL_ELEMENT_COUNT
+  );
+  const [showAllLocation, setShowAllLocation] = useState(
+    LOCATIONS.length <= VISUAL_ELEMENT_COUNT
+  );
   const [locations, setLocations] = useState<LocationName[]>([]);
   const [types, setTypes] = useState<typeof TRAINING_TYPE>([]);
   const [trainingLevel, setTrainingLevel] = useState<TrainingLevel>(
     TrainingLevel.Beginner
   );
-  const [role, setRole] = useState<UserRole>(UserRole.Coach);
+  const [role, setRole] = useState<UserRole>();
 
   useEffect(() => {
     handleFilterApply({
@@ -29,6 +37,7 @@ function UserCatalogForm({
       locations,
       trainingLevel,
       role,
+      page: 1,
     });
   }, [handleFilterApply, locations, role, trainingLevel, types]);
 
@@ -39,7 +48,10 @@ function UserCatalogForm({
           Локация, станция метро
         </h4>
         <ul className="user-catalog-form__check-list">
-          {LOCATIONS.map((location) => (
+          {(showAllLocation
+            ? LOCATIONS
+            : LOCATIONS.slice(0, VISUAL_ELEMENT_COUNT)
+          ).map((location) => (
             <li
               className="user-catalog-form__check-list-item"
               key={`type-${location}`}
@@ -74,25 +86,33 @@ function UserCatalogForm({
             </li>
           ))}
         </ul>
-        <button
-          className="btn-show-more user-catalog-form__btn-show"
-          type="button"
-        >
-          <span>Посмотреть все</span>
-          <svg
-            className="btn-show-more__icon"
-            width="10"
-            height="4"
-            aria-hidden="true"
+        {!showAllLocation && (
+          <button
+            className="btn-show-more user-catalog-form__btn-show"
+            type="button"
+            onClick={() => {
+              setShowAllLocation(true);
+            }}
           >
-            <use xlinkHref="#arrow-down"></use>
-          </svg>
-        </button>
+            <span>Посмотреть все</span>
+            <svg
+              className="btn-show-more__icon"
+              width="10"
+              height="4"
+              aria-hidden="true"
+            >
+              <use xlinkHref="#arrow-down"></use>
+            </svg>
+          </button>
+        )}
       </div>
       <div className="user-catalog-form__block user-catalog-form__block--spezialization">
         <h4 className="user-catalog-form__block-title">Специализация</h4>
         <ul className="user-catalog-form__check-list">
-          {TRAINING_TYPE.map((trainingType) => (
+          {(showAllTrainingType
+            ? TRAINING_TYPE
+            : TRAINING_TYPE.slice(0, VISUAL_ELEMENT_COUNT)
+          ).map((trainingType) => (
             <li
               className="user-catalog-form__check-list-item"
               key={`type-${trainingType}`}
@@ -125,20 +145,25 @@ function UserCatalogForm({
             </li>
           ))}
         </ul>
-        <button
-          className="btn-show-more user-catalog-form__btn-show"
-          type="button"
-        >
-          <span>Посмотреть все</span>
-          <svg
-            className="btn-show-more__icon"
-            width="10"
-            height="4"
-            aria-hidden="true"
+        {!showAllTrainingType && (
+          <button
+            className="btn-show-more user-catalog-form__btn-show"
+            type="button"
+            onClick={() => {
+              setShowAllTrainingType(true);
+            }}
           >
-            <use xlinkHref="#arrow-down"></use>
-          </svg>
-        </button>
+            <span>Посмотреть все</span>
+            <svg
+              className="btn-show-more__icon"
+              width="10"
+              height="4"
+              aria-hidden="true"
+            >
+              <use xlinkHref="#arrow-down"></use>
+            </svg>
+          </button>
+        )}
       </div>
       <div className="user-catalog-form__block user-catalog-form__block--level">
         <h4 className="user-catalog-form__block-title">Ваш уровень</h4>
@@ -156,6 +181,7 @@ function UserCatalogForm({
                   onInput={() => {
                     setTrainingLevel(level);
                   }}
+                  disabled
                 />
                 <span className="custom-toggle-radio__icon"></span>
                 <span className="custom-toggle-radio__label">{level}</span>

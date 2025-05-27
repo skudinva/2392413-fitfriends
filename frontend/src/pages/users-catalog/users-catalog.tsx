@@ -10,24 +10,19 @@ import {
   getUserCatalog,
 } from '../../store/site-data/selectors';
 import { fetchUserCatalog } from '../../store/training-action';
-import {
-  TrainingLevel,
-  TrainingType,
-  UserQuery,
-  UserRole,
-} from '../../types/shared';
+import { TrainingLevel, TrainingType, UserQuery } from '../../types/shared';
 
 function UsersCatalog(): JSX.Element {
   const dispatch = useAppDispatch();
   const userCatalogLoading = useAppSelector(getIsUserCatalogLoading);
   const userCatalog = useAppSelector(getUserCatalog);
-  const [page, setPage] = useState(1);
   const [filterParam, setFilterParam] = useState<UserQuery>({
     types: [],
     locations: [],
     trainingLevel: TrainingLevel.Beginner,
-    role: UserRole.Coach,
+    page: 1,
   });
+  const { page } = filterParam;
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -37,21 +32,12 @@ function UsersCatalog(): JSX.Element {
   };
 
   useEffect(() => {
-    if (!page) {
-      return;
-    }
-
     if (!filterParam) {
       return;
     }
 
-    dispatch(
-      fetchUserCatalog({
-        ...filterParam,
-        page,
-      })
-    );
-  }, [dispatch, page, filterParam]);
+    dispatch(fetchUserCatalog(filterParam));
+  }, [dispatch, filterParam]);
 
   if (userCatalog.itemsPerPage === 0) {
     return <Spinner />;
@@ -103,7 +89,13 @@ function UsersCatalog(): JSX.Element {
                         className="btn show-more__button show-more__button--more"
                         type="button"
                         onClick={() => {
-                          setPage(page + 1);
+                          if (!filterParam) {
+                            return;
+                          }
+                          setFilterParam({
+                            ...filterParam,
+                            page: page + 1,
+                          });
                         }}
                       >
                         Показать еще
