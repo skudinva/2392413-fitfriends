@@ -57,6 +57,7 @@ export class AuthenticationService {
       registerDate: dayjs().toDate(),
       passwordHash: '',
       role,
+      readyForTraining: false,
     };
 
     const existUser = await this.shopUserRepository.findByEmail(email);

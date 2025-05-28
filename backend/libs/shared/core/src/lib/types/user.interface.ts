@@ -13,4 +13,5 @@ export interface User {
   location: LocationName;
   registerDate: Date;
   role: UserRole;
+  readyForTraining: boolean;
 }

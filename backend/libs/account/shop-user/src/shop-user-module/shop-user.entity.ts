@@ -25,6 +25,7 @@ export class ShopUserEntity
   public registerDate!: Date;
   public passwordHash!: string;
   public role!: UserRole;
+  public readyForTraining: boolean;
 
   constructor(user?: AuthUser) {
     super();
@@ -46,6 +47,7 @@ export class ShopUserEntity
       registerDate,
       passwordHash,
       role,
+      readyForTraining,
     } = user;
 
     this.id = id ?? '';
@@ -59,6 +61,7 @@ export class ShopUserEntity
     this.registerDate = registerDate;
     this.passwordHash = passwordHash;
     this.role = role;
+    this.readyForTraining = readyForTraining;
   }
 
   toPOJO(): AuthUser & FixedQuestionValue {
@@ -76,6 +79,7 @@ export class ShopUserEntity
       registerDate: this.registerDate,
       passwordHash: this.passwordHash,
       role: this.role,
+      readyForTraining: this.readyForTraining,
       calories: fixedValue.calories,
       trainingLevel: fixedValue.trainingLevel,
       trainingType: fixedValue.trainingType,

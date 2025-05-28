@@ -106,4 +106,11 @@ export class UserRdo implements IUserRdo {
   })
   @Expose()
   trainingType: TrainingType[];
+
+  @ApiProperty({
+    description: 'readyForTraining',
+    example: false,
+  })
+  @Expose()
+  readyForTraining: boolean;
 }

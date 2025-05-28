@@ -6,7 +6,9 @@ import {
   UserRole,
 } from '@backend/shared/core';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsEnum,
   IsIn,
   IsISO8601,
@@ -87,4 +89,12 @@ export class CreateUserDto extends LoginUserDto {
   })
   @IsEnum(UserRole)
   role?: UserRole;
+
+  @ApiProperty({
+    description: 'readyForTraining',
+    default: false,
+  })
+  @IsBoolean()
+  @Transform(({ value }) => String(value).toLowerCase() === 'true')
+  readyForTraining: boolean;
 }

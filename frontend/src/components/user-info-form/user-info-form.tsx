@@ -16,6 +16,7 @@ function UserInfoForm(): JSX.Element {
   const userInfoLoading = useAppSelector(getUserInfoLoading);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const readyForTraining = useRef<HTMLInputElement>(null);
 
   const onEditButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -53,6 +54,18 @@ function UserInfoForm(): JSX.Element {
 
     dispatch(updateUser(formData));
     setIsEdit(false);
+  };
+
+  const onReadyForTrainingChange = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append(
+      'readyForTraining',
+      String(readyForTraining.current?.checked)
+    );
+
+    dispatch(updateUser(formData));
   };
 
   if (userInfoLoading) {
@@ -187,8 +200,9 @@ function UserInfoForm(): JSX.Element {
               <input
                 type="checkbox"
                 name="ready-for-training"
-                defaultChecked
-                disabled
+                defaultChecked={userInfo?.readyForTraining ?? false}
+                onInput={onReadyForTrainingChange}
+                ref={readyForTraining}
               />
               <span className="custom-toggle__icon">
                 <svg width="9" height="6" aria-hidden="true">

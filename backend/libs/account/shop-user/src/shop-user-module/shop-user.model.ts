@@ -65,6 +65,12 @@ export class ShopUserModel extends Document implements AuthUser {
     type: String,
   })
   public role!: UserRole;
+
+  @Prop({
+    required: true,
+    type: Boolean,
+  })
+  public readyForTraining: boolean;
 }
 
 export const ShopUserSchema = SchemaFactory.createForClass(ShopUserModel);

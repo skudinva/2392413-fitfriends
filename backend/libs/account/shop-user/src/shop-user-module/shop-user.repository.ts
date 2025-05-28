@@ -39,9 +39,8 @@ export class ShopUserRepository extends BaseMongoRepository<
     query: ShopUserQuery
   ): Promise<PaginationResult<ShopUserEntity>> {
     const {
-      types,
       locations,
-      trainingLevel,
+
       role,
       limit,
       page,
@@ -51,16 +50,9 @@ export class ShopUserRepository extends BaseMongoRepository<
     const skip = page && limit ? (page - 1) * limit : undefined;
 
     const filter: FilterQuery<ShopUserModel> = {};
-    if (types) {
-      //filter.type = types;
-    }
 
     if (locations) {
       filter.location = locations;
-    }
-
-    if (trainingLevel) {
-      //filter.trainingLevel = trainingLevel;
     }
 
     if (role) {
