@@ -27,7 +27,9 @@ function UserCard(): JSX.Element {
   }, [dispatch, userId]);
 
   const isCoach = userCardInfo?.role === UserRole.Coach;
-  const baseClass = isCoach ? 'user-card-coach' : 'user-card';
+  const baseClass = (isCoach ? 'user-card-coach' : 'user-card').concat(
+    !isCoach || userCardInfo?.readyForTraining ? '' : '-2'
+  );
 
   if (isUserCardInfoLoading || !userCardInfo) {
     return <Spinner />;

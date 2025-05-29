@@ -8,11 +8,29 @@ interface UserCardContentProps {
   isCoach: boolean;
 }
 
+function getTrainingStatus(isCoach: boolean, readyForTraining: boolean) {
+  if (isCoach && readyForTraining) {
+    return 'Готов тренировать';
+  } else if (isCoach && !readyForTraining) {
+    return 'Не готов тренировать';
+  } else if (!isCoach && readyForTraining) {
+    return 'Готов к тренировке';
+  } else if (!isCoach && !readyForTraining) {
+    return 'Не готов к тренировке';
+  }
+}
+
 function UserCardContent({
   userCardInfo,
   baseClass,
   isCoach,
 }: UserCardContentProps): JSX.Element {
+  const { readyForTraining } = userCardInfo;
+  const trainingStatus = getTrainingStatus(isCoach, readyForTraining);
+  const trainingStatusClass = readyForTraining
+    ? 'user-card-coach__status user-card-coach__status--check'
+    : 'user-card-coach-2__status user-card-coach-2__status--check';
+
   return (
     <>
       <div className={`${baseClass}__content`}>
@@ -32,8 +50,9 @@ function UserCardContent({
             <span>{userCardInfo.location}</span>
           </Link>
         </div>
-        <div className={`${baseClass}__status-container`}>
-          {isCoach && (
+
+        {isCoach ? (
+          <div className={`${baseClass}__status-container`}>
             <div className={`${baseClass}__status ${baseClass}__status--tag`}>
               <svg
                 className={`${baseClass}__icon-cup`}
@@ -45,11 +64,16 @@ function UserCardContent({
               </svg>
               <span>{isCoach ? 'Тренер' : 'Спортсмен'}</span>
             </div>
-          )}
-          <div className={`${baseClass}__status ${baseClass}__status--check`}>
-            <span>{isCoach ? 'Готов тренировать' : 'Готов к тренировке'}</span>
+            <div className={trainingStatusClass}>
+              <span>{trainingStatus}</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className={trainingStatusClass}>
+            <span>{trainingStatus}</span>
+          </div>
+        )}
+
         <div className={`${baseClass}__text`}>
           <p>{userCardInfo.description}</p>
         </div>
