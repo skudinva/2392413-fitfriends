@@ -38,15 +38,7 @@ export class ShopUserRepository extends BaseMongoRepository<
   public async find(
     query: ShopUserQuery
   ): Promise<PaginationResult<ShopUserEntity>> {
-    const {
-      locations,
-
-      role,
-      limit,
-      page,
-      sortBy,
-      sortDirection,
-    } = query;
+    const { locations, role, limit, page, sortBy, sortDirection } = query;
     const skip = page && limit ? (page - 1) * limit : undefined;
 
     const filter: FilterQuery<ShopUserModel> = {};
