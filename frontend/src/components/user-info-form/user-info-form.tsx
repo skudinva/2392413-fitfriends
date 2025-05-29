@@ -6,7 +6,7 @@ import {
   getUserInfo,
   getUserInfoLoading,
 } from '../../store/user-process/selectors';
-import { LOCATIONS, UserGender } from '../../types/shared';
+import { LOCATIONS, UserGender, UserRole } from '../../types/shared';
 import CustomSelect from '../custom-select/custom-select';
 import Spinner from '../spinner/spinner';
 
@@ -209,7 +209,11 @@ function UserInfoForm(): JSX.Element {
                   <use xlinkHref="#arrow-check"></use>
                 </svg>
               </span>
-              <span className="custom-toggle__label">Готов тренировать</span>
+              <span className="custom-toggle__label">
+                {userInfo?.role === UserRole.Coach
+                  ? 'Готов тренировать'
+                  : 'Готов к тренировке'}
+              </span>
             </label>
           </div>
         </div>
