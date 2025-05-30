@@ -40,3 +40,10 @@ export const getUserRole = ({
 export const getIsUserCardInfoLoading = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.isUserCardInfoLoading;
+
+export const getFriend = ({ [StoreSlice.UserProcess]: USER_PROCESS }: State) =>
+  USER_PROCESS.friend;
+
+export const getIsFriendLoading = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State) => USER_PROCESS.isFriendLoading;

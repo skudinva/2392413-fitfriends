@@ -5,12 +5,14 @@ import httpStatus from 'http-status';
 import { ApiRoute, AppRoute } from '../const';
 import {
   AuthUser,
+  FriendQuery,
   LoggedUserRdo,
   LoginUserDto,
   TokenPayload,
   UserRdo,
+  UserWithPagination,
 } from '../types/shared';
-import { refreshToken, token } from '../utils';
+import { composeQuery, refreshToken, token } from '../utils';
 
 type Extra = {
   api: AxiosInstance;
@@ -23,8 +25,11 @@ const UserAction = {
   LOGOUT_USER: 'user/logout',
   REGISTER_USER: 'user/register',
   UPDATE_USER: 'user/update',
-  FETCH_USER_INFO: '/user/fetch-user-info',
-  FETCH_USER_CARD_INFO: '/user/fetch-user-card-info',
+  FETCH_USER_INFO: 'user/fetch-user-info',
+  FETCH_USER_CARD_INFO: 'user/fetch-user-card-info',
+  FETCH_FRIEND: 'friend/fetch-friend',
+  ADD_FRIEND: 'friend/add-friend',
+  DELETE_FRIEND: 'friend/delete-friend',
 };
 
 export const fetchUserStatus = createAsyncThunk<
@@ -135,4 +140,38 @@ export const fetchUserCardInfo = createAsyncThunk<
   { extra: Extra }
 >(UserAction.FETCH_USER_CARD_INFO, async (id, { extra }) =>
   fetchUserProfile(id, extra)
+);
+
+export const fetchFriend = createAsyncThunk<
+  UserWithPagination,
+  FriendQuery | null,
+  { extra: Extra }
+>(UserAction.FETCH_FRIEND, async (query, { extra }) => {
+  const { api } = extra;
+  const queryString = query ? composeQuery(query) : '';
+  const { data } = await api.get<UserWithPagination>(
+    `${ApiRoute.Friends}?${queryString}`
+  );
+
+  return data;
+});
+
+export const addFriend = createAsyncThunk<UserRdo, string, { extra: Extra }>(
+  UserAction.ADD_FRIEND,
+  async (friendId, { extra }) => {
+    const { api } = extra;
+
+    const { data } = await api.post<UserRdo>(`${ApiRoute.Friends}/${friendId}`);
+    return data;
+  }
+);
+
+export const deleteFriend = createAsyncThunk<string, string, { extra: Extra }>(
+  UserAction.DELETE_FRIEND,
+  async (friendId, { extra }) => {
+    const { api } = extra;
+
+    await api.delete<UserRdo>(`${ApiRoute.Friends}/${friendId}`);
+    return friendId;
+  }
 );

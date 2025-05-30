@@ -45,6 +45,9 @@ export type UserProcess = {
   isUserInfoSave: boolean;
   userCardInfo: UserRdo | null;
   isUserCardInfoLoading: boolean;
+  friend: UserWithPagination;
+  isFriendLoading: boolean;
+  isSuccessSwitchFriend: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

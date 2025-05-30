@@ -30,6 +30,7 @@ export enum ApiRoute {
   Logout = '/api/users/logout',
   UserUpdate = '/api/users/update',
   Users = '/api/users',
+  Friends = '/api/friends',
   Trainings = '/api/trainings',
   Comments = '/api/trainings/comments',
   Order = '/api/orders',
