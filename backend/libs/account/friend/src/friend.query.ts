@@ -52,5 +52,9 @@ export class FriendQuery implements IFriendQuery {
   @IsNumber({ maxDecimalPlaces: 0 })
   page?: number = DEFAULT_PAGE;
 
+  @ApiProperty({
+    description: 'userId',
+    required: false,
+  })
   userId!: string;
 }

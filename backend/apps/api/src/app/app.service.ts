@@ -12,23 +12,16 @@ import { ApplicationServiceURL } from './app.config';
 export class AppService {
   constructor(private readonly httpService: HttpService) {}
 
-  public async appendUserInfo<T extends { userId: string; userInfo: UserRdo }>(
-    records: T[]
-  ): Promise<void> {
-    const uniqueUserIds = new Set<string>();
+  public async getUserInfo(userIds: Set<string>) {
     const usersInfo = new Map<string, UserRdo>();
-
-    records.forEach((record) => {
-      uniqueUserIds.add(record.userId);
-    });
-
     const userInfos = await Promise.all(
-      Array.from(uniqueUserIds).map((userId) =>
+      Array.from(userIds).map((userId) =>
         this.httpService.axiosRef.get<UserRdo>(
           `${ApplicationServiceURL.Users}/${userId}`
         )
       )
     );
+
     userInfos.forEach(({ data }) => {
       data.avatar = createStaticUrlForFile(
         data.avatar,
@@ -36,6 +29,35 @@ export class AppService {
       );
       return usersInfo.set(data.id, data);
     });
+
+    return usersInfo;
+  }
+
+  public async getUniqueUserId<T extends { userId: string }>(
+    records: T[]
+  ): Promise<Set<string>> {
+    const uniqueUserIds = new Set<string>();
+    records.forEach((record) => {
+      uniqueUserIds.add(record.userId);
+    });
+
+    return uniqueUserIds;
+  }
+
+  public async composeUserInfo<T extends { userId: string }>(
+    records: T[]
+  ): Promise<UserRdo[]> {
+    const uniqueUserIds = await this.getUniqueUserId(records);
+    const usersInfo = await this.getUserInfo(uniqueUserIds);
+
+    return records.map((record) => usersInfo.get(record.userId));
+  }
+
+  public async appendUserInfo<T extends { userId: string; userInfo: UserRdo }>(
+    records: T[]
+  ): Promise<void> {
+    const uniqueUserIds = await this.getUniqueUserId(records);
+    const usersInfo = await this.getUserInfo(uniqueUserIds);
 
     records.forEach((record) => {
       record.userInfo = usersInfo.get(record.userId);

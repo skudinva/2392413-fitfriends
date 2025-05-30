@@ -27,6 +27,7 @@ export { EntityList } from './lib/types/entity-list.enum';
 export { File } from './lib/types/file.interface';
 export { FixedQuestionValue } from './lib/types/fixed-question-value.interface';
 export { IFriendQuery } from './lib/types/friend-query.interface';
+export { FriendWithPagination } from './lib/types/friend-with-pagination.interface';
 export { Friend } from './lib/types/friend.interface';
 export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
@@ -49,6 +50,7 @@ export { TrainingWithUserInfo } from './lib/types/training-with-user-info.interf
 export { Training } from './lib/types/training.interface';
 export { IUpdateOrderStateDto } from './lib/types/update-order-state-dto.interface';
 export { UserGender } from './lib/types/user-gender.enum';
+export { IUserIdRdo } from './lib/types/user-id-rdo.interface';
 export { IUserQuery } from './lib/types/user-query.interface';
 export { IUserRdo } from './lib/types/user-rdo.interface';
 export { UserRole } from './lib/types/user-role.enum';

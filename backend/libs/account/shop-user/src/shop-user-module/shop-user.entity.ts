@@ -79,7 +79,7 @@ export class ShopUserEntity
       registerDate: this.registerDate,
       passwordHash: this.passwordHash,
       role: this.role,
-      readyForTraining: this.readyForTraining,
+      readyForTraining: this.readyForTraining ?? false,
       calories: fixedValue.calories,
       trainingLevel: fixedValue.trainingLevel,
       trainingType: fixedValue.trainingType,

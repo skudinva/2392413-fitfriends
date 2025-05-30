@@ -2,7 +2,8 @@ import {
   RequestWithTokenPayload,
   RequestWithTokenPayloadUrl,
 } from '@backend/authentication';
-import { FriendQuery } from '@backend/friend';
+import { FriendQuery, FriendWithPaginationRdo } from '@backend/friend';
+import { fillDto } from '@backend/helpers';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
 import { UserWithPaginationRdo } from '@backend/shop-user';
 import { HttpService } from '@nestjs/axios';
@@ -49,13 +50,19 @@ export class FriendsController {
   @UseInterceptors(InjectUserIdInterceptor)
   public async getFriends(@Req() req: RequestWithTokenPayloadUrl) {
     const userId = req.user.sub;
-    const { data } = await this.httpService.axiosRef.get<UserWithPaginationRdo>(
-      `${ApplicationServiceURL.Friends}/?${
-        url.parse(req.url).query
-      }&userId=${userId}`
-    );
-    // await this.appService.appendUserInfo(data.entities);
-    return data;
+
+    const { data } =
+      await this.httpService.axiosRef.get<FriendWithPaginationRdo>(
+        `${ApplicationServiceURL.Friends}/?${
+          url.parse(req.url).query
+        }&userId=${userId}`
+      );
+    const friends = await this.appService.composeUserInfo(data.entities);
+
+    return fillDto(UserWithPaginationRdo, {
+      ...data,
+      entities: friends,
+    });
   }
 
   @Post(':friendId')

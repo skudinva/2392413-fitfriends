@@ -1,5 +1,4 @@
 import { fillDto } from '@backend/helpers';
-import { UserWithPaginationRdo } from '@backend/shop-user';
 import {
   Controller,
   Delete,
@@ -12,6 +11,7 @@ import {
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FriendQuery } from './friend.query';
 import { FriendService } from './friend.service';
+import { FriendWithPaginationRdo } from './rdo/friend-with-pagination.rdo';
 
 @Controller('friend')
 @ApiTags('friend')
@@ -21,16 +21,13 @@ export class FriendController {
   @Get()
   @ApiBearerAuth('accessToken')
   @ApiResponse({
-    type: UserWithPaginationRdo,
+    type: FriendWithPaginationRdo,
     status: HttpStatus.OK,
   })
   public async index(@Query() query: FriendQuery) {
     const friendsWithPagination = await this.friendService.getFriends(query);
-    const result = {
-      ...friendsWithPagination,
-      entities: friendsWithPagination.entities.map((friend) => friend.toPOJO()),
-    };
-    return fillDto(UserWithPaginationRdo, result);
+    const friends = fillDto(FriendWithPaginationRdo, friendsWithPagination);
+    return friends;
   }
 
   @Post(':userId/:friendId')
