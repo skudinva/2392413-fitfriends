@@ -26,6 +26,8 @@ export { ICreateOrderDto } from './lib/types/create-order-dto.interface';
 export { EntityList } from './lib/types/entity-list.enum';
 export { File } from './lib/types/file.interface';
 export { FixedQuestionValue } from './lib/types/fixed-question-value.interface';
+export { IFriendQuery } from './lib/types/friend-query.interface';
+export { Friend } from './lib/types/friend.interface';
 export { LocationName } from './lib/types/location-name.interface';
 export { ILoggedUserRdo } from './lib/types/logged-user-rdo.interface';
 export { ILoginUserDto } from './lib/types/login-user-dto.interface';

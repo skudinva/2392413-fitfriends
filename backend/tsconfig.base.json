@@ -25,6 +25,7 @@
       ],
       "@backend/file-uploader": ["libs/file-vault/file-uploader/src/index.ts"],
       "@backend/file-vault-config": ["libs/file-vault/config/src/index.ts"],
+      "@backend/friend": ["libs/account/friend/src/index.ts"],
       "@backend/helpers": ["libs/shared/helpers/src/index.ts"],
       "@backend/interceptors": ["libs/shared/interceptors/src/index.ts"],
       "@backend/models": ["libs/trainings/models/src/index.ts"],
