@@ -109,7 +109,7 @@ function UserCardContent({
         </ul>
         {isUserFriend ? (
           <button
-            className={`${baseClass}__btn btn`}
+            className={`${baseClass}__btn btn btn--outlined`}
             type="button"
             onClick={onDeleteFriendButtonClick}
           >
