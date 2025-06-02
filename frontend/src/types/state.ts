@@ -33,8 +33,6 @@ export type SiteData = {
   isSuccessSaveTraining: boolean;
   coachTraining: TrainingWithPagination | null;
   isCoachTrainingLoading: boolean;
-  isUserCatalogLoading: boolean;
-  userCatalog: UserWithPagination;
 };
 
 export type UserProcess = {
@@ -49,6 +47,10 @@ export type UserProcess = {
   friend: UserWithPagination;
   isFriendLoading: boolean;
   isSuccessSwitchFriend: boolean;
+  userCompany: UserWithPagination;
+  isUserCompanyLoading: boolean;
+  userCatalog: UserWithPagination;
+  isUserCatalogLoading: boolean;
 };
 
 export type State = ReturnType<typeof store.getState>;

@@ -12,7 +12,7 @@ import {
   fetchTraining,
   fetchTrainings,
 } from '../../store/training-action';
-import { fetchUserInfo } from '../../store/user-action';
+import { fetchUserCompany, fetchUserInfo } from '../../store/user-action';
 import {
   getAuthorizationStatus,
   getCurrentUserId,
@@ -46,6 +46,7 @@ function Main(): JSX.Element {
         dispatch(fetchSpecialTrainings());
         dispatch(fetchDiscountTrainings());
         dispatch(fetchPopularTrainings());
+        dispatch(fetchUserCompany());
       }
 
       dispatch(

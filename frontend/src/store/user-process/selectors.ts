@@ -51,3 +51,19 @@ export const getIsFriendLoading = ({
 export const getIsUserFriend = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.isUserFriend;
+
+export const getIsUserCatalogLoading = ({
+  [StoreSlice.UserProcess]: SITE_DATA,
+}: State) => SITE_DATA.isUserCatalogLoading;
+
+export const getUserCatalog = ({
+  [StoreSlice.UserProcess]: SITE_DATA,
+}: State) => SITE_DATA.userCatalog;
+
+export const getIsUserCompanyLoading = ({
+  [StoreSlice.UserProcess]: SITE_DATA,
+}: State) => SITE_DATA.isUserCompanyLoading;
+
+export const getUserCompany = ({
+  [StoreSlice.UserProcess]: SITE_DATA,
+}: State) => SITE_DATA.userCompany;

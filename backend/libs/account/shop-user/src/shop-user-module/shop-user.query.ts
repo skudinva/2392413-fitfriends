@@ -14,6 +14,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
   IsEnum,
   IsIn,
   IsMongoId,
@@ -40,7 +41,7 @@ export class ShopUserQuery implements IUserQuery {
   @IsArray()
   @TransformToArray()
   @IsOptional()
-  types: TrainingType[];
+  types?: TrainingType[];
 
   @ApiProperty({
     description: 'Locations',
@@ -53,16 +54,17 @@ export class ShopUserQuery implements IUserQuery {
   @IsArray()
   @TransformToArray()
   @IsOptional()
-  locations: LocationName[];
+  locations?: LocationName[];
 
   @ApiProperty({
     description: 'Training level',
-    required: true,
+    required: false,
     enum: TrainingLevel,
     enumName: 'TrainingLevel',
   })
   @IsEnum(TrainingLevel)
-  trainingLevel: TrainingLevel;
+  @IsOptional()
+  trainingLevel?: TrainingLevel;
 
   @ApiProperty({
     description: 'User role',
@@ -73,6 +75,15 @@ export class ShopUserQuery implements IUserQuery {
   @IsEnum(UserRole)
   @IsOptional()
   role?: UserRole;
+
+  @ApiProperty({
+    description: 'readyForTraining',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => String(value).toLowerCase() === 'true')
+  readyForTraining?: boolean;
 
   @Transform(({ value }) => parseInt(value, 10) || DEFAULT_USER_COUNT_LIMIT)
   @IsOptional()

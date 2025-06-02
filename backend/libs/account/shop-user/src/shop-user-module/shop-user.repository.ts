@@ -38,13 +38,22 @@ export class ShopUserRepository extends BaseMongoRepository<
   public async find(
     query: ShopUserQuery
   ): Promise<PaginationResult<ShopUserEntity>> {
-    const { locations, role, limit, page, sortBy, sortDirection } = query;
+    const {
+      locations,
+      role,
+      limit,
+      page,
+      sortBy,
+      sortDirection,
+      userId,
+      readyForTraining,
+    } = query;
     const skip = page && limit ? (page - 1) * limit : undefined;
 
     const filter: FilterQuery<ShopUserModel> = {};
 
     filter._id = {
-      $ne: query.userId,
+      $ne: userId,
     };
 
     if (locations) {
@@ -53,6 +62,10 @@ export class ShopUserRepository extends BaseMongoRepository<
 
     if (role) {
       filter.role = role;
+    }
+
+    if (readyForTraining) {
+      filter.readyForTraining = readyForTraining;
     }
 
     const [records, userCount] = await Promise.all([

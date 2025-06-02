@@ -79,10 +79,3 @@ export const getIsCoachTrainingLoading = ({
 
 export const getCoachTraining = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
   SITE_DATA.coachTraining;
-
-export const getIsUserCatalogLoading = ({
-  [StoreSlice.SiteData]: SITE_DATA,
-}: State) => SITE_DATA.isUserCatalogLoading;
-
-export const getUserCatalog = ({ [StoreSlice.SiteData]: SITE_DATA }: State) =>
-  SITE_DATA.userCatalog;

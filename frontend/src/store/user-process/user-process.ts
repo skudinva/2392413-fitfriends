@@ -6,6 +6,8 @@ import {
   deleteFriend,
   fetchFriend,
   fetchUserCardInfo,
+  fetchUserCatalog,
+  fetchUserCompany,
   fetchUserInfo,
   fetchUserStatus,
   getFriendStatus,
@@ -35,6 +37,20 @@ const initialState: UserProcess = {
   },
   isFriendLoading: false,
   isSuccessSwitchFriend: false,
+  userCompany: {
+    entities: [],
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 0,
+  },
+  isUserCompanyLoading: false,
+  userCatalog: {
+    entities: [],
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 0,
+  },
+  isUserCatalogLoading: false,
 };
 
 export const userProcess = createSlice({
@@ -157,6 +173,57 @@ export const userProcess = createSlice({
       })
       .addCase(deleteFriend.rejected, (state) => {
         state.isSuccessSwitchFriend = false;
+      })
+      .addCase(fetchUserCatalog.pending, (state) => {
+        state.isUserCatalogLoading = true;
+      })
+      .addCase(fetchUserCatalog.fulfilled, (state, action) => {
+        if (!state.userCatalog || action.payload.currentPage === 1) {
+          state.userCatalog = action.payload;
+        } else if (state.userCatalog) {
+          state.userCatalog = {
+            entities: [
+              ...state.userCatalog.entities,
+              ...action.payload.entities,
+            ],
+            itemsPerPage: action.payload.itemsPerPage,
+            totalItems:
+              state.userCatalog.totalItems + action.payload.totalItems,
+            totalPages: action.payload.totalPages,
+            currentPage: action.payload.currentPage,
+          };
+        }
+
+        state.isUserCatalogLoading = false;
+      })
+      .addCase(fetchUserCatalog.rejected, (state) => {
+        state.isUserCatalogLoading = false;
+      })
+
+      .addCase(fetchUserCompany.pending, (state) => {
+        state.isUserCompanyLoading = true;
+      })
+      .addCase(fetchUserCompany.fulfilled, (state, action) => {
+        if (!state.userCompany || action.payload.currentPage === 1) {
+          state.userCompany = action.payload;
+        } else if (state.userCompany) {
+          state.userCompany = {
+            entities: [
+              ...state.userCompany.entities,
+              ...action.payload.entities,
+            ],
+            itemsPerPage: action.payload.itemsPerPage,
+            totalItems:
+              state.userCompany.totalItems + action.payload.totalItems,
+            totalPages: action.payload.totalPages,
+            currentPage: action.payload.currentPage,
+          };
+        }
+
+        state.isUserCompanyLoading = false;
+      })
+      .addCase(fetchUserCompany.rejected, (state) => {
+        state.isUserCompanyLoading = false;
       });
   },
 });

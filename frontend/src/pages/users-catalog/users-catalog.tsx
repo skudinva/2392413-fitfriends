@@ -5,11 +5,11 @@ import LookForCompanyCard from '../../components/look-for-company-card/look-for-
 import Spinner from '../../components/spinner/spinner';
 import UserCatalogForm from '../../components/user-catalog-form/user-catalog-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchUserCatalog } from '../../store/user-action';
 import {
   getIsUserCatalogLoading,
   getUserCatalog,
-} from '../../store/site-data/selectors';
-import { fetchUserCatalog } from '../../store/training-action';
+} from '../../store/user-process/selectors';
 import { TrainingLevel, UserQuery } from '../../types/shared';
 
 function UsersCatalog(): JSX.Element {

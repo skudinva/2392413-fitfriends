@@ -17,8 +17,6 @@ import {
   TrainingQuery,
   TrainingWithPagination,
   TrainingWithUserInfo,
-  UserQuery,
-  UserWithPagination,
 } from '../types/shared';
 import { composeQuery } from '../utils';
 
@@ -40,7 +38,6 @@ const TrainingAction = {
   DELETE_TRAINING: 'training/delete-training',
   FETCH_TRAINING_COMMENTS: 'training/comment/fetch',
   POST_TRAINING_COMMENT: 'training/comment/post',
-  FETCH_USER_CATALOG: 'user-catalog/fetch',
 };
 
 export const createTraining = createAsyncThunk<
@@ -203,18 +200,4 @@ export const createComment = createAsyncThunk<
   } catch (error) {
     return Promise.reject(error);
   }
-});
-
-export const fetchUserCatalog = createAsyncThunk<
-  UserWithPagination,
-  UserQuery | null,
-  { extra: Extra }
->(TrainingAction.FETCH_USER_CATALOG, async (query, { extra }) => {
-  const { api } = extra;
-  const queryString = query ? composeQuery(query) : '';
-  const { data } = await api.get<UserWithPagination>(
-    `${ApiRoute.Users}?${queryString}`
-  );
-
-  return data;
 });

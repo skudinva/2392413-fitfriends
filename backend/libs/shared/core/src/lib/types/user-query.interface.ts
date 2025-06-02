@@ -6,10 +6,11 @@ import { TrainingType } from './training-type.enum';
 import { UserRole } from './user-role.enum';
 
 export interface IUserQuery {
-  types: TrainingType[];
-  locations: LocationName[];
-  trainingLevel: TrainingLevel;
+  types?: TrainingType[];
+  locations?: LocationName[];
+  trainingLevel?: TrainingLevel;
   role?: UserRole;
+  readyForTraining?: boolean;
   limit?: number;
   sortDirection?: SortDirection;
   sortBy?: SortType;

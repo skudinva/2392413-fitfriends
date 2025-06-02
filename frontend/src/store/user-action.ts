@@ -2,13 +2,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { AxiosError, AxiosInstance } from 'axios';
 import type { History } from 'history';
 import httpStatus from 'http-status';
-import { ApiRoute, AppRoute } from '../const';
+import { ApiRoute, AppRoute, USER_COMPANY_LIMIT } from '../const';
 import {
   AuthUser,
   FriendQuery,
   LoggedUserRdo,
   LoginUserDto,
+  SortDirection,
+  SortType,
   TokenPayload,
+  UserQuery,
   UserRdo,
   UserWithPagination,
 } from '../types/shared';
@@ -31,6 +34,8 @@ const UserAction = {
   FETCH_FRIEND_STATUS: 'friend/fetch-friend-status',
   ADD_FRIEND: 'friend/add-friend',
   DELETE_FRIEND: 'friend/delete-friend',
+  FETCH_USER_CATALOG: 'user-catalog/fetch',
+  FETCH_USER_COMPANY: 'user-company/fetch',
 };
 
 export const fetchUserStatus = createAsyncThunk<
@@ -188,3 +193,38 @@ export const getFriendStatus = createAsyncThunk<
 
   return data;
 });
+
+const fetchUser = async (query: UserQuery | null, extra: Extra) => {
+  const { api } = extra;
+  const queryString = query ? composeQuery(query) : '';
+  const { data } = await api.get<UserWithPagination>(
+    `${ApiRoute.Users}?${queryString}`
+  );
+
+  return data;
+};
+
+export const fetchUserCatalog = createAsyncThunk<
+  UserWithPagination,
+  UserQuery | null,
+  { extra: Extra }
+>(UserAction.FETCH_USER_CATALOG, async (query, { extra }) =>
+  fetchUser(query, extra)
+);
+
+export const fetchUserCompany = createAsyncThunk<
+  UserWithPagination,
+  undefined,
+  { extra: Extra }
+>(UserAction.FETCH_USER_COMPANY, async (_, { extra }) =>
+  fetchUser(
+    {
+      page: 1,
+      readyForTraining: true,
+      sortBy: SortType.Date,
+      sortDirection: SortDirection.Desc,
+      limit: USER_COMPANY_LIMIT,
+    },
+    extra
+  )
+);
