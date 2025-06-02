@@ -13,6 +13,7 @@ import {
   TokenPayload,
   UserQuery,
   UserRdo,
+  UserRole,
   UserWithPagination,
 } from '../types/shared';
 import { composeQuery, refreshToken, token } from '../utils';
@@ -224,6 +225,7 @@ export const fetchUserCompany = createAsyncThunk<
       sortBy: SortType.Date,
       sortDirection: SortDirection.Desc,
       limit: USER_COMPANY_LIMIT,
+      role: UserRole.Sportsman,
     },
     extra
   )
