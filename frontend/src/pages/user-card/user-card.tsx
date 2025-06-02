@@ -5,9 +5,10 @@ import CustomHelmet from '../../components/custom-helmet/custom-helmet';
 import Spinner from '../../components/spinner/spinner';
 import UserCardContent from '../../components/user-card-content/user-card-content';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchUserCardInfo } from '../../store/user-action';
+import { fetchUserCardInfo, getFriendStatus } from '../../store/user-action';
 import {
   getIsUserCardInfoLoading,
+  getIsUserFriend,
   getUserCardInfo,
 } from '../../store/user-process/selectors';
 import { UserRole } from '../../types/shared';
@@ -18,11 +19,13 @@ function UserCard(): JSX.Element {
   const { userId } = useParams();
 
   const userCardInfo = useAppSelector(getUserCardInfo);
+  const isUserFriend = useAppSelector(getIsUserFriend);
   const isUserCardInfoLoading = useAppSelector(getIsUserCardInfoLoading);
 
   useEffect(() => {
     if (userId) {
       dispatch(fetchUserCardInfo(userId));
+      dispatch(getFriendStatus(userId));
     }
   }, [dispatch, userId]);
 
@@ -52,6 +55,7 @@ function UserCard(): JSX.Element {
                         userCardInfo={userCardInfo}
                         baseClass={baseClass}
                         isCoach={isCoach}
+                        isUserFriend={isUserFriend}
                       />
                     </div>
                     <div className={`${baseClass}__training`}>
@@ -94,6 +98,7 @@ function UserCard(): JSX.Element {
                     userCardInfo={userCardInfo}
                     baseClass={baseClass}
                     isCoach={isCoach}
+                    isUserFriend={isUserFriend}
                   />
                 )}
               </div>

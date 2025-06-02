@@ -43,6 +43,10 @@ export class ShopUserRepository extends BaseMongoRepository<
 
     const filter: FilterQuery<ShopUserModel> = {};
 
+    filter._id = {
+      $ne: query.userId,
+    };
+
     if (locations) {
       filter.location = locations;
     }

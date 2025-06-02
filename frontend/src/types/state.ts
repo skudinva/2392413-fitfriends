@@ -44,6 +44,7 @@ export type UserProcess = {
   userInfo: UserRdo | null;
   isUserInfoSave: boolean;
   userCardInfo: UserRdo | null;
+  isUserFriend: boolean;
   isUserCardInfoLoading: boolean;
   friend: UserWithPagination;
   isFriendLoading: boolean;

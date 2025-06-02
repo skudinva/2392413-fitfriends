@@ -5,7 +5,7 @@ import { Expose } from 'class-transformer';
 export class UserIdRdo implements IUserIdRdo {
   @ApiProperty({
     description: 'The uniq user ID',
-    example: '134ce8babd-cc30-4805-9b12-d9420398e7c5',
+    example: '677cd8d75ff92067f1de5911',
   })
   @Expose()
   public userId!: string;

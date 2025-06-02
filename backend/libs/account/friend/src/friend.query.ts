@@ -2,7 +2,7 @@ import { IFriendQuery, SortDirection, SortType } from '@backend/shared/core';
 import { Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsIn, IsNumber, IsOptional } from 'class-validator';
+import { IsIn, IsMongoId, IsNumber, IsOptional } from 'class-validator';
 import {
   DEFAULT_FRIEND_COUNT_LIMIT,
   DEFAULT_PAGE,
@@ -56,5 +56,6 @@ export class FriendQuery implements IFriendQuery {
     description: 'userId',
     required: false,
   })
+  @IsMongoId()
   userId!: string;
 }

@@ -1,4 +1,5 @@
 import { fillDto } from '@backend/helpers';
+import { MongoIdValidationPipe } from '@backend/pipes';
 import {
   Controller,
   Delete,
@@ -12,6 +13,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FriendQuery } from './friend.query';
 import { FriendService } from './friend.service';
 import { FriendWithPaginationRdo } from './rdo/friend-with-pagination.rdo';
+import { UserIdRdo } from './rdo/user-id.rdo';
 
 @Controller('friend')
 @ApiTags('friend')
@@ -30,16 +32,31 @@ export class FriendController {
     return friends;
   }
 
+  @Get(':userId/:friendId')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get friend status',
+  })
+  public async getFriendStatus(
+    @Param('userId', MongoIdValidationPipe) userId: string,
+    @Param('friendId', MongoIdValidationPipe) friendId: string
+  ) {
+    return await this.friendService.getFriendStatus(userId, friendId);
+  }
+
   @Post(':userId/:friendId')
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Add friend',
+    type: UserIdRdo,
   })
   public async create(
-    @Param('userId') userId: string,
-    @Param('friendId') friendId: string
+    @Param('userId', MongoIdValidationPipe) userId: string,
+    @Param('friendId', MongoIdValidationPipe) friendId: string
   ) {
-    return await this.friendService.create(userId, friendId);
+    const friendEntity = await this.friendService.create(userId, friendId);
+    const friend = fillDto(UserIdRdo, friendEntity);
+    return friend;
   }
 
   @Delete(':userId/:friendId')
@@ -48,8 +65,8 @@ export class FriendController {
     description: 'Delete friend',
   })
   public async delete(
-    @Param('userId') userId: string,
-    @Param('friendId') friendId: string
+    @Param('userId', MongoIdValidationPipe) userId: string,
+    @Param('friendId', MongoIdValidationPipe) friendId: string
   ) {
     await this.friendService.delete(userId, friendId);
   }

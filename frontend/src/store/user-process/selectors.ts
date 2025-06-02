@@ -47,3 +47,7 @@ export const getFriend = ({ [StoreSlice.UserProcess]: USER_PROCESS }: State) =>
 export const getIsFriendLoading = ({
   [StoreSlice.UserProcess]: USER_PROCESS,
 }: State) => USER_PROCESS.isFriendLoading;
+
+export const getIsUserFriend = ({
+  [StoreSlice.UserProcess]: USER_PROCESS,
+}: State) => USER_PROCESS.isUserFriend;

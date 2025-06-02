@@ -2,10 +2,14 @@ import {
   RequestWithTokenPayload,
   RequestWithTokenPayloadUrl,
 } from '@backend/authentication';
-import { FriendQuery, FriendWithPaginationRdo } from '@backend/friend';
+import {
+  FriendQuery,
+  FriendWithPaginationRdo,
+  UserIdRdo,
+} from '@backend/friend';
 import { fillDto } from '@backend/helpers';
 import { InjectUserIdInterceptor } from '@backend/interceptors';
-import { UserWithPaginationRdo } from '@backend/shop-user';
+import { UserRdo, UserWithPaginationRdo } from '@backend/shop-user';
 import { HttpService } from '@nestjs/axios';
 import {
   Controller,
@@ -65,12 +69,36 @@ export class FriendsController {
     });
   }
 
+  @Get(':friendId')
+  @UseGuards(CheckAuthGuard)
+  @ApiBearerAuth('accessToken')
+  @UseInterceptors(InjectUserIdInterceptor)
+  @ApiResponse({
+    type: Boolean,
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Error',
+  })
+  public async getFriendStatus(
+    @Req() req: RequestWithTokenPayload,
+    @Param('friendId') friendId: string
+  ) {
+    const userId = req.user.sub;
+    const { data } = await this.httpService.axiosRef.get<boolean>(
+      `${ApplicationServiceURL.Friends}/${userId}/${friendId}`
+    );
+
+    return data;
+  }
+
   @Post(':friendId')
   @UseGuards(CheckAuthGuard)
   @ApiBearerAuth('accessToken')
   @UseInterceptors(InjectUserIdInterceptor)
   @ApiResponse({
-    type: UserWithPaginationRdo,
+    type: UserRdo,
     status: HttpStatus.CREATED,
   })
   @ApiResponse({
@@ -81,12 +109,11 @@ export class FriendsController {
     @Param('friendId') friendId: string
   ) {
     const userId = req.user.sub;
-    const { data } =
-      await this.httpService.axiosRef.post<UserWithPaginationRdo>(
-        `${ApplicationServiceURL.Friends}/${userId}/${friendId}`
-      );
-    // await this.appService.appendUserInfo([data]);
-    return data;
+    const { data } = await this.httpService.axiosRef.post<UserIdRdo>(
+      `${ApplicationServiceURL.Friends}/${userId}/${friendId}`
+    );
+    const friend = await this.appService.composeUserInfo([data]);
+    return friend[0];
   }
 
   @Delete('/:friendId')

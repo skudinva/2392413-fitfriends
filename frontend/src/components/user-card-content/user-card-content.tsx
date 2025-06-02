@@ -1,35 +1,45 @@
 import { Link } from 'react-router-dom';
 import { TRAINING_TYPE } from '../../const';
-import { UserRdo } from '../../types/shared';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { addFriend, deleteFriend } from '../../store/user-action';
+import { getUserRole } from '../../store/user-process/selectors';
+import { UserRdo, UserRole } from '../../types/shared';
+import { getTrainingStatus } from '../../utils';
 
 interface UserCardContentProps {
   userCardInfo: UserRdo;
   baseClass: string;
   isCoach: boolean;
-}
-
-function getTrainingStatus(isCoach: boolean, readyForTraining: boolean) {
-  if (isCoach && readyForTraining) {
-    return 'Готов тренировать';
-  } else if (isCoach && !readyForTraining) {
-    return 'Не готов тренировать';
-  } else if (!isCoach && readyForTraining) {
-    return 'Готов к тренировке';
-  } else if (!isCoach && !readyForTraining) {
-    return 'Не готов к тренировке';
-  }
+  isUserFriend: boolean;
 }
 
 function UserCardContent({
   userCardInfo,
   baseClass,
   isCoach,
+  isUserFriend,
 }: UserCardContentProps): JSX.Element {
-  const { readyForTraining } = userCardInfo;
+  const dispatch = useAppDispatch();
+  const userRole = useAppSelector(getUserRole);
+  const { readyForTraining, id } = userCardInfo;
   const trainingStatus = getTrainingStatus(isCoach, readyForTraining);
   const trainingStatusClass = readyForTraining
     ? 'user-card-coach__status user-card-coach__status--check'
     : 'user-card-coach-2__status user-card-coach-2__status--check';
+
+  const onAddFriendButtonClick = () => {
+    if (!id) {
+      return;
+    }
+    dispatch(addFriend(id));
+  };
+
+  const onDeleteFriendButtonClick = () => {
+    if (!id) {
+      return;
+    }
+    dispatch(deleteFriend(id));
+  };
 
   return (
     <>
@@ -97,9 +107,25 @@ function UserCardContent({
             </li>
           ))}
         </ul>
-        <button className={`${baseClass}__btn btn is-disabled`} type="button">
-          Добавить в друзья
-        </button>
+        {isUserFriend ? (
+          <button
+            className={`${baseClass}__btn btn`}
+            type="button"
+            onClick={onDeleteFriendButtonClick}
+          >
+            Удалить из друзья
+          </button>
+        ) : (
+          <button
+            className={`${baseClass}__btn btn ${
+              userRole === UserRole.Coach ? 'is-disabled' : ''
+            }`}
+            type="button"
+            onClick={onAddFriendButtonClick}
+          >
+            Добавить в друзья
+          </button>
+        )}
       </div>
       <div className={`${baseClass}__gallary`}>
         <ul className={`${baseClass}__gallary-list`}>

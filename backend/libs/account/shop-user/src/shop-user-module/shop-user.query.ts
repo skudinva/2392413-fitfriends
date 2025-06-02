@@ -12,7 +12,14 @@ import {
 import { Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsEnum, IsIn, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsIn,
+  IsMongoId,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 import {
   DEFAULT_PAGE,
   DEFAULT_SORT_DIRECTION,
@@ -107,5 +114,11 @@ export class ShopUserQuery implements IUserQuery {
   @IsNumber({ maxDecimalPlaces: 0 })
   page?: number = DEFAULT_PAGE;
 
+  @ApiProperty({
+    description: 'userId',
+    required: false,
+  })
+  @IsMongoId()
+  @IsOptional()
   userId?: string;
 }

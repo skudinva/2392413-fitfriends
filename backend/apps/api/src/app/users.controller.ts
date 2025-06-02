@@ -3,6 +3,7 @@ import {
   CreateUserDto,
   LoggedUserRdo,
   LoginUserDto,
+  RequestWithTokenPayloadUrl,
   UpdateUserDto,
 } from '@backend/authentication';
 import { createStaticUrlForFile } from '@backend/helpers';
@@ -237,14 +238,12 @@ export class UsersController {
     status: HttpStatus.UNAUTHORIZED,
     description: AuthenticationResponseMessage.Unauthorized,
   })
-  public async index(@Req() req: Request) {
+  public async index(@Req() req: RequestWithTokenPayloadUrl) {
+    const userId = req.user.sub;
     const { data } = await this.httpService.axiosRef.get<UserWithPaginationRdo>(
-      `${ApplicationServiceURL.Users}?${url.parse(req.url).query}`,
-      {
-        headers: {
-          Authorization: req.headers['authorization'],
-        },
-      }
+      `${ApplicationServiceURL.Users}/?${
+        url.parse(req.url).query
+      }&userId=${userId}`
     );
 
     data.entities.map((user) => {

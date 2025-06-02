@@ -28,6 +28,7 @@ const UserAction = {
   FETCH_USER_INFO: 'user/fetch-user-info',
   FETCH_USER_CARD_INFO: 'user/fetch-user-card-info',
   FETCH_FRIEND: 'friend/fetch-friend',
+  FETCH_FRIEND_STATUS: 'friend/fetch-friend-status',
   ADD_FRIEND: 'friend/add-friend',
   DELETE_FRIEND: 'friend/delete-friend',
 };
@@ -175,3 +176,15 @@ export const deleteFriend = createAsyncThunk<string, string, { extra: Extra }>(
     return friendId;
   }
 );
+
+export const getFriendStatus = createAsyncThunk<
+  boolean,
+  string,
+  { extra: Extra }
+>(UserAction.FETCH_FRIEND_STATUS, async (friendId, { extra }) => {
+  const { api } = extra;
+
+  const { data } = await api.get<boolean>(`${ApiRoute.Friends}/${friendId}`);
+
+  return data;
+});

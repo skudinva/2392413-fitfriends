@@ -46,6 +46,18 @@ export class FriendService {
     await this.friendRepository.deleteById(existsFriend.id);
   }
 
+  public async getFriendStatus(userId: string, friendId: string) {
+    if (userId === friendId) {
+      throw new ConflictException('userId can not be equal friendId');
+    }
+    const existsFriend = await this.friendRepository.findFriendRecord(
+      userId,
+      friendId
+    );
+
+    return !!existsFriend;
+  }
+
   public async getFriends(query?: FriendQuery) {
     const friendsWithPagination = await this.friendRepository.find(query);
 
@@ -64,7 +76,7 @@ export class FriendService {
       this.createFriend(friendId, userId),
     ]);
 
-    return friendRequests[0];
+    return { userId: friendRequests[0].toPOJO().friendId };
   }
 
   public async delete(userId: string, friendId: string) {

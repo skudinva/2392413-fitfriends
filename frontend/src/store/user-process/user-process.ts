@@ -8,6 +8,7 @@ import {
   fetchUserCardInfo,
   fetchUserInfo,
   fetchUserStatus,
+  getFriendStatus,
   loginUser,
   logoutUser,
   updateUser,
@@ -25,6 +26,7 @@ const initialState: UserProcess = {
   isUserInfoSave: false,
   userCardInfo: null,
   isUserCardInfoLoading: false,
+  isUserFriend: false,
   friend: {
     entities: [],
     totalPages: 0,
@@ -79,6 +81,9 @@ export const userProcess = createSlice({
       .addCase(fetchUserInfo.rejected, (state) => {
         state.isUserInfoLoading = false;
       })
+      .addCase(getFriendStatus.fulfilled, (state, action) => {
+        state.isUserFriend = action.payload;
+      })
 
       .addCase(updateUser.pending, (state) => {
         state.isUserInfoSave = true;
@@ -131,6 +136,7 @@ export const userProcess = createSlice({
         if (state.friend) {
           state.friend.entities.unshift(action.payload);
           state.isSuccessSwitchFriend = true;
+          state.isUserFriend = true;
         }
       })
       .addCase(addFriend.rejected, (state) => {
@@ -145,6 +151,7 @@ export const userProcess = createSlice({
           state.friend.entities = state.friend.entities.filter(
             (friend) => friend.id !== action.payload
           );
+          state.isUserFriend = false;
           state.isSuccessSwitchFriend = true;
         }
       })

@@ -38,3 +38,15 @@ export function getRandomValue(min: number, max: number, numAfterDigit = 0) {
 
 export const token = new Token('fit-friends-auth-token');
 export const refreshToken = new Token('fit-friends-auth-refresh-token');
+
+export function getTrainingStatus(isCoach: boolean, readyForTraining: boolean) {
+  if (isCoach && readyForTraining) {
+    return 'Готов тренировать';
+  } else if (isCoach && !readyForTraining) {
+    return 'Не готов тренировать';
+  } else if (!isCoach && readyForTraining) {
+    return 'Готов к тренировке';
+  } else if (!isCoach && !readyForTraining) {
+    return 'Не готов к тренировке';
+  }
+}
