@@ -23,9 +23,9 @@ import {
 } from 'class-validator';
 import {
   DEFAULT_PAGE,
+  DEFAULT_RECORDS_COUNT_LIMIT,
   DEFAULT_SORT_DIRECTION,
   DEFAULT_SORT_TYPE,
-  DEFAULT_USER_COUNT_LIMIT,
 } from './shop-user.constant';
 
 @Injectable()
@@ -85,13 +85,13 @@ export class ShopUserQuery implements IUserQuery {
   @Transform(({ value }) => String(value).toLowerCase() === 'true')
   readyForTraining?: boolean;
 
-  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_USER_COUNT_LIMIT)
+  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_RECORDS_COUNT_LIMIT)
   @IsOptional()
   @ApiProperty({
     description: 'limit',
-    example: DEFAULT_USER_COUNT_LIMIT,
+    example: DEFAULT_RECORDS_COUNT_LIMIT,
   })
-  limit?: number = DEFAULT_USER_COUNT_LIMIT;
+  limit?: number = DEFAULT_RECORDS_COUNT_LIMIT;
 
   @Transform(({ value }) => value || DEFAULT_SORT_DIRECTION)
   @IsIn(Object.values(SortDirection))

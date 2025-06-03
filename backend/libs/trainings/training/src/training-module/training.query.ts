@@ -21,19 +21,19 @@ import {
 } from 'class-validator';
 import {
   DEFAULT_PAGE,
+  DEFAULT_RECORDS_COUNT_LIMIT,
   DEFAULT_SORT_DIRECTION,
   DEFAULT_SORT_TYPE,
-  DEFAULT_TRAINING_COUNT_LIMIT,
 } from './training.constant';
 
 export class TrainingQuery implements ITrainingQuery {
-  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_TRAINING_COUNT_LIMIT)
+  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_RECORDS_COUNT_LIMIT)
   @IsOptional()
   @ApiProperty({
     description: 'limit',
-    example: DEFAULT_TRAINING_COUNT_LIMIT,
+    example: DEFAULT_RECORDS_COUNT_LIMIT,
   })
-  public limit: number = DEFAULT_TRAINING_COUNT_LIMIT;
+  public limit: number = DEFAULT_RECORDS_COUNT_LIMIT;
 
   @Transform(({ value }) => value || DEFAULT_SORT_DIRECTION)
   @IsIn(Object.values(SortDirection))

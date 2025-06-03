@@ -4,21 +4,21 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsIn, IsMongoId, IsNumber, IsOptional } from 'class-validator';
 import {
-  DEFAULT_FRIEND_COUNT_LIMIT,
   DEFAULT_PAGE,
+  DEFAULT_RECORDS_COUNT_LIMIT,
   DEFAULT_SORT_DIRECTION,
   DEFAULT_SORT_TYPE,
 } from './friend.constant';
 
 @Injectable()
 export class FriendQuery implements IFriendQuery {
-  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_FRIEND_COUNT_LIMIT)
+  @Transform(({ value }) => parseInt(value, 10) || DEFAULT_RECORDS_COUNT_LIMIT)
   @IsOptional()
   @ApiProperty({
     description: 'limit',
-    example: DEFAULT_FRIEND_COUNT_LIMIT,
+    example: DEFAULT_RECORDS_COUNT_LIMIT,
   })
-  limit?: number = DEFAULT_FRIEND_COUNT_LIMIT;
+  limit?: number = DEFAULT_RECORDS_COUNT_LIMIT;
 
   @Transform(({ value }) => value || DEFAULT_SORT_DIRECTION)
   @IsIn(Object.values(SortDirection))
