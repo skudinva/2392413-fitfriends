@@ -9,6 +9,7 @@ import {
   getIsSpecialTrainingLoading,
   getSpecialTraining,
 } from '../../store/site-data/selectors';
+import NoDataFound from '../no-data-found/no-data-found';
 
 function SpecialForYou(): JSX.Element {
   const isSpecialTrainingLoading = useAppSelector(getIsSpecialTrainingLoading);
@@ -55,32 +56,36 @@ function SpecialForYou(): JSX.Element {
                 </button>
               </div>
             </div>
-            <Swiper
-              slidesPerView={3}
-              className="special-for-you__list"
-              modules={[Navigation]}
-              ref={sliderRef}
-              onBeforeInit={(swiper) => {
-                if (prevButtonRef.current) {
-                  swiper.navigation.prevEl = prevButtonRef.current;
-                }
-                if (nextButtonRef.current) {
-                  swiper.navigation.nextEl = nextButtonRef.current;
-                }
-              }}
-            >
-              {specialTraining.entities.map((trainingItem) => (
-                <SwiperSlide
-                  key={`SwiperSlide-${trainingItem.id}`}
-                  className="special-for-you__item"
-                >
-                  <SpecialForYouCard
-                    training={trainingItem}
-                    key={`special-for-you__item-${trainingItem.id}`}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            {specialTraining.entities?.length ? (
+              <Swiper
+                slidesPerView={3}
+                className="special-for-you__list"
+                modules={[Navigation]}
+                ref={sliderRef}
+                onBeforeInit={(swiper) => {
+                  if (prevButtonRef.current) {
+                    swiper.navigation.prevEl = prevButtonRef.current;
+                  }
+                  if (nextButtonRef.current) {
+                    swiper.navigation.nextEl = nextButtonRef.current;
+                  }
+                }}
+              >
+                {specialTraining.entities.map((trainingItem) => (
+                  <SwiperSlide
+                    key={`SwiperSlide-${trainingItem.id}`}
+                    className="special-for-you__item"
+                  >
+                    <SpecialForYouCard
+                      training={trainingItem}
+                      key={`special-for-you__item-${trainingItem.id}`}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <NoDataFound />
+            )}
           </>
         )}
       </div>

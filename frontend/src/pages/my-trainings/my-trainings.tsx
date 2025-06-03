@@ -71,14 +71,14 @@ function MyTrainings() {
             </div>
           </div>
           <div className="inner-page__content">
-            <div className="my-trainings">
-              {trainingLoading ? (
-                <Spinner />
-              ) : (
-                <>
-                  <ul className="my-trainings__list">
-                    {training &&
-                      training.entities.map((trainingItem) => (
+            {trainingLoading ? (
+              <Spinner />
+            ) : (
+              <div className="my-trainings">
+                {training && training.entities.length ? (
+                  <>
+                    <ul className="my-trainings__list">
+                      {training.entities.map((trainingItem) => (
                         <li
                           className="my-trainings__item"
                           key={`my-trainings__item-${trainingItem.id}`}
@@ -89,37 +89,40 @@ function MyTrainings() {
                           />
                         </li>
                       ))}
-                  </ul>
-                  <div className="show-more training-catalog__show-more">
-                    {training && page && training.totalPages > page ? (
-                      <button
-                        className="btn show-more__button show-more__button--more"
-                        type="button"
-                        onClick={() => {
-                          if (!filterParam) {
-                            return;
-                          }
-                          setFilterParam({
-                            ...filterParam,
-                            page: page + 1,
-                          });
-                        }}
-                      >
-                        Показать еще
-                      </button>
-                    ) : (
-                      <button
-                        className="btn show-more__button"
-                        type="button"
-                        onClick={scrollToTop}
-                      >
-                        Вернуться в начало
-                      </button>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
+                    </ul>
+                    <div className="show-more training-catalog__show-more">
+                      {training && page && training.totalPages > page ? (
+                        <button
+                          className="btn show-more__button show-more__button--more"
+                          type="button"
+                          onClick={() => {
+                            if (!filterParam) {
+                              return;
+                            }
+                            setFilterParam({
+                              ...filterParam,
+                              page: page + 1,
+                            });
+                          }}
+                        >
+                          Показать еще
+                        </button>
+                      ) : (
+                        <button
+                          className="btn show-more__button"
+                          type="button"
+                          onClick={scrollToTop}
+                        >
+                          Вернуться в начало
+                        </button>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  'Тренировок не найдено'
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

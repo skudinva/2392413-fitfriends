@@ -63,54 +63,60 @@ function UsersCatalog(): JSX.Element {
                 <Spinner />
               ) : (
                 <>
-                  <ul className="users-catalog__list">
-                    {userCatalog &&
-                      userCatalog.entities.map((userItem) => (
-                        <li
-                          className="users-catalog__item"
-                          key={`users-catalog__item-${userItem.id ?? ''}`}
+                  {userCatalog.entities.length ? (
+                    <ul className="users-catalog__list">
+                      {userCatalog &&
+                        userCatalog.entities.map((userItem) => (
+                          <li
+                            className="users-catalog__item"
+                            key={`users-catalog__item-${userItem.id ?? ''}`}
+                          >
+                            <LookForCompanyCard
+                              style="light"
+                              userInfo={{
+                                id: userItem.id ?? '',
+                                name: userItem.name,
+                                location: userItem.location,
+                                hashtags: userItem.trainingType,
+                                avatar: userItem.avatar ?? '',
+                                role: userItem.role,
+                              }}
+                            />
+                          </li>
+                        ))}
+                    </ul>
+                  ) : (
+                    'Пользователей не найдено'
+                  )}
+                  {userCatalog && userCatalog.entities.length > 0 && (
+                    <div className="show-more users-catalog__show-more">
+                      {page && userCatalog.totalPages > page ? (
+                        <button
+                          className="btn show-more__button show-more__button--more"
+                          type="button"
+                          onClick={() => {
+                            if (!filterParam) {
+                              return;
+                            }
+                            setFilterParam({
+                              ...filterParam,
+                              page: page + 1,
+                            });
+                          }}
                         >
-                          <LookForCompanyCard
-                            style="light"
-                            userInfo={{
-                              id: userItem.id ?? '',
-                              name: userItem.name,
-                              location: userItem.location,
-                              hashtags: userItem.trainingType,
-                              avatar: userItem.avatar ?? '',
-                              role: userItem.role,
-                            }}
-                          />
-                        </li>
-                      ))}
-                  </ul>
-                  <div className="show-more users-catalog__show-more">
-                    {userCatalog && page && userCatalog.totalPages > page ? (
-                      <button
-                        className="btn show-more__button show-more__button--more"
-                        type="button"
-                        onClick={() => {
-                          if (!filterParam) {
-                            return;
-                          }
-                          setFilterParam({
-                            ...filterParam,
-                            page: page + 1,
-                          });
-                        }}
-                      >
-                        Показать еще
-                      </button>
-                    ) : (
-                      <button
-                        className="btn show-more__button"
-                        type="button"
-                        onClick={scrollToTop}
-                      >
-                        Вернуться в начало
-                      </button>
-                    )}
-                  </div>
+                          Показать еще
+                        </button>
+                      ) : (
+                        <button
+                          className="btn show-more__button"
+                          type="button"
+                          onClick={scrollToTop}
+                        >
+                          Вернуться в начало
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </>
               )}
             </div>

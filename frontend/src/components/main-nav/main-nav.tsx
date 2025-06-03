@@ -62,7 +62,7 @@ function MainNav(): JSX.Element {
             </svg>
           </Link>
         </li>
-        <li className="main-nav__item main-nav__item--notifications">
+        <li className="main-nav__item main-nav__item--notifications is-disabled">
           <Link className="main-nav__link" to="#" aria-label="Уведомления">
             <svg width="14" height="18" aria-hidden="true">
               <use xlinkHref="#icon-notification"></use>

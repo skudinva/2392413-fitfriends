@@ -10,6 +10,7 @@ import {
   getUserCompany,
 } from '../../store/user-process/selectors';
 import LookForCompanyCard from '../look-for-company-card/look-for-company-card';
+import NoDataFound from '../no-data-found/no-data-found';
 import Spinner from '../spinner/spinner';
 
 function LookForCompany(): JSX.Element {
@@ -67,41 +68,46 @@ function LookForCompany(): JSX.Element {
                 </button>
               </div>
             </div>
-            <Swiper
-              slidesPerView={4}
-              className="look-for-company__list"
-              modules={[Navigation]}
-              ref={sliderRef}
-              onBeforeInit={(swiper) => {
-                if (prevButtonRef.current) {
-                  swiper.navigation.prevEl = prevButtonRef.current;
-                }
-                if (nextButtonRef.current) {
-                  swiper.navigation.nextEl = nextButtonRef.current;
-                }
-              }}
-            >
-              {userCompany.entities.map((userInfo) => (
-                <SwiperSlide
-                  key={`SwiperSlide-${userInfo.id ?? ''}`}
-                  className="special-for-you__item"
-                >
-                  <li className="look-for-company__item">
-                    <LookForCompanyCard
-                      style="dark"
-                      userInfo={{
-                        id: userInfo.id ?? '',
-                        avatar: userInfo.avatar ?? '',
-                        hashtags: userInfo.trainingType,
-                        location: userInfo.location,
-                        name: userInfo.name,
-                        role: userInfo.role,
-                      }}
-                    />
-                  </li>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+
+            {userCompany.entities.length ? (
+              <Swiper
+                slidesPerView={4}
+                className="look-for-company__list"
+                modules={[Navigation]}
+                ref={sliderRef}
+                onBeforeInit={(swiper) => {
+                  if (prevButtonRef.current) {
+                    swiper.navigation.prevEl = prevButtonRef.current;
+                  }
+                  if (nextButtonRef.current) {
+                    swiper.navigation.nextEl = nextButtonRef.current;
+                  }
+                }}
+              >
+                {userCompany.entities.map((userInfo) => (
+                  <SwiperSlide
+                    key={`SwiperSlide-${userInfo.id ?? ''}`}
+                    className="special-for-you__item"
+                  >
+                    <li className="look-for-company__item">
+                      <LookForCompanyCard
+                        style="dark"
+                        userInfo={{
+                          id: userInfo.id ?? '',
+                          avatar: userInfo.avatar ?? '',
+                          hashtags: userInfo.trainingType,
+                          location: userInfo.location,
+                          name: userInfo.name,
+                          role: userInfo.role,
+                        }}
+                      />
+                    </li>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <NoDataFound />
+            )}
           </>
         )}
       </div>

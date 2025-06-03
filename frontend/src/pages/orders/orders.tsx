@@ -105,41 +105,47 @@ function Orders(): JSX.Element {
             <Spinner />
           ) : (
             <>
-              <ul className="my-orders__list">
-                {userOrder.entities.map((order) => (
-                  <li
-                    className="my-orders__item"
-                    key={`my-orders__item-${order.id}`}
-                  >
-                    <ThumbnailTrainingCard
-                      training={order.training}
-                      detailButtonStyle="detail"
-                      totalInfo={order}
-                    />
-                  </li>
-                ))}
-              </ul>
-              <div className="show-more my-orders__show-more">
-                {userOrder && page && userOrder.totalPages > page ? (
-                  <button
-                    className="btn show-more__button show-more__button--more"
-                    type="button"
-                    onClick={() => {
-                      setPage(page + 1);
-                    }}
-                  >
-                    Показать еще
-                  </button>
-                ) : (
-                  <button
-                    className="btn show-more__button"
-                    type="button"
-                    onClick={scrollToTop}
-                  >
-                    Вернуться в начало
-                  </button>
-                )}
-              </div>
+              {userOrder.entities.length ? (
+                <ul className="my-orders__list">
+                  {userOrder.entities.map((order) => (
+                    <li
+                      className="my-orders__item"
+                      key={`my-orders__item-${order.id}`}
+                    >
+                      <ThumbnailTrainingCard
+                        training={order.training}
+                        detailButtonStyle="detail"
+                        totalInfo={order}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                'Заказов не найдено'
+              )}
+              {userOrder && userOrder.entities.length > 0 && (
+                <div className="show-more my-orders__show-more">
+                  {page && userOrder.totalPages > page ? (
+                    <button
+                      className="btn show-more__button show-more__button--more"
+                      type="button"
+                      onClick={() => {
+                        setPage(page + 1);
+                      }}
+                    >
+                      Показать еще
+                    </button>
+                  ) : (
+                    <button
+                      className="btn show-more__button"
+                      type="button"
+                      onClick={scrollToTop}
+                    >
+                      Вернуться в начало
+                    </button>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>

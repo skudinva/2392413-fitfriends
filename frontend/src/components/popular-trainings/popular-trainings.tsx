@@ -10,6 +10,7 @@ import {
   getIsPopularTrainingLoading,
   getPopularTraining,
 } from '../../store/site-data/selectors';
+import NoDataFound from '../no-data-found/no-data-found';
 import ThumbnailTrainingCard from '../thumbnail-training-card/thumbnail-training-card';
 
 function PopularTrainings(): JSX.Element {
@@ -67,37 +68,41 @@ function PopularTrainings(): JSX.Element {
                 </button>
               </div>
             </div>
-            <Swiper
-              slidesPerView={4}
-              className="popular-trainings__list"
-              modules={[Navigation]}
-              ref={sliderRef}
-              onBeforeInit={(swiper) => {
-                if (prevButtonRef.current) {
-                  swiper.navigation.prevEl = prevButtonRef.current;
-                }
-                if (nextButtonRef.current) {
-                  swiper.navigation.nextEl = nextButtonRef.current;
-                }
-              }}
-            >
-              {training.entities.map((trainingItem) => (
-                <SwiperSlide
-                  key={`SwiperSlide-${trainingItem.id}`}
-                  className="special-for-you__item"
-                >
-                  <li
-                    className="popular-trainings__item"
-                    key={`popular-trainings__item-${trainingItem.id}`}
+            {training.entities?.length ? (
+              <Swiper
+                slidesPerView={4}
+                className="popular-trainings__list"
+                modules={[Navigation]}
+                ref={sliderRef}
+                onBeforeInit={(swiper) => {
+                  if (prevButtonRef.current) {
+                    swiper.navigation.prevEl = prevButtonRef.current;
+                  }
+                  if (nextButtonRef.current) {
+                    swiper.navigation.nextEl = nextButtonRef.current;
+                  }
+                }}
+              >
+                {training.entities.map((trainingItem) => (
+                  <SwiperSlide
+                    key={`SwiperSlide-${trainingItem.id}`}
+                    className="special-for-you__item"
                   >
-                    <ThumbnailTrainingCard
-                      training={trainingItem}
-                      detailButtonStyle="comments-and-detail"
-                    />
-                  </li>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                    <li
+                      className="popular-trainings__item"
+                      key={`popular-trainings__item-${trainingItem.id}`}
+                    >
+                      <ThumbnailTrainingCard
+                        training={trainingItem}
+                        detailButtonStyle="comments-and-detail"
+                      />
+                    </li>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <NoDataFound />
+            )}
           </>
         )}
       </div>

@@ -73,9 +73,9 @@ function Trainings(): JSX.Element {
               <Spinner />
             ) : (
               <>
-                <ul className="training-catalog__list">
-                  {training &&
-                    training.entities.map((trainingItem) => (
+                {training && training.entities.length ? (
+                  <ul className="training-catalog__list">
+                    {training.entities.map((trainingItem) => (
                       <li
                         className="training-catalog__item"
                         key={`training-catalog__item-${trainingItem.id}`}
@@ -86,34 +86,39 @@ function Trainings(): JSX.Element {
                         />
                       </li>
                     ))}
-                </ul>
-                <div className="show-more training-catalog__show-more">
-                  {training && page && training.totalPages > page ? (
-                    <button
-                      className="btn show-more__button show-more__button--more"
-                      type="button"
-                      onClick={() => {
-                        if (!filterParam) {
-                          return;
-                        }
-                        setFilterParam({
-                          ...filterParam,
-                          page: page + 1,
-                        });
-                      }}
-                    >
-                      Показать еще
-                    </button>
-                  ) : (
-                    <button
-                      className="btn show-more__button"
-                      type="button"
-                      onClick={scrollToTop}
-                    >
-                      Вернуться в начало
-                    </button>
-                  )}
-                </div>
+                  </ul>
+                ) : (
+                  'Тренировок не найдено'
+                )}
+                {training && training.entities.length > 0 && (
+                  <div className="show-more training-catalog__show-more">
+                    {page && training.totalPages > page ? (
+                      <button
+                        className="btn show-more__button show-more__button--more"
+                        type="button"
+                        onClick={() => {
+                          if (!filterParam) {
+                            return;
+                          }
+                          setFilterParam({
+                            ...filterParam,
+                            page: page + 1,
+                          });
+                        }}
+                      >
+                        Показать еще
+                      </button>
+                    ) : (
+                      <button
+                        className="btn show-more__button"
+                        type="button"
+                        onClick={scrollToTop}
+                      >
+                        Вернуться в начало
+                      </button>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>

@@ -71,40 +71,46 @@ function Purchases(): JSX.Element {
             <Spinner />
           ) : (
             <>
-              <ul className="my-purchases__list">
-                {userOrder.entities.map((order) => (
-                  <li
-                    className="my-purchases__item"
-                    key={`my-purchases__item-${order.id}`}
-                  >
-                    <ThumbnailTrainingCard
-                      training={order.training}
-                      detailButtonStyle="comments-and-detail"
-                    />
-                  </li>
-                ))}
-              </ul>
-              <div className="show-more my-purchases__show-more">
-                {userOrder && page && userOrder.totalPages > page ? (
-                  <button
-                    className="btn show-more__button show-more__button--more"
-                    type="button"
-                    onClick={() => {
-                      setPage(page + 1);
-                    }}
-                  >
-                    Показать еще
-                  </button>
-                ) : (
-                  <button
-                    className="btn show-more__button"
-                    type="button"
-                    onClick={scrollToTop}
-                  >
-                    Вернуться в начало
-                  </button>
-                )}
-              </div>
+              {userOrder.entities.length ? (
+                <ul className="my-purchases__list">
+                  {userOrder.entities.map((order) => (
+                    <li
+                      className="my-purchases__item"
+                      key={`my-purchases__item-${order.id}`}
+                    >
+                      <ThumbnailTrainingCard
+                        training={order.training}
+                        detailButtonStyle="comments-and-detail"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                'Покупок не найдено'
+              )}
+              {userOrder && userOrder.entities.length > 0 && (
+                <div className="show-more my-purchases__show-more">
+                  {page && userOrder.totalPages > page ? (
+                    <button
+                      className="btn show-more__button show-more__button--more"
+                      type="button"
+                      onClick={() => {
+                        setPage(page + 1);
+                      }}
+                    >
+                      Показать еще
+                    </button>
+                  ) : (
+                    <button
+                      className="btn show-more__button"
+                      type="button"
+                      onClick={scrollToTop}
+                    >
+                      Вернуться в начало
+                    </button>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>

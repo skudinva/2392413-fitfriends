@@ -61,37 +61,41 @@ function UserCardTraining(): JSX.Element {
           </button>
         </div>
       </div>
-      <Swiper
-        slidesPerView={4}
-        className="user-card-coach__training-list"
-        modules={[Navigation]}
-        ref={sliderRef}
-        onBeforeInit={(swiper) => {
-          if (prevButtonRef.current) {
-            swiper.navigation.prevEl = prevButtonRef.current;
-          }
-          if (nextButtonRef.current) {
-            swiper.navigation.nextEl = nextButtonRef.current;
-          }
-        }}
-      >
-        {coachTraining.entities.map((trainingItem) => (
-          <SwiperSlide
-            key={`SwiperSlide-${trainingItem.id}`}
-            className="special-for-you__item"
-          >
-            <li
-              className="user-card-coach__training-item"
-              key={`user-card-coach__training-item-${trainingItem.id}`}
+      {coachTraining && coachTraining.entities?.length ? (
+        <Swiper
+          slidesPerView={4}
+          className="user-card-coach__training-list"
+          modules={[Navigation]}
+          ref={sliderRef}
+          onBeforeInit={(swiper) => {
+            if (prevButtonRef.current) {
+              swiper.navigation.prevEl = prevButtonRef.current;
+            }
+            if (nextButtonRef.current) {
+              swiper.navigation.nextEl = nextButtonRef.current;
+            }
+          }}
+        >
+          {coachTraining.entities.map((trainingItem) => (
+            <SwiperSlide
+              key={`SwiperSlide-${trainingItem.id}`}
+              className="special-for-you__item"
             >
-              <ThumbnailTrainingCard
-                training={trainingItem}
-                detailButtonStyle="comments-and-detail"
-              />
-            </li>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+              <li
+                className="user-card-coach__training-item"
+                key={`user-card-coach__training-item-${trainingItem.id}`}
+              >
+                <ThumbnailTrainingCard
+                  training={trainingItem}
+                  detailButtonStyle="comments-and-detail"
+                />
+              </li>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        'Тренировок не найдено'
+      )}
     </>
   );
 }
