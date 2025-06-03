@@ -79,14 +79,10 @@ export const userProcess = createSlice({
         state.authorizationStatus = AuthorizationStatus.NoAuth;
         state.user = { email: '', sub: '', role: null };
       })
-      .addCase(logoutUser.fulfilled, (state) => {
-        state.user = {
-          sub: '',
-          email: '',
-          role: null,
-        };
-        state.authorizationStatus = AuthorizationStatus.NoAuth;
-      })
+      .addCase(logoutUser.fulfilled, () => ({
+        ...initialState,
+        authorizationStatus: AuthorizationStatus.NoAuth,
+      }))
       .addCase(fetchUserInfo.pending, (state) => {
         state.isUserInfoLoading = true;
       })

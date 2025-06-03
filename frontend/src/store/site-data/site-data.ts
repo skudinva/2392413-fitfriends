@@ -20,6 +20,7 @@ import {
   fetchTrainings,
   updateTraining,
 } from '../training-action';
+import { logoutUser } from '../user-action';
 
 const initialState: SiteData = {
   specialTraining: null,
@@ -62,6 +63,9 @@ export const siteData = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(logoutUser.fulfilled, () => ({
+        ...initialState,
+      }))
       .addCase(fetchSpecialTrainings.pending, (state) => {
         state.isSpecialTrainingLoading = true;
       })
