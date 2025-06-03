@@ -1,8 +1,10 @@
+import { FriendEntity, FriendsSchema } from '@backend/friend';
 import {
   generateRandomDate,
   getRandomEnumValue,
   getRandomItem,
   getRandomValue,
+  mockSportsmanUsers,
   mockUsers,
 } from '@backend/helpers';
 import { LOCATIONS, UserGender } from '@backend/shared/core';
@@ -41,6 +43,37 @@ export class GenerateCommand implements Command {
     console.info(`🤘️ User database was added of ${mockUsers.length} user`);
   }
 
+  private async uploadFriendToDatabase(connectionString: string) {
+    await mongoose.connect(connectionString);
+    const friendModel = mongoose.model('friends', FriendsSchema);
+    for (const mockUser of mockSportsmanUsers) {
+      const userIds = mockUsers.filter((user) => user.id !== mockUser.id);
+
+      for (let index = 0; index < 5; index++) {
+        const userIndex = getRandomValue(0, userIds.length - 1);
+        await Promise.all([
+          friendModel.create(
+            new FriendEntity({
+              id: new mongoose.Types.ObjectId().toString(),
+              userId: mockUser.id,
+              friendId: userIds[userIndex].id,
+            })
+          ),
+
+          friendModel.create(
+            new FriendEntity({
+              id: new mongoose.Types.ObjectId().toString(),
+              userId: userIds[userIndex].id,
+              friendId: mockUser.id,
+            })
+          ),
+        ]);
+
+        userIds.splice(userIndex, 1);
+      }
+    }
+  }
+
   public getName(): string {
     return '--generate';
   }
@@ -55,6 +88,7 @@ export class GenerateCommand implements Command {
 
     try {
       await this.uploadAccountToDatabase(mongoConnectionString);
+      await this.uploadFriendToDatabase(mongoConnectionString);
       globalThis.process.exit(0);
     } catch (error: unknown) {
       console.error(error);
