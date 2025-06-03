@@ -3,8 +3,7 @@ import Joi from 'joi';
 
 const DEFAULT_PORT = 3000;
 const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
-
-type Evironment = (typeof ENVIRONMENTS)[number];
+type Environment = (typeof ENVIRONMENTS)[number];
 
 export interface ApplicationConfig {
   environment: string;
@@ -27,7 +26,7 @@ function validateConfig(config: ApplicationConfig): void {
 
 function getConfig(): ApplicationConfig {
   const config: ApplicationConfig = {
-    environment: process.env.NODE_ENV as Evironment,
+    environment: process.env.NODE_ENV as Environment,
     port: parseInt(process.env.PORT || `${DEFAULT_PORT}`, 10),
   };
 

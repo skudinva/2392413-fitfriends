@@ -3,7 +3,6 @@ import * as Joi from 'joi';
 
 const DEFAULT_PORT = 3000;
 const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
-
 type Environment = (typeof ENVIRONMENTS)[number];
 
 export interface ApplicationConfig {

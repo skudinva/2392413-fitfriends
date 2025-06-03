@@ -4,8 +4,10 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
 
-const GLOBAL_PREFIX = 'api';
-const SPECIFICATION_PREFIX = 'spec';
+const DefaultPrefix = {
+  Global: 'api',
+  Specification: 'spec',
+} as const;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,17 +37,17 @@ async function bootstrap() {
     )
     .build();
   app.enableCors();
-  app.setGlobalPrefix(GLOBAL_PREFIX);
+  app.setGlobalPrefix(DefaultPrefix.Global);
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(SPECIFICATION_PREFIX, app, document);
+  SwaggerModule.setup(DefaultPrefix.Specification, app, document);
   app.useGlobalInterceptors(new RequestIdInterceptor());
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`
+    `🚀 Application is running on: http://localhost:${port}/${DefaultPrefix.Global}`
   );
   Logger.log(
-    `🚀 Specification is running on: http://localhost:${port}/${SPECIFICATION_PREFIX}`
+    `🚀 Specification is running on: http://localhost:${port}/${DefaultPrefix.Specification}`
   );
 }
 

@@ -17,5 +17,7 @@ export enum ApiSection {
   Friend = 'Friend API',
 }
 
-export const HTTP_CLIENT_MAX_REDIRECTS = 5;
-export const HTTP_CLIENT_TIMEOUT = 3000;
+export const HttpClient = {
+  MaxRedirectCount: 5,
+  Timeout: 3000,
+} as const;

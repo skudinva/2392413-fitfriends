@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { HTTP_CLIENT_MAX_REDIRECTS, HTTP_CLIENT_TIMEOUT } from './app.config';
+import { HttpClient } from './app.config';
 import { AppService } from './app.service';
 import { CommentController } from './comment.controller';
 import { FriendsController } from './friend.controller';
@@ -13,8 +13,8 @@ import { UsersController } from './users.controller';
 @Module({
   imports: [
     HttpModule.register({
-      timeout: HTTP_CLIENT_TIMEOUT,
-      maxRedirects: HTTP_CLIENT_MAX_REDIRECTS,
+      timeout: HttpClient.Timeout,
+      maxRedirects: HttpClient.MaxRedirectCount,
     }),
   ],
   controllers: [
