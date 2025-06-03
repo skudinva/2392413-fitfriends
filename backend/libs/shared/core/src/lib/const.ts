@@ -122,3 +122,5 @@ export const DefaultFixedQuestionValue: {
 } as const;
 
 export const SPECIAL_DISCOUNT = 10;
+
+export const DEFAULT_APPLICATION_PORT = 3000;

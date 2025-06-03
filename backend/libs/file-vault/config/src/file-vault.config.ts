@@ -1,8 +1,9 @@
+import { DEFAULT_APPLICATION_PORT } from '@backend/shared/core';
 import { registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
 
 const DefaultPort = {
-  App: 3000,
+  App: DEFAULT_APPLICATION_PORT,
   Mongo: 27017,
 } as const;
 const ENVIRONMENTS = ['development', 'production', 'stage'] as const;

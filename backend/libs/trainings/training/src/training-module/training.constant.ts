@@ -14,4 +14,4 @@ export const TrainingResponse = {
   TrainingNotFound: 'Training not found',
   AccessDeny: 'AccessDeny',
   TrainingDeleted: 'Training deleted',
-};
+} as const;

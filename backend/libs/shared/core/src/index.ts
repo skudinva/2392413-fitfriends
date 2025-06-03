@@ -1,6 +1,7 @@
 export { MongoEntity } from './lib/base/mongo-entity';
 export { PgEntity } from './lib/base/pg-entity';
 export {
+  DEFAULT_APPLICATION_PORT,
   DefaultFixedQuestionValue,
   EntityConstrain,
   LOCATIONS,
