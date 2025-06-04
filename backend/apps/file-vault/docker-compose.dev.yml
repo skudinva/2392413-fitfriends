@@ -1,4 +1,5 @@
 version: '3.9'
+name: fitfriends
 services:
   fitfriends.file-vault.mongo:
     image: mongo:4.4

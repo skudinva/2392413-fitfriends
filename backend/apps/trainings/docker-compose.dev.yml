@@ -1,4 +1,5 @@
 version: '3.9'
+name: fitfriends
 services:
   fitfriends.trainings.postgres:
     image: postgres:14-alpine
@@ -11,14 +12,13 @@ services:
       - 5432:5432
     volumes:
       - fitfriends.postgres.trainings:/var/lib/postgresql/data
-
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d {POSTGRES_DB}']
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-
+    restart: unless-stopped
     networks:
       - fitfriends.trainings
 
@@ -33,6 +33,7 @@ services:
       - 8082:80
     depends_on:
       - fitfriends.trainings.postgres
+    restart: unless-stopped
     networks:
       - fitfriends.trainings
 
