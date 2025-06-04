@@ -72,35 +72,38 @@ function Friends(): JSX.Element {
                               : 'thumbnail-friend__info--theme-light'
                           } `}
                         >
-                          <Link
-                            to={`${AppRoute.UserCard}/${userItem.id ?? ''}`}
-                          >
-                            <div className="thumbnail-friend__image-status">
-                              <div className="thumbnail-friend__image">
-                                <picture>
+                          <div className="thumbnail-friend__image-status">
+                            <div className="thumbnail-friend__image">
+                              <picture>
+                                <Link
+                                  to={`${AppRoute.UserCard}/${
+                                    userItem.id ?? ''
+                                  }`}
+                                >
                                   <img
                                     src={userItem.avatar}
                                     width="78"
                                     height="78"
                                     alt=""
                                   />
-                                </picture>
-                              </div>
+                                </Link>
+                              </picture>
                             </div>
-                            <div className="thumbnail-friend__header">
-                              <h2 className="thumbnail-friend__name">
-                                {userItem.name}
-                              </h2>
-                              <div className="thumbnail-friend__location">
-                                <svg width="14" height="16" aria-hidden="true">
-                                  <use xlinkHref="#icon-location"></use>
-                                </svg>
-                                <address className="thumbnail-friend__location-address">
-                                  {userItem.location}
-                                </address>
-                              </div>
+                          </div>
+                          <div className="thumbnail-friend__header">
+                            <h2 className="thumbnail-friend__name">
+                              {userItem.name}
+                            </h2>
+                            <div className="thumbnail-friend__location">
+                              <svg width="14" height="16" aria-hidden="true">
+                                <use xlinkHref="#icon-location"></use>
+                              </svg>
+                              <address className="thumbnail-friend__location-address">
+                                {userItem.location}
+                              </address>
                             </div>
-                          </Link>
+                          </div>
+
                           <ul className="thumbnail-friend__training-types-list">
                             {userItem.trainingType
                               .slice(0, VISUAL_HASHTAG_COUNT)

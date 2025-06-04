@@ -30,7 +30,7 @@ function PersonalAccountCoach(): JSX.Element {
           <span className="thumbnail-link__text">Создать тренировку</span>
         </Link>
         <Link
-          className="thumbnail-link thumbnail-link--theme-light is-disabled"
+          className="thumbnail-link thumbnail-link--theme-light"
           to={AppRoute.Friends}
         >
           <div className="thumbnail-link__icon thumbnail-link__icon--theme-light">

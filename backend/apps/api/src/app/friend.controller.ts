@@ -30,6 +30,7 @@ import { ApiSection, ApplicationServiceURL } from './app.config';
 import { AppService } from './app.service';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { CheckAuthGuard } from './guards/check-auth.guard';
+import { UserRoleGuard } from './guards/user-role.guard';
 
 @Controller('friends')
 @UseFilters(AxiosExceptionFilter)
@@ -43,9 +44,11 @@ export class FriendsController {
   @ApiResponse({
     type: UserWithPaginationRdo,
     status: HttpStatus.OK,
+    description: 'Friend found',
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
+    description: 'Friends not found',
   })
   @ApiQuery({ type: FriendQuery })
   @Get()
@@ -76,10 +79,11 @@ export class FriendsController {
   @ApiResponse({
     type: Boolean,
     status: HttpStatus.OK,
+    description: 'Friend status successful get',
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: 'Error',
+    description: 'Some error',
   })
   public async getFriendStatus(
     @Req() req: RequestWithTokenPayload,
@@ -94,15 +98,21 @@ export class FriendsController {
   }
 
   @Post(':friendId')
-  @UseGuards(CheckAuthGuard)
+  @UseGuards(CheckAuthGuard, UserRoleGuard)
   @ApiBearerAuth('accessToken')
   @UseInterceptors(InjectUserIdInterceptor)
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.CREATED,
+    description: 'Friend successful added',
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
+    description: 'Friend not found',
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: 'Some error',
   })
   public async addFriend(
     @Req() req: RequestWithTokenPayload,
@@ -121,13 +131,16 @@ export class FriendsController {
   @ApiBearerAuth('accessToken')
   @UseInterceptors(InjectUserIdInterceptor)
   @ApiResponse({
-    status: HttpStatus.NO_CONTENT,
+    status: HttpStatus.OK,
+    description: 'Friend successful deleted',
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
+    description: 'Friend not found',
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
+    description: 'Some error',
   })
   public async deleteFriend(
     @Req() req: RequestWithTokenPayload,
