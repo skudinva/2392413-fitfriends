@@ -29,7 +29,7 @@ function UserCatalogForm({
   const [trainingLevel, setTrainingLevel] = useState<TrainingLevel>(
     TrainingLevel.Beginner
   );
-  const [role, setRole] = useState<UserRole>();
+  const [role, setRole] = useState<UserRole | undefined>(undefined);
 
   useEffect(() => {
     handleFilterApply({
@@ -181,7 +181,6 @@ function UserCatalogForm({
                   onInput={() => {
                     setTrainingLevel(level);
                   }}
-                  disabled
                 />
                 <span className="custom-toggle-radio__icon"></span>
                 <span className="custom-toggle-radio__label">{level}</span>
@@ -199,8 +198,11 @@ function UserCatalogForm({
             <input
               type="radio"
               name="sort"
-              defaultChecked={role === UserRole.Coach}
-              onInput={() => {
+              checked={role === UserRole.Coach}
+              onClick={() => {
+                setRole(undefined);
+              }}
+              onChange={() => {
                 setRole(UserRole.Coach);
               }}
             />
@@ -210,8 +212,11 @@ function UserCatalogForm({
             <input
               type="radio"
               name="sort"
-              defaultChecked={role === UserRole.Sportsman}
-              onInput={() => {
+              checked={role === UserRole.Sportsman}
+              onClick={() => {
+                setRole(undefined);
+              }}
+              onChange={() => {
                 setRole(UserRole.Sportsman);
               }}
             />
