@@ -87,6 +87,86 @@ paths:
         - User API
       security:
         - accessToken: []
+  /api/users:
+    get:
+      operationId: UsersController_index
+      parameters:
+        - required: false
+          name: types
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/TrainingType"
+        - required: false
+          name: locations
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/LocationName"
+        - required: false
+          name: trainingLevel
+          in: query
+          schema:
+            $ref: "#/components/schemas/TrainingLevel"
+        - required: false
+          name: role
+          in: query
+          schema:
+            $ref: "#/components/schemas/UserRole"
+        - description: readyForTraining
+          required: false
+          name: readyForTraining
+          in: query
+          schema:
+            type: boolean
+        - description: limit
+          example: 6
+          name: limit
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: sortDirection
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortDirection"
+        - name: sortBy
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortType"
+        - description: page
+          example: 1
+          name: page
+          in: query
+          required: true
+          schema:
+            default: 1
+            type: number
+        - description: userId
+          required: false
+          name: userId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserWithPaginationRdo"
+        "401":
+          description: Need authorization
+        "404":
+          description: User not found
+      tags:
+        - User API
+      security:
+        - accessToken: []
   /api/users/refresh:
     post:
       operationId: UsersController_refreshToken
@@ -542,6 +622,118 @@ paths:
         - accessToken: []
       tags:
         - Order API
+  /api/friends:
+    get:
+      operationId: FriendsController_getFriends
+      parameters:
+        - description: limit
+          example: 6
+          name: limit
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: sortDirection
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortDirection"
+        - name: sortBy
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/SortType"
+        - description: page
+          example: 1
+          name: page
+          in: query
+          required: true
+          schema:
+            default: 1
+            type: number
+        - description: userId
+          required: false
+          name: userId
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Friend found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserWithPaginationRdo"
+        "404":
+          description: Friends not found
+      tags:
+        - Friend API
+      security:
+        - accessToken: []
+  /api/friends/{friendId}:
+    get:
+      operationId: FriendsController_getFriendStatus
+      parameters:
+        - name: friendId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Friend status successful get
+          content:
+            application/json:
+              schema:
+                type: boolean
+        "409":
+          description: Some error
+      tags:
+        - Friend API
+      security:
+        - accessToken: []
+    post:
+      operationId: FriendsController_addFriend
+      parameters:
+        - name: friendId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Friend successful added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRdo"
+        "404":
+          description: Friend not found
+        "409":
+          description: Some error
+      tags:
+        - Friend API
+      security:
+        - accessToken: []
+    delete:
+      operationId: FriendsController_deleteFriend
+      parameters:
+        - name: friendId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Friend successful deleted
+        "404":
+          description: Friend not found
+        "409":
+          description: Some error
+      tags:
+        - Friend API
+      security:
+        - accessToken: []
 info:
   title: FitFriends app
   description: FitFriends app API
@@ -579,7 +771,7 @@ components:
         email:
           type: string
           description: User unique address
-          example: user2@notfound.local
+          example: johndoe123@gmail.com
         password:
           type: string
           description: User password
@@ -617,6 +809,10 @@ components:
           enum:
             - sportsman
             - coach
+        readyForTraining:
+          type: boolean
+          description: readyForTraining
+          default: false
       required:
         - email
         - password
@@ -625,6 +821,7 @@ components:
         - gender
         - location
         - role
+        - readyForTraining
     UpdateUserDto:
       type: object
       properties:
@@ -661,9 +858,13 @@ components:
           enum:
             - sportsman
             - coach
+        readyForTraining:
+          type: boolean
+          description: readyForTraining
+          default: false
     TrainingLevel:
       type: string
-      description: Training level
+      description: User trainingLevel
       enum:
         - новичок
         - любитель
@@ -674,6 +875,17 @@ components:
       enum:
         - sportsman
         - coach
+    TrainingType:
+      type: string
+      description: User trainingType
+      enum:
+        - йога
+        - бег
+        - бокс
+        - стрейчинг
+        - кроссфит
+        - аэробика
+        - пилатес
     UserRdo:
       type: object
       properties:
@@ -728,6 +940,14 @@ components:
         role:
           example: sportsman
           $ref: "#/components/schemas/UserRole"
+        trainingType:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrainingType"
+        readyForTraining:
+          type: boolean
+          description: readyForTraining
+          example: false
       required:
         - id
         - avatar
@@ -741,13 +961,15 @@ components:
         - calories
         - trainingLevel
         - role
+        - trainingType
+        - readyForTraining
     LoginUserDto:
       type: object
       properties:
         email:
           type: string
           description: User unique address
-          example: user2@notfound.local
+          example: johndoe123@gmail.com
         password:
           type: string
           description: User password
@@ -782,17 +1004,61 @@ components:
         - role
         - accessToken
         - refreshToken
-    TrainingType:
+    LocationName:
       type: string
-      description: Training type
+      description: Locations
       enum:
-        - йога
-        - бег
-        - бокс
-        - стрейчинг
-        - кроссфит
-        - аэробика
-        - пилатес
+        - Пионерская
+        - Петроградская
+        - Удельная
+        - Звёздная
+        - Спортивная
+    SortDirection:
+      type: string
+      description: sortDirection
+      default: desc
+      enum:
+        - asc
+        - desc
+    SortType:
+      type: string
+      description: sortBy
+      default: createdAt
+      enum:
+        - createdAt
+        - rating
+        - price
+        - amount
+        - totalPrice
+    UserWithPaginationRdo:
+      type: object
+      properties:
+        entities:
+          description: users
+          allOf:
+            - $ref: "#/components/schemas/UserRdo"
+        totalPages:
+          type: number
+          description: totalPages
+          example: 10
+        totalItems:
+          type: number
+          description: totalItems
+          example: 100
+        currentPage:
+          type: number
+          description: currentPage
+          example: 1
+        itemsPerPage:
+          type: number
+          description: itemsPerPage
+          example: 5
+      required:
+        - entities
+        - totalPages
+        - totalItems
+        - currentPage
+        - itemsPerPage
     TRAINING_DURATIONS:
       type: string
       description: Training duration
@@ -1000,23 +1266,6 @@ components:
         isSpecial:
           type: boolean
           description: Flag special training
-    SortDirection:
-      type: string
-      description: sortDirection
-      default: desc
-      enum:
-        - asc
-        - desc
-    SortType:
-      type: string
-      description: sortBy
-      default: createdAt
-      enum:
-        - createdAt
-        - rating
-        - price
-        - amount
-        - totalPrice
     TrainingWithPaginationRdo:
       type: object
       properties:
