@@ -80,6 +80,7 @@ export class CreateUserDto extends LoginUserDto {
     example: '1981-10-11',
     required: false,
   })
+  @Transform(({ value }) => value || null)
   birthday?: Date;
 
   @ApiProperty({
