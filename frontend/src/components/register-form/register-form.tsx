@@ -24,6 +24,8 @@ function RegisterForm(): JSX.Element {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     formData.append('gender', formData.get('sex')?.toString() || '');
+    formData.append('readyForTraining', 'false');
+
     if (avatar) {
       formData.append('avatar', avatar);
     }
